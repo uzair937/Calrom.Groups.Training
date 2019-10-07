@@ -1,0 +1,15 @@
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\bin\Debug\JobScheduler.exe.config
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\bin\Debug\JobScheduler.exe
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\bin\Debug\JobScheduler.pdb
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\obj\Debug\JobScheduler.csprojAssemblyReference.cache
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\obj\Debug\JobScheduler.csproj.CoreCompileInputs.cache
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\obj\Debug\JobScheduler.exe
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\obj\Debug\JobScheduler.pdb
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\bin\Debug\JobLibrary.dll
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\bin\Debug\JobLibrary.pdb
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\obj\Debug\JobScheduler.csproj.CopyComplete
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\bin\Debug\Newtonsoft.Json.dll
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\bin\Debug\Newtonsoft.Json.xml
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\bin\Debug\EntityFramework.dll
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\bin\Debug\JobLibrary.dll.config
+C:\Users\wbooth\source\repos\JobScheduler\JobScheduler\bin\Debug\EntityFramework.xml
