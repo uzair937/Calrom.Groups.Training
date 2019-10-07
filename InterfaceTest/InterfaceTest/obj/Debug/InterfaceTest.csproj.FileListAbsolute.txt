@@ -1,0 +1,7 @@
+C:\Users\ufoolat\source\repos\InterfaceTest\InterfaceTest\bin\Debug\InterfaceTest.exe.config
+C:\Users\ufoolat\source\repos\InterfaceTest\InterfaceTest\bin\Debug\InterfaceTest.exe
+C:\Users\ufoolat\source\repos\InterfaceTest\InterfaceTest\bin\Debug\InterfaceTest.pdb
+C:\Users\ufoolat\source\repos\InterfaceTest\InterfaceTest\obj\Debug\InterfaceTest.csproj.CoreCompileInputs.cache
+C:\Users\ufoolat\source\repos\InterfaceTest\InterfaceTest\obj\Debug\InterfaceTest.exe
+C:\Users\ufoolat\source\repos\InterfaceTest\InterfaceTest\obj\Debug\InterfaceTest.pdb
+C:\Users\ufoolat\source\repos\InterfaceTest\InterfaceTest\obj\Debug\InterfaceTest.csprojAssemblyReference.cache

@@ -1,0 +1,7 @@
+C:\Users\ufoolat\source\repos\InterfaceTask\InterfaceTask\obj\Debug\InterfaceTask.csprojAssemblyReference.cache
+C:\Users\ufoolat\source\repos\InterfaceTask\InterfaceTask\obj\Debug\InterfaceTask.csproj.CoreCompileInputs.cache
+C:\Users\ufoolat\source\repos\InterfaceTask\InterfaceTask\bin\Debug\InterfaceTask.exe.config
+C:\Users\ufoolat\source\repos\InterfaceTask\InterfaceTask\bin\Debug\InterfaceTask.exe
+C:\Users\ufoolat\source\repos\InterfaceTask\InterfaceTask\bin\Debug\InterfaceTask.pdb
+C:\Users\ufoolat\source\repos\InterfaceTask\InterfaceTask\obj\Debug\InterfaceTask.exe
+C:\Users\ufoolat\source\repos\InterfaceTask\InterfaceTask\obj\Debug\InterfaceTask.pdb
