@@ -125,22 +125,22 @@ namespace JobScheduler
             {
                 exeRunning = true;
                 Thread.Sleep(3000);
-                //ProcessStartInfo startInfo = new ProcessStartInfo(job.Path)
-                //{
-                //    CreateNoWindow = true,
-                //    UseShellExecute = false,
-                //    FileName = job.JobType,
-                //    WindowStyle = ProcessWindowStyle.Hidden,
-                //    Arguments = job.Arguments
-                //};
-                //try
-                //{
-                //    Process.Start(startInfo);
-                //}
-                //catch (Exception e)
-                //{
-                //    Console.WriteLine(e);
-                //}
+                ProcessStartInfo startInfo = new ProcessStartInfo(job.Path)
+                {
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    FileName = job.JobType,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                    Arguments = job.Arguments
+                };
+                try
+                {
+                    Process.Start(startInfo);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
                 JobQueue[t] = JobTime[t];
                 Console.WriteLine("Priority " + priority + ": Job " + JobIdList[t] + " Done!");
                 exeRunning = false;
