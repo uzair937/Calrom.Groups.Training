@@ -1,0 +1,7 @@
+C:\Users\wbooth\source\repos\GenericTypes\GenericTypes\bin\Debug\GenericTypes.exe.config
+C:\Users\wbooth\source\repos\GenericTypes\GenericTypes\bin\Debug\GenericTypes.exe
+C:\Users\wbooth\source\repos\GenericTypes\GenericTypes\bin\Debug\GenericTypes.pdb
+C:\Users\wbooth\source\repos\GenericTypes\GenericTypes\obj\Debug\GenericTypes.csprojAssemblyReference.cache
+C:\Users\wbooth\source\repos\GenericTypes\GenericTypes\obj\Debug\GenericTypes.csproj.CoreCompileInputs.cache
+C:\Users\wbooth\source\repos\GenericTypes\GenericTypes\obj\Debug\GenericTypes.exe
+C:\Users\wbooth\source\repos\GenericTypes\GenericTypes\obj\Debug\GenericTypes.pdb

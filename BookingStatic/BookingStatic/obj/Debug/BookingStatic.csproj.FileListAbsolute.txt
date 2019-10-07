@@ -1,0 +1,7 @@
+C:\Users\wbooth\source\repos\BookingStatic\BookingStatic\bin\Debug\BookingStatic.exe.config
+C:\Users\wbooth\source\repos\BookingStatic\BookingStatic\bin\Debug\BookingStatic.exe
+C:\Users\wbooth\source\repos\BookingStatic\BookingStatic\bin\Debug\BookingStatic.pdb
+C:\Users\wbooth\source\repos\BookingStatic\BookingStatic\obj\Debug\BookingStatic.csproj.CoreCompileInputs.cache
+C:\Users\wbooth\source\repos\BookingStatic\BookingStatic\obj\Debug\BookingStatic.exe
+C:\Users\wbooth\source\repos\BookingStatic\BookingStatic\obj\Debug\BookingStatic.pdb
+C:\Users\wbooth\source\repos\BookingStatic\BookingStatic\obj\Debug\BookingStatic.csprojAssemblyReference.cache
