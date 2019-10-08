@@ -1,0 +1,7 @@
+C:\Users\ufoolat\source\repos\Supermarket\Supermarket\bin\Debug\Supermarket.exe.config
+C:\Users\ufoolat\source\repos\Supermarket\Supermarket\bin\Debug\Supermarket.exe
+C:\Users\ufoolat\source\repos\Supermarket\Supermarket\bin\Debug\Supermarket.pdb
+C:\Users\ufoolat\source\repos\Supermarket\Supermarket\obj\Debug\Supermarket.csprojAssemblyReference.cache
+C:\Users\ufoolat\source\repos\Supermarket\Supermarket\obj\Debug\Supermarket.csproj.CoreCompileInputs.cache
+C:\Users\ufoolat\source\repos\Supermarket\Supermarket\obj\Debug\Supermarket.exe
+C:\Users\ufoolat\source\repos\Supermarket\Supermarket\obj\Debug\Supermarket.pdb
