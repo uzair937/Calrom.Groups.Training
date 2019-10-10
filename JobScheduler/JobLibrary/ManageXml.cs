@@ -20,6 +20,7 @@ namespace JobLibrary
             using (FileStream fs = new FileStream(xmlFileOut, FileMode.Create))
             {
                 var serializer = new XmlSerializer(typeof(SchedulerDatabase));
+                newData.Configuration.Jobs = newData.Configuration.Jobs.OrderBy(job => job.JobId).ToList();
                 serializer.Serialize(fs, newData);
                 fs.Close();
             }
@@ -37,6 +38,7 @@ namespace JobLibrary
                         jobDatabase = (SchedulerDatabase)serializer.Deserialize(fs);
                         fs.Close();
                     }
+                    
                 }
                 catch
                 {

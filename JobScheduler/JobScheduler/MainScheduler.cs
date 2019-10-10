@@ -41,7 +41,7 @@ namespace JobScheduler
             }
             jobCount = db.Configuration.Jobs.Count;
             keepTime.Start();
-            Console.WriteLine(db.Configuration.Jobs.ToString());
+            foreach (var item in db.Configuration.Jobs) Console.WriteLine(item.ToString());
             dbUpdate.Start();
 
             while (true)

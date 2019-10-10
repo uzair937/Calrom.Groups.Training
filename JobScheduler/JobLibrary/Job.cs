@@ -32,7 +32,7 @@ namespace JobLibrary
 
         public override string ToString()
         {
-            return JobId + "\n" + Interval + "\n" + Enabled + "\n" + JobType + "\n" + Path + "\n" + Arguments + "\n" + DateCreated + "\n" + Priority;
+            return "---JobId: " + JobId + "\n" + "Interval: " + Interval + "\n" + "Enabled: " + Enabled + "\n" + "JobType: " + JobType + "\n" + "Path: " + Path + "\n" + "Arguments: " + Arguments + "\n" + "DateCreated: " + DateCreated + "\n" + "Priority: " + Priority;
         }
     }
     public enum PriorityEnum { Low, Medium, High }
