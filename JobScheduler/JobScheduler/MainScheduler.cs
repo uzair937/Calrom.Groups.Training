@@ -12,26 +12,34 @@ namespace JobScheduler
 {
     public class MainScheduler
     {
-        private static SchedulerDatabase db = new SchedulerDatabase();
-        private static List<TimeSpan> JobQueue = new List<TimeSpan>();
-        private static List<TimeSpan> JobTime = new List<TimeSpan>();
-        private static List<int> JobIdList = new List<int>();  
-        private static bool exeRunning;
-        private static int jobCount;
-        static void Main(string[] args)
+        private SchedulerDatabase db = new SchedulerDatabase();
+        private List<TimeSpan> JobQueue = new List<TimeSpan>();
+        private List<TimeSpan> JobTime = new List<TimeSpan>();
+        private ManageXml XmlTools = new ManageXml();
+        private List<int> JobIdList = new List<int>();  
+        private bool exeRunning;
+        private int jobCount;
+
+        private static void Main(string[] args)
         {
             var SchedulerTools = new MainScheduler();
-            do {
-                db = ManageXml.GetXmlData();
+            SchedulerTools.ScheduleJobs();
+        }
+        private void ScheduleJobs()
+        {
+            do
+            {
+                db = XmlTools.GetXmlData();
                 Thread.Sleep(2000);
-                Console.WriteLine(db.Configuration.Jobs.Count);
+                Console.WriteLine(db.Configuration.Jobs.Count + " Jobs");
             } while (db == null || db.Configuration.Jobs.Count < 3);
 
-            var keepTime = new Thread(SchedulerTools.TimeKeeper);
-            var currentProgram = new Thread(() => SchedulerTools.RunJob(db.Configuration.Jobs[0], 0, (PriorityEnum)1));
-            var dbUpdate = new Thread(SchedulerTools.UpdateLocalDatabase);
+            var keepTime = new Thread(TimeKeeper);
+            var currentProgram = new Thread(() => RunJob(db.Configuration.Jobs[0], 0, (PriorityEnum)1));
+            var dbUpdate = new Thread(UpdateLocalDatabase);
             var currentPriority = new PriorityEnum();
             exeRunning = false;
+
             foreach (var job in db.Configuration.Jobs)
             {
                 JobTime.Add(XmlConvert.ToTimeSpan(job.Interval));
@@ -39,6 +47,7 @@ namespace JobScheduler
                 JobIdList.Add(job.JobId);
                 Console.WriteLine(job.Interval);
             }
+
             jobCount = db.Configuration.Jobs.Count;
             keepTime.Start();
             foreach (var item in db.Configuration.Jobs) Console.WriteLine(item.ToString());
@@ -46,7 +55,7 @@ namespace JobScheduler
 
             while (true)
             {
-                if (db.Configuration.Jobs.Count != jobCount) SchedulerTools.ManageJobs();
+                if (db.Configuration.Jobs.Count != jobCount) ManageJobs();
                 try
                 {
                     for (int i = 0; i < jobCount; i++)
@@ -57,7 +66,7 @@ namespace JobScheduler
                             var currentJob = db.Configuration.Jobs[i];
                             if (currentProgram.IsAlive) currentProgram.Abort();
                             currentPriority = currentJob.Priority;
-                            currentProgram = new Thread(() => SchedulerTools.RunJob(currentJob, currentIndex, currentPriority));
+                            currentProgram = new Thread(() => RunJob(currentJob, currentIndex, currentPriority));
                             currentProgram.Start();
                         }
                     }
@@ -72,7 +81,7 @@ namespace JobScheduler
         {
             while (true)
             {
-                db = ManageXml.GetXmlData();
+                db = XmlTools.GetXmlData();
                 Thread.Sleep(5000);
             }
         }
@@ -106,7 +115,6 @@ namespace JobScheduler
                             JobTime.RemoveAt(i);
                             JobQueue.RemoveAt(i);
                             JobIdList.RemoveAt(i);
-                            db = ManageXml.GetXmlData();
                             break;
                         }
                         i++;
@@ -165,7 +173,7 @@ namespace JobScheduler
                 catch
                 {
                     Console.WriteLine("Sleep Failed");
-                    db = ManageXml.GetXmlData();
+                    db = XmlTools.GetXmlData();
                     if (jobCount != db.Configuration.Jobs.Count) ManageJobs();
                 }
                 for (int t = 0; t < jobCount; t++)
@@ -186,7 +194,7 @@ namespace JobScheduler
                     {
                         Console.WriteLine("Append Queue Failed");
                         t--;
-                        db = ManageXml.GetXmlData();
+                        db = XmlTools.GetXmlData();
                         if (jobCount != db.Configuration.Jobs.Count) ManageJobs();
                     }
                 }

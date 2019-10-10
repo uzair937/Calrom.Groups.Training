@@ -7,21 +7,27 @@ using JobLibrary;
 
 namespace JobConfiguration
 {
-    class ConfigInterface
+    public class ConfigInterface
     {
-        private static SchedulerDatabase db = new SchedulerDatabase();
+        private SchedulerDatabase db = new SchedulerDatabase();
+        private ManageXml XmlTools = new ManageXml();
 
         static void Main(string[] args)
         {
+            var ConfigTools = new ConfigInterface();
+            ConfigTools.ConfigJobs();
+        }
+        private void ConfigJobs()
+        {
             var ManageInterface = new ConfigInterface();
-            db = ManageXml.GetXmlData();
-            ManageJson.AddJson(db);
-            SQLManager.SqlSetup(db);
+            db = XmlTools.GetXmlData();
+            //ManageJson.AddJson(db);
+            //SQLManager.SqlSetup(db);
             while (true)
             {
                 Console.WriteLine("-View Jobs, -Delete or -Add?");
                 string entry = Console.ReadLine();
-                db = ManageXml.GetXmlData();
+                db = XmlTools.GetXmlData();
                 if (entry.Equals("view", StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (var item in db.Configuration.Jobs) Console.WriteLine(item.ToString());
@@ -29,22 +35,22 @@ namespace JobConfiguration
                 else if (entry.Equals("add", StringComparison.OrdinalIgnoreCase))
                 {
                     ManageInterface.AddData();
-                    ManageXml.AddXml(db);
+                    XmlTools.AddXml(db);
                 }
                 else if (entry.Equals("delete", StringComparison.OrdinalIgnoreCase))
                 {
                     ManageInterface.DeleteData();
-                    ManageXml.AddXml(db);
+                    XmlTools.AddXml(db);
                 }
                 else Console.WriteLine("Enter a valid command");
-                
+
             }
         }
 
         private void AddData()
         {
             Console.WriteLine("Type -Job to add a Job or type -Email to add an EmailSubscription");
-            string command = Console.ReadLine();
+            var command = Console.ReadLine();
             if (command.Equals("job", StringComparison.OrdinalIgnoreCase)) AddJob();
             else if (command.Equals("email", StringComparison.OrdinalIgnoreCase)) AddEmail();
             else Console.WriteLine("Enter a valid command");
@@ -53,13 +59,13 @@ namespace JobConfiguration
         private void DeleteData()
         {
             Console.WriteLine("Remove -Job or -Email?");
-            string entry = Console.ReadLine();
+            var entry = Console.ReadLine();
             if (entry.Equals("job", StringComparison.OrdinalIgnoreCase))
             {
-                List<Job> tempJobs = db.Configuration.Jobs;
-                EmailSubscription tempIds = db.Configuration.Subscriptions[0];
                 Console.WriteLine("Enter the JobId of the Job you'd like to remove");
-                int ID = Convert.ToInt32(Console.ReadLine());
+                var tempJobs = db.Configuration.Jobs;
+                var tempIds = db.Configuration.Subscriptions[0];
+                var ID = Convert.ToInt32(Console.ReadLine());
                 tempJobs.RemoveAll(a => a.JobId == ID);
                 tempIds.JobIds.RemoveAll(a => a == ID);
                 db.Configuration.Jobs = tempJobs;
@@ -67,9 +73,9 @@ namespace JobConfiguration
             }
             else if (entry.Equals("email", StringComparison.OrdinalIgnoreCase))
             {
-                List<EmailSubscription> tempEmail = db.Configuration.Subscriptions;
                 Console.WriteLine("Enter the Email you'd like to remove");
-                string Email = Console.ReadLine();
+                var tempEmail = db.Configuration.Subscriptions;
+                var Email = Console.ReadLine();
                 tempEmail.RemoveAll(a => a.EmailAddress == Email);
                 db.Configuration.Subscriptions = tempEmail;
             }
@@ -79,7 +85,7 @@ namespace JobConfiguration
         {
             Console.WriteLine("Enter new user email");
             var entry = Console.ReadLine();
-            int EmailID = Enumerable.Range(0, int.MaxValue)
+            var EmailID = Enumerable.Range(0, int.MaxValue)
                                 .Except(db.Configuration.Subscriptions.Select(u => u.ID))
                                 .FirstOrDefault();
             var tempEmail = new EmailSubscription
@@ -94,8 +100,8 @@ namespace JobConfiguration
         private void AddJob()
         {
             var tempJob = new Job();
-            string[] newJob = new string[7];
-            int jobNum = Enumerable.Range(0, int.MaxValue)
+            var newJob = new string[7];
+            var jobNum = Enumerable.Range(0, int.MaxValue)
                                 .Except(db.Configuration.Subscriptions[0].JobIds)
                                 .FirstOrDefault();
             newJob[0] = jobNum.ToString();

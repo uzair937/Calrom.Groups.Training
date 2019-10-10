@@ -12,10 +12,9 @@ namespace JobLibrary
 {
     public class ManageXml
     {
-        //private const string xmlFile = "C:/Users/wbooth/Documents/JobTask/db-initial.xml";
         private const string xmlFileOut = "C:/Users/wbooth/Documents/JobTask/db-out.xml";
 
-        public static void AddXml(SchedulerDatabase newData)
+        public void AddXml(SchedulerDatabase newData)
         {
             using (FileStream fs = new FileStream(xmlFileOut, FileMode.Create))
             {
@@ -25,7 +24,8 @@ namespace JobLibrary
                 fs.Close();
             }
         }
-        public static SchedulerDatabase GetXmlData()
+
+        public SchedulerDatabase GetXmlData()
         {
             var jobDatabase = new SchedulerDatabase();
             do
@@ -38,7 +38,6 @@ namespace JobLibrary
                         jobDatabase = (SchedulerDatabase)serializer.Deserialize(fs);
                         fs.Close();
                     }
-                    
                 }
                 catch
                 {
