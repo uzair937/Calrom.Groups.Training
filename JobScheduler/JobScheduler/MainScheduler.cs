@@ -20,15 +20,16 @@ namespace JobScheduler
         private static int jobCount;
         static void Main(string[] args)
         {
+            var SchedulerTools = new MainScheduler();
             do {
                 db = ManageXml.GetXmlData();
                 Thread.Sleep(2000);
                 Console.WriteLine(db.Configuration.Jobs.Count);
             } while (db == null || db.Configuration.Jobs.Count < 3);
 
-            var keepTime = new Thread(TimeKeeper);
-            var currentProgram = new Thread(() => RunJob(db.Configuration.Jobs[0], 0, (PriorityEnum)1));
-            var dbUpdate = new Thread(UpdateLocalDatabase);
+            var keepTime = new Thread(SchedulerTools.TimeKeeper);
+            var currentProgram = new Thread(() => SchedulerTools.RunJob(db.Configuration.Jobs[0], 0, (PriorityEnum)1));
+            var dbUpdate = new Thread(SchedulerTools.UpdateLocalDatabase);
             var currentPriority = new PriorityEnum();
             exeRunning = false;
             foreach (var job in db.Configuration.Jobs)
@@ -45,7 +46,7 @@ namespace JobScheduler
 
             while (true)
             {
-                if (db.Configuration.Jobs.Count != jobCount) ManageJobs();
+                if (db.Configuration.Jobs.Count != jobCount) SchedulerTools.ManageJobs();
                 try
                 {
                     for (int i = 0; i < jobCount; i++)
@@ -56,7 +57,7 @@ namespace JobScheduler
                             var currentJob = db.Configuration.Jobs[i];
                             if (currentProgram.IsAlive) currentProgram.Abort();
                             currentPriority = currentJob.Priority;
-                            currentProgram = new Thread(() => RunJob(currentJob, currentIndex, currentPriority));
+                            currentProgram = new Thread(() => SchedulerTools.RunJob(currentJob, currentIndex, currentPriority));
                             currentProgram.Start();
                         }
                     }
@@ -67,7 +68,7 @@ namespace JobScheduler
                 }
             }
         }
-        private static void UpdateLocalDatabase()
+        private void UpdateLocalDatabase()
         {
             while (true)
             {
@@ -75,7 +76,7 @@ namespace JobScheduler
                 Thread.Sleep(5000);
             }
         }
-        private static void ManageJobs()
+        private void ManageJobs()
         {
             if (jobCount < db.Configuration.Jobs.Count)
             {
@@ -116,7 +117,7 @@ namespace JobScheduler
             jobCount = db.Configuration.Jobs.Count;
         }
 
-        private static void RunJob(Job job, int t, PriorityEnum priority)
+        private void RunJob(Job job, int t, PriorityEnum priority)
         {
             if (job.Enabled)
             {
@@ -136,7 +137,7 @@ namespace JobScheduler
                 //}
                 //catch (Exception e)
                 //{
-                //    Console.WriteLine(e);
+                //    Console.WriteLine(e.Message);
                 //}
                 JobQueue[t] = JobTime[t];
                 Console.WriteLine("Priority " + priority + ": Job " + JobIdList[t] + " Done!");
@@ -144,7 +145,7 @@ namespace JobScheduler
             }
         }
 
-        private static void TimeKeeper()
+        private void TimeKeeper()
         {
             while (true)
             {
