@@ -14,7 +14,6 @@ namespace JobConfiguration
         static void Main(string[] args)
         {
             var ManageInterface = new ConfigInterface();
-            ManageXml.XmlSetup();
             db = ManageXml.GetXmlData();
             ManageJson.AddJson(db);
             SQLManager.SqlSetup(db);

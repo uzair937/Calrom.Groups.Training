@@ -14,19 +14,15 @@ namespace JobLibrary
     {
         //private const string xmlFile = "C:/Users/wbooth/Documents/JobTask/db-initial.xml";
         private const string xmlFileOut = "C:/Users/wbooth/Documents/JobTask/db-out.xml";
-        public static void XmlSetup()
-        {
-            var serializer = new XmlSerializer(typeof(SchedulerDatabase));
-            FileStream fs = new FileStream(xmlFileOut, FileMode.Open);
-            var jobDatabase = (SchedulerDatabase)serializer.Deserialize(fs);
-            fs.Close();
-        }
+
         public static void AddXml(SchedulerDatabase newData)
         {
-            var serializer = new XmlSerializer(typeof(SchedulerDatabase));
-            FileStream fs = new FileStream(xmlFileOut, FileMode.Create);
-            serializer.Serialize(fs, newData);
-            fs.Close();
+            using (FileStream fs = new FileStream(xmlFileOut, FileMode.Create))
+            {
+                var serializer = new XmlSerializer(typeof(SchedulerDatabase));
+                serializer.Serialize(fs, newData);
+                fs.Close();
+            }
         }
         public static SchedulerDatabase GetXmlData()
         {
