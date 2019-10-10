@@ -10,7 +10,7 @@ using JobLibrary;
 
 namespace JobScheduler
 {
-    class MainScheduler
+    public class MainScheduler
     {
         private static SchedulerDatabase db = new SchedulerDatabase();
         private static List<TimeSpan> JobQueue = new List<TimeSpan>();
@@ -40,7 +40,7 @@ namespace JobScheduler
             }
             jobCount = db.Configuration.Jobs.Count;
             keepTime.Start();
-            PrintJob();
+            Console.WriteLine(db.Configuration.Jobs.ToString());
             dbUpdate.Start();
 
             while (true)
@@ -58,7 +58,6 @@ namespace JobScheduler
                             currentPriority = currentJob.Priority;
                             currentProgram = new Thread(() => RunJob(currentJob, currentIndex, currentPriority));
                             currentProgram.Start();
-                            
                         }
                     }
                 }
@@ -99,10 +98,7 @@ namespace JobScheduler
                         remove = true;
                         foreach (var newId in newIdList)
                         {
-                            if (oldId == newId)
-                            {
-                                remove = false;
-                            }
+                            if (oldId == newId) remove = false;
                         }
                         if (remove)
                         {
@@ -119,47 +115,35 @@ namespace JobScheduler
             Console.WriteLine("Database Appended");
             jobCount = db.Configuration.Jobs.Count;
         }
+
         private static void RunJob(Job job, int t, PriorityEnum priority)
         {
             if (job.Enabled)
             {
                 exeRunning = true;
                 Thread.Sleep(3000);
-                ProcessStartInfo startInfo = new ProcessStartInfo(job.Path)
-                {
-                    CreateNoWindow = true,
-                    UseShellExecute = false,
-                    FileName = job.JobType,
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    Arguments = job.Arguments
-                };
-                try
-                {
-                    Process.Start(startInfo);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                //ProcessStartInfo startInfo = new ProcessStartInfo(job.Path)
+                //{
+                //    CreateNoWindow = true,
+                //    UseShellExecute = false,
+                //    FileName = job.JobType,
+                //    WindowStyle = ProcessWindowStyle.Hidden,
+                //    Arguments = job.Arguments
+                //};
+                //try
+                //{
+                //    Process.Start(startInfo);
+                //}
+                //catch (Exception e)
+                //{
+                //    Console.WriteLine(e);
+                //}
                 JobQueue[t] = JobTime[t];
                 Console.WriteLine("Priority " + priority + ": Job " + JobIdList[t] + " Done!");
                 exeRunning = false;
             }
         }
-        private static void PrintJob()
-        {
-            foreach (var item in db.Configuration.Jobs)
-            {
-                Console.WriteLine(item.JobId);
-                Console.WriteLine(item.Interval);
-                Console.WriteLine(item.Enabled);
-                Console.WriteLine(item.JobType);
-                Console.WriteLine(item.Path);
-                Console.WriteLine(item.Arguments);
-                Console.WriteLine(item.DateCreated);
-                Console.WriteLine(item.Priority);
-            }
-        }
+
         private static void TimeKeeper()
         {
             while (true)

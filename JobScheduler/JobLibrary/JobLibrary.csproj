@@ -58,10 +58,10 @@
     <Compile Include="JsonDatabase.cs" />
     <Compile Include="SQLContext.cs" />
     <Compile Include="SQLManager.cs" />
-    <Compile Include="XmlDatabaseManager.cs" />
+    <Compile Include="ManageXml.cs" />
     <Compile Include="Subscriptions.cs" />
     <Compile Include="SchedulerDatabase.cs" />
-    <Compile Include="JobStruct.cs" />
+    <Compile Include="Job.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

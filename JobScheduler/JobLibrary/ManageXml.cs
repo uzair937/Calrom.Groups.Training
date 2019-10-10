@@ -12,7 +12,7 @@ namespace JobLibrary
 {
     public class ManageXml
     {
-        private const string xmlFile = "C:/Users/wbooth/Documents/JobTask/db-initial.xml";
+        //private const string xmlFile = "C:/Users/wbooth/Documents/JobTask/db-initial.xml";
         private const string xmlFileOut = "C:/Users/wbooth/Documents/JobTask/db-out.xml";
         public static void XmlSetup()
         {

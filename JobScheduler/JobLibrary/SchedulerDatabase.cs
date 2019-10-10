@@ -9,9 +9,5 @@ namespace JobLibrary
     public class SchedulerDatabase
     {
         public Config Configuration { get; set; }
-        public SchedulerDatabase()
-        {
-            Configuration = new Config();
-        }
     }
 }
