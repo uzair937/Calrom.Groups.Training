@@ -12,14 +12,16 @@ namespace JobLibrary
 {
     public class ManageXml
     {
-        private const string xmlFileOut = "C:/Users/wbooth/Documents/JobTask/db-out.xml";
+        private const string xmlFileOut = "C:/Users/wbooth/source/repos/JobScheduler/Resources/db-out.xml";
+        private readonly object threadLock = new object();
 
         public void AddXml(SchedulerDatabase newData)
         {
             using (FileStream fs = new FileStream(xmlFileOut, FileMode.Create))
             {
                 var serializer = new XmlSerializer(typeof(SchedulerDatabase));
-                newData.Configuration.Jobs = newData.Configuration.Jobs.OrderBy(job => job.JobId).ToList();
+                var sortedData = newData.Configuration.Jobs.OrderBy(job => job.JobId).ToList();
+                newData.Configuration.Jobs = sortedData;
                 serializer.Serialize(fs, newData);
                 fs.Close();
             }
@@ -27,25 +29,28 @@ namespace JobLibrary
 
         public SchedulerDatabase GetXmlData()
         {
-            var jobDatabase = new SchedulerDatabase();
-            do
+            lock (threadLock)
             {
-                try
+                var jobDatabase = new SchedulerDatabase();
+                do
                 {
-                    var serializer = new XmlSerializer(typeof(SchedulerDatabase));
-                    using (FileStream fs = new FileStream(xmlFileOut, FileMode.Open))
+                    try
                     {
-                        jobDatabase = (SchedulerDatabase)serializer.Deserialize(fs);
-                        fs.Close();
+                        var serializer = new XmlSerializer(typeof(SchedulerDatabase));
+                        using (FileStream fs = new FileStream(xmlFileOut, FileMode.Open))
+                        {
+                            jobDatabase = (SchedulerDatabase)serializer.Deserialize(fs);
+                            fs.Close();
+                        }
                     }
-                }
-                catch
-                {
-                    Thread.Sleep(100);
-                    jobDatabase = null;
-                }
-            } while (jobDatabase == null);
-            return jobDatabase;
+                    catch
+                    {
+                        Thread.Sleep(100);
+                        jobDatabase = null;
+                    }
+                } while (jobDatabase == null);
+                return jobDatabase;
+            }
         }
     }
 }

@@ -12,11 +12,10 @@ namespace JobScheduler
 {
     public class MainScheduler
     {
+        private List<JobRunInfo> JobList = new List<JobRunInfo>();
         private SchedulerDatabase db = new SchedulerDatabase();
-        private List<TimeSpan> JobQueue = new List<TimeSpan>();
-        private List<TimeSpan> JobTime = new List<TimeSpan>();
         private ManageXml XmlTools = new ManageXml();
-        private List<int> JobIdList = new List<int>();  
+        
         private bool exeRunning;
         private int jobCount;
 
@@ -25,6 +24,7 @@ namespace JobScheduler
             var SchedulerTools = new MainScheduler();
             SchedulerTools.ScheduleJobs();
         }
+
         private void ScheduleJobs()
         {
             do
@@ -42,9 +42,12 @@ namespace JobScheduler
 
             foreach (var job in db.Configuration.Jobs)
             {
-                JobTime.Add(XmlConvert.ToTimeSpan(job.Interval));
-                JobQueue.Add(XmlConvert.ToTimeSpan(job.Interval));
-                JobIdList.Add(job.JobId);
+                JobList.Add(new JobRunInfo
+                {
+                    JobTime = XmlConvert.ToTimeSpan(job.Interval),
+                    JobQueue = XmlConvert.ToTimeSpan(job.Interval),
+                    JobId = job.JobId
+                });
                 Console.WriteLine(job.Interval);
             }
 
@@ -60,13 +63,13 @@ namespace JobScheduler
                 {
                     for (int i = 0; i < jobCount; i++)
                     {
-                        int currentIndex = i;
-                        if (JobQueue[i] <= TimeSpan.Zero && ((db.Configuration.Jobs[i].Priority > currentPriority && exeRunning) || !exeRunning))
+                        int currentId = JobList[i].JobId;
+                        if (JobList[i].JobQueue <= TimeSpan.Zero && ((db.Configuration.Jobs[i].Priority > currentPriority && exeRunning) || !exeRunning))
                         {
                             var currentJob = db.Configuration.Jobs[i];
                             if (currentProgram.IsAlive) currentProgram.Abort();
                             currentPriority = currentJob.Priority;
-                            currentProgram = new Thread(() => RunJob(currentJob, currentIndex, currentPriority));
+                            currentProgram = new Thread(() => RunJob(currentJob, currentId, currentPriority));
                             currentProgram.Start();
                         }
                     }
@@ -77,6 +80,7 @@ namespace JobScheduler
                 }
             }
         }
+
         private void UpdateLocalDatabase()
         {
             while (true)
@@ -85,47 +89,35 @@ namespace JobScheduler
                 Thread.Sleep(5000);
             }
         }
+
         private void ManageJobs()
         {
             if (jobCount < db.Configuration.Jobs.Count)
             {
-                for (int i = 0; i < db.Configuration.Jobs.Count - jobCount; i++)
+                var newId = db.Configuration.Jobs.Select(a => a.JobId)
+                                .Except(JobList.Select(a => a.JobId))
+                                .FirstOrDefault();
+                JobList.Add(new JobRunInfo
                 {
-                    JobTime.Add(XmlConvert.ToTimeSpan(db.Configuration.Jobs[jobCount + i].Interval));
-                    JobQueue.Add(XmlConvert.ToTimeSpan(db.Configuration.Jobs[jobCount + i].Interval));
-                    JobIdList.Add(db.Configuration.Jobs[jobCount + i].JobId);
-                }
+                    JobQueue = XmlConvert.ToTimeSpan(db.Configuration.Jobs.First(a => a.JobId == newId).Interval),
+                    JobTime = XmlConvert.ToTimeSpan(db.Configuration.Jobs.First(a => a.JobId == newId).Interval),
+                    JobId = newId
+                });
             }
             else
             {
-                bool remove = false;
-                var newIdList = db.Configuration.Subscriptions[0].JobIds;
-                do
-                {
-                    int i = 0;
-                    foreach (var oldId in JobIdList)
-                    {
-                        remove = true;
-                        foreach (var newId in newIdList)
-                        {
-                            if (oldId == newId) remove = false;
-                        }
-                        if (remove)
-                        {
-                            JobTime.RemoveAt(i);
-                            JobQueue.RemoveAt(i);
-                            JobIdList.RemoveAt(i);
-                            break;
-                        }
-                        i++;
-                    }
-                } while (remove);
+                var oldId = JobList.Select(a => a.JobId)
+                                .Except(db.Configuration.Jobs.Select(a => a.JobId))
+                                .FirstOrDefault();
+                JobList.Remove(JobList.First(a => a.JobId == oldId));
+              
             }
+            JobList = JobList.OrderBy(a => a.JobId).ToList();
             Console.WriteLine("Database Appended");
             jobCount = db.Configuration.Jobs.Count;
         }
 
-        private void RunJob(Job job, int t, PriorityEnum priority)
+        private void RunJob(Job job, int id, PriorityEnum priority)
         {
             if (job.Enabled)
             {
@@ -147,27 +139,30 @@ namespace JobScheduler
                 //{
                 //    Console.WriteLine(e.Message);
                 //}
-                JobQueue[t] = JobTime[t];
-                Console.WriteLine("Priority " + priority + ": Job " + JobIdList[t] + " Done!");
+                JobList[JobList.FindIndex(a => a.JobId == id)].JobQueue = JobList[JobList.FindIndex(a => a.JobId == id)].JobTime;
+                Console.WriteLine("Priority " + priority + ": Job " + id + " Done!");
                 exeRunning = false;
             }
         }
 
         private void TimeKeeper()
         {
+            var sleepTime = JobList.Select(a => a.JobTime).Min();
+            var sleepQueue = new TimeSpan();
             while (true)
             {
                 try
                 {
-                    if (JobTime.Min() < JobQueue.Where(f => f > TimeSpan.Zero).Min())
+                    sleepQueue = JobList.Select(a => a.JobQueue).Where(f => f > TimeSpan.Zero).Min();
+                    if (sleepTime < sleepQueue)
                     {
-                        Console.WriteLine("Sleeping for " + JobTime.Min());
-                        Thread.Sleep(JobTime.Min());
+                        Console.WriteLine("Sleeping for " + sleepTime);
+                        Thread.Sleep(sleepTime);
                     }
                     else
                     {
-                        Console.WriteLine("Sleeping for " + JobQueue.Where(f => f > TimeSpan.Zero).Min());
-                        Thread.Sleep(JobQueue.Where(f => f > TimeSpan.Zero).Min());
+                        Console.WriteLine("Sleeping for " + sleepQueue);
+                        Thread.Sleep(sleepQueue);
                     }
                 }
                 catch
@@ -180,15 +175,15 @@ namespace JobScheduler
                 {
                     try
                     {
-                        if (JobTime.Min() > JobQueue.Where(f => f > TimeSpan.Zero).Min())
+                        if (sleepTime > sleepQueue)
                         {
-                            if (JobQueue[t] > TimeSpan.Zero) JobQueue[t] -= JobQueue.Where(f => f > TimeSpan.Zero).Min();
+                            if (JobList[t].JobQueue > TimeSpan.Zero) JobList[t].JobQueue -= sleepQueue;
                         }
-                        else if (JobQueue[t] > TimeSpan.Zero)
+                        else if (JobList[t].JobQueue > TimeSpan.Zero)
                         {
-                            JobQueue[t] -= JobTime.Min();
+                            JobList[t].JobQueue -= sleepTime;
                         }
-                        Console.WriteLine("Job " + JobIdList[t] + " has " + JobQueue[t] + " left.");
+                        Console.WriteLine("Job " + JobList[t].JobId + " has " + JobList[t].JobQueue + " left.");
                     }
                     catch
                     {
