@@ -1,6 +1,0 @@
-C:\Users\byousaf\source\repos\CSharpBasics\CSharpBasics\bin\Debug\CSharpBasics.exe.config
-C:\Users\byousaf\source\repos\CSharpBasics\CSharpBasics\bin\Debug\CSharpBasics.exe
-C:\Users\byousaf\source\repos\CSharpBasics\CSharpBasics\bin\Debug\CSharpBasics.pdb
-C:\Users\byousaf\source\repos\CSharpBasics\CSharpBasics\obj\Debug\CSharpBasics.csproj.CoreCompileInputs.cache
-C:\Users\byousaf\source\repos\CSharpBasics\CSharpBasics\obj\Debug\CSharpBasics.exe
-C:\Users\byousaf\source\repos\CSharpBasics\CSharpBasics\obj\Debug\CSharpBasics.pdb
