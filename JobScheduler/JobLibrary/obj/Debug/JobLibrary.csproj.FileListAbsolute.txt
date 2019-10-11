@@ -25,3 +25,4 @@ C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobLibrary\obj\
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobLibrary\obj\Debug\JobLibrary.csproj.CopyComplete
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobLibrary\obj\Debug\JobLibrary.dll
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobLibrary\obj\Debug\JobLibrary.pdb
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobLibrary\obj\Debug\JobLibrary.csprojAssemblyReference.cache
