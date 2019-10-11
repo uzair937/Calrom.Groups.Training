@@ -14,7 +14,7 @@ namespace Dealership
             return gettingmerc;
         }
 
-        public List<Cars> getRangeRover(List<Cars> listofcars)
+        public List<Cars> getAudiorBMW(List<Cars> listofcars)
         {
             var gettingaudisorbmw = listofcars.Where(m => m.CarName == "Mercedes" || m.CarName == "Audi").ToList();
             return gettingaudisorbmw;
