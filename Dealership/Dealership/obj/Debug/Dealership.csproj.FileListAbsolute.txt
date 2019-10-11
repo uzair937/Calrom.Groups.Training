@@ -1,0 +1,7 @@
+C:\Users\byousaf\source\repos\Dealership\Dealership\bin\Debug\Dealership.exe.config
+C:\Users\byousaf\source\repos\Dealership\Dealership\bin\Debug\Dealership.exe
+C:\Users\byousaf\source\repos\Dealership\Dealership\bin\Debug\Dealership.pdb
+C:\Users\byousaf\source\repos\Dealership\Dealership\obj\Debug\Dealership.csprojAssemblyReference.cache
+C:\Users\byousaf\source\repos\Dealership\Dealership\obj\Debug\Dealership.csproj.CoreCompileInputs.cache
+C:\Users\byousaf\source\repos\Dealership\Dealership\obj\Debug\Dealership.exe
+C:\Users\byousaf\source\repos\Dealership\Dealership\obj\Debug\Dealership.pdb
