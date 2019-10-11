@@ -6,54 +6,60 @@ using System.Threading.Tasks;
 
 namespace Supermarket
 {
-    public class Fruit : FruitStock
+    public class Fruit : GroceryStore
     {
+        protected static int appleStock = 7;
+        protected static int bananaStock = 10;
+        protected static int orangeStock = 4;
         public string fruitName { get; set; }
         public double cost { get; set; }
-        public Fruit(string input) //fruit object ready to store in a list
+        public string input { get; set; }
+
+        public Fruit()
         {
-            fruitName = returnFruit(input);
-            addFruit(input);
+            fruitName = returnFruit();
+            addFruit();
         }
 
-        public void addFruit(string input)
+        public void addFruit()
         {
-            if (input.Equals("A") && appleStock > 0)
+            bool empty = false;
+            if (input == "A")
             {
-                appleStock--; //stock decreases as more are bought
-                cost = appleCost;
-                fruitList.Add(this); //adds the object to a list
+                new Apple();
             }
-            else if (input.Equals("B") && bananaStock > 0)
+            else if (input == "B")
             {
-                bananaStock--;
-                cost = bananaCost;
-                fruitList.Add(this);
+                new Banana();
             }
-            else if (input.Equals("O") && orangeStock > 0)
+            else if (input == "O")
             {
-                orangeStock--;
-                cost = orangeCost;
-                fruitList.Add(this);
+                new Orange();
             }
             else
             {
-                Console.WriteLine(outOfStock());
+                empty = outOfStock();
             }
-            Console.WriteLine("You have added a " + fruitName + " to your basket.");
+            if (!empty)
+            {
+                Console.WriteLine("You have added a " + fruitName + " to your basket.");
+            } else
+            {
+                fruitList.Add(this);
+            }
         }
 
-            public string returnFruit(string input) //return method to save on manually hard coding
+            public string returnFruit() //return method to save on manually hard coding
             {
-                if (input.Equals("A"))
+                if (input == "A")
                 {
                     return "Apple";
                 }
-                else if (input.Equals("B"))
+                else if (input == "B")
                 {
                     return "Banana";
                 }
-                else if (input.Equals("O"))
+                else if (input == "O")
                 {
                     return "Orange";
                 }
@@ -61,11 +67,6 @@ namespace Supermarket
                 {
                     return "Unavailable";
                 }
-            }
-
-            public string outOfStock()
-            {
-                return "This item is out of stock.";
             }
         }
 }

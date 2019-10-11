@@ -18,19 +18,16 @@ namespace Supermarket
             {
                 carrotStock--;
                 cost = carrotCost;
-                vegList.Add(this);
             }
             else if (input.Equals("P") && carrotStock > 0)
             {
                 potatoStock--;
                 cost = potatoCost;
-                vegList.Add(this);
             }
             else if (input.Equals("S") && carrotStock > 0)
             {
                 spinachStock--;
                 cost = spinachCost;
-                vegList.Add(this);
             }
             else
             {
