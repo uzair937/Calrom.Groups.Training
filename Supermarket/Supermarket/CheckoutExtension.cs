@@ -17,5 +17,16 @@ namespace Supermarket
         {
             Console.WriteLine("Total cost: " + "£" + str);
         }
+
+        public static bool isDiscounted(this List<double> costList)
+        {
+            if (costList.Count == 3 || costList.Count == 5)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
     }
 }

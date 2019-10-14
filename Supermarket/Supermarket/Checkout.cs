@@ -9,24 +9,20 @@ namespace Supermarket
     class Checkout : GroceryStock
     {
         private double totalCost;
-        public bool checkDiscount() //discounts by 0.30 if 3 apples or 5 bananas
+        public static bool checkDiscount() //discounts by 0.30 if 3 apples or 5 bananas
         {
-            int aCount = 0, bCount = 0;
+            List<double> costList = new List<double>();
             foreach (Fruit fruit in fruitList)
             {
                 if (fruit.fruitName.Equals("Apple"))
                 {
-                    aCount++;
+                    costList.Add(fruit.cost);
                 } else if (fruit.fruitName.Equals("Banana"))
                 {
-                    bCount++;
+                    costList.Add(fruit.cost);
                 }
             }
-            if (aCount > 0 && (aCount % 3) == 0)
-            {
-                return true;
-            }
-            else if (bCount > 0 && (bCount % 5) == 0)
+            if (costList.isDiscounted())
             {
                 return true;
             }
