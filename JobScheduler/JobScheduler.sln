@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobConfiguration", "JobConf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobLibrary", "JobLibrary\JobLibrary.csproj", "{6E9FC66C-2642-4B17-805C-AC5966A04930}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionNamespace", "ExtensionNamespace\ExtensionNamespace.csproj", "{92288C16-62D2-4C88-ACC6-B3B6F0201874}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{6E9FC66C-2642-4B17-805C-AC5966A04930}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E9FC66C-2642-4B17-805C-AC5966A04930}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E9FC66C-2642-4B17-805C-AC5966A04930}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92288C16-62D2-4C88-ACC6-B3B6F0201874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92288C16-62D2-4C88-ACC6-B3B6F0201874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92288C16-62D2-4C88-ACC6-B3B6F0201874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92288C16-62D2-4C88-ACC6-B3B6F0201874}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

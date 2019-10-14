@@ -34,6 +34,8 @@ namespace JobLibrary
         {
             return "---JobId: " + JobId + "\n" + "Interval: " + Interval + "\n" + "Enabled: " + Enabled + "\n" + "JobType: " + JobType + "\n" + "Path: " + Path + "\n" + "Arguments: " + Arguments + "\n" + "DateCreated: " + DateCreated + "\n" + "Priority: " + Priority;
         }
+
+        
     }
     public enum PriorityEnum { Low, Medium, High }
 }

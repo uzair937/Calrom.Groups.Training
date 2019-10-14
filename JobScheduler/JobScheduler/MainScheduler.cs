@@ -39,6 +39,11 @@ namespace JobScheduler
             var dbUpdate = new Thread(UpdateLocalDatabase);
             var currentPriority = new PriorityEnum();
             exeRunning = false;
+            Console.WriteLine("~This is an extension method~");
+            Console.WriteLine(db.Configuration.Jobs.FirstandLast());
+            Console.WriteLine("~This is an extension method~");
+            Console.WriteLine(db.Configuration.Subscriptions.FirstandLast());
+            Console.WriteLine("~This is an extension method~");
 
             foreach (var job in db.Configuration.Jobs)
             {
@@ -50,7 +55,9 @@ namespace JobScheduler
                 });
                 Console.WriteLine(job.Interval);
             }
-
+            Console.WriteLine(JobList[0].JobId.AddToSelf(" is the first"));
+            Console.WriteLine(JobList[JobList.Count -1].JobId.AddToSelf(" is the last"));
+            Console.WriteLine("~This is an extension method~");
             jobCount = db.Configuration.Jobs.Count;
             keepTime.Start();
             foreach (var item in db.Configuration.Jobs) Console.WriteLine(item.ToString());
