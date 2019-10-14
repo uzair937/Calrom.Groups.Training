@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using JobLibrary;
+using ExtensionNamespace;
 
 namespace JobScheduler
 {
@@ -41,6 +42,7 @@ namespace JobScheduler
             exeRunning = false;
             "~This is an extension method~".Print();
             db.Configuration.Jobs.FirstandLast().Print();
+            FirstandLast(db.Configuration.Jobs).Print();
             "~This is an extension method~".Print();
             db.Configuration.Subscriptions.FirstandLast().Print();
             "~This is an extension method~".Print();
@@ -86,6 +88,14 @@ namespace JobScheduler
                     while (jobCount != db.Configuration.Jobs.Count) Thread.Sleep(100);
                 }
             }
+        }
+
+        public string FirstandLast<T>(IEnumerable<T> inspect)
+        {
+            var _result = new string[2];
+            _result[0] = inspect.ElementAt(0).ToString();
+            _result[1] = inspect.ElementAt(inspect.Count() - 1).ToString();
+            return _result[0].AddToSelf("\n" + _result[1] ?? "") ?? "";
         }
 
         private void UpdateLocalDatabase()
