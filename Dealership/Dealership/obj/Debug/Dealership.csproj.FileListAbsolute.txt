@@ -5,3 +5,10 @@ C:\Users\byousaf\source\repos\Dealership\Dealership\obj\Debug\Dealership.csprojA
 C:\Users\byousaf\source\repos\Dealership\Dealership\obj\Debug\Dealership.csproj.CoreCompileInputs.cache
 C:\Users\byousaf\source\repos\Dealership\Dealership\obj\Debug\Dealership.exe
 C:\Users\byousaf\source\repos\Dealership\Dealership\obj\Debug\Dealership.pdb
+Z:\GraduateTrainingProgramme\Dealership\Dealership\bin\Debug\Dealership.exe.config
+Z:\GraduateTrainingProgramme\Dealership\Dealership\bin\Debug\Dealership.exe
+Z:\GraduateTrainingProgramme\Dealership\Dealership\bin\Debug\Dealership.pdb
+Z:\GraduateTrainingProgramme\Dealership\Dealership\obj\Debug\Dealership.csprojAssemblyReference.cache
+Z:\GraduateTrainingProgramme\Dealership\Dealership\obj\Debug\Dealership.csproj.CoreCompileInputs.cache
+Z:\GraduateTrainingProgramme\Dealership\Dealership\obj\Debug\Dealership.exe
+Z:\GraduateTrainingProgramme\Dealership\Dealership\obj\Debug\Dealership.pdb

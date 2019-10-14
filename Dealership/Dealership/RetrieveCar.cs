@@ -8,9 +8,9 @@ namespace Dealership
 {
     public class RetrieveCar
     {
-       public Cars GetCar1()
+       public Car GetCar1()
         {
-            Cars cars = new Cars();
+            Car cars = new Car();
             cars.Buyer = "Bilal";
             cars.CarName = "Mercedes";
             cars.CarModel = "C Class";
@@ -21,9 +21,9 @@ namespace Dealership
             return cars;
         }
 
-        public Cars GetCar2()
+        public Car GetCar2()
         {
-            Cars cars = new Cars();
+            Car cars = new Car();
             cars.Buyer = "Burhan";
             cars.CarName = "Audi";
             cars.CarModel = "A7 Sportsback";
@@ -34,9 +34,9 @@ namespace Dealership
             return cars;
         }
 
-        public Cars GetCar3()
+        public Car GetCar3()
         {
-            Cars cars = new Cars();
+            Car cars = new Car();
             cars.Buyer = "Atif";
             cars.CarName = "Mercedes";
             cars.CarModel = "S Class";
@@ -47,9 +47,9 @@ namespace Dealership
             return cars;
         }
 
-        public Cars GetCar4()
+        public Car GetCar4()
         {
-            Cars cars = new Cars();
+            Car cars = new Car();
             cars.Buyer = "Usman";
             cars.CarName = "BMW";
             cars.CarModel = "5 Series";
@@ -60,9 +60,9 @@ namespace Dealership
             return cars;
         }
 
-        public Cars GetCar5()
+        public Car GetCar5()
         {
-            Cars cars = new Cars();
+            Car cars = new Car();
             cars.Buyer = "Ali";
             cars.CarName = "Mercedes";
             cars.CarModel = "C63 S AMG";
@@ -73,9 +73,9 @@ namespace Dealership
             return cars;
         }
 
-        public Cars GetCar6()
+        public Car GetCar6()
         {
-            Cars cars = new Cars();
+            Car cars = new Car();
             cars.Buyer = "Rizwan";
             cars.CarName = "Audi";
             cars.CarModel = "RS6 Performance";

@@ -11,7 +11,7 @@ namespace Dealership
         static void Main(string[] args)
         {
 
-            List<Cars> listofcars = new List<Cars>();
+            List<Car> listofcars = new List<Car>();
             RetrieveCar retrieveCar = new RetrieveCar();
             var retcar1 = retrieveCar.GetCar1();
             var retcar2 = retrieveCar.GetCar2();
@@ -27,13 +27,19 @@ namespace Dealership
             listofcars.Add(retcar5);
             listofcars.Add(retcar6);
 
-            AllVehicles allVehicles = new AllVehicles();
-            var gettingAandB = allVehicles.getAudiorBMW(listofcars);
+            VehicleQuery vehicleQuery = new VehicleQuery();
 
-            foreach (var gettingAorB in gettingAandB)
+            char getletter = 'B';
+            var get1stchar = vehicleQuery.gettingfirstchar(listofcars, getletter);
+
+            foreach (var item in get1stchar)
             {
-                Console.WriteLine(gettingAorB.ToString());
+                Console.WriteLine(item.ToString());
             }
+
+            var maxmileage = vehicleQuery.getting(listofcars);
+            Console.WriteLine(maxmileage.ToString());
+        
 
             Console.ReadKey();
          
