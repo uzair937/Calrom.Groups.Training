@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Supermarket
 {
-    public abstract class VegStock : GroceryStore
+    public abstract class VegStock : GroceryStock
     {
         protected static int carrotStock = 15;
         protected static int potatoStock = 20;

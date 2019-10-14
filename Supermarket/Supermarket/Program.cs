@@ -38,7 +38,7 @@ namespace Supermarket
                 }
                 else if (str.Equals("A") || str.Equals("B") || str.Equals("O"))
                 {
-                    new Fruit() { input = str };
+                    new Fruit(str);
                 }
                 else if (str.Equals("C") || str.Equals("P") || str.Equals("S"))
                 {
@@ -52,7 +52,7 @@ namespace Supermarket
             Checkout checkout = new Checkout();
             if (string.IsNullOrEmpty(Console.ReadLine()))
             {
-                checkout.printBasket();
+                checkout.getBasket();
             }
             checkout.calculateTotal();
             Console.ReadKey();

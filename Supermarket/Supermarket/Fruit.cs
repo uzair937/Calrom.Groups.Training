@@ -6,35 +6,38 @@ using System.Threading.Tasks;
 
 namespace Supermarket
 {
-    public class Fruit : GroceryStore
+    public class Fruit : GroceryStock //dont need to derrive from grocerystock
     {
-        protected static int appleStock = 7;
-        protected static int bananaStock = 10;
-        protected static int orangeStock = 4;
+
         public string fruitName { get; set; }
         public double cost { get; set; }
-        public string input { get; set; }
 
-        public Fruit()
+        public Fruit(string input)
         {
-            fruitName = returnFruit();
-            addFruit();
+            fruitName = returnFruit(input);
+            addFruit(input);
         }
 
-        public void addFruit()
+        public void addFruit(string input)
         {
             bool empty = false;
             if (input == "A")
             {
-                new Apple();
+                cost = appleCost;
+                appleStock--;
+                fruitList.Add(this);
             }
             else if (input == "B")
             {
-                new Banana();
+                cost = bananaCost;
+                bananaStock--;
+                fruitList.Add(this);
             }
             else if (input == "O")
             {
-                new Orange();
+                cost = orangeCost;
+                orangeStock--;
+                fruitList.Add(this);
             }
             else
             {
@@ -49,7 +52,7 @@ namespace Supermarket
             }
         }
 
-            public string returnFruit() //return method to save on manually hard coding
+            public string returnFruit(string input) //return method to save on manually hard coding
             {
                 if (input == "A")
                 {

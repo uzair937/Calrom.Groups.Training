@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Supermarket
 {
-    class Checkout : GroceryStore
+    class Checkout : GroceryStock
     {
         private double totalCost;
-        public bool checkDiscount()
+        public bool checkDiscount() //discounts by 0.30 if 3 apples or 5 bananas
         {
             int aCount = 0, bCount = 0;
             foreach (Fruit fruit in fruitList)
@@ -36,13 +36,13 @@ namespace Supermarket
             }
         }
 
-        public void printBasket()
+        public void getBasket()
         {
             Console.WriteLine("The items in your basket are: ");
 
             foreach (Fruit fruit in fruitList) //goes through each list to return all the items which have been added
             {
-                Console.WriteLine(fruit.fruitName + " " + "£" + fruit.cost);
+                Console.WriteLine((fruit.fruitName.printBasket(fruit.cost.ToString())));
                 totalCost += fruit.cost; //increments the total cost with the cost of each fruit
             }
             foreach (Veg veg in vegList)
@@ -59,7 +59,7 @@ namespace Supermarket
                 totalCost -= 0.3;
                 Console.WriteLine("Multi buy discount of - £0.30");
             }
-            Console.WriteLine("Total cost: " + "£" + totalCost);
+            totalCost.ToString().printTotal();
         }
     }
 }
