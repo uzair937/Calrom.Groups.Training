@@ -39,11 +39,11 @@ namespace JobScheduler
             var dbUpdate = new Thread(UpdateLocalDatabase);
             var currentPriority = new PriorityEnum();
             exeRunning = false;
-            Console.WriteLine("~This is an extension method~");
-            Console.WriteLine(db.Configuration.Jobs.FirstandLast());
-            Console.WriteLine("~This is an extension method~");
-            Console.WriteLine(db.Configuration.Subscriptions.FirstandLast());
-            Console.WriteLine("~This is an extension method~");
+            "~This is an extension method~".Print();
+            db.Configuration.Jobs.FirstandLast().Print();
+            "~This is an extension method~".Print();
+            db.Configuration.Subscriptions.FirstandLast().Print();
+            "~This is an extension method~".Print();
 
             foreach (var job in db.Configuration.Jobs)
             {
@@ -55,12 +55,12 @@ namespace JobScheduler
                 });
                 Console.WriteLine(job.Interval);
             }
-            Console.WriteLine(JobList[0].JobId.AddToSelf(" is the first"));
-            Console.WriteLine(JobList[JobList.Count -1].JobId.AddToSelf(" is the last"));
-            Console.WriteLine("~This is an extension method~");
+            JobList[0].JobId.AddToSelf(" is the first").Print();
+            JobList[JobList.Count -1].JobId.AddToSelf(" is the last").Print();
+            "~This is an extension method~".Print();
             jobCount = db.Configuration.Jobs.Count;
             keepTime.Start();
-            foreach (var item in db.Configuration.Jobs) Console.WriteLine(item.ToString());
+            foreach (var item in db.Configuration.Jobs) item.ToString().Print();
             dbUpdate.Start();
 
             while (true)
@@ -116,8 +116,7 @@ namespace JobScheduler
                 var oldId = JobList.Select(a => a.JobId)
                                 .Except(db.Configuration.Jobs.Select(a => a.JobId))
                                 .FirstOrDefault();
-                JobList.Remove(JobList.First(a => a.JobId == oldId));
-              
+                JobList.Remove(JobList.First(a => a.JobId == oldId)); 
             }
             JobList = JobList.OrderBy(a => a.JobId).ToList();
             Console.WriteLine("Database Appended");

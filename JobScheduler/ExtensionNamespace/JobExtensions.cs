@@ -18,8 +18,21 @@ namespace JobLibrary
 
         public static string AddToSelf<T>(this T inspect, string param)
         {
-            if (inspect == null) return param;
-            return inspect + param;
+            return (inspect + param) ?? param;
+        }
+
+        public static bool Print<T>(this T param)
+        {
+            try
+            {
+                Console.WriteLine(param);
+                return true;
+            }
+            catch
+            {
+                Console.WriteLine("Failed To Print");
+                return false;
+            }
         }
     }
 }

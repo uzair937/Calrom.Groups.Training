@@ -28,3 +28,5 @@ C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobScheduler\ob
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobScheduler\obj\Debug\JobScheduler.csproj.CopyComplete
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobScheduler\obj\Debug\JobScheduler.exe
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobScheduler\obj\Debug\JobScheduler.pdb
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobScheduler\bin\Debug\ExtensionNamespace.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobScheduler\bin\Debug\ExtensionNamespace.pdb
