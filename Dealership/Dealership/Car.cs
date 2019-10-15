@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Dealership
-{
-    public class Car
+{    
+    public abstract class Car
     {
         public string Buyer { get; set; }
         public string CarName { get; set; }
@@ -16,7 +16,7 @@ namespace Dealership
         public string Colour { get; set; }
         public string CarRegistration { get; set; }
 
-        public string ToString()
+        public override string ToString()
         {
             return $" {this.Buyer} {this.CarName} {this.CarModel} {this.Year} {this.Mileage} {this.Colour} {this.CarRegistration} ";
         }

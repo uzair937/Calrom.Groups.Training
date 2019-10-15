@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audi.cs" />
+    <Compile Include="BMW.cs" />
+    <Compile Include="CarFactory.cs" />
+    <Compile Include="Mercedes.cs" />
     <Compile Include="VehicleQuery.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="Program.cs" />
@@ -50,6 +54,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{3fc1236b-0e12-4506-b2b9-606752d638d2}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
