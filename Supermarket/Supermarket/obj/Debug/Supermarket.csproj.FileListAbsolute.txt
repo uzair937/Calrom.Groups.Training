@@ -11,3 +11,4 @@ C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\b
 C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\obj\Debug\Supermarket.csproj.CoreCompileInputs.cache
 C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\obj\Debug\Supermarket.exe
 C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\obj\Debug\Supermarket.pdb
+C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\obj\Debug\Supermarket.csprojAssemblyReference.cache

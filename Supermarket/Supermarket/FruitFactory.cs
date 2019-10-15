@@ -18,10 +18,10 @@ namespace Supermarket
                     fruit = new Apple();
                     break;
                 case FruitTypes.Banana:
-                    fruit = new Banana();
+                    //fruit = new Banana();
                     break;
                 case FruitTypes.Orange:
-                    fruit = new Orange();
+                    //fruit = new Orange();
                     break;
                 default:
                     fruit = null;

@@ -8,23 +8,33 @@ namespace Supermarket
 {
     public class Apple : Fruit
     {
-        public Apple()
+        private int appleStock = 7;
+        private const double price = 0.50;
+
+        public override string getFruitName()
         {
-            fruitName = "Apple";
-            cost = appleCost;
-            addApple();
+            return "Apple";
         }
 
-        private void addApple()
+        public override double getCost()
+        {
+            return price;
+        }
+
+        public override int getStock()
+        {
+            return appleStock;
+        }
+
+        public override bool checkStock()
         {
             if (appleStock > 0)
             {
-                appleStock--;
-                addItem(this);
+                return true;
             }
             else
             {
-                outOfStock();
+                return false;
             }
         }
     }

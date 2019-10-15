@@ -11,7 +11,7 @@ namespace Supermarket
      */
     public class Program
     {
-        public static Fruit fruitInstance { get { return Fruit.Instance; } }
+        public static List<Fruit> fruitList = new List<Fruit>();
         public static FruitFactory factoryInstance { get { return FruitFactory.Instance; } }
         private static void Main(string[] args)
         {
@@ -30,13 +30,13 @@ namespace Supermarket
                     switch (str)
                     {
                         case "A":
-                            factoryInstance.getFruit(FruitTypes.Apple);
+                            fruitList.Add(factoryInstance.getFruit(FruitTypes.Apple));
                             break;
                         case "B":
-                            factoryInstance.getFruit(FruitTypes.Banana);
+                            fruitList.Add(factoryInstance.getFruit(FruitTypes.Banana));
                             break;
                         case "O":
-                            factoryInstance.getFruit(FruitTypes.Orange);
+                            fruitList.Add(factoryInstance.getFruit(FruitTypes.Orange));
                             break;
                         default:
                             break;
@@ -54,9 +54,9 @@ namespace Supermarket
             Checkout checkout = new Checkout();
             if (string.IsNullOrEmpty(Console.ReadLine()))
             {
-                checkout.getBasket();
+                checkout.getBasket(fruitList);
             }
-            checkout.calculateTotal();
+            checkout.calculateTotal(fruitList);
             Console.ReadKey();
         }
 
@@ -66,7 +66,6 @@ namespace Supermarket
         {
             Console.WriteLine("Welcome to Uzair's supermarket!");
             Console.WriteLine("Current Stock: ");
-            fruitInstance.displayStock();
             Console.WriteLine("Please enter \"A\" for Apples, \"B\" for Bananas and \"O\" for Oranges.");
             Console.WriteLine("Please enter \"C\" for Carrots, \"P\" for Potatoes and \"S\" for Spinach.");
             Console.WriteLine("Press enter after you have chosen your items to see your basket and total cost."); //explains how to use application
