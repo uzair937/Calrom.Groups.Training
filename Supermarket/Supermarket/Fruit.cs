@@ -8,68 +8,28 @@ namespace Supermarket
 {
     public class Fruit : GroceryStock //dont need to derrive from grocerystock
     {
+        public string fruitName;
+        public double cost;
 
-        public string fruitName { get; set; }
-        public double cost { get; set; }
+        internal static readonly Fruit Instance = new Fruit();
 
-        public Fruit(string input)
+        public override void addItem(GroceryStock fruit)
         {
-            fruitName = returnFruit(input);
-            addFruit(input);
+            fruitList.Add(fruit);
+            Console.WriteLine("You have added an " + fruitName + " " + cost);
         }
 
-        public void addFruit(string input)
+        public override bool outOfStock()
         {
-            bool empty = false;
-            if (input == "A")
-            {
-                cost = appleCost;
-                appleStock--;
-                fruitList.Add(this);
-            }
-            else if (input == "B")
-            {
-                cost = bananaCost;
-                bananaStock--;
-                fruitList.Add(this);
-            }
-            else if (input == "O")
-            {
-                cost = orangeCost;
-                orangeStock--;
-                fruitList.Add(this);
-            }
-            else
-            {
-                empty = outOfStock();
-            }
-            if (!empty)
-            {
-                Console.WriteLine("You have added a " + fruitName + " to your basket.");
-            } else
-            {
-                fruitList.Add(this);
-            }
+            Console.WriteLine("This item is out of stock.");
+            return true;
         }
 
-            public string returnFruit(string input) //return method to save on manually hard coding
-            {
-                if (input == "A")
-                {
-                    return "Apple";
-                }
-                else if (input == "B")
-                {
-                    return "Banana";
-                }
-                else if (input == "O")
-                {
-                    return "Orange";
-                }
-                else
-                {
-                    return "Unavailable";
-                }
-            }
+        public override void displayStock()
+        {
+            Console.WriteLine("Apples " + appleStock + " Cost: " + appleCost);
+            Console.WriteLine("Bananas " + bananaStock + " Cost: " + bananaCost);
+            Console.WriteLine("Oranges " + orangeStock + " Cost: " + orangeCost);
         }
+    }
 }

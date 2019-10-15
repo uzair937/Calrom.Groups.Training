@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>Supermarket.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -43,6 +46,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Checkout.cs" />
+    <Compile Include="FruitFactory.cs" />
+    <Compile Include="FruitTypes.cs" />
     <Compile Include="Orange.cs" />
     <Compile Include="Banana.cs" />
     <Compile Include="Apple.cs" />
@@ -56,5 +61,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <Import Project="..\SupermarketExtensions\SupermarketExtensions\SupermarketExtensions.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

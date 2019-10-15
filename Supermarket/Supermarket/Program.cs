@@ -11,19 +11,7 @@ namespace Supermarket
      */
     public class Program
     {
-        private static char[] split; //stores the split characters from the console
-
-        private static void initialiseStore()
-        {
-            Console.WriteLine("Welcome to Uzair's supermarket!");
-            Console.WriteLine("Current Stock: ");
-
-            VegStock.displayStock();
-            Console.WriteLine("Please enter \"A\" for Apples, \"B\" for Bananas and \"O\" for Oranges.");
-            Console.WriteLine("Please enter \"C\" for Carrots, \"P\" for Potatoes and \"S\" for Spinach.");
-            Console.WriteLine("Press enter after you have chosen your items to see your basket and total cost."); //explains how to use application
-        }
-
+        public static Fruit fruitInstance { get { return Fruit.Instance; } }
         private static void Main(string[] args)
         {
             initialiseStore();
@@ -38,11 +26,24 @@ namespace Supermarket
                 }
                 else if (str.Equals("A") || str.Equals("B") || str.Equals("O"))
                 {
-                    new Fruit(str);
+                    switch (str)
+                    {
+                        case "A":
+                            FruitFactory.getFruit(FruitTypes.Apple);
+                            break;
+                        case "B":
+                            FruitFactory.getFruit(FruitTypes.Banana);
+                            break;
+                        case "O":
+                            FruitFactory.getFruit(FruitTypes.Orange);
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 else if (str.Equals("C") || str.Equals("P") || str.Equals("S"))
                 {
-                    new Veg(str);
+                    //
                 }
                 else
                 {
@@ -56,6 +57,18 @@ namespace Supermarket
             }
             checkout.calculateTotal();
             Console.ReadKey();
+        }
+
+        private static char[] split; //stores the split characters from the console
+
+        private static void initialiseStore()
+        {
+            Console.WriteLine("Welcome to Uzair's supermarket!");
+            Console.WriteLine("Current Stock: ");
+            fruitInstance.displayStock();
+            Console.WriteLine("Please enter \"A\" for Apples, \"B\" for Bananas and \"O\" for Oranges.");
+            Console.WriteLine("Please enter \"C\" for Carrots, \"P\" for Potatoes and \"S\" for Spinach.");
+            Console.WriteLine("Press enter after you have chosen your items to see your basket and total cost."); //explains how to use application
         }
     }
 }

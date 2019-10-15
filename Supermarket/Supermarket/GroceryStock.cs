@@ -8,8 +8,8 @@ namespace Supermarket
 {
     public abstract class GroceryStock //put stock in here and rename
     {
-        public static List<Fruit> fruitList = new List<Fruit>(); //contains all the fruit and vegetables that are bought
-        public static List<Veg> vegList = new List<Veg>();
+        public static List<GroceryStock> fruitList = new List<GroceryStock>(); //contains all the fruit and vegetables that are bought
+        public static List<GroceryStock> vegList = new List<GroceryStock>();
         protected static int appleStock = 7;
         protected static int bananaStock = 10;
         protected static int orangeStock = 4;
@@ -17,10 +17,8 @@ namespace Supermarket
         protected const double bananaCost = 0.30;
         protected const double orangeCost = 0.45;
 
-        public bool outOfStock()
-        {
-            Console.WriteLine("This item is out of stock.");
-            return true;
-        }
+        public abstract bool outOfStock();
+        public abstract void addItem(GroceryStock groceryStock);
+        public abstract void displayStock();
     }
 }

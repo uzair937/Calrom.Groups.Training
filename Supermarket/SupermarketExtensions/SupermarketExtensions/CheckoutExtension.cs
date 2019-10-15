@@ -8,6 +8,7 @@ namespace Supermarket
 {
     public static class CheckoutExtension
     {
+        private static double totalCost;
         public static string printBasket(this string str, string str2) //parameterised
         {
             return str + " " + "£" + str2;
@@ -18,15 +19,21 @@ namespace Supermarket
             Console.WriteLine("Total cost: " + "£" + str);
         }
 
-        public static bool isDiscounted(this List<double> costList)
+        public static bool isDiscounted<T>(this IList<T> costList) //generics
         {
             if (costList.Count == 3 || costList.Count == 5)
             {
                 return true;
-            } else
+            }
+            else
             {
                 return false;
             }
         }
+
+        public static void setCost(this double cost)
+        {
+            totalCost = cost;
+        }
     }
-}
+} //want to access properties using extension methods?
