@@ -10,28 +10,36 @@ using System.Threading;
 
 namespace JobLibrary
 {
-    public class ManageXml
+    public class XmlDatabase : GenericDatabase
     {
         private const string xmlFileOut = "C:/Users/wbooth/source/repos/JobScheduler/Resources/db-out.xml";
         private readonly object threadLock = new object();
 
-        public void AddXml(SchedulerDatabase newData)
+        public override bool AddData(SchedulerDatabase newData)
         {
-            using (FileStream fs = new FileStream(xmlFileOut, FileMode.Create))
+            try
             {
-                var serializer = new XmlSerializer(typeof(SchedulerDatabase));
-                var sortedData = newData.Configuration.Jobs.OrderBy(job => job.JobId).ToList();
-                newData.Configuration.Jobs = sortedData;
-                serializer.Serialize(fs, newData);
-                fs.Close();
+                using (FileStream fs = new FileStream(xmlFileOut, FileMode.Create))
+                {
+                    var serializer = new XmlSerializer(typeof(SchedulerDatabase));
+                    var sortedData = newData.Configuration.Jobs.OrderBy(job => job.JobId).ToList();
+                    newData.Configuration.Jobs = sortedData;
+                    serializer.Serialize(fs, newData);
+                    fs.Close();
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
-        public SchedulerDatabase GetXmlData()
+        public override SchedulerDatabase GetData()
         {
             lock (threadLock)
             {
-                var jobDatabase = new SchedulerDatabase();
+                var jobDatabase = SchedulerDatabase.GetDb();
                 do
                 {
                     try

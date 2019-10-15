@@ -9,25 +9,24 @@ namespace JobConfiguration
 {
     public class ConfigInterface
     {
-        private ManageXml XmlTools = new ManageXml();
 
         static void Main(string[] args)
         {
             var ConfigTools = new ConfigInterface();
             ConfigTools.ConfigJobs();
         }
+
         private void ConfigJobs()
         {
-            var db = new SchedulerDatabase();
+            var dbTools = DatabaseFactory.GetDatabase(DatabaseSelector.XML);
+            var db = SchedulerDatabase.GetDb();
             var ManageInterface = new ConfigInterface();
-            db = XmlTools.GetXmlData();
-            //ManageJson.AddJson(db);
-            //SQLManager.SqlSetup(db);
+            db = dbTools.GetData();
             while (true)
             {
                 Console.WriteLine("-View Jobs, -Delete or -Add?");
                 string entry = Console.ReadLine();
-                db = XmlTools.GetXmlData();
+                db = dbTools.GetData();
                 if (entry.Equals("view", StringComparison.OrdinalIgnoreCase))
                 {
                     foreach (var item in db.Configuration.Jobs) Console.WriteLine(item.ToString());
@@ -35,15 +34,14 @@ namespace JobConfiguration
                 else if (entry.Equals("add", StringComparison.OrdinalIgnoreCase))
                 {
                     ManageInterface.AddData(db);
-                    XmlTools.AddXml(db);
+                    dbTools.AddData(db);
                 }
                 else if (entry.Equals("delete", StringComparison.OrdinalIgnoreCase))
                 {
                     ManageInterface.DeleteData(db);
-                    XmlTools.AddXml(db);
+                    dbTools.AddData(db);
                 }
                 else Console.WriteLine("Enter a valid command");
-
             }
         }
 

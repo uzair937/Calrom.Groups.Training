@@ -7,7 +7,7 @@ using System.Data.Entity;
 
 namespace JobLibrary
 {
-    public class SQLContext : DbContext
+    public class SqlContext : DbContext
     {
         public DbSet<Job> JobDb { get; set; }
         public DbSet<EmailSubscription> EmailDb { get; set; }

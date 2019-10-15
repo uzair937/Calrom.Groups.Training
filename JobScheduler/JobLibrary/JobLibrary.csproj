@@ -54,14 +54,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config.cs" />
-    <Compile Include="JsonDatabase.cs" />
-    <Compile Include="SQLContext.cs" />
-    <Compile Include="SQLManager.cs" />
-    <Compile Include="ManageXml.cs" />
-    <Compile Include="Subscriptions.cs" />
-    <Compile Include="SchedulerDatabase.cs" />
-    <Compile Include="Job.cs" />
+    <Compile Include="DatabaseFactory\GenericDatabase.cs" />
+    <Compile Include="DatabaseContext\Config.cs" />
+    <Compile Include="DatabaseFactory\DatabaseFactory.cs" />
+    <Compile Include="DatabaseFactory\JsonDatabase.cs" />
+    <Compile Include="DatabaseContext\SqlContext.cs" />
+    <Compile Include="DatabaseFactory\SqlDatabase.cs" />
+    <Compile Include="DatabaseFactory\XmlDatabase.cs" />
+    <Compile Include="DatabaseContext\Subscriptions.cs" />
+    <Compile Include="DatabaseContext\SchedulerDatabase.cs" />
+    <Compile Include="DatabaseContext\Job.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

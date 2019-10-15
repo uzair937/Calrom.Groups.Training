@@ -14,8 +14,7 @@ namespace JobScheduler
     public class MainScheduler
     {
         private List<JobRunInfo> JobList = new List<JobRunInfo>();
-        private SchedulerDatabase db = new SchedulerDatabase();
-        private ManageXml XmlTools = new ManageXml();
+        private SchedulerDatabase db = SchedulerDatabase.GetDb();
         
         private bool exeRunning;
         private int jobCount;
@@ -28,21 +27,23 @@ namespace JobScheduler
 
         private void ScheduleJobs()
         {
+            var dbTools = DatabaseFactory.GetDatabase(DatabaseSelector.XML);
             do
             {
-                db = XmlTools.GetXmlData();
+                db = dbTools.GetData();
                 Thread.Sleep(2000);
                 Console.WriteLine(db.Configuration.Jobs.Count + " Jobs");
             } while (db == null || db.Configuration.Jobs.Count < 3);
 
-            var keepTime = new Thread(TimeKeeper);
-            var currentProgram = new Thread(() => RunJob(db.Configuration.Jobs[0], 0, (PriorityEnum)1));
-            var dbUpdate = new Thread(UpdateLocalDatabase);
+            var keepTime = new Thread(() => TimeKeeper(dbTools));
+            var currentProgram = new Thread(() => RunJob(db.Configuration.Jobs[0], 0, PriorityEnum.Low));
+            var dbUpdate = new Thread(() => UpdateLocalDatabase(dbTools));
             var currentPriority = new PriorityEnum();
             exeRunning = false;
+            ////////////EXAMPLE EXTENSIONS
             "~This is an extension method~".Print();
             db.Configuration.Jobs.FirstandLast().Print();
-            FirstandLast(db.Configuration.Jobs).Print();
+            Helper.FirstandLast(db.Configuration.Jobs).Print();
             "~This is an extension method~".Print();
             db.Configuration.Subscriptions.FirstandLast().Print();
             "~This is an extension method~".Print();
@@ -60,6 +61,7 @@ namespace JobScheduler
             JobList[0].JobId.AddToSelf(" is the first").Print();
             JobList[JobList.Count -1].JobId.AddToSelf(" is the last").Print();
             "~This is an extension method~".Print();
+            /////////NO MORE FLUFF EXTENSIONS
             jobCount = db.Configuration.Jobs.Count;
             keepTime.Start();
             foreach (var item in db.Configuration.Jobs) item.ToString().Print();
@@ -90,19 +92,11 @@ namespace JobScheduler
             }
         }
 
-        public string FirstandLast<T>(IEnumerable<T> inspect)
-        {
-            var _result = new string[2];
-            _result[0] = inspect.ElementAt(0).ToString();
-            _result[1] = inspect.ElementAt(inspect.Count() - 1).ToString();
-            return _result[0].AddToSelf("\n" + _result[1] ?? "") ?? "";
-        }
-
-        private void UpdateLocalDatabase()
+        private void UpdateLocalDatabase(GenericDatabase dbTools)
         {
             while (true)
             {
-                db = XmlTools.GetXmlData();
+                db = dbTools.GetData();
                 Thread.Sleep(5000);
             }
         }
@@ -161,7 +155,7 @@ namespace JobScheduler
             }
         }
 
-        private void TimeKeeper()
+        private void TimeKeeper(GenericDatabase dbTools)
         {
             var sleepTime = JobList.Select(a => a.JobTime).Min();
             var sleepQueue = new TimeSpan();
@@ -184,7 +178,7 @@ namespace JobScheduler
                 catch
                 {
                     Console.WriteLine("Sleep Failed");
-                    db = XmlTools.GetXmlData();
+                    db = dbTools.GetData();
                     if (jobCount != db.Configuration.Jobs.Count) ManageJobs();
                 }
                 for (int t = 0; t < jobCount; t++)
@@ -205,7 +199,7 @@ namespace JobScheduler
                     {
                         Console.WriteLine("Append Queue Failed");
                         t--;
-                        db = XmlTools.GetXmlData();
+                        db = dbTools.GetData();
                         if (jobCount != db.Configuration.Jobs.Count) ManageJobs();
                     }
                 }

@@ -8,6 +8,16 @@ namespace JobLibrary
 {
     public class SchedulerDatabase
     {
+        private static SchedulerDatabase obj;
+
+        private SchedulerDatabase() { }
+
+        public static SchedulerDatabase GetDb()
+        {
+            if (obj == null) obj = new SchedulerDatabase();
+            return obj;
+        }
+
         public Config Configuration { get; set; }
     }
 }
