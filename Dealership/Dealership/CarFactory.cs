@@ -28,7 +28,7 @@ namespace Dealership
 
         public static Car CreateCar(BMW b, Mercedes m, Audi a)
         {
-            var newcar = CreateAudi();
+            var newcar = CreateCar(b, m, a);
             return newcar;
         }
 
