@@ -56,6 +56,10 @@
       <Project>{92288c16-62d2-4c88-acc6-b3b6f0201874}</Project>
       <Name>ExtensionNamespace</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FactoryLibrary\FactoryLibrary.csproj">
+      <Project>{a15d055e-65c8-49be-bc2b-74ead0e442fd}</Project>
+      <Name>FactoryLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JobLibrary\JobLibrary.csproj">
       <Project>{6e9fc66c-2642-4b17-805c-ac5966a04930}</Project>
       <Name>JobLibrary</Name>

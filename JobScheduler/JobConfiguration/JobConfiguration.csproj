@@ -78,6 +78,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FactoryLibrary\FactoryLibrary.csproj">
+      <Project>{a15d055e-65c8-49be-bc2b-74ead0e442fd}</Project>
+      <Name>FactoryLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JobLibrary\JobLibrary.csproj">
       <Project>{6e9fc66c-2642-4b17-805c-ac5966a04930}</Project>
       <Name>JobLibrary</Name>

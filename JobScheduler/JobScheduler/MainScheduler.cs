@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using JobLibrary;
+using FactoryLibrary;
 using ExtensionNamespace;
 
 namespace JobScheduler
@@ -27,7 +28,8 @@ namespace JobScheduler
 
         private void ScheduleJobs()
         {
-            var dbTools = DatabaseFactory.GetDatabase(DatabaseSelector.XML);
+            var dbFac = DatabaseFactory.GetFac();
+            var dbTools = dbFac.GetDatabase(DatabaseSelector.XML);
             do
             {
                 db = dbTools.GetData();
@@ -41,12 +43,12 @@ namespace JobScheduler
             var currentPriority = new PriorityEnum();
             exeRunning = false;
             ////////////EXAMPLE EXTENSIONS
-            "~This is an extension method~".Print();
-            db.Configuration.Jobs.FirstandLast().Print();
-            Helper.FirstandLast(db.Configuration.Jobs).Print();
-            "~This is an extension method~".Print();
-            db.Configuration.Subscriptions.FirstandLast().Print();
-            "~This is an extension method~".Print();
+            //"~This is an extension method~".Print();
+            //db.Configuration.Jobs.FirstandLast().Print();
+            //Helper.FirstandLast(db.Configuration.Jobs).Print();
+            //"~This is an extension method~".Print();
+            //db.Configuration.Subscriptions.FirstandLast().Print();
+            //"~This is an extension method~".Print();
 
             foreach (var job in db.Configuration.Jobs)
             {
@@ -56,11 +58,10 @@ namespace JobScheduler
                     JobQueue = XmlConvert.ToTimeSpan(job.Interval),
                     JobId = job.JobId
                 });
-                Console.WriteLine(job.Interval);
             }
-            JobList[0].JobId.AddToSelf(" is the first").Print();
-            JobList[JobList.Count -1].JobId.AddToSelf(" is the last").Print();
-            "~This is an extension method~".Print();
+            //JobList[0].JobId.AddToSelf(" is the first").Print();
+            //JobList[JobList.Count -1].JobId.AddToSelf(" is the last").Print();
+            //"~This is an extension method~".Print();
             /////////NO MORE FLUFF EXTENSIONS
             jobCount = db.Configuration.Jobs.Count;
             keepTime.Start();
@@ -92,7 +93,7 @@ namespace JobScheduler
             }
         }
 
-        private void UpdateLocalDatabase(GenericDatabase dbTools)
+        private void UpdateLocalDatabase(GenericDatabaseTools dbTools)
         {
             while (true)
             {
@@ -155,7 +156,7 @@ namespace JobScheduler
             }
         }
 
-        private void TimeKeeper(GenericDatabase dbTools)
+        private void TimeKeeper(GenericDatabaseTools dbTools)
         {
             var sleepTime = JobList.Select(a => a.JobTime).Min();
             var sleepQueue = new TimeSpan();

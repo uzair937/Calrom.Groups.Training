@@ -1,0 +1,17 @@
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\bin\Debug\FactoryLibrary.dll.config
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\bin\Debug\FactoryLibrary.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\bin\Debug\FactoryLibrary.pdb
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\bin\Debug\EntityFramework.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\bin\Debug\JobLibrary.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\bin\Debug\Newtonsoft.Json.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\bin\Debug\JobLibrary.pdb
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\bin\Debug\JobLibrary.dll.config
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\bin\Debug\EntityFramework.xml
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\bin\Debug\Newtonsoft.Json.xml
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\obj\Debug\FactoryLibrary.csprojAssemblyReference.cache
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\obj\Debug\FactoryLibrary.csproj.CoreCompileInputs.cache
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\obj\Debug\FactoryLibrary.csproj.CopyComplete
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\obj\Debug\FactoryLibrary.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\FactoryLibrary\obj\Debug\FactoryLibrary.pdb

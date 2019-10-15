@@ -17,8 +17,6 @@ C:\Users\wbooth\source\repos\JobScheduler\JobConfiguration\bin\Debug\EntityFrame
 C:\Users\wbooth\source\repos\JobScheduler\JobConfiguration\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\obj\Debug\JobConfiguration.csprojAssemblyReference.cache
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\obj\Debug\JobConfiguration.csproj.CoreCompileInputs.cache
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\obj\Debug\JobConfiguration.exe
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\obj\Debug\JobConfiguration.pdb
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\bin\Debug\JobConfiguration.exe.config
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\bin\Debug\JobConfiguration.exe
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\bin\Debug\JobConfiguration.pdb
@@ -32,3 +30,8 @@ C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguratio
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\bin\Debug\Newtonsoft.Json.xml
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\obj\Debug\JobConfiguration.csproj.CopyComplete
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\obj\Debug\JobConfiguration.exe
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\obj\Debug\JobConfiguration.pdb
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\bin\Debug\FactoryLibrary.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\bin\Debug\FactoryLibrary.pdb
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\JobConfiguration\bin\Debug\FactoryLibrary.dll.config

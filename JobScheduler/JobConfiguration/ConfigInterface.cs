@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Xml;
 using JobLibrary;
+using FactoryLibrary;
 
 namespace JobConfiguration
 {
@@ -18,7 +19,8 @@ namespace JobConfiguration
 
         private void ConfigJobs()
         {
-            var dbTools = DatabaseFactory.GetDatabase(DatabaseSelector.XML);
+            var dbFac = DatabaseFactory.GetFac();
+            var dbTools = dbFac.GetDatabase(DatabaseSelector.JSON);
             var db = SchedulerDatabase.GetDb();
             var ManageInterface = new ConfigInterface();
             db = dbTools.GetData();

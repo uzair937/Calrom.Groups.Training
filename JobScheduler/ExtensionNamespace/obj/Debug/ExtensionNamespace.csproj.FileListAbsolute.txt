@@ -1,6 +1,5 @@
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\ExtensionNamespace\bin\Debug\ExtensionNamespace.dll
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\ExtensionNamespace\bin\Debug\ExtensionNamespace.pdb
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\ExtensionNamespace\obj\Debug\ExtensionNamespace.csprojAssemblyReference.cache
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\ExtensionNamespace\obj\Debug\ExtensionNamespace.csproj.CoreCompileInputs.cache
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\ExtensionNamespace\obj\Debug\ExtensionNamespace.dll
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\JobScheduler\ExtensionNamespace\obj\Debug\ExtensionNamespace.pdb
