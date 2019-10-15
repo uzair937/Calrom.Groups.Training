@@ -6,30 +6,30 @@ using System.Threading.Tasks;
 
 namespace Supermarket
 {
-    public class Fruit : GroceryStock //dont need to derrive from grocerystock
+    public class Fruit //dont need to derrive from grocerystock
     {
         public string fruitName;
         public double cost;
 
         internal static readonly Fruit Instance = new Fruit();
 
-        public override void addItem(GroceryStock fruit)
+        public void addItem(GroceryStock fruit)
         {
-            fruitList.Add(fruit);
+            GroceryStock.fruitList.Add(fruit);
             Console.WriteLine("You have added an " + fruitName + " " + cost);
         }
 
-        public override bool outOfStock()
+        public bool outOfStock()
         {
             Console.WriteLine("This item is out of stock.");
             return true;
         }
 
-        public override void displayStock()
+        public void displayStock()
         {
-            Console.WriteLine("Apples " + appleStock + " Cost: " + appleCost);
-            Console.WriteLine("Bananas " + bananaStock + " Cost: " + bananaCost);
-            Console.WriteLine("Oranges " + orangeStock + " Cost: " + orangeCost);
+            Console.WriteLine("Apples " + GroceryStock.appleStock + " Cost: " + GroceryStock.appleCost);
+            Console.WriteLine("Bananas " + GroceryStock.bananaStock + " Cost: " + GroceryStock.bananaCost);
+            Console.WriteLine("Oranges " + GroceryStock.orangeStock + " Cost: " + GroceryStock.orangeCost);
         }
     }
 }
