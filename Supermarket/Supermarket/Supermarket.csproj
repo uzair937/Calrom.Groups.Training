@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Checkout.cs" />
+    <Compile Include="Factory.cs" />
     <Compile Include="FruitFactory.cs" />
     <Compile Include="FruitTypes.cs" />
     <Compile Include="Orange.cs" />

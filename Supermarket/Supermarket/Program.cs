@@ -12,6 +12,7 @@ namespace Supermarket
     public class Program
     {
         public static Fruit fruitInstance { get { return Fruit.Instance; } }
+        public static FruitFactory factoryInstance { get { return FruitFactory.Instance; } }
         private static void Main(string[] args)
         {
             initialiseStore();
@@ -29,13 +30,13 @@ namespace Supermarket
                     switch (str)
                     {
                         case "A":
-                            FruitFactory.getFruit(FruitTypes.Apple);
+                            factoryInstance.getFruit(FruitTypes.Apple);
                             break;
                         case "B":
-                            FruitFactory.getFruit(FruitTypes.Banana);
+                            factoryInstance.getFruit(FruitTypes.Banana);
                             break;
                         case "O":
-                            FruitFactory.getFruit(FruitTypes.Orange);
+                            factoryInstance.getFruit(FruitTypes.Orange);
                             break;
                         default:
                             break;

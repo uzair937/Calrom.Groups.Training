@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Supermarket
 {
-    public abstract class FruitFactory
+    public class FruitFactory : Factory
     {
-        public static Fruit getFruit(FruitTypes type)
+        internal static readonly FruitFactory Instance = new FruitFactory();
+        public override Fruit getFruit(FruitTypes type)
         {
             Fruit fruit = null;
             switch(type)
@@ -27,6 +28,11 @@ namespace Supermarket
                     break;
             }
             return fruit;
+        }
+
+        public override GroceryStock getProduct<T>(IEnumerable<T> type)
+        {
+            throw new NotImplementedException();
         }
     }
 }
