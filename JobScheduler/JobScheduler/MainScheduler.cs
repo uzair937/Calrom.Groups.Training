@@ -16,7 +16,7 @@ namespace JobScheduler
     {
         private List<JobRunInfo> JobList = new List<JobRunInfo>();
         private SchedulerDatabase db = SchedulerDatabase.GetDb();
-        
+
         private bool exeRunning;
         private int jobCount;
 
@@ -42,13 +42,7 @@ namespace JobScheduler
             var dbUpdate = new Thread(() => UpdateLocalDatabase(dbTools));
             var currentPriority = new PriorityEnum();
             exeRunning = false;
-            ////////////EXAMPLE EXTENSIONS
-            //"~This is an extension method~".Print();
-            //db.Configuration.Jobs.FirstandLast().Print();
-            //Helper.FirstandLast(db.Configuration.Jobs).Print();
-            //"~This is an extension method~".Print();
-            //db.Configuration.Subscriptions.FirstandLast().Print();
-            //"~This is an extension method~".Print();
+
 
             foreach (var job in db.Configuration.Jobs)
             {
@@ -59,10 +53,7 @@ namespace JobScheduler
                     JobId = job.JobId
                 });
             }
-            //JobList[0].JobId.AddToSelf(" is the first").Print();
-            //JobList[JobList.Count -1].JobId.AddToSelf(" is the last").Print();
-            //"~This is an extension method~".Print();
-            /////////NO MORE FLUFF EXTENSIONS
+
             jobCount = db.Configuration.Jobs.Count;
             keepTime.Start();
             foreach (var item in db.Configuration.Jobs) item.ToString().Print();
@@ -121,7 +112,7 @@ namespace JobScheduler
                 var oldId = JobList.Select(a => a.JobId)
                                 .Except(db.Configuration.Jobs.Select(a => a.JobId))
                                 .FirstOrDefault();
-                JobList.Remove(JobList.First(a => a.JobId == oldId)); 
+                JobList.Remove(JobList.First(a => a.JobId == oldId));
             }
             JobList = JobList.OrderBy(a => a.JobId).ToList();
             Console.WriteLine("Database Appended");
@@ -134,22 +125,8 @@ namespace JobScheduler
             {
                 exeRunning = true;
                 Thread.Sleep(3000);
-                //ProcessStartInfo startInfo = new ProcessStartInfo(job.Path)
-                //{
-                //    CreateNoWindow = true,
-                //    UseShellExecute = false,
-                //    FileName = job.JobType,
-                //    WindowStyle = ProcessWindowStyle.Hidden,
-                //    Arguments = job.Arguments
-                //};
-                //try
-                //{
-                //    Process.Start(startInfo);
-                //}
-                //catch (Exception e)
-                //{
-                //    Console.WriteLine(e.Message);
-                //}
+                //ExecuteJob(job);
+                
                 JobList[JobList.FindIndex(a => a.JobId == id)].JobQueue = JobList[JobList.FindIndex(a => a.JobId == id)].JobTime;
                 Console.WriteLine("Priority " + priority + ": Job " + id + " Done!");
                 exeRunning = false;
@@ -205,6 +182,39 @@ namespace JobScheduler
                     }
                 }
                 Console.WriteLine("Tick");
+            }
+        }
+        private void ExtensionExamples(SchedulerDatabase db, List<Job> JobList)
+        {
+            //////////EXAMPLE EXTENSIONS
+            "~This is an extension method~".Print();
+            db.Configuration.Jobs.FirstandLast().Print();
+            Helper.FirstandLast(db.Configuration.Jobs).Print();
+            "~This is an extension method~".Print();
+            db.Configuration.Subscriptions.FirstandLast().Print();
+            "~This is an extension method~".Print();
+            JobList[0].JobId.AddToSelf(" is the first").Print();
+            JobList[JobList.Count - 1].JobId.AddToSelf(" is the last").Print();
+            "~This is an extension method~".Print();
+        }
+        private void ExecuteJob(Job job)
+        {
+            //unimplemented job run
+            ProcessStartInfo startInfo = new ProcessStartInfo(job.Path)
+            {
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                FileName = job.JobType,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                Arguments = job.Arguments
+            };
+            try
+            {
+                Process.Start(startInfo);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
     }

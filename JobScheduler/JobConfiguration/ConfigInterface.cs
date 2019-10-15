@@ -20,7 +20,7 @@ namespace JobConfiguration
         private void ConfigJobs()
         {
             var dbFac = DatabaseFactory.GetFac();
-            var dbTools = dbFac.GetDatabase(DatabaseSelector.JSON);
+            var dbTools = dbFac.GetDatabase(DatabaseSelector.SQL);
             var db = SchedulerDatabase.GetDb();
             var ManageInterface = new ConfigInterface();
             db = dbTools.GetData();
