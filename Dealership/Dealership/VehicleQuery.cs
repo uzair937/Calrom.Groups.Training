@@ -37,11 +37,11 @@ namespace Dealership
             return mileageDesc;
         }
 
-        public List<Car> gettingfirstchar(List<Car> listofcars, char getletter)
-        {
-            var cars = listofcars.Where(m => m.Buyer[0] == getletter).ToList();
-            return cars; 
-        }
+        //public List<Car> gettingfirstchar(List<Car> listofcars, char getletter)
+        //{
+        //    var cars = listofcars.Where(m => m.Buyer[0] == getletter).ToList();
+        //    return cars; 
+        //}
 
         public Car getting(List<Car> listofcars)
         {

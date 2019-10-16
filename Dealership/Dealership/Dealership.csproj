@@ -44,13 +44,17 @@
   <ItemGroup>
     <Compile Include="Audi.cs" />
     <Compile Include="BMW.cs" />
+    <Compile Include="BuyerDetails.cs" />
     <Compile Include="CarFactory.cs" />
     <Compile Include="Mercedes.cs" />
+    <Compile Include="RR.cs" />
+    <Compile Include="Tesla.cs" />
     <Compile Include="VehicleQuery.cs" />
     <Compile Include="Car.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RetrieveCar.cs" />
+    <Compile Include="Volkswagen.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

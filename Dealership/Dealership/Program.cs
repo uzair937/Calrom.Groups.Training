@@ -11,10 +11,13 @@ namespace Dealership
     {
         Mercedes,
         BMW,
-        Audi
+        Audi,
+        Volkswagen,
+        RR,
+        Tesla
     }
     public class Program
-    {
+    { 
         static void Main(string[] args)
         {
 
@@ -35,7 +38,7 @@ namespace Dealership
             //listofcars.Add(retcar6);
 
             //VehicleQuery vehicleQuery = new VehicleQuery();
-             
+
             //char getletter = 'B';
             //var get1stchar = vehicleQuery.gettingfirstchar(listofcars, getletter);
 
@@ -48,13 +51,14 @@ namespace Dealership
             //Console.WriteLine(carWithMaxMileage.ToString());
 
             //carWithMaxMileage.GetMaxMileage();
+            
+            var bmw = CarFactory.CreateCar(Cars.BMW);
+            var mercedes = CarFactory.CreateCar(Cars.Mercedes);
+            var audi = CarFactory.CreateCar(Cars.Audi);
+            var getRR = CarFactory.CreateCar(Cars.RR);
+            var tesla = CarFactory.CreateCar(Cars.Tesla);
+            var VW = CarFactory.CreateCar(Cars.Volkswagen);
 
-            var merc = CarFactory.CreateMercedes();
-            var bmw = CarFactory.CreateBMW();
-            var audi = CarFactory.CreateAudi();
-            
-            
-           
             Console.ReadKey();
          
           

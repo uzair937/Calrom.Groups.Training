@@ -8,14 +8,14 @@ namespace Dealership
 {
     public class BMW : Car
     {
-        public double Carprice {
+        public double Carprice
+        {
             get { return 35.0; }
         }
-        
 
-        public double Deposit()
+        public double Deposit
         {
-            return 3.000;
+            get { return 3.000; }
         }
     }
 }

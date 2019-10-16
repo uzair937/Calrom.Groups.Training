@@ -8,14 +8,14 @@ namespace Dealership
 {
     public class Audi : Car
     {
-        public double CarPrice()
+        public double CarPrice
         {
-            return 29.000;
+           get  { return 29.000; }
         }
         
-        public double Deposit()
+        public double Deposit
         {
-            return 2.000;
+            get { return 2.000; }
         }
 
     }

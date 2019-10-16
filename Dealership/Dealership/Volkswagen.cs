@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Dealership
 {
-    public class Mercedes : Car
+    public class Volkswagen : Car
     {
-        public double Carprice
+       public double Carprice
         {
-            get { return 31.0; }
+           get  { return 15.000; }
         }
 
         public double Deposit
         {
-            get { return 2.500; }
+            get { return 1.000; }
         }
     }
 }
