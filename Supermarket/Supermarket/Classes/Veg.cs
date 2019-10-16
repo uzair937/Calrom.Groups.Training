@@ -43,9 +43,7 @@ namespace Supermarket
 
         public override void displayStock()
         {
-            Console.WriteLine("Apples " + appleStock + " Cost: " + appleCost);
-            Console.WriteLine("Bananas " + bananaStock + " Cost: " + bananaCost);
-            Console.WriteLine("Oranges " + orangeStock + " Cost: " + orangeCost);
+            
         }
     }
 }

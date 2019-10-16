@@ -45,23 +45,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Checkout.cs" />
-    <Compile Include="Factory.cs" />
-    <Compile Include="FruitFactory.cs" />
-    <Compile Include="FruitTypes.cs" />
-    <Compile Include="Orange.cs" />
-    <Compile Include="Banana.cs" />
-    <Compile Include="Apple.cs" />
-    <Compile Include="Fruit.cs" />
-    <Compile Include="GroceryStock.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Classes\Checkout.cs" />
+    <Compile Include="Builder\ConcreteBuilder.cs" />
+    <Compile Include="Builder\Director.cs" />
+    <Compile Include="Factory\Factory.cs" />
+    <Compile Include="Factory\FruitFactory.cs" />
+    <Compile Include="Factory\FruitTypes.cs" />
+    <Compile Include="Builder\IFruitBuilder.cs" />
+    <Compile Include="Fruit\Orange.cs" />
+    <Compile Include="Fruit\Banana.cs" />
+    <Compile Include="Fruit\Apple.cs" />
+    <Compile Include="Abstract\Fruit.cs" />
+    <Compile Include="Abstract\GroceryStock.cs" />
+    <Compile Include="Classes\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Veg.cs" />
-    <Compile Include="VegStock.cs" />
+    <Compile Include="Classes\Veg.cs" />
+    <Compile Include="Abstract\VegStock.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\SupermarketExtensions\SupermarketExtensions\SupermarketExtensions.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -6,9 +6,27 @@ using System.Threading.Tasks;
 
 namespace Supermarket
 {
-    class Checkout
+    public class Checkout
     {
-
+        private static Checkout Instance = null;
+        private static readonly object padlock = new object();
+        public static Checkout getInstance
+        {
+            get
+            {
+                if (Instance == null)
+                {
+                    lock (padlock)
+                    {
+                        if (Instance == null)
+                        {
+                            Instance = new Checkout();
+                        }
+                    }
+                }
+                return Instance;
+            }
+        }
         public double totalCost;
         public static bool checkDiscount(List<Fruit> fruitList) //discounts by 0.30 if 3 apples or 5 bananas
         {
@@ -29,10 +47,12 @@ namespace Supermarket
             if (bananaList.isDiscounted())
             {
                 return true;
-            } else if (appleList.isDiscounted())
+            }
+            else if (appleList.isDiscounted())
             {
                 return true;
-            } else
+            }
+            else
             {
                 return false;
             }

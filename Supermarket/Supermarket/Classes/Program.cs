@@ -12,7 +12,8 @@ namespace Supermarket
     public class Program
     {
         public static List<Fruit> fruitList = new List<Fruit>();
-        public static FruitFactory factoryInstance { get { return FruitFactory.Instance; } }
+        public static FruitFactory factoryInstance { get { return FruitFactory.getInstance; } }
+        public static Checkout checkoutInstance { get { return Checkout.getInstance; } }
         private static void Main(string[] args)
         {
             initialiseStore();
@@ -51,12 +52,11 @@ namespace Supermarket
                     Console.WriteLine("Please enter \"O\" for Oranges, \"A\" for Apples and \"B\" for Bananas.");
                 }
             }
-            Checkout checkout = new Checkout();
             if (string.IsNullOrEmpty(Console.ReadLine()))
             {
-                checkout.getBasket(fruitList);
+                checkoutInstance.getBasket(fruitList);
             }
-            checkout.calculateTotal(fruitList);
+            checkoutInstance.calculateTotal(fruitList);
             Console.ReadKey();
         }
 

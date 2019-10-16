@@ -6,29 +6,39 @@ using System.Threading.Tasks;
 
 namespace Supermarket
 {
-    public class Apple : Fruit
+    public class Orange : Fruit
     {
-        private int appleStock = 7;
-        private const double price = 0.50;
-
+        public Orange()
+        {
+            setStock();
+            setCost();
+        }
+        public override void setStock()
+        {
+            stock = 4;
+        }
+        public override void setCost()
+        {
+            cost = 0.70;
+        }
         public override string getFruitName()
         {
-            return "Apple";
+            return "Orange";
         }
 
         public override double getCost()
         {
-            return price;
+            return cost;
         }
 
         public override int getStock()
         {
-            return appleStock;
+            return stock;
         }
 
         public override bool checkStock()
         {
-            if (appleStock > 0)
+            if (stock > 0)
             {
                 return true;
             }
