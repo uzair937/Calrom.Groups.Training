@@ -10,7 +10,6 @@ namespace JobConfiguration
 {
     public class ConfigInterface
     {
-
         static void Main(string[] args)
         {
             var ConfigTools = new ConfigInterface();

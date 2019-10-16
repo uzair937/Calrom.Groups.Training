@@ -4,17 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{016E4132-5224-42B3-955F-F9636CBE99A6}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>JobScheduler</RootNamespace>
-    <AssemblyName>JobScheduler</AssemblyName>
+    <ProjectGuid>{5852D572-6605-4AA6-B205-4CBABF94D1E0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BuilderLibrary</RootNamespace>
+    <AssemblyName>BuilderLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -43,29 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuilderLibrary\AbstractBuilder.cs" />
-    <Compile Include="BuilderLibrary\ConcreteBuilder.cs" />
-    <Compile Include="BuilderLibrary\Director.cs" />
-    <Compile Include="Helper.cs" />
-    <Compile Include="JobList.cs" />
-    <Compile Include="MainScheduler.cs" />
+    <Compile Include="Builder.cs" />
+    <Compile Include="ConcreteBuilderId.cs" />
+    <Compile Include="ConcreteBuilderTime.cs" />
+    <Compile Include="Director.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ExtensionNamespace\ExtensionNamespace.csproj">
-      <Project>{92288c16-62d2-4c88-acc6-b3b6f0201874}</Project>
-      <Name>ExtensionNamespace</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FactoryLibrary\FactoryLibrary.csproj">
-      <Project>{a15d055e-65c8-49be-bc2b-74ead0e442fd}</Project>
-      <Name>FactoryLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JobLibrary\JobLibrary.csproj">
-      <Project>{6e9fc66c-2642-4b17-805c-ac5966a04930}</Project>
-      <Name>JobLibrary</Name>
+    <ProjectReference Include="..\JobScheduler\JobScheduler.csproj">
+      <Project>{016e4132-5224-42b3-955f-f9636cbe99a6}</Project>
+      <Name>JobScheduler</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
