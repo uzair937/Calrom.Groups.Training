@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace JobLibrary
 {
+    [Serializable]
     public class SchedulerDatabase
     {
         private static SchedulerDatabase obj;
 
-        private SchedulerDatabase() { }
+        public SchedulerDatabase() { }
 
         public static SchedulerDatabase GetDb()
         {
@@ -18,6 +20,11 @@ namespace JobLibrary
             return obj;
         }
 
+        public Config Configuration { get; set; }
+    }
+
+    public class XmlTestDatabase
+    {
         public Config Configuration { get; set; }
     }
 }

@@ -55,6 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="IEntity.cs" />
+    <Compile Include="IDatabaseRepos.cs" />
+    <Compile Include="JobRepository.cs" />
     <Compile Include="Subscriptions.cs" />
     <Compile Include="SchedulerDatabase.cs" />
     <Compile Include="Job.cs" />

@@ -19,7 +19,7 @@ namespace JobConfiguration
         private void ConfigJobs()
         {
             var dbFac = DatabaseFactory.GetFac();
-            var dbTools = dbFac.GetDatabase(DatabaseSelector.SQL);
+            var dbTools = dbFac.GetDatabase(DatabaseSelector.XML);
             var db = SchedulerDatabase.GetDb();
             var ManageInterface = new ConfigInterface();
             db = dbTools.GetData();
@@ -57,17 +57,17 @@ namespace JobConfiguration
 
         private void DeleteData(SchedulerDatabase db)
         {
+            var JobRepo = new JobRepository(db.Configuration);
             Console.WriteLine("Remove -Job or -Email?");
             var entry = Console.ReadLine();
             if (entry.Equals("job", StringComparison.OrdinalIgnoreCase))
             {
                 Console.WriteLine("Enter the JobId of the Job you'd like to remove");
-                var tempJobs = db.Configuration.Jobs;
                 var tempIds = db.Configuration.Subscriptions[0];
                 var ID = Convert.ToInt32(Console.ReadLine());
-                tempJobs.RemoveAll(a => a.JobId == ID);
+                JobRepo.Delete(JobRepo.FindById(ID)); //uses repo
+                db.Configuration = JobRepo.Update();
                 tempIds.JobIds.RemoveAll(a => a == ID);
-                db.Configuration.Jobs = tempJobs;
                 db.Configuration.Subscriptions[0] = tempIds;
             }
             else if (entry.Equals("email", StringComparison.OrdinalIgnoreCase))
@@ -97,6 +97,7 @@ namespace JobConfiguration
 
         private void AddJob(SchedulerDatabase db)
         {
+            var JobRepo = new JobRepository(db.Configuration);
             var tempJob = new Job();
             var newJob = new string[7];
             var jobNum = Enumerable.Range(0, int.MaxValue)
@@ -117,7 +118,8 @@ namespace JobConfiguration
             Console.WriteLine("Priority -High, -Medium, -Low");
             newJob[6] = Console.ReadLine();
             tempJob.SetValues(newJob);
-            db.Configuration.Jobs.Add(tempJob);
+            JobRepo.Add(tempJob);   //uses repo
+            db.Configuration = JobRepo.Update();
             db.Configuration.Subscriptions[0].JobIds.Add(jobNum);
         }
     }
