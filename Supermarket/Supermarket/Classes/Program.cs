@@ -14,6 +14,7 @@ namespace Supermarket
         public static List<Fruit> fruitList = new List<Fruit>();
         public static FruitFactory factoryInstance { get { return FruitFactory.getInstance; } }
         public static Checkout checkoutInstance { get { return Checkout.getInstance; } }
+        public static FruitDB dbInstance { get { return FruitDB.getInstance; } }
         private static void Main(string[] args)
         {
             initialiseStore();
@@ -54,10 +55,27 @@ namespace Supermarket
             }
             if (string.IsNullOrEmpty(Console.ReadLine()))
             {
+                storeDB();
                 checkoutInstance.getBasket(fruitList);
             }
             checkoutInstance.calculateTotal(fruitList);
             Console.ReadKey();
+        }
+
+        private static void storeDB()
+        {
+            if (fruitList.Count > 0)
+            {
+                foreach (Fruit fruit in fruitList)
+                {
+                    dbInstance.storeFruit(fruit);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Basket is empty.");
+            }
+            
         }
 
         private static char[] split; //stores the split characters from the console
