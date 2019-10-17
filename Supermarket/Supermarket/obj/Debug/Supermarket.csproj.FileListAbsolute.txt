@@ -12,3 +12,8 @@ C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\o
 C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\obj\Debug\Supermarket.exe
 C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\obj\Debug\Supermarket.pdb
 C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\obj\Debug\Supermarket.csprojAssemblyReference.cache
+C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\bin\Debug\EntityFramework.dll
+C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\bin\Debug\EntityFramework.xml
+C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\ufoolat\Documents\Graduate Training Programme\Supermarket\Supermarket\obj\Debug\Supermarket.csproj.CopyComplete

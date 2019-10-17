@@ -21,9 +21,13 @@ namespace Supermarket
         {
             cost = 0.50;
         }
+        public override void setFruitName()
+        {
+            fruitName = "Apple";
+        }
         public override string getFruitName()
         {
-            return "Apple";
+            return fruitName;
         }
 
         public override double getCost()
