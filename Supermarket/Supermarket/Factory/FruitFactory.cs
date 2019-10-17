@@ -27,25 +27,24 @@ namespace Supermarket
                 return Instance;
             }
         }
-        //public static Director directorInstance { get { return Director.getInstance; } }
+        public static Director directorInstance { get { return Director.getInstance; } }
 
         public override Fruit getFruit(FruitTypes type)
         {
-            IFruitBuilder builder = new ConcreteBuilder();
             Fruit fruit = null;
             switch(type)
             {
                 case FruitTypes.Apple:
-                    builder.BuildApple();
-                    fruit = builder.GetFruit();
+                    directorInstance.Construct(new ConcreteBuilder(), "A");
+                    fruit = directorInstance.getFruit();
                     break;
                 case FruitTypes.Banana:
-                    builder.BuildBanana();
-                    fruit = builder.GetFruit();
+                    directorInstance.Construct(new ConcreteBuilder(), "B");
+                    fruit = directorInstance.getFruit();
                     break;
                 case FruitTypes.Orange:
-                    builder.BuildOrange();
-                    fruit = builder.GetFruit();
+                    directorInstance.Construct(new ConcreteBuilder(), "O");
+                    fruit = directorInstance.getFruit();
                     break;
                 default:
                     fruit = null;

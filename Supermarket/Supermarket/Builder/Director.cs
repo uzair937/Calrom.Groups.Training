@@ -34,9 +34,27 @@ namespace Supermarket
             }
         }
 
-        public void Construct(IFruitBuilder builder)
+        public void Construct(IFruitBuilder builder, string input)
         {
+            switch(input)
+            {
+                case "A":
+                    fruitBuilder.BuildApple();
+                    break;
+                case "B":
+                    fruitBuilder.BuildBanana();
+                    break;
+                case "O":
+                    fruitBuilder.BuildOrange();
+                    break;
+                default:
+                    break;
+            }
+        }
 
+        public Fruit getFruit()
+        {
+            return fruitBuilder.GetFruit();
         }
     }
 }

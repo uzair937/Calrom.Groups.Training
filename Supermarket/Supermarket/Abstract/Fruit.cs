@@ -17,4 +17,4 @@ namespace Supermarket
         public abstract bool checkStock();
         public abstract string getFruitName();
     }
-}
+} //inventory from XML maybe?
