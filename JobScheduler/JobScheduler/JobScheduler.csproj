@@ -43,9 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuilderLibrary\AbstractBuilder.cs" />
-    <Compile Include="BuilderLibrary\ConcreteBuilder.cs" />
-    <Compile Include="BuilderLibrary\Director.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="JobList.cs" />
     <Compile Include="MainScheduler.cs" />
