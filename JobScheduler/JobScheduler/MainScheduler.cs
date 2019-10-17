@@ -42,13 +42,13 @@ namespace JobScheduler
             var dbUpdate = new Thread(() => UpdateLocalDatabase(dbTools));
             var currentPriority = new PriorityEnum();
             exeRunning = false;
-            
+
             Director director = new Director();
             AbstractBuilder b1 = new ConcreteBuilderId();
 
             foreach (var job in db.Configuration.Jobs)
             {
-                string[] args = { job.Interval, job.JobId.ToString() };
+                string[] args = { job.JobId.ToString(), job.Interval };
                 director.Construct(b1, args);
                 JobList.Add(b1.GetResult());
             }
