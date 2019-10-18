@@ -8,7 +8,7 @@ namespace JobLibrary
 {
     public class EmailSubscription
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string EmailAddress { get; set; }
         public string LogLevel { get; set; }
         public List<int> JobIds { get; set; }

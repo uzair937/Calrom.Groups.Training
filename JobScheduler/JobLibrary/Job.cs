@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobLibrary
 {
@@ -35,7 +31,6 @@ namespace JobLibrary
             return "---JobId: " + Id + "\n" + "Interval: " + Interval + "\n" + "Enabled: " + Enabled + "\n" + "JobType: " + JobType + "\n" + "Path: " + Path + "\n" + "Arguments: " + Arguments + "\n" + "DateCreated: " + DateCreated + "\n" + "Priority: " + Priority;
         }
 
-        
     }
     public enum PriorityEnum { Low, Medium, High }
 }

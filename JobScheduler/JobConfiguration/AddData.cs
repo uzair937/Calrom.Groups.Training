@@ -29,7 +29,7 @@ namespace JobConfiguration
                                 .FirstOrDefault();
             var tempEmail = new EmailSubscription
             {
-                ID = EmailID,
+                Id = EmailID,
                 EmailAddress = entry
             };
             db.Configuration.Subscriptions.Add(tempEmail);

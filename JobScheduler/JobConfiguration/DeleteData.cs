@@ -10,6 +10,7 @@ namespace JobConfiguration
         {
             UpdateDb(db, dbTools);
         }
+
         public void UpdateDb(SchedulerDatabase db, GenericDatabaseTools dbTools)
         {
             Console.WriteLine("Remove -Job or -Email?");
