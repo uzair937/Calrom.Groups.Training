@@ -14,7 +14,6 @@ namespace Supermarket
         public static List<Fruit> fruitList = new List<Fruit>();
         public static FruitFactory factoryInstance { get { return FruitFactory.getInstance; } }
         public static Checkout checkoutInstance { get { return Checkout.getInstance; } }
-        public static FruitDB dbInstance { get { return FruitDB.getInstance; } }
         private static void Main(string[] args)
         {
             initialiseStore();
@@ -55,7 +54,7 @@ namespace Supermarket
             }
             if (string.IsNullOrEmpty(Console.ReadLine()))
             {
-                storeDB();
+                //storeDB();
                 checkoutInstance.getBasket(fruitList);
             }
             checkoutInstance.calculateTotal(fruitList);
@@ -66,9 +65,16 @@ namespace Supermarket
         {
             if (fruitList.Count > 0)
             {
+                FruitRepo fruitRepo = new FruitRepo();
+
                 foreach (Fruit fruit in fruitList)
                 {
-                    dbInstance.storeFruit(fruit);
+                    Random random = new Random();
+                    FruitDB fruitDB = new FruitDB();
+                    fruitDB.FruitID = random.Next();
+                    fruitDB.FruitName = fruit.fruitName;
+                    fruitDB.FruitCost = (float)fruit.cost;
+                    fruitRepo.Insert(fruitDB);
                 }
             }
             else

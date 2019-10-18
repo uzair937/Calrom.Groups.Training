@@ -35,15 +35,15 @@ namespace Supermarket
             switch(type)
             {
                 case FruitTypes.Apple:
-                    directorInstance.Construct(new ConcreteBuilder(), "A");
+                    directorInstance.Construct("A");
                     fruit = directorInstance.getFruit();
                     break;
                 case FruitTypes.Banana:
-                    directorInstance.Construct(new ConcreteBuilder(), "B");
+                    directorInstance.Construct("B");
                     fruit = directorInstance.getFruit();
                     break;
                 case FruitTypes.Orange:
-                    directorInstance.Construct(new ConcreteBuilder(), "O");
+                    directorInstance.Construct("O");
                     fruit = directorInstance.getFruit();
                     break;
                 default:

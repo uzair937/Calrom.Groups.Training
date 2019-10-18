@@ -21,7 +21,7 @@ namespace Supermarket
 
         public static bool isDiscounted<T>(this IList<T> costList) //generics
         {
-            if (costList.Count == 3 || costList.Count == 5)
+            if (costList.Count % 3 == 0 || costList.Count % 5 == 0)
             {
                 return true;
             }

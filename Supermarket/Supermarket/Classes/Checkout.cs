@@ -27,7 +27,7 @@ namespace Supermarket
                 return Instance;
             }
         }
-        public double totalCost;
+        public static double totalCost;
         public static bool checkDiscount(List<Fruit> fruitList) //discounts by 0.30 if 3 apples or 5 bananas
         {
             List<double> appleList = new List<double>();
@@ -62,17 +62,16 @@ namespace Supermarket
         public void getBasket(List<Fruit> fruitList)
         {
             Console.WriteLine("The items in your basket are: ");
+            RetrieveFruit retrieveFruit = new RetrieveFruit();
+            retrieveFruit.GetItem(fruitList);
 
-            foreach (Fruit fruit in fruitList) //goes through each list to return all the items which have been added
+            if (GroceryStock.vegList.Count > 0)
             {
-                Console.WriteLine((fruit.getFruitName().printBasket(fruit.getCost().ToString())));
-                totalCost += fruit.getCost(); //increments the total cost with the cost of each fruit
-                
-            }
-            foreach (Veg veg in GroceryStock.vegList)
-            {
-                Console.WriteLine(veg.vegName + " " + "£" + veg.cost);
-                totalCost += veg.cost;
+                foreach (Veg veg in GroceryStock.vegList)
+                {
+                    Console.WriteLine(veg.vegName + " " + "£" + veg.cost);
+                    totalCost += veg.cost;
+                }
             }
         }
 

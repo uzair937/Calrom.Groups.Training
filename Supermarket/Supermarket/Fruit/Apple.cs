@@ -10,6 +10,7 @@ namespace Supermarket
     {
         public Apple()
         {
+            setFruitName();
             setStock();
             setCost();
         }

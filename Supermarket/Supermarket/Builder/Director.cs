@@ -12,7 +12,7 @@ namespace Supermarket
 
         public Director(IFruitBuilder builder)
         {
-            fruitBuilder = builder;
+            this.fruitBuilder = builder;
         }
         private static Director Instance = null;
         private static readonly object padlock = new object();
@@ -34,7 +34,7 @@ namespace Supermarket
             }
         }
 
-        public void Construct(IFruitBuilder builder, string input)
+        public void Construct(string input)
         {
             switch(input)
             {

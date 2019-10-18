@@ -75,6 +75,9 @@
     <Compile Include="Repository\FruitDB.cs" />
     <Compile Include="Repository\FruitRepo.cs" />
     <Compile Include="Repository\IFruitRepo.cs" />
+    <Compile Include="Strategy\IRetrieveStrategy.cs" />
+    <Compile Include="Strategy\NoFruit.cs" />
+    <Compile Include="Strategy\RetrieveFruit.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -10,6 +10,7 @@ namespace Supermarket
     {
         public Banana()
         {
+            setFruitName();
             setStock();
             setCost();
         }
