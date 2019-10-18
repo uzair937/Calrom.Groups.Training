@@ -53,6 +53,16 @@
         <Priority>High</Priority>
       </Job>
       <Job>
+        <Id>6</Id>
+        <Interval>PT15S</Interval>
+        <Enabled>true</Enabled>
+        <JobType>jkl</JobType>
+        <Path>jkl</Path>
+        <Arguments>jkl</Arguments>
+        <DateCreated>2019-10-18T14:48:50.7262614+01:00</DateCreated>
+        <Priority>Low</Priority>
+      </Job>
+      <Job>
         <Id>7</Id>
         <Interval>PT20S</Interval>
         <Enabled>true</Enabled>
@@ -65,10 +75,10 @@
     </Jobs>
     <Subscriptions>
       <EmailSubscription>
-        <ID>0</ID>
+        <Id>0</Id>
         <EmailAddress>cmcginnes@calrom.com</EmailAddress>
         <LogLevel>Info</LogLevel>
-        <Ids>
+        <JobIds>
           <int>0</int>
           <int>2</int>
           <int>7</int>
@@ -76,7 +86,8 @@
           <int>4</int>
           <int>1</int>
           <int>3</int>
-        </Ids>
+          <int>6</int>
+        </JobIds>
       </EmailSubscription>
     </Subscriptions>
   </Configuration>

@@ -7,14 +7,12 @@ namespace JobConfiguration
 {
     public class AddData : IUpdateDb
     {
-        public AddData(SchedulerDatabase db)
+        public AddData(SchedulerDatabase db, GenericDatabaseTools dbTools)
         {
-            UpdateDb(db);
+            UpdateDb(db, dbTools);
         }
-        public void UpdateDb(SchedulerDatabase db)
+        public void UpdateDb(SchedulerDatabase db, GenericDatabaseTools dbTools)
         {
-            var dbFac = DatabaseFactory.GetFac();
-            var dbTools = dbFac.GetDatabase(DatabaseSelector.SQL);
             Console.WriteLine("Type -Job to add a Job or type -Email to add an EmailSubscription");
             var command = Console.ReadLine();
             if (command.Equals("job", StringComparison.OrdinalIgnoreCase)) AddJob(db);
@@ -26,8 +24,8 @@ namespace JobConfiguration
         {
             Console.WriteLine("Enter new user email");
             var entry = Console.ReadLine();
-            var EmailID = Enumerable.Range(0, int.MaxValue)
-                                .Except(db.Configuration.Subscriptions.Select(u => u.ID))
+            var EmailID = Enumerable.Range(1, int.MaxValue)
+                                .Except(db.Configuration.Subscriptions.Select(u => u.Id))
                                 .FirstOrDefault();
             var tempEmail = new EmailSubscription
             {
@@ -41,7 +39,7 @@ namespace JobConfiguration
         {
             var tempJob = new Job();
             var newJob = new string[7];
-            var jobNum = Enumerable.Range(0, int.MaxValue)
+            var jobNum = Enumerable.Range(1, int.MaxValue)
                                 .Except(db.Configuration.Subscriptions[0].JobIds)
                                 .FirstOrDefault();
             newJob[0] = jobNum.ToString();

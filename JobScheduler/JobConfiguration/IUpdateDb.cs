@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FactoryLibrary;
 using JobLibrary;
 
 namespace JobConfiguration
 {
     interface IUpdateDb
     {
-        void UpdateDb(SchedulerDatabase db);
+        void UpdateDb(SchedulerDatabase db, GenericDatabaseTools dbTools);
     }
 }

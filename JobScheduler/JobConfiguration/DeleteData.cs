@@ -6,14 +6,12 @@ namespace JobConfiguration
 {
     class DeleteData : IUpdateDb
     {
-        public DeleteData(SchedulerDatabase db)
+        public DeleteData(SchedulerDatabase db, GenericDatabaseTools dbTools)
         {
-            UpdateDb(db);
+            UpdateDb(db, dbTools);
         }
-        public void UpdateDb(SchedulerDatabase db)
+        public void UpdateDb(SchedulerDatabase db, GenericDatabaseTools dbTools)
         {
-            var dbFac = DatabaseFactory.GetFac();
-            var dbTools = dbFac.GetDatabase(DatabaseSelector.XML);
             Console.WriteLine("Remove -Job or -Email?");
             var entry = Console.ReadLine();
             if (entry.Equals("job", StringComparison.OrdinalIgnoreCase))

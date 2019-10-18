@@ -15,8 +15,7 @@ namespace JobConfiguration
 
         private void ConfigJobs()
         {
-            var dbFac = DatabaseFactory.GetFac();
-            var dbTools = dbFac.GetDatabase(DatabaseSelector.XML);
+            var dbTools = DatabaseFactory.GetFac().GetDatabase(DatabaseSelector.XML);
             var db = SchedulerDatabase.GetDb();
             db = dbTools.GetData();
             IUpdateDb updateDb;
@@ -31,11 +30,11 @@ namespace JobConfiguration
                 }
                 else if (entry.Equals("add", StringComparison.OrdinalIgnoreCase))
                 {
-                    updateDb = new AddData(db);
+                    updateDb = new AddData(db, dbTools);
                 }
                 else if (entry.Equals("delete", StringComparison.OrdinalIgnoreCase))
                 {
-                    updateDb = new DeleteData(db);
+                    updateDb = new DeleteData(db, dbTools);
                 }
                 else Console.WriteLine("Enter a valid command");
             }

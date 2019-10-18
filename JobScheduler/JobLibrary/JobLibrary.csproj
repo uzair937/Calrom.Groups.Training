@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="Subscriptions.cs" />
+    <Compile Include="EmailSubscription.cs" />
     <Compile Include="SchedulerDatabase.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
