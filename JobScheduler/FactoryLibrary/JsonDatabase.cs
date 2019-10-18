@@ -11,7 +11,7 @@ namespace FactoryLibrary
 {
     public class JsonDatabase : GenericDatabaseTools
     {
-        private const string jsonFileOut = "C:/Users/wbooth/Documents/JobTask/json-out.json";
+        private const string jsonFileOut = "C:/Users/wbooth/Documents/GraduateTrainingProgramme/Resources/json-out.json";
         public override bool AddData(SchedulerDatabase db)
         {
             try

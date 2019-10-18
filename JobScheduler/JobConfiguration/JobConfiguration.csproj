@@ -70,7 +70,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeleteData.cs" />
+    <Compile Include="AddData.cs" />
     <Compile Include="ConfigInterface.cs" />
+    <Compile Include="IUpdateDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

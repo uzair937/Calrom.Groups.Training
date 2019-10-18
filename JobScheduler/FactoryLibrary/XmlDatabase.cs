@@ -13,7 +13,7 @@ namespace FactoryLibrary
 {
     public class XmlDatabase : GenericDatabaseTools
     {
-        private const string xmlFileOut = "C:/Users/wbooth/source/repos/JobScheduler/Resources/db-out.xml";
+        private const string xmlFileOut = "C:/Users/wbooth/Documents/GraduateTrainingProgramme/Resources/db-out-og.xml";
         private readonly object threadLock = new object();
 
         public override bool AddData(SchedulerDatabase newData)
