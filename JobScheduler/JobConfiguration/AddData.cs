@@ -20,6 +20,7 @@ namespace JobConfiguration
             else Console.WriteLine("Enter a valid command");
             dbTools.AddData(db);
         }
+
         private void AddEmail(SchedulerDatabase db)
         {
             Console.WriteLine("Enter new user email");
