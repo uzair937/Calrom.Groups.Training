@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.IO;
-using System.Xml;
 using System.Threading;
 using JobLibrary;
 
@@ -16,17 +13,19 @@ namespace FactoryLibrary
         private const string xmlFileOut = "C:/Users/wbooth/source/repos/JobScheduler/Resources/db-out.xml";
         private readonly object threadLock = new object();
 
-        public override bool AddData(SchedulerDatabase newData)
+        public override bool AddData(List<IEntity>[] newData)
         {
             try
             {
                 using (FileStream fs = new FileStream(xmlFileOut, FileMode.Create))
                 {
-                    var serializer = new XmlSerializer(typeof(SchedulerDatabase));
-                    var sortedData = newData.Configuration.Jobs.OrderBy(job => job.JobId).ToList();
-                    newData.Configuration.Jobs = sortedData;
-                    serializer.Serialize(fs, newData);
-                    fs.Close();
+                    foreach (var data in newData)
+                    {
+                        var serializer = new XmlSerializer(typeof(List<IEntity>));
+                        var sortedData = data.OrderBy(a => a.Id).ToList();
+                        serializer.Serialize(fs, sortedData);
+                        fs.Close();
+                    }
                 }
                 return true;
             }
@@ -36,19 +35,19 @@ namespace FactoryLibrary
             }
         }
 
-        public override SchedulerDatabase GetData()
+        public override List<IEntity>[] GetData()
         {
             lock (threadLock)
             {
-                var jobDatabase = SchedulerDatabase.GetDb();
+                List<IEntity>[] jobDatabase;
                 do
                 {
                     try
                     {
-                        var serializer = new XmlSerializer(typeof(SchedulerDatabase));
+                        var serializer = new XmlSerializer(typeof(List<IEntity>[]));
                         using (FileStream fs = new FileStream(xmlFileOut, FileMode.Open))
                         {
-                            jobDatabase = (SchedulerDatabase)serializer.Deserialize(fs);
+                            jobDatabase = (List<IEntity>[])serializer.Deserialize(fs);
                             fs.Close();
                         }
                     }

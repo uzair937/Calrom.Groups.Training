@@ -1,14 +1,12 @@
-﻿using System;
+﻿
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace JobLibrary
 {
-    public class IEntity
+    public abstract class IEntity
     {
-        public int Id;
+        public abstract int Id { get; set; }
+        public abstract List<string> GetData();
+        public abstract void SetValues(List<string> args);
     }
 }

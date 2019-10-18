@@ -1,5 +1,4 @@
-﻿
-namespace FactoryLibrary
+﻿namespace FactoryLibrary
 {
     public class DatabaseFactory : AbstractFactory
     {

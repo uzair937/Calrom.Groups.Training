@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Xml;
 using JobLibrary;
 using FactoryLibrary;
@@ -32,7 +30,19 @@ namespace JobScheduler
             var dbTools = dbFac.GetDatabase(DatabaseSelector.XML);
             do
             {
-                db = dbTools.GetData();
+                var entities = dbTools.GetData();
+                foreach (var newJob in entities[0])
+                {
+                    var tempJob = new Job();
+                    tempJob.SetValues(newJob.GetData());
+                    db.Configuration.Jobs.Add(tempJob);
+                }
+                foreach (var newSub in entities[1])
+                {
+                    var tempSub = new EmailSubscription();
+                    tempSub.SetValues(newSub.GetData());
+                    db.Configuration.Subscriptions.Add(tempSub);
+                }
                 Thread.Sleep(2000);
                 Console.WriteLine(db.Configuration.Jobs.Count + " Jobs");
             } while (db == null || db.Configuration.Jobs.Count < 3);
@@ -50,7 +60,7 @@ namespace JobScheduler
                 {
                     JobTime = XmlConvert.ToTimeSpan(job.Interval),
                     JobQueue = XmlConvert.ToTimeSpan(job.Interval),
-                    JobId = job.JobId
+                    JobId = job.Id
                 });
             }
 
@@ -88,7 +98,7 @@ namespace JobScheduler
         {
             while (true)
             {
-                db = dbTools.GetData();
+                var db = dbTools.GetData();
                 Thread.Sleep(5000);
             }
         }
@@ -97,20 +107,20 @@ namespace JobScheduler
         {
             if (jobCount < db.Configuration.Jobs.Count)
             {
-                var newId = db.Configuration.Jobs.Select(a => a.JobId)
+                var newId = db.Configuration.Jobs.Select(a => a.Id)
                                 .Except(JobList.Select(a => a.JobId))
                                 .FirstOrDefault();
                 JobList.Add(new JobRunInfo
                 {
-                    JobQueue = XmlConvert.ToTimeSpan(db.Configuration.Jobs.First(a => a.JobId == newId).Interval),
-                    JobTime = XmlConvert.ToTimeSpan(db.Configuration.Jobs.First(a => a.JobId == newId).Interval),
+                    JobQueue = XmlConvert.ToTimeSpan(db.Configuration.Jobs.First(a => a.Id == newId).Interval),
+                    JobTime = XmlConvert.ToTimeSpan(db.Configuration.Jobs.First(a => a.Id == newId).Interval),
                     JobId = newId
                 });
             }
             else
             {
                 var oldId = JobList.Select(a => a.JobId)
-                                .Except(db.Configuration.Jobs.Select(a => a.JobId))
+                                .Except(db.Configuration.Jobs.Select(a => a.Id))
                                 .FirstOrDefault();
                 JobList.Remove(JobList.First(a => a.JobId == oldId));
             }
@@ -131,6 +141,10 @@ namespace JobScheduler
                 Console.WriteLine("Priority " + priority + ": Job " + id + " Done!");
                 exeRunning = false;
             }
+        }
+        private SchedulerDatabase SetupDatabase()
+        {
+            return null;
         }
 
         private void TimeKeeper(GenericDatabaseTools dbTools)
@@ -156,7 +170,7 @@ namespace JobScheduler
                 catch
                 {
                     Console.WriteLine("Sleep Failed");
-                    db = dbTools.GetData();
+                    db = SetupDatabase();
                     if (jobCount != db.Configuration.Jobs.Count) ManageJobs();
                 }
                 for (int t = 0; t < jobCount; t++)
@@ -177,7 +191,7 @@ namespace JobScheduler
                     {
                         Console.WriteLine("Append Queue Failed");
                         t--;
-                        db = dbTools.GetData();
+                        db = SetupDatabase();
                         if (jobCount != db.Configuration.Jobs.Count) ManageJobs();
                     }
                 }
@@ -193,8 +207,8 @@ namespace JobScheduler
             "~This is an extension method~".Print();
             db.Configuration.Subscriptions.FirstandLast().Print();
             "~This is an extension method~".Print();
-            JobList[0].JobId.AddToSelf(" is the first").Print();
-            JobList[JobList.Count - 1].JobId.AddToSelf(" is the last").Print();
+            JobList[0].Id.AddToSelf(" is the first").Print();
+            JobList[JobList.Count - 1].Id.AddToSelf(" is the last").Print();
             "~This is an extension method~".Print();
         }
         private void ExecuteJob(Job job)

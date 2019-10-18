@@ -58,7 +58,7 @@
     <Compile Include="IEntity.cs" />
     <Compile Include="IDatabaseRepos.cs" />
     <Compile Include="JobRepository.cs" />
-    <Compile Include="Subscriptions.cs" />
+    <Compile Include="EmailSubscription.cs" />
     <Compile Include="SchedulerDatabase.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,6 +66,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExtensionNamespace\ExtensionNamespace.csproj">
+      <Project>{92288c16-62d2-4c88-acc6-b3b6f0201874}</Project>
+      <Name>ExtensionNamespace</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

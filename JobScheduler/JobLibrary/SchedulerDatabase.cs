@@ -22,9 +22,4 @@ namespace JobLibrary
 
         public Config Configuration { get; set; }
     }
-
-    public class XmlTestDatabase
-    {
-        public Config Configuration { get; set; }
-    }
 }

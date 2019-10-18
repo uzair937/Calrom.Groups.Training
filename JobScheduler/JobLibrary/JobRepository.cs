@@ -39,7 +39,7 @@ namespace JobLibrary
 
         public Job FindById(int Id)
         {
-            var result = (from r in _jobContext.Jobs where r.JobId == Id select r).FirstOrDefault();
+            var result = (from r in _jobContext.Jobs where r.Id == Id select r).FirstOrDefault();
             return result;
         }
     }

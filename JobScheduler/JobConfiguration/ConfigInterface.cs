@@ -86,11 +86,11 @@ namespace JobConfiguration
             Console.WriteLine("Enter new user email");
             var entry = Console.ReadLine();
             var EmailID = Enumerable.Range(0, int.MaxValue)
-                                .Except(db.Configuration.Subscriptions.Select(u => u.ID))
+                                .Except(db.Configuration.Subscriptions.Select(u => u.Id))
                                 .FirstOrDefault();
             var tempEmail = new EmailSubscription
             {
-                ID = EmailID,
+                Id = EmailID,
                 EmailAddress = entry
             };
             db.Configuration.Subscriptions.Add(tempEmail);
