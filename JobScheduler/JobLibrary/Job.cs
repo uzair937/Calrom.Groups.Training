@@ -8,7 +8,7 @@ namespace JobLibrary
 {
     public class Job
     {
-        public int JobId { get; set; }
+        public int Id { get; set; }
         public string Interval { get; set; }
         public bool Enabled { get; set; }
         public string JobType { get; set; }
@@ -19,7 +19,7 @@ namespace JobLibrary
 
         public void SetValues(string[] args)
         {
-            JobId = int.Parse(args[0]);
+            Id = int.Parse(args[0]);
             Interval = args[1];
             if (args[2] == "Y") Enabled = true;
             else Enabled = false;
@@ -32,7 +32,7 @@ namespace JobLibrary
 
         public override string ToString()
         {
-            return "---JobId: " + JobId + "\n" + "Interval: " + Interval + "\n" + "Enabled: " + Enabled + "\n" + "JobType: " + JobType + "\n" + "Path: " + Path + "\n" + "Arguments: " + Arguments + "\n" + "DateCreated: " + DateCreated + "\n" + "Priority: " + Priority;
+            return "---JobId: " + Id + "\n" + "Interval: " + Interval + "\n" + "Enabled: " + Enabled + "\n" + "JobType: " + JobType + "\n" + "Path: " + Path + "\n" + "Arguments: " + Arguments + "\n" + "DateCreated: " + DateCreated + "\n" + "Priority: " + Priority;
         }
 
         

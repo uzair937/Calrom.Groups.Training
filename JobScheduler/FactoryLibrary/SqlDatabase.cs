@@ -18,7 +18,7 @@ namespace FactoryLibrary
                 {
                     foreach (var job in db.Configuration.Jobs)
                     {
-                        var JobAdded = SqlDb.JobDb.FirstOrDefault(f => f.JobId == job.JobId);
+                        var JobAdded = SqlDb.JobDb.FirstOrDefault(f => f.Id == job.Id);
                         if (JobAdded == null) SqlDb.JobDb.Add(job);
                     }
                     SqlDb.SaveChanges();

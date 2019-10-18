@@ -65,7 +65,7 @@ namespace JobConfiguration
                 var tempJobs = db.Configuration.Jobs;
                 var tempIds = db.Configuration.Subscriptions[0];
                 var ID = Convert.ToInt32(Console.ReadLine());
-                tempJobs.RemoveAll(a => a.JobId == ID);
+                tempJobs.RemoveAll(a => a.Id == ID);
                 tempIds.JobIds.RemoveAll(a => a == ID);
                 db.Configuration.Jobs = tempJobs;
                 db.Configuration.Subscriptions[0] = tempIds;

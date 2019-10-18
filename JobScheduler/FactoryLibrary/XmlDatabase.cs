@@ -23,7 +23,7 @@ namespace FactoryLibrary
                 using (FileStream fs = new FileStream(xmlFileOut, FileMode.Create))
                 {
                     var serializer = new XmlSerializer(typeof(SchedulerDatabase));
-                    var sortedData = newData.Configuration.Jobs.OrderBy(job => job.JobId).ToList();
+                    var sortedData = newData.Configuration.Jobs.OrderBy(job => job.Id).ToList();
                     newData.Configuration.Jobs = sortedData;
                     serializer.Serialize(fs, newData);
                     fs.Close();

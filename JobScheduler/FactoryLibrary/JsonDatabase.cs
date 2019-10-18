@@ -18,7 +18,7 @@ namespace FactoryLibrary
             {
                 using (var fs = new FileStream(jsonFileOut, FileMode.Create))
                 {
-                    var sortedData = db.Configuration.Jobs.OrderBy(job => job.JobId).ToList();
+                    var sortedData = db.Configuration.Jobs.OrderBy(job => job.Id).ToList();
                     db.Configuration.Jobs = sortedData;
                     var jsonData = JsonConvert.SerializeObject(db);
                     var info = new UTF8Encoding(true).GetBytes(jsonData);

@@ -48,7 +48,7 @@ namespace JobScheduler
 
             foreach (var job in db.Configuration.Jobs)
             {
-                string[] args = { job.JobId.ToString(), job.Interval };
+                string[] args = { job.Id.ToString(), job.Interval };
                 director.Construct(b1, args);
                 JobList.Add(b1.GetResult());
             }
@@ -96,20 +96,20 @@ namespace JobScheduler
         {
             if (jobCount < db.Configuration.Jobs.Count)
             {
-                var newId = db.Configuration.Jobs.Select(a => a.JobId)
+                var newId = db.Configuration.Jobs.Select(a => a.Id)
                                 .Except(JobList.Select(a => a.JobId))
                                 .FirstOrDefault();
                 JobList.Add(new JobRunInfo
                 {
-                    JobQueue = XmlConvert.ToTimeSpan(db.Configuration.Jobs.First(a => a.JobId == newId).Interval),
-                    JobTime = XmlConvert.ToTimeSpan(db.Configuration.Jobs.First(a => a.JobId == newId).Interval),
+                    JobQueue = XmlConvert.ToTimeSpan(db.Configuration.Jobs.First(a => a.Id == newId).Interval),
+                    JobTime = XmlConvert.ToTimeSpan(db.Configuration.Jobs.First(a => a.Id == newId).Interval),
                     JobId = newId
                 });
             }
             else
             {
                 var oldId = JobList.Select(a => a.JobId)
-                                .Except(db.Configuration.Jobs.Select(a => a.JobId))
+                                .Except(db.Configuration.Jobs.Select(a => a.Id))
                                 .FirstOrDefault();
                 JobList.Remove(JobList.First(a => a.JobId == oldId));
             }
@@ -192,8 +192,8 @@ namespace JobScheduler
             "~This is an extension method~".Print();
             db.Configuration.Subscriptions.FirstandLast().Print();
             "~This is an extension method~".Print();
-            JobList[0].JobId.AddToSelf(" is the first").Print();
-            JobList[JobList.Count - 1].JobId.AddToSelf(" is the last").Print();
+            JobList[0].Id.AddToSelf(" is the first").Print();
+            JobList[JobList.Count - 1].Id.AddToSelf(" is the last").Print();
             "~This is an extension method~".Print();
         }
         private void ExecuteJob(Job job)
