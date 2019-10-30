@@ -29,7 +29,7 @@ ToDoListApplication.prototype.itemAdded = function () {
 ToDoListApplication.prototype.itemRemoved = function () {
     var container = document.getElementById('container');
     var boxes = document.getElementsByName('checkbox');
-    var div = document.getElementsByClassName(elements.mainDiv);
+    var div = document.getElementsByClassName(this.elements.mainDiv);
 
     for (var i = 0; i < div.length; i++) {
         if (div[i].contains(boxes[i])) {
@@ -87,9 +87,7 @@ ToDoListForm.prototype.setupEvents = function () {
     var submit = document.getElementById('submitButton');
     submit.addEventListener('click', this.onSubmit.bind(this), false);
     var del = document.getElementById('deleteButton');
-    del.addEventListener('click', function () {
-        this.onDelete()
-    }, false);
+    del.addEventListener('click', this.onDelete.bind(this), false);
 };
 
 function ToDoListItem(app) {
@@ -152,6 +150,7 @@ ToDoListEditItemForm.prototype.render = function (item) {
         var edit = document.createElement('input');
         edit.type = 'text';
         edit.name = 'editBox';
+        edit.className = 'textInput'
         item.appendChild(edit);
     }
     window.addEventListener('keypress', function (event) {
