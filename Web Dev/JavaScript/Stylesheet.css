@@ -1,0 +1,44 @@
+body {
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    background: lightgrey;
+}
+
+.textInput {
+    height: 30px;
+    width: 55%;
+}
+
+.title {
+    flex-direction: row;
+    border: 5px solid grey;
+    margin: 5px;
+    background: white;
+}
+
+.container {
+    display: flex;
+    text-align: center;
+    margin: 0 auto;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+.todo {
+    flex-direction: column wrap;
+    text-align: left;
+    border-bottom: 5px solid grey;
+    height: 40px;
+    font-size: 20pt;
+    margin: 5px;
+    background: white;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.striked {
+    text-decoration: line-through;
+}

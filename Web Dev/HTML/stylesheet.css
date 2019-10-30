@@ -1,0 +1,42 @@
+body {
+    background: rgb(204,204,204); 
+  }
+
+  .A4 {
+    background: white;
+    width: 22cm;
+    height: 40cm;
+    display: block;
+    margin: 0 auto;
+    padding-left: 0.25cm;
+    margin-bottom: 0.5cm;
+    box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+    border: 1px solid #000;
+  }
+
+  @media print {
+    body, page[size="A4"] {
+      margin: 0;
+      box-shadow: 0;
+    }
+  }
+
+ .list {
+    list-style-type: none;
+}
+
+#from {
+  text-align: right;
+  display: block;
+  padding-right: 10px;
+}
+
+#to {
+  display: block;
+}
+
+.titles {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="En">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Login</title>
+        <link rel="stylesheet" type="text/css" href="styles2.css">
+    </head>
+    <body>
+        <div class="box">
+                <div><a href="DisplayAds.html">Click</a></div>
+            <h2 class="enter">Please enter your login details.</h2>
+            <div class = "username">
+                <p>Username: <input type="text" id="user"></p>
+            </div>
+            <div class = "password">
+                <p>Password: <input type="password" id="pass"></p>
+            </div>
+            <div class = "submitButton">
+                <button type="submit" onclick="myFunc()">Submit</button>
+            </div>
+        </div>
+        <script>
+            function hashPass(string) {
+                var hash = 0; 
+                if (string.length == 0) return hash; 
+                for (i = 0; i < string.length; i++) { 
+                    char = string.charCodeAt(i); 
+                    hash = ((hash << 10) - hash) + char; 
+                    hash = hash & hash; 
+                } 
+                return hash; 
+            }
+
+            function myFunc() {
+                var uInput = document.getElementById("user").value;
+                var pInput = document.getElementById("pass").value;
+                if (pInput != "") {
+                    var hash = hashPass(pInput);
+                }
+                if (uInput == "" || pInput == "") {
+                    alert("You need to enter a username and a password.");
+                } else {
+                    alert("You input: " + uInput + " " + hash);
+                }
+            }
+        </script>
+    </body>
+</html>

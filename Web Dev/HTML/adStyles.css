@@ -1,0 +1,177 @@
+html {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+body {
+    align-items: center;
+    text-align: center;
+    background-color: lightslategray;
+}
+
+.body-container {
+    max-width: 1300px;
+}
+
+.title {
+    display: flex;
+    font-size: 20px;
+    border: 3px solid grey;
+    margin: 0 auto;
+    justify-content: center;
+    background-color: black;
+    color: white;
+}
+
+.search {
+    width: 100%;
+    display: flex;
+}
+
+.searchBar {
+    height: 30px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    flex: 1 0 auto;
+}
+
+.submit {
+    height: 30px;
+    width: 150px;
+    font-size: 20px;
+}
+
+.ads {
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: row wrap;
+    padding: 20px 0;
+    border: 2px dashed black;
+}
+
+.link {
+    display: flex;
+    margin: 0;
+    font-size: 20px;
+    list-style-type: none;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    border: 2px dotted green;
+}
+
+.images {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin: 10px;
+    justify-content: space-evenly;
+    border: 1px solid black;
+    background-color: white;
+}
+
+.images::after {
+    content: "";
+    flex: 1;
+}
+
+.doge {
+    width: 200px;
+}
+
+.nav {
+    position: absolute;
+    background-color: white;
+    top: 50px;
+    right: 20px;
+}
+
+.favContainer {
+    display: flex;
+    flex-flow: column wrap;
+    border: 2px dashed black;
+    background-color: teal;
+}
+
+.container {
+    display: flex;
+    background-color: lightsteelblue;
+}
+
+.nav:hover {
+    background-color: teal;
+    transition: .5s ease;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .container {
+        flex-flow: column;
+        align-items: center;
+    }
+    .link {
+        flex-flow: column;
+    }
+    .linkContainer {
+        height: 80px;
+    }
+    .favContainer {
+        flex-flow: column wrap;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .container {
+        flex-flow: column;
+        align-items: center;
+    }
+    .link {
+        flex-flow: column;
+    }
+    .linkContainer {
+        height: 80px;
+    }
+    .favContainer {
+        flex-flow: row;
+        width: 100%;
+        height: 300px;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+    .container {
+        flex-flow: column;
+        align-items: center;
+    }
+    .favContainer {
+        flex-flow: row;
+        width: 100%;
+        height: 300px;
+    }
+}
+
+/* Large devices (laptops/desktops, 960px and up) */
+@media only screen and (min-width: 960px) {
+    .nav {
+        visibility: hidden;
+    }
+    .container {
+        flex-flow: row;
+        align-items: flex-start;
+    }
+    .link {
+        flex-flow: row;
+    }
+    .linkContainer {
+        height: 30px;
+    }
+    .favContainer {
+        flex-flow: row wrap;
+        width: 300px;
+        height: 100%;
+    }
+}
