@@ -1,0 +1,710 @@
+@media (min-width: 1550px){    
+    html{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    body {
+        background-color: cadetblue; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: auto;
+    }
+    .main-container{
+        background-color: cadetblue; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 1500px;
+        height: auto;
+    }
+    .accountButton{
+        border: 3px solid black;
+        background-color: azure;
+        text-align: center;
+        min-width: 100%;
+        min-height: 100%;
+        margin:0;
+        border: 3px;
+        font-size: x-large;
+    }
+    .accountButton:hover{
+        opacity: 0.8;
+    }
+    .flexShop{
+        display: flex;
+        flex-direction: row;
+        flex: 1 auto;
+        justify-content: center;
+        width: 1500px;
+        height: 100%;
+    }
+    .headerBar{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+        min-height: 10px;
+        margin-bottom: 10px;
+        border: 3px solid black;
+        box-sizing: border-box;
+        background-color: white;
+    }
+
+    .shopSection{
+        display: flex;
+        flex-direction: column;
+        flex: 1 auto;
+        height: 100%;
+    }
+    .shopFavs{
+        border: 3px solid black;
+        box-sizing: border-box;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        width: 550px;
+        height: 100%;
+        margin-left: 1%;
+        align-items: center;
+    }   
+    .shopFavs > h1{
+        margin:0;
+        border:0;
+    }
+    .shopTitle{
+        box-sizing: border-box;
+        border: 3px solid black;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: flex-start;
+    }   
+    .shopTitle > h1{
+        margin: 0;
+        border: 0;
+        flex: 1 auto;
+    }
+    .menuImage{
+        margin: 0;
+        width: 40px;
+    }
+    .menuImage:hover{
+        opacity: 0.5;
+    }
+    .basketContainer{
+        display: flex;
+        align-items: center;
+    }
+    .emptyAnchor{
+        position: relative;
+        width: 0;
+        height: 0;
+    }
+    .dropdownMenu{
+        position: absolute;
+        top: 20px;
+        right: -3px;
+        width: 250px;
+        height: auto;
+        box-sizing: border-box;
+        border: 3px solid black;
+        background-color: white;
+    }
+    .basketContainer .emptyAnchor{
+        display: none;
+    }
+    .basketContainer:hover .emptyAnchor{
+        display: inline;
+    }
+    .shopList{
+        box-sizing: border-box;
+        margin-top: 10px;
+        display: flex;
+        flex-flow: row wrap;
+        background-color: darkgrey;
+        border: 3px solid black;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+   
+    .itemImage{
+        height: 200px;
+    }
+
+    .itemBox{
+        width: auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        border: 3px solid black;
+        background-color: white; 
+        justify-content: flex-end;
+        padding: 0.5%;
+        margin: 1%;
+    }
+
+    .itemBox > div{
+        margin-top: .5em;
+        display: flex;
+        justify-content: flex-end;
+        padding: 0.5%;
+    }
+
+    .itemBox > button{
+        margin-top: 1em;
+        max-width: 100px;
+    }
+
+    .itemBox > button:hover{
+        opacity: 0.8;
+    }
+}
+
+@media (min-width: 950px) and (max-width: 1550px){    
+    html{
+        height: auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    body {
+        background-color: cadetblue; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: auto;
+    }
+    .main-container{
+        background-color: cadetblue; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 900px;
+        height: auto;
+    }
+
+    .accountButton{
+        border: 3px solid black;
+        background-color: azure;
+        text-align: center;
+        min-width: 100%;
+        min-height: 100%;
+        margin:0;
+        border: 3px;
+        font-size: x-large;
+    }
+    .accountButton:hover{
+        opacity: 0.8;
+    }
+    .flexShop{
+        display: flex;
+        flex-direction: column;
+        flex: 1 auto;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+    .headerBar{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+        min-height: 10px;
+        margin-bottom: 10px;
+        border: 3px solid black;
+        box-sizing: border-box;
+        background-color: white;
+    }
+
+    .shopSection{
+        display: flex;
+        flex-direction: column;
+        flex: 1 auto;
+        height: 100%;
+    }
+    .shopFavs{
+        border: 3px solid black;
+        box-sizing: border-box;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        margin-top: 1%;
+        align-items: center;
+    }   
+    .shopFavs > h1{
+        margin:0;
+        border:0;
+    }
+    .shopTitle{
+        box-sizing: border-box;
+        border: 3px solid black;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: flex-start;
+    }   
+    .shopTitle > h1{
+        margin: 0;
+        border: 0;
+        flex: 1 auto;
+    }
+    .menuImage{
+        margin: 0;
+        width: 40px;
+    }
+    .menuImage:hover{
+        opacity: 0.5;
+    }
+    .basketContainer{
+        display: flex;
+        align-items: center;
+    }
+    .emptyAnchor{
+        position: relative;
+        width: 0;
+        height: 0;
+    }
+    .dropdownMenu{
+        position: absolute;
+        top: 20px;
+        right: -3px;
+        width: 250px;
+        height: auto;
+        box-sizing: border-box;
+        border: 3px solid black;
+        background-color: white;
+    }
+    .favItemContainer{
+        display: flex;
+        flex-flow: row wrap;
+        width: 100%;
+        justify-content: center;
+    }
+    .basketContainer .emptyAnchor{
+        display: none;
+    }
+    .basketContainer:hover .emptyAnchor{
+        display: inline;
+    }
+    .shopList{
+        box-sizing: border-box;
+        margin-top: 10px;
+        display: flex;
+        flex-flow: row wrap;
+        background-color: darkgrey;
+        border: 3px solid black;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .itemImage{
+        height: 200px;
+        width: auto;
+    }
+
+    .itemBox{
+        width: auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        border: 3px solid black;
+        background-color: white; 
+        justify-content: flex-end;
+        padding: 0.5%;
+        margin: 1%;
+    }
+
+    .itemBox > div{
+        margin-top: .5em;
+        display: flex;
+        justify-content: flex-end;
+        padding: 0.5%;
+    }
+
+    .itemBox > button{
+        margin-top: 1em;
+        max-width: 100px;
+    }
+
+    .itemBox > button:hover{
+        opacity: 0.8;
+    }
+}
+
+@media (min-width: 630px) and (max-width: 950px){    
+    html{
+        height: auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    body {
+        background-color: cadetblue; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: auto;
+    }
+
+    .main-container{
+        background-color: cadetblue; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 600px;
+        height: auto;
+    }
+
+    .accountButton{
+        border: 3px solid black;
+        background-color: azure;
+        text-align: center;
+        min-width: 100%;
+        min-height: 100%;
+        margin:0;
+        border: 3px;
+        font-size: x-large;
+    }
+    .accountButton:hover{
+        opacity: 0.8;
+    }
+    .flexShop{
+        display: flex;
+        flex-direction: column;
+        flex: 1 auto;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+    .headerBar{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+        min-height: 10px;
+        margin-bottom: 10px;
+        border: 3px solid black;
+        box-sizing: border-box;
+        background-color: white;
+    }
+
+    .shopSection{
+        display: flex;
+        flex-direction: column;
+        flex: 1 auto;
+        height: 100%;
+    }
+    .shopFavs{
+        border: 3px solid black;
+        box-sizing: border-box;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        margin-top: 1%;
+        align-items: center;
+    }   
+    .shopFavs > h1{
+        margin:0;
+        border:0;
+    }
+    .shopTitle{
+        box-sizing: border-box;
+        border: 3px solid black;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: flex-start;
+    }   
+    .shopTitle > h1{
+        margin: 0;
+        border: 0;
+        flex: 1 auto;
+    }
+    .menuImage{
+        margin: 0;
+        width: 40px;
+    }
+    .menuImage:hover{
+        opacity: 0.5;
+    }
+    .basketContainer{
+        display: flex;
+        align-items: center;
+    }
+    .emptyAnchor{
+        position: relative;
+        width: 0;
+        height: 0;
+    }
+    .dropdownMenu{
+        position: absolute;
+        top: 20px;
+        right: -3px;
+        width: 250px;
+        height: auto;
+        box-sizing: border-box;
+        border: 3px solid black;
+        background-color: white;
+    }
+    .favItemContainer{
+        display: flex;
+        flex-flow: row wrap;
+        width: 100%;
+        justify-content: center;
+    }
+    .basketContainer .emptyAnchor{
+        display: none;
+    }
+    .basketContainer:hover .emptyAnchor{
+        display: inline;
+    }
+    .shopList{
+        box-sizing: border-box;
+        margin-top: 10px;
+        display: flex;
+        flex-flow: row wrap;
+        background-color: darkgrey;
+        border: 3px solid black;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .itemImage{
+        height: 200px;
+        width: auto;
+    }
+
+    .itemBox{
+        width: auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        border: 3px solid black;
+        background-color: white; 
+        justify-content: flex-end;
+        padding: 0.5%;
+        margin: 1%;
+    }
+
+    .itemBox > div{
+        margin-top: .5em;
+        display: flex;
+        justify-content: flex-end;
+        padding: 0.5%;
+    }
+
+    .itemBox > button{
+        margin-top: 1em;
+        max-width: 100px;
+    }
+
+    .itemBox > button:hover{
+        opacity: 0.8;
+    }
+}
+@media (max-width: 630px){    
+    html{
+        height: auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    body {
+        background-color: cadetblue; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: auto;
+    }
+    .main-container{
+        background-color: cadetblue; 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: auto;
+    }
+    .accountButton{
+        border: 3px solid black;
+        background-color: azure;
+        text-align: center;
+        min-width: 100%;
+        min-height: 100%;
+        margin:0;
+        border: 3px;
+        font-size: x-large;
+    }
+    .accountButton:hover{
+        opacity: 0.8;
+    }
+    .flexShop{
+        display: flex;
+        flex-direction: column;
+        flex: 1 auto;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+    .headerBar{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        width: 100%;
+        min-height: 10px;
+        margin-bottom: 10px;
+        border: 3px solid black;
+        box-sizing: border-box;
+        background-color: white;
+    }
+
+    .shopSection{
+        display: flex;
+        flex-direction: column;
+        flex: 1 auto;
+        height: 100%;
+    }
+    .shopFavs{
+        border: 3px solid black;
+        box-sizing: border-box;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        margin-top: 1%;
+        align-items: center;
+    }   
+    .shopFavs > h1{
+        margin:0;
+        border:0;
+    }
+    .shopTitle{
+        box-sizing: border-box;
+        border: 3px solid black;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: flex-start;
+    }   
+    .shopTitle > h1{
+        margin: 0;
+        border: 0;
+        flex: 1 auto;
+    }
+    .menuImage{
+        margin: 0;
+        width: 40px;
+    }
+    .menuImage:hover{
+        opacity: 0.5;
+    }
+    .basketContainer{
+        display: flex;
+        align-items: center;
+    }
+    .emptyAnchor{
+        position: relative;
+        width: 0;
+        height: 0;
+    }
+    .dropdownMenu{
+        position: absolute;
+        top: 20px;
+        right: -3px;
+        width: 250px;
+        height: auto;
+        box-sizing: border-box;
+        border: 3px solid black;
+        background-color: white;
+    }
+    .favItemContainer{
+        display: flex;
+        flex-flow: row wrap;
+        width: auto;
+        justify-content: center;
+    }
+    .basketContainer .emptyAnchor{
+        display: none;
+    }
+    .basketContainer:hover .emptyAnchor{
+        display: inline;
+    }
+    .shopList{
+        box-sizing: border-box;
+        margin-top: 10px;
+        display: flex;
+        flex-flow: row wrap;
+        background-color: darkgrey;
+        border: 3px solid black;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .itemImage{
+        height: 200px;
+        width: auto;
+    }
+
+    .itemBox{
+        width: auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        border: 3px solid black;
+        background-color: white; 
+        justify-content: flex-end;
+        padding: 0.5%;
+        margin: 1%;
+    }
+
+    .itemBox > div{
+        margin-top: .5em;
+        display: flex;
+        justify-content: flex-end;
+        padding: 0.5%;
+    }
+
+    .itemBox > button{
+        margin-top: 1em;
+        max-width: 100px;
+    }
+
+    .itemBox > button:hover{
+        opacity: 0.8;
+    }
+}

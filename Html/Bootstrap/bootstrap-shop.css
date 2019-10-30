@@ -1,0 +1,48 @@
+    html{
+        height: 100%;
+        width: 100%;
+    }
+
+    body{
+        background-color: black; 
+        width: 100%;
+        height: auto;
+    }
+
+    .row{
+        border: 3px solid red;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        
+    }
+
+    .item-container{
+        display: flex;
+        justify-content: center;
+        flex-flow: wrap row;
+    }
+
+    .item-box{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        border: 3px solid green;
+        box-sizing: border-box;
+        margin: 5px;
+    }
+
+    .col-xl-3{
+        border: 3px solid blue;
+        box-sizing: border-box;
+        text-align: center;
+    }
+    .col-xl-9{
+        border: 3px solid blue;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .item-image{
+        width: 200px;
+        height: 200px;
+    }

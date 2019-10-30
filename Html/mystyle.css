@@ -1,0 +1,44 @@
+
+    body {
+        min-width: 600px;
+        background-color: cadetblue; 
+        border-left: 10px;
+        border-right: 10px;
+    }
+
+    .sender-column {
+        text-align: right;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    h2 {
+        font-size: 1.3em;
+    }
+
+    p,
+    li,
+    ul,
+    ol,
+    dl,
+    address {
+        font-size: 1.1em;
+    }
+
+    p,
+    li,
+    dd,
+    dt,
+    address {
+        line-height: 1.5;
+    }
+
+    .Flex-Container{
+        display: flex;
+    }
+
+    .Flex-Example {
+        flex: 2 1 auto;
+    }

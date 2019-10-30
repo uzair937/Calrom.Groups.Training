@@ -1,0 +1,434 @@
+@media (min-width: 0) {
+  html {
+    height: auto;
+    width: auto;
+  }
+  body {
+    background-color: brown;
+    height: auto;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+  }
+  .fence-left {
+    height: 900px;
+    width: 20px;
+    background-color: burlywood;
+    border: 1px solid black;
+    box-sizing: border-box;
+    margin-right: 5px;
+  }
+  .fence-right {
+    height: 900px;
+    width: 20px;
+    background-color: burlywood;
+    border: 1px solid black;
+    box-sizing: border-box;
+    margin-left: 5px;
+  }
+  .container-main {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .container-header {
+    width: 100%;
+    height: auto;
+    border: 3px solid black;
+    box-sizing: border-box;
+    text-align: end;
+    background-color: pink;
+    position: sticky;
+    top: 0;
+  }
+  .container-header > h1 {
+    margin: 0;
+    margin-right: 10px;
+  }
+  .container-nav {
+    margin-top: 10px;
+    width: 100%;
+    height: auto;
+    position: sticky;
+    top: 40px;
+    border: 3px solid black;
+    box-sizing: border-box;
+    text-align: center;
+    background-color: purple;
+  }
+  .container-nav > h1 {
+    margin: 0;
+  }
+  .buy-carrots {
+    display: none;
+  }
+}
+@media (max-width: 550px) {
+  .container-main {
+    width: 450px;
+  }
+  .fence-left {
+    display: none;
+  }
+  .fence-right {
+    display: none;
+  }
+  .shop {
+    border: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    background-color: green;
+  }
+  .shop-main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 3px solid black;
+    box-sizing: border-box;
+  }
+  .shop-main-title {
+    height: auto;
+    text-align: center;
+  }
+  .shop-main-title > h1 {
+    margin: 0;
+  }
+  .shop-main-body {
+    height: auto;
+    justify-content: center;
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .shop-fav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  .shop-fav-title {
+    height: auto;
+    text-align: center;
+  }
+  .shop-fav-title > h1 {
+    margin: 0;
+  }
+  .shop-fav-body {
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .shop-item-img {
+    width: 200px;
+    height: 200px;
+  }
+  .shop-item-container {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    border: 3px solid black;
+    background-color: brown;
+    box-sizing: border-box;
+  }
+  .shop-item-btn {
+    width: 30%;
+    height: auto;
+  }
+}
+@media (min-width: 550px) and (max-width: 750px) {
+  .container-main {
+    width: 450px;
+  }
+  .shop {
+    border: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    background-color: green;
+  }
+  .shop-main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 3px solid black;
+    box-sizing: border-box;
+  }
+  .shop-main-title {
+    height: auto;
+    text-align: center;
+  }
+  .shop-main-title > h1 {
+    margin: 0;
+  }
+  .shop-main-body {
+    height: auto;
+    justify-content: center;
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .shop-fav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  .shop-fav-title {
+    height: auto;
+    text-align: center;
+  }
+  .shop-fav-title > h1 {
+    margin: 0;
+  }
+  .shop-fav-body {
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .shop-item-img {
+    width: 200px;
+    height: 200px;
+  }
+  .shop-item-container {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    border: 3px solid black;
+    background-color: brown;
+    box-sizing: border-box;
+  }
+  .shop-item-btn {
+    width: 30%;
+    height: auto;
+  }
+}
+@media (min-width: 750px) and (max-width: 950px) {
+  .container-main {
+    width: 700px;
+  }
+  .shop {
+    border: 3px solid black;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    background-color: green;
+  }
+  .shop-main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 3px solid black;
+    box-sizing: border-box;
+  }
+  .shop-main-title {
+    height: auto;
+    text-align: center;
+  }
+  .shop-main-title > h1 {
+    margin: 0;
+  }
+  .shop-main-body {
+    height: auto;
+    justify-content: center;
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .shop-fav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  .shop-fav-title {
+    height: auto;
+    text-align: center;
+  }
+  .shop-fav-title > h1 {
+    margin: 0;
+  }
+  .shop-fav-body {
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .shop-item-img {
+    width: 200px;
+    height: 200px;
+  }
+  .shop-item-container {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    border: 3px solid black;
+    background-color: brown;
+    box-sizing: border-box;
+  }
+  .shop-item-btn {
+    width: 30%;
+    height: auto;
+  }
+}
+@media (min-width: 950px) and (max-width: 2500px) {
+  .container-main {
+    width: 900px;
+  }
+  .shop {
+    border: 3px solid black;
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    background-color: green;
+  }
+  .shop-main {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    border-right: 3px solid black;
+    box-sizing: border-box;
+  }
+  .shop-main-title {
+    height: auto;
+    text-align: center;
+  }
+  .shop-main-title > h1 {
+    margin: 0;
+  }
+  .shop-main-body {
+    height: auto;
+    justify-content: center;
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .shop-fav {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  .shop-fav-title {
+    height: auto;
+    text-align: center;
+  }
+  .shop-fav-title > h1 {
+    margin: 0;
+  }
+  .shop-fav-body {
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .shop-item-img {
+    width: 200px;
+    height: 200px;
+  }
+  .shop-item-container {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    border: 3px solid black;
+    background-color: brown;
+    box-sizing: border-box;
+  }
+  .shop-item-btn {
+    width: 30%;
+    height: auto;
+  }
+}
+@media (min-width: 2500px) {
+  .container-main {
+    display: none;
+  }
+  .buy-carrots {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+  .shop {
+    border: 3px solid black;
+    display: none;
+    flex-direction: row;
+    margin-top: 10px;
+    background-color: green;
+  }
+  .shop-main {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    border-right: 3px solid black;
+    box-sizing: border-box;
+  }
+  .shop-main-title {
+    height: auto;
+    text-align: center;
+  }
+  .shop-main-title > h1 {
+    margin: 0;
+  }
+  .shop-main-body {
+    height: auto;
+    justify-content: center;
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .shop-fav {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  .shop-fav-title {
+    height: auto;
+    text-align: center;
+  }
+  .shop-fav-title > h1 {
+    margin: 0;
+  }
+  .shop-fav-body {
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .shop-item-img {
+    width: 200px;
+    height: 200px;
+  }
+  .shop-item-container {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    border: 3px solid black;
+    background-color: brown;
+    box-sizing: border-box;
+  }
+  .shop-item-btn {
+    width: 30%;
+    height: auto;
+  }
+}
