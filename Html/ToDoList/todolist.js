@@ -19,7 +19,6 @@ TaskBuilder.prototype.createCheckbox = function () {
 }
 
 TaskBuilder.prototype.createContainer = function () {
-    var taskManager = new TaskManager();
     var li = document.createElement("div");
     li.setAttribute("draggable", "true");
     li.setAttribute("id", "box" + window.checkNum);
@@ -100,7 +99,7 @@ EventManager.prototype.addListeners = function (li) {
         var taskEditor = new TaskEditor();
         eC = li.firstChild;
         var eT = li.getElementsByClassName('task-text')[0];
-        eC.addEventListener("click", checkBox);
+        eC.addEventListener("click", this.checkBox);
         eT.addEventListener("click", taskEditor.textToInput);
         dragManager.addDnDHandlers(li);
     }
@@ -112,6 +111,36 @@ EventManager.prototype.escapeEdit = function () {
         eT.setAttribute("style", "display: block;");
         event.currentTarget.parentNode.getElementsByClassName("edit-form")[0].remove();
     }
+}
+
+EventManager.prototype.checkBox = function () {
+    var li = event.currentTarget.parentNode;
+    var textnode = li.getElementsByClassName("task-text")[0];
+    var ts = document.createElement("s");
+    var inner = document.createTextNode(textnode.innerText);
+    li.setAttribute("class", "deletable");
+    textnode.innerText = "";
+    ts.appendChild(inner);
+    textnode.appendChild(ts);
+    eC = li.firstChild;
+    eC.removeEventListener("click", this.checkBox);
+    eC.addEventListener("click", this.unCheckBox);
+}
+
+EventManager.prototype.unCheckBox = function () {
+    var li = event.currentTarget.parentNode;
+    var check = document.createElement('input');
+    var textnode = li.getElementsByClassName("task-text")[0];
+    var inner = document.createTextNode(textnode.firstChild.innerText);
+    li.setAttribute("class", "");
+    textnode.innerText = "";
+    textnode.appendChild(inner);
+    li.firstChild.remove();
+    check.setAttribute("type", "checkbox");
+    li.insertBefore(check, textnode);
+    eC = li.firstChild;
+    eC.removeEventListener("click", this.unCheckBox);
+    eC.addEventListener("click", this.checkBox);
 }
 
 function DragManager() { }
@@ -197,8 +226,9 @@ TaskEditor.prototype.inputToText = function () {
 function EditManager() { }
 
 EditManager.prototype.removeOldInput = function (li) {
+    var eventManager = new EventManager();
     li.getElementsByClassName("edit-form")[0].remove();
-    if (li.className === "deletable") checkBox();
+    if (li.className === "deletable") eventManager.checkBox();
 }
 
 EditManager.prototype.createNewTask = function () {
@@ -239,34 +269,4 @@ EditManager.prototype.createEditInput = function () {
     formInput.appendChild(editInput);
     eT.setAttribute("style", "display: none;");
     return formInput;
-}
-
-function checkBox() {
-    var li = event.currentTarget.parentNode;
-    var textnode = li.getElementsByClassName("task-text")[0];
-    var ts = document.createElement("s");
-    var inner = document.createTextNode(textnode.innerText);
-    li.setAttribute("class", "deletable");
-    textnode.innerText = "";
-    ts.appendChild(inner);
-    textnode.appendChild(ts);
-    eC = li.firstChild;
-    eC.removeEventListener("click", checkBox);
-    eC.addEventListener("click", unCheckBox);
-}
-
-function unCheckBox() {
-    var li = event.currentTarget.parentNode;
-    var check = document.createElement('input');
-    var textnode = li.getElementsByClassName("task-text")[0];
-    var inner = document.createTextNode(textnode.firstChild.innerText);
-    li.setAttribute("class", "");
-    textnode.innerText = "";
-    textnode.appendChild(inner);
-    li.firstChild.remove();
-    check.setAttribute("type", "checkbox");
-    li.insertBefore(check, textnode);
-    eC = li.firstChild;
-    eC.removeEventListener("click", unCheckBox);
-    eC.addEventListener("click", checkBox);
 }
