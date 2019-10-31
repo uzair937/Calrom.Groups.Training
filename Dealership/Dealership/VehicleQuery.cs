@@ -43,7 +43,7 @@ namespace Dealership
         //    return cars; 
         //}
 
-        public Car getting(List<Car> listofcars)
+        public Car MileageOrder(List<Car> listofcars)
         {
             var orderedList = listofcars.OrderBy(m => m.Mileage).ToList();
             var car = orderedList.Last();

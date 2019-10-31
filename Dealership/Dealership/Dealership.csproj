@@ -45,7 +45,12 @@
     <Compile Include="Audi.cs" />
     <Compile Include="BMW.cs" />
     <Compile Include="BuyerDetails.cs" />
+    <Compile Include="CarBuilder.cs" />
     <Compile Include="CarFactory.cs" />
+    <Compile Include="CarStrategy\AddCar.cs" />
+    <Compile Include="CarStrategy\CalculateTotalCarPrice.cs" />
+    <Compile Include="CarStrategy\RemoveCar.cs" />
+    <Compile Include="IManagingCars.cs" />
     <Compile Include="Mercedes.cs" />
     <Compile Include="RR.cs" />
     <Compile Include="Tesla.cs" />
@@ -65,5 +70,6 @@
       <Name>Extensions</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

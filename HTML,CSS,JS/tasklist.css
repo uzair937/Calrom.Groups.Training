@@ -1,0 +1,89 @@
+html,body {
+    height: 100%;
+    width: 100%;
+
+}
+
+body {
+    background-color: cornflowerblue;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    font-weight: bold;
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.BothContainers {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.AddingTask {
+    width: 100%;
+    height: 150px;
+    text-align: center;
+    background-color: grey;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    border: 5px solid black;
+    box-sizing: border-box;
+
+}
+
+.newForm {
+    margin-top: 62.5px;
+    margin-left: 3px;
+
+}
+
+.task-box {
+    max-width: 100%;
+    background-color: white;
+    border: 3px solid black;
+    display: flex;
+    margin-left: 5px;
+    margin-right: 5px;
+    
+}
+
+
+.task-box-deletable {
+    max-width: 100%;
+    background-color: white;
+    border: 3px solid black;
+    display: flex;
+    margin-left: 5px;
+    margin-right: 5px;
+    
+}
+
+#ListofTasks {
+    width: 100%;
+    height: 100%;
+    background-color: green;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    border: 5px solid black;
+    box-sizing: border-box;
+
+}
+
+.listtitle {
+    text-align: center;
+    background-color: green;
+}
+
+#task-text{
+    margin-bottom: 5px;
+}
+
+
+
+

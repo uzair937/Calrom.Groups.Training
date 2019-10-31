@@ -8,12 +8,12 @@ namespace Dealership
 {
     public class BuyerDetails
     {
-        public string Buyer { get; set; } 
+        public string BuyerName { get; set; } 
         public string CarRegistration { get; set; }
 
         public override string ToString()
         {
-            return $" {this.Buyer} {this.CarRegistration}";
+            return $" {this.BuyerName} {this.CarRegistration}";
         }
     }
 }

@@ -21,6 +21,14 @@ namespace Dealership
         static void Main(string[] args)
         {
 
+            List<Cars> listofcar = new List<Cars>();
+            listofcar.Add(Cars.Mercedes);
+            listofcar.Add(Cars.BMW);
+            listofcar.Add(Cars.Audi);
+            listofcar.Add(Cars.RR);
+            listofcar.Add(Cars.Tesla);
+            listofcar.Add(Cars.Volkswagen);
+
             //List<Car> listofcars = new List<Car>();
             //RetrieveCar retrieveCar = new RetrieveCar();
             //var retcar1 = retrieveCar.GetCar1();
@@ -47,17 +55,23 @@ namespace Dealership
             //    Console.WriteLine(item.ToString());
             //}
 
-            //var carWithMaxMileage = vehicleQuery.getting(listofcars);
+            //var carWithMaxMileage = vehicleQuery.MileageOrder(listofcars);
             //Console.WriteLine(carWithMaxMileage.ToString());
 
             //carWithMaxMileage.GetMaxMileage();
-            
+
             var bmw = CarFactory.CreateCar(Cars.BMW);
             var mercedes = CarFactory.CreateCar(Cars.Mercedes);
             var audi = CarFactory.CreateCar(Cars.Audi);
             var getRR = CarFactory.CreateCar(Cars.RR);
             var tesla = CarFactory.CreateCar(Cars.Tesla);
             var VW = CarFactory.CreateCar(Cars.Volkswagen);
+
+
+            foreach (var carlist in listofcar)
+            {
+                Console.WriteLine(carlist.ToString());
+            }
 
             Console.ReadKey();
          
