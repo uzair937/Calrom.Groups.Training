@@ -19,7 +19,7 @@ export class ToDoListItem extends React.Component {
 
     render() {
         if (this.state.editing) {
-            return <form onSubmit={(e) => this.handleEdit(e)}><input type='text' onChange={(e) => this.onChange(e)} value={this.props.itemValue} className='textInput' /></form>
+            return <form onSubmit={(e) => this.handleEdit(e)}><input type='text' onChange={(e) => this.onChange(e)} value={this.state.text} className='textInput' placeholder={this.props.itemValue} /></form>
         } else {
             return <li onClick={(e) => this.handleEdit(e)}>
                 <checkbox className='checkbox'></checkbox>
