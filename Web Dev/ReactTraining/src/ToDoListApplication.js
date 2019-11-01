@@ -26,22 +26,12 @@ export class ToDoListApplication extends React.Component {
         });
     }
 
-    onValueDeleted(key) {
-        var array = this.state.items;
-        array.splice(key);
-
-        this.setState({
-            items: array
-        });
-    }
-
     render() {
         return <div>
             <ToDoListForm formSubmitted={(text) => this.onFormSubmit(text)} />
 
             {this.state.items.map((item, index) => {
-                return <ToDoListItem formSubmitted={(text, key) => this.onFormEdit(text, key)} itemValue={item} key={index} value={index} />,
-                <ToDoListItem deleteValue={(key) => this.onValueDeleted(key)} itemValue={item} key={index} value={index} />
+                return <ToDoListItem formSubmitted={(text, key) => this.onFormEdit(text, key)} itemValue={item} key={index} value={index} />
             })}
         </div>
     }
