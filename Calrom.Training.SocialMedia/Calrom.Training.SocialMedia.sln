@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29418.71
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calrom.Training.SocialMedia.Web", "Calrom.Training.SocialMedia.Web\Calrom.Training.SocialMedia.Web.csproj", "{F8D34DC7-8D92-4C61-8A66-703FA803AD52}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F8D34DC7-8D92-4C61-8A66-703FA803AD52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8D34DC7-8D92-4C61-8A66-703FA803AD52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8D34DC7-8D92-4C61-8A66-703FA803AD52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8D34DC7-8D92-4C61-8A66-703FA803AD52}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CC8C828A-C8AE-4384-BE0F-B367FAD373DB}
+	EndGlobalSection
+EndGlobal
