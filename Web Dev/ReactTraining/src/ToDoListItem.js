@@ -22,9 +22,9 @@ export class ToDoListItem extends React.Component {
             return <form onSubmit={(e) => this.handleEdit(e)}><input type='text' onChange={(e) => this.onChange(e)} value={this.state.text} className='textInput' placeholder={this.props.itemValue} /></form>
         } else {
             return <li onClick={(e) => this.handleEdit(e)}>
-                    {this.props.itemValue}
-                    <button onClick={(e) => this.handleDelete(e)}>X</button>
-                </li>
+                <checkbox className='checkbox'></checkbox>
+                {this.props.itemValue}
+            </li>
         }
     }
 
@@ -40,10 +40,5 @@ export class ToDoListItem extends React.Component {
                 editing: true
             });
         }
-    }
-
-    handleDelete(e) {
-        e.preventDefault();
-        this.props.deleteValue(this.props.value);
     }
 }
