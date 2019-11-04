@@ -1,0 +1,18 @@
+﻿@model Calrom.Training.AuctionHouse.Web.Models.ProductViewModel
+
+@{
+    ViewBag.Title = "New Listing";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("NewProduct", "Home", FormMethod.Post))
+{
+
+    @Html.TextBoxFor(m => m.ItemName)
+    @Html.TextBoxFor(m => m.ItemPrice)
+    @Html.TextBoxFor(m => m.ItemDescription)
+    @Html.TextBoxFor(m => m.ImageSrc)
+
+    <input type="submit" value="Submit">
+}

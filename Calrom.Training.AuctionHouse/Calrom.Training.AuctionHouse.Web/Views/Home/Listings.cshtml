@@ -1,0 +1,29 @@
+﻿@model Calrom.Training.AuctionHouse.Web.Models.ListingsViewModel
+
+@{
+    ViewBag.Title = "Listings";
+}
+<h2>@ViewBag.Title.</h2>
+
+<h3>@Html.ActionLink("New Listing", "NewProduct", "Home")</h3>
+
+<h3>Current listings.</h3>
+
+<p>Listings will be displayed here.</p>
+@foreach (var product in Model.ProductList)
+{
+    <table>
+        <tr>
+            Item ID: @product.ItemID
+            <br />
+            Item Name: @product.ItemName
+            <br />
+            Current Bid: @product.ItemPrice
+            <br />
+            Item Description: @product.ItemDescription
+            <br />
+            <img src="@product.ImageSrc" class="images" />
+            <br />
+        </tr>
+    </table>
+}
