@@ -1,0 +1,15 @@
+﻿@model Calrom.Training.AuctionHouse.Database.UserDatabaseModel
+
+@{
+    ViewBag.Title = "Registration";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("NewUser", "Home", FormMethod.Post))
+{
+    @Html.TextBoxFor(m => m.Username)
+    @Html.TextBoxFor(m => m.DateOfBirth)
+    @Html.PasswordFor(m => m.Password)
+    <input type="submit" value="Submit">
+}

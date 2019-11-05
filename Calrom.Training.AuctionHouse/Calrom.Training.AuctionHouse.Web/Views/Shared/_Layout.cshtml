@@ -9,7 +9,7 @@
 <body>
     <div>
         <div>
-            <div>
+            <div class="title">
                 @Html.ActionLink("Uzair's Auction House", "Index", "Home")
             </div>
             <div>
@@ -23,11 +23,11 @@
     </div>
     <div class="container">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Uzair Foolat - Calrom</p>
-        </footer>
+        <!--<hr />-->
     </div>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - Uzair Foolat - Calrom</p>
+    </footer>
 
     @RenderSection("scripts", required: false)
 </body>

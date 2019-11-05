@@ -8,11 +8,9 @@
 
 @using (Html.BeginForm("NewProduct", "Home", FormMethod.Post))
 {
-
     @Html.TextBoxFor(m => m.ItemName)
     @Html.TextBoxFor(m => m.ItemPrice)
     @Html.TextBoxFor(m => m.ItemDescription)
-    @Html.TextBoxFor(m => m.ImageSrc)
-
+    <input type="file" name="Image" id="Image" accept="images/*" />
     <input type="submit" value="Submit">
 }

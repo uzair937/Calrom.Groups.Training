@@ -1,6 +1,8 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    width: 80%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -10,19 +12,26 @@
 }
 
 .container {
-    background-color: floralwhite;
+    border: 5px solid black;
     color: black;
-    align-content: center;
-    justify-content: center;
     display: flex;
+    justify-content: center;
     flex-direction: column;
 }
 
 ul {
+    border: 2.5px dotted black;
     list-style-type: none;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+.title {
+    border: 3px double black;
+    font-size: 18pt;
+    display: flex;
+    justify-content: center
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 

@@ -1,17 +1,21 @@
-﻿@{
+﻿@model Calrom.Training.AuctionHouse.Database.UserDatabaseModel
+
+@{
     ViewBag.Title = "Contact";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>Login Page.</h3>
 
 <div>
-    <form>
-        <input type="text" />
-        <input type="password" />
-    </form>
+    @using (Html.BeginForm("GetLogin", "Home", FormMethod.Get))
+    {
+        @Html.TextBoxFor(m => m.Username)
+        @Html.PasswordFor(m => m.Password)
+        <input type="submit" value="Submit">
+    }
+    <p>@Html.ActionLink("Register", "NewUser", "Home")</p>
 </div>
 
 <address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+    <strong>Support:</strong>   <a href="mailto:ufooolat@calrom.com">ufoolat@calrom.com</a><br />
 </address>
