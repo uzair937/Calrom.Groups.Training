@@ -1,0 +1,30 @@
+﻿@model Calrom.Training.ShopBasket.Web.Models.ProductsViewModel
+
+
+
+@{
+        ViewBag.Title = "Products";
+}
+
+<div class="ProdTitle">
+    <h2>@ViewBag.Title</h2>
+</div>
+
+<div class="productlist">
+    <div class="title">
+        <h2> List of Products </h2>
+    </div>
+    <div class="Row1">
+        @foreach (var item in Model.ProductList)
+        {
+            <div class="item1&Desc">
+                <h3> @item.ProductName</h3>
+                <img src="../../imagesrc/macbook.jpg" width="200" height="200">
+                <button type="button">Add to Basket </button>
+            </div>
+        }
+
+    </div>
+
+</div>
+

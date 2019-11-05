@@ -4,23 +4,32 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Site.css")
 </head>
 <body>
-    <div>
-        <div>
-            <div>
-                @Html.ActionLink("Application name", "Index", "Home")
-            </div>
-            <div>
-                <ul>
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-            </div>
+
+    <div class="containerlinks">
+        @*<div class="applink">
+            @Html.ActionLink("Application name", "Index", "Home")
+        </div>*@
+
+        <div class="homelink">
+            @Html.ActionLink("Fresco", "Index", "Home")
+        </div>
+
+        <div class="aboutlink">
+            @Html.ActionLink("About", "About", "Home")
+        </div>
+
+        <div class="contactlink">
+            @Html.ActionLink("Contact", "Contact", "Home")
+        </div>
+
+        <div class="productlink">
+            @Html.ActionLink("Products", "Products", "Products")
         </div>
     </div>
+
     <div>
         @RenderBody()
         <hr />

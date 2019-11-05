@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: indianred;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -14,6 +15,134 @@
 */
 .dl-horizontal dt {
     white-space: normal;
+}
+ /*below from the Homepage*/
+
+.MainTitle {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+}
+
+.heading1 {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+/*containers from the Homepage*/
+
+.Row1 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.item1&Desc {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+/*below from the about page*/
+
+.mtitle-desc {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    flex-direction: column;
+}
+.FirstTitle {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+}
+
+.Description {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+}
+
+
+/*below from the products page*/
+.ProdTitle {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    
+}
+
+.productlist {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    background-color: bisque;
+    border-style: solid;
+    border-color: azure;
+}
+
+/*Hyperlinks design*/
+.containerlinks {
+    display: flex;
+    height: 100px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-style: solid;
+    border-color: black;
+    background-color: aquamarine;
+    font-size: xx-large;
+}
+
+/*each links design below*/
+
+.homelink {
+    font-weight: bold;
+    font-size: 75px;
+    background-color: burlywood;
+    margin-right: 30px;
+    border-style: solid;
+    border-color: black;
+}
+
+.aboutlink {
+    font-weight: bold;
+    font-size: 75px;
+    margin-right: 30px;
+    background-color: burlywood;
+    border-style: solid;
+    border-color: black;
+}
+
+.contactlink {
+    font-weight: bold;
+    font-size: 75px;
+    margin-right: 30px;
+    background-color: burlywood;
+    border-style: solid;
+    border-color: black;
+}
+
+.productlink {
+    font-weight: bold;
+    font-size: 75px;
+    margin-right: 30px;
+    background-color: burlywood;
+    border-style: solid;
+    border-color: black;
+}
+
+.title{
+    font-size: x-large;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */

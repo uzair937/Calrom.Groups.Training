@@ -18,5 +18,13 @@ namespace Calrom.Training.ShopBasket.Web.Controllers
         {
             return View();
         }
+
+        public ActionResult Products()
+        {
+            return View();
+        }
+
+
+
     }
 }
