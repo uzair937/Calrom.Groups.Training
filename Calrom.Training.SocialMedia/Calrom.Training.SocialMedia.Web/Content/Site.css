@@ -1,6 +1,55 @@
-﻿body {
-    padding-top: 50px;
+﻿html {
+    width: 100%;
+    height: 95%;
+}
+
+body {
     padding-bottom: 20px;
+    margin-left: 2.5%;
+    width: 95%;
+    height: 95%;
+    background-color: black;
+}
+
+.navigation-bar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 5em;
+    background-color: mediumpurple;
+    border: 3px solid white;
+}
+
+.nav-home {
+    flex-grow: 1;
+    font-size: 4em;
+}
+
+.nav-about {
+    flex-grow: 1;
+    font-size: 4em;
+}
+
+.nav-account {
+    font-size: 4em;
+}
+
+.nav-contact {
+    flex-grow: 1;
+    font-size: 4em;
+}
+
+.background-shibe {
+    top: 0;
+    width: 100%;
+    height: 1000px;
+    position: sticky;
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+    background-image: url(../images/shibe-back.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -21,4 +70,124 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+#BorkText {
+    min-width: 350px;
+    min-height: 30px;
+    font-size: 50px;
+}
+
+#bork-button {
+    min-width: 150px;
+    min-height: 30px;
+    font-size: 50px;
+}
+
+.bork-submitter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.bork-container {
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    width: 100%;
+}
+
+.bork-timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-top: 5%;
+    margin-right: 30%;
+}
+
+.single-bork {
+    width: 100%;
+    border: 3px solid black;
+    background-color: cornflowerblue;
+    height:auto;
+}
+
+.bork-timeline > ul {
+    margin: 0;
+    padding: 0;
+    height: auto;
+}
+
+.single-bork > li {
+    font-size: 50px;
+    list-style-type: none;
+    width: 100%;
+}
+
+.image-container > img{
+    width: auto;
+    height: 110px;
+}
+
+.next-button {
+    width: 100%;
+    height: 50px;
+}
+
+.page-text {
+    margin: 0;
+    flex-grow: 1;
+    font-size: 3em;
+    display: flex;
+    justify-content: center;
+}
+
+.page-container > form {
+    flex-grow: 1;
+    height: 100%;
+}
+
+.page-container {
+    background-color: mediumpurple;
+    border: 3px solid white;
+    color: indigo;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.address-container {
+    background-color: mediumpurple;
+    border: 3px solid white;
+    padding: 0.2em;
+    height:4em;
+    font-size: 4em;
+}
+
+.address-positioner {
+    display: flex;
+    align-items: center;
+    margin-right: 30%;
+    color: indigo;
+}
+
+.about-positioner {
+    display: flex;
+    align-items: center;
+    margin-right: 10%;
+    color: indigo;
+}
+
+.about-container {
+    background-color: mediumpurple;
+    border: 3px solid white;
+    padding: 0.2em;
+    min-height: 4em;
+    font-size: 3em;
+    max-width: 60%;
 }

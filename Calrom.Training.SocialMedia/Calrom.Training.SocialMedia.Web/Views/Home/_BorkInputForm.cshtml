@@ -1,0 +1,9 @@
+﻿@model Calrom.Training.SocialMedia.Web.Models.BorkViewModel
+
+<div class="bork-submitter">
+    @using (Html.BeginForm("NewBork", "Home", FormMethod.Post))
+    {
+        @Html.TextBoxFor(m => m.BorkText, new { placeholder = "...Input a bork!"})
+        <input id="bork-button" type="submit" name="borkBoxSubmit" value="Send Bork" />
+    }
+</div>
