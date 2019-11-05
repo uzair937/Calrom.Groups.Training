@@ -15,6 +15,5 @@ namespace Calrom.Training.SocialMedia.Database.Models
         public List<int> FollowingId { get; set; }
         public List<int> FollowerId { get; set; }
 
-
     }
 }

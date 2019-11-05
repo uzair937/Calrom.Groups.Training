@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Calrom.Training.SocialMedia.Web.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,8 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
     {
         public ActionResult Account()
         {
-            return View();
+            var timeLineViewModel = TimeLineViewModel.getTimeLineViewModel();
+            return View(timeLineViewModel);
         }
     }
 }

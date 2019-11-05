@@ -16,10 +16,12 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             var borkRepository = getRepository();
             for (int x = 0; x < 10; x++)
             {
+                var y = x % 2;
                 borkRepository.Add(new BorkDatabaseModel
                 {
                     BorkText = "Bork! This is an example bork",
-                    DateBorked = DateTime.Now.AddYears(-x * 100)
+                    DateBorked = DateTime.Now.AddYears(-x * 100),
+                    UserId = y + 1
                 });
             }
         }

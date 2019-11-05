@@ -9,5 +9,7 @@ namespace Calrom.Training.SocialMedia.Database.Models
     {
         public DateTime DateBorked { get; set; }
         public string BorkText { get; set; }
+        public int UserId { get; set; }
+
     }
 }

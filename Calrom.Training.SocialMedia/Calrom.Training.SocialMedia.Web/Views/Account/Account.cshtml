@@ -36,14 +36,16 @@
 </head>
 
 <div class="background-shibe">
-    <div class="bork-timeline">
-        @Html.Partial("_BorkInputForm", new BorkViewModel())
+    <div class="acc-borks">
+        <div class="page-container">
+            <p class="page-text">Your Borks! Bork!</p>
+        </div>
         <ul>
-            @foreach (var bork in Model.Borks)
+            @foreach (var bork in Model.CurrentUser.UserBorks)
             {
                 <div class="bork-container">
                     <div class="image-container">
-                        <img src= "../../images/doggo.jpg" />
+                        <img src="../../images/doggo.jpg" />
                     </div>
                     <div class="single-bork">
                         <li>@bork.BorkText</li>
@@ -51,18 +53,6 @@
                     </div>
                 </div>
             }
-                <div class="page-container">
-                    <p class="page-text">Page - @(Model.CurrentPage + 1) out of @Model.TotalPages</p>
-                    @using (Html.BeginForm("PreviousBork", "Home", FormMethod.Get))
-                    {
-                        <input class="next-button" type="submit" value="Last Bork" />
-                    }
-                    @using (Html.BeginForm("NextBork", "Home", FormMethod.Get))
-                    {
-                        <input class="next-button" type="submit" value="Next Bork" />
-                    }
-
-                </div>
         </ul>
     </div>
 </div>

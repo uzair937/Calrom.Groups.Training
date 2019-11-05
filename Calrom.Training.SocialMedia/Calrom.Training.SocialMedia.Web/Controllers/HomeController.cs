@@ -16,6 +16,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
         {
             var userRepository = UserRepository.getRepository();
             var timeLineViewModel = TimeLineViewModel.getTimeLineViewModel();
+            var methodBork = new BorkViewModel();
             var userGet = userRepository.List();
             var currentUser = timeLineViewModel.CurrentUser;
             var borks = new List<BorkViewModel>();
@@ -25,11 +26,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                 {
                     foreach (var bork in user.UserBorks)
                     {
-                        borks.Add(new BorkViewModel
-                        {
-                            BorkText = bork.BorkText,
-                            DateBorked = bork.DateBorked
-                        });
+                        borks.Add(methodBork.getView(bork));
                     }
                 }
             }
@@ -37,20 +34,13 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var currentBorks = new List<BorkViewModel>();
             for (int x = timeLineViewModel.CurrentPage * 5; x < timeLineViewModel.CurrentPage * 5 + 5; x++)
             {
-                if (x == borks.Count()) break;
+                if (x > borks.Count() - 1) break;
                 currentBorks.Add(borks.ElementAt(x));
             }
+            var pageFinder = borks.Count() % 5;
+            timeLineViewModel.TotalPages = ((borks.Count() - pageFinder) / 5);
+            if (pageFinder > 0) timeLineViewModel.TotalPages++;
             return currentBorks;
-        }
-
-        private void AddModelBorkToDatabase(BorkViewModel bork)
-        {
-            var borkRepository = BorkRepository.getRepository();
-            borkRepository.Add(new BorkDatabaseModel
-            {
-                BorkText = bork.BorkText,
-                DateBorked = bork.DateBorked
-            });
         }
 
         public ActionResult Index()
@@ -82,9 +72,8 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
         [HttpPost]
         public ActionResult NewBork(BorkViewModel bork)
         {
-            var borkRepository = BorkRepository.getRepository();
-            bork.DateBorked = DateTime.Now;
-            AddModelBorkToDatabase(bork);
+            var timeLineViewModel = TimeLineViewModel.getTimeLineViewModel();
+            timeLineViewModel.AddBork(bork.BorkText);
             return RedirectToAction("Index");
         }
 

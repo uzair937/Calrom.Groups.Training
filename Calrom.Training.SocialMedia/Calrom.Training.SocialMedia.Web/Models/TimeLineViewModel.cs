@@ -13,45 +13,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
         public List<BorkViewModel> Borks { get; set; }
         public UserViewModel CurrentUser { get; set; }
         public int CurrentPage { get; set; }
-
-        private List<BorkViewModel> borkDatabaseToViewModel(List<BorkDatabaseModel> borkGet)
-        {
-            var borks = new List<BorkViewModel>();
-            foreach (var bork in borkGet)
-            {
-                borks.Add(new BorkViewModel
-                {
-                    BorkText = bork.BorkText,
-                    DateBorked = bork.DateBorked
-                });
-            }
-            return borks;
-        }
-
-        public int changePage(int newPage)
-        {
-            if (newPage == 1) CurrentPage++;
-            else if (CurrentPage > 0) CurrentPage--;
-            return CurrentPage;
-        }
-
-        public void newUser(int id)
-        {
-            var userRepository = UserRepository.getRepository();
-            var timeLineViewModel = getTimeLineViewModel();
-            var userGet = userRepository.List();
-            var currentUserborks = borkDatabaseToViewModel(userGet.ElementAt(0).UserBorks);
-            timeLineViewModel.CurrentUser = new UserViewModel
-            {
-                UserId = userGet.ElementAt(id).UserId,
-                UserName = userGet.ElementAt(id).UserName,
-                Password = userGet.ElementAt(id).Password,
-                UserBorks = currentUserborks,
-                UserPP = userGet.ElementAt(id).UserPP,
-                FollowingId = userGet.ElementAt(id).FollowingId,
-                FollowerId = userGet.ElementAt(id).FollowerId,
-            };
-        }
+        public int TotalPages { get; set; }
 
         private static TimeLineViewModel timeLineViewModel;
 
@@ -70,12 +32,35 @@ namespace Calrom.Training.SocialMedia.Web.Models
 
         public void AddBork(string borkBoxString)
         {
+            var userRepository = UserRepository.getRepository();
             var borkRepository = BorkRepository.getRepository();
-            borkRepository.Add(new Database.Models.BorkDatabaseModel
+            var userList = userRepository.List();
+            borkRepository.Add(new BorkDatabaseModel
             {
                 BorkText = borkBoxString,
-                DateBorked = DateTime.Now
+                DateBorked = DateTime.Now,
+                UserId = CurrentUser.UserId
             });
+            var newBork = borkRepository.List().ElementAt(borkRepository.List().Count() - 1);
+            userList.ElementAt(CurrentUser.UserId - 1).UserBorks.Add(newBork);
+            CurrentUser = CurrentUser.getView(userList.ElementAt(CurrentUser.UserId - 1));
+        }
+
+        public int changePage(int newPage)
+        {
+            if (newPage == 1 && (CurrentPage + 1) < TotalPages) CurrentPage++;
+            else if (newPage != 1 && CurrentPage > 0) CurrentPage--;
+            return CurrentPage;
+        }
+
+        public void newUser(int id)
+        {
+            id--;
+            var userRepository = UserRepository.getRepository();
+            var timeLineViewModel = getTimeLineViewModel();
+            timeLineViewModel.CurrentUser = new UserViewModel();
+            var userGet = userRepository.List();
+            timeLineViewModel.CurrentUser = timeLineViewModel.CurrentUser.getView(userGet.ElementAt(0));
         }
 
     }

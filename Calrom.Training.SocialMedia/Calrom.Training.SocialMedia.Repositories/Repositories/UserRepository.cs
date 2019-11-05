@@ -19,7 +19,11 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             var borkList = borkRepository.List();
             for (int i = 0; i < 5; i++)
             {
-                if (i * 2 < 10) assignBorks.Add(borkList.ElementAt(i * 2));
+                if (i * 2 < 10)
+                {
+                    borkList.ElementAt(i * 2).UserId = 1;
+                    assignBorks.Add(borkList.ElementAt(i * 2));
+                }
             }
             var followOne = new List<int> { 1 };
             var followTwo = new List<int> { 2 };
@@ -36,7 +40,11 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             assignBorks = new List<BorkDatabaseModel>();
             for (int i = 0; i < 5; i++)
             {
-                if (i * 2 + 1 < 10) assignBorks.Add(borkRepository.List().ElementAt(i * 2 + 1));
+                if (i * 2 + 1 < 10)
+                {
+                    borkList.ElementAt(i * 2 + 1).UserId = 2;
+                    assignBorks.Add(borkRepository.List().ElementAt(i * 2 + 1));
+                }
             }
             userRepository.Add(new UserDatabaseModel
             {

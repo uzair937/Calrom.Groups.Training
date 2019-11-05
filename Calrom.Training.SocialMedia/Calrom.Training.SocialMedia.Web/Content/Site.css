@@ -99,6 +99,16 @@ textarea {
     width: 100%;
 }
 
+.acc-borks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-top: 5%;
+    margin-right: 30%;
+}
+
 .bork-timeline {
     display: flex;
     flex-direction: column;
@@ -136,6 +146,7 @@ textarea {
 .next-button {
     width: 100%;
     height: 50px;
+    font-size: 2em;
 }
 
 .page-text {
