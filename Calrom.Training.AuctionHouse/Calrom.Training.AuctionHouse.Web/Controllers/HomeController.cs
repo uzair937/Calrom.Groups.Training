@@ -8,6 +8,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
     public class HomeController : Controller
     {
         private static ProductRepo productRepo = new ProductRepo();
+        public static ProductRepo repoInstance { get { return ProductRepo.getInstance; } }
 
         public ActionResult Index()
         {

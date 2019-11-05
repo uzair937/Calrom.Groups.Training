@@ -8,15 +8,7 @@ namespace Calrom.Training.AuctionHouse.Database
     public class ProductDatabaseModel
     {
         public List<ProductDatabaseModel> ProductList { get; set; }
-        private int _itemID;
-        public int ItemID { 
-            get => _itemID;
-            set
-            {
-                Random random = new Random();
-                _itemID = random.Next(1, 512);
-            }
-        }
+        public int ItemID { get; set; }
         public string ItemName { get; set; }
         public double ItemPrice { get; set; }
         public string ItemDescription { get; set; }
