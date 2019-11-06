@@ -1,6 +1,7 @@
 ﻿using Calrom.Training.AuctionHouse.Web.Models;
 using Calrom.Training.AuctionHouse.Database;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Helpers;
 using System;
@@ -10,7 +11,6 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
 {
     public class HomeController : Controller
     {
-        //private static ProductRepo productRepo = new ProductRepo();
         public static ProductRepo ProductInstance { get { return ProductRepo.getInstance; } }
         private static UserRepo UserInstance { get { return UserRepo.getInstance; } }
 
@@ -56,16 +56,19 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewProduct(ProductDatabaseModel productDatabaseModel)
+        public ActionResult NewProduct(ProductViewModel productViewModel, HttpPostedFileBase imageFile)
         {
-            WebImage webImage = WebImage.GetImageFromRequest();
-            if (webImage != null)
+            var productDatabaseModel = new ProductDatabaseModel();
+            if (productViewModel.ImageFile != null)
             {
-                var newFileName = Guid.NewGuid().ToString() + "_" +
-                Path.GetFileName(webImage.FileName);
-                productDatabaseModel.ImageSrc = @"Images\" + newFileName;
-                webImage.Save(@"~\" + productDatabaseModel.ImageSrc);
+                var fileName = Path.GetFileName(imageFile.FileName);
+                productViewModel.ImageSrc = Path.Combine(Server.MapPath("~/Images"), fileName);
+                imageFile.SaveAs(productViewModel.ImageSrc);
+                productDatabaseModel.ImageSrc = Path.GetFileName(imageFile.FileName);
             }
+            productDatabaseModel.ItemName = productViewModel.ItemName;
+            productDatabaseModel.ItemPrice = productViewModel.ItemPrice;
+            productDatabaseModel.ItemDescription = productViewModel.ItemDescription;
             ProductInstance.Add(productDatabaseModel);
             return RedirectToAction("Listings");
         }
@@ -81,9 +84,34 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                 productViewModel.ItemName = product.ItemName;
                 productViewModel.ItemPrice = product.ItemPrice;
                 productViewModel.ItemDescription = product.ItemDescription;
+                productViewModel.CurrentBid = product.CurrentBid;
+                if (product.ImageSrc != null)
+                {
+                    productViewModel.ImageSrc = Path.Combine(@"\Images", product.ImageSrc);
+                }
                 listingsViewModel.ProductList.Add(productViewModel);
             }
             return View(listingsViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult BidProduct(BidProductViewModel viewModel)
+        {
+            var tempList = ProductInstance.List();
+            foreach (var product in tempList)
+            {
+                if (product.ItemID == viewModel.ItemID)
+                {
+                    if (product.CurrentBid == 0)
+                    {
+                        product.CurrentBid = product.ItemPrice + viewModel.Amount;
+                    } else
+                    {
+                        product.CurrentBid += viewModel.Amount;
+                    }
+                }
+            }
+            return RedirectToAction("Listings");
         }
     }
 }

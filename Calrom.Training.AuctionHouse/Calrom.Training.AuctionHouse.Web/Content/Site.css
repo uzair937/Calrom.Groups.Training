@@ -13,6 +13,7 @@
 
 .container {
     border: 5px solid black;
+    background-color: ghostwhite;
     color: black;
     display: flex;
     justify-content: center;
@@ -21,17 +22,25 @@
 
 ul {
     border: 2.5px dotted black;
+    background-color: Highlight;
     list-style-type: none;
     display: flex;
+    flex-direction: row;
     flex-direction: row;
     justify-content: space-between;
 }
 
 .title {
     border: 3px double black;
+    background-color: aliceblue;
     font-size: 18pt;
     display: flex;
     justify-content: center
+}
+
+footer {
+    display: flex;
+    justify-content: center;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 

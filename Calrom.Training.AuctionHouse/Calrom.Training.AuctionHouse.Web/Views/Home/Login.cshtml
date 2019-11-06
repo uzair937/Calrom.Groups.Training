@@ -9,8 +9,8 @@
 <div>
     @using (Html.BeginForm("GetLogin", "Home", FormMethod.Get))
     {
-        @Html.TextBoxFor(m => m.Username)
-        @Html.PasswordFor(m => m.Password)
+        @Html.TextBoxFor(m => m.Username, new { placeholder = "Username" })
+        @Html.PasswordFor(m => m.Password, new { placeholder = "Password" })
         <input type="submit" value="Submit">
     }
     <p>@Html.ActionLink("Register", "NewUser", "Home")</p>

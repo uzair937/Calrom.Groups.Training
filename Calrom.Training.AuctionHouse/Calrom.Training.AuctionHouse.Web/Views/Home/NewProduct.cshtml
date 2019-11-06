@@ -6,11 +6,11 @@
 
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("NewProduct", "Home", FormMethod.Post))
+@using (Html.BeginForm("NewProduct", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.TextBoxFor(m => m.ItemName)
-    @Html.TextBoxFor(m => m.ItemPrice)
-    @Html.TextBoxFor(m => m.ItemDescription)
-    <input type="file" name="Image" id="Image" accept="images/*" />
+    @Html.TextBoxFor(m => m.ItemName, new { placeholder = "Item Name" })
+    @Html.TextBoxFor(m => m.ItemPrice, new { placeholder = "Starting Bid" })
+    @Html.TextBoxFor(m => m.ItemDescription, new { placeholder = "Description" })
+    @Html.TextBoxFor(m => m.ImageFile, new { type = "file" })
     <input type="submit" value="Submit">
 }

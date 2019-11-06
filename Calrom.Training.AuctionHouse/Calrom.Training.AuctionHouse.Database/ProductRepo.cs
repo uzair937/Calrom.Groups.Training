@@ -7,7 +7,6 @@ namespace Calrom.Training.AuctionHouse.Database
 {
     public class ProductRepo : IRepository<ProductDatabaseModel>
     {
-        private static int ids = 0;
         private static ProductRepo Instance = null;
         private static readonly object padlock = new object();
         public static ProductRepo getInstance

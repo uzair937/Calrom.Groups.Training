@@ -1,4 +1,5 @@
-﻿@model Calrom.Training.AuctionHouse.Web.Models.ListingsViewModel
+﻿@using Calrom.Training.AuctionHouse.Web.Models
+@model ListingsViewModel
 
 @{
     ViewBag.Title = "Listings";
@@ -18,7 +19,9 @@
             <br />
             Item Name: @product.ItemName
             <br />
-            Current Bid: @product.ItemPrice
+            Starting Bid: £@product.ItemPrice
+            <br />
+            Current Bid: £@product.CurrentBid
             <br />
             Item Description: @product.ItemDescription
             <br />
@@ -26,4 +29,6 @@
             <br />
         </tr>
     </table>
+    
+    @Html.Partial("_BidProductForm", new BidProductViewModel { ItemID = product.ItemID })
 }

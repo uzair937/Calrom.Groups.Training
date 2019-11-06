@@ -128,6 +128,7 @@
     </Compile>
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ListingsViewModel.cs" />
+    <Compile Include="Models\BidProductViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -159,6 +160,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\NewProduct.cshtml" />
     <Content Include="Views\Home\NewUser.cshtml" />
+    <Content Include="Views\Home\_BidProductForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Calrom.Training.AuctionHouse.Database\Calrom.Training.AuctionHouse.Database.csproj">
