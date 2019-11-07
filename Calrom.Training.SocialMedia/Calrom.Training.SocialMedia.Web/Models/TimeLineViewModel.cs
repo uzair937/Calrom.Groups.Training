@@ -12,28 +12,22 @@ namespace Calrom.Training.SocialMedia.Web.Models
     {
         public List<BorkViewModel> Borks { get; set; }
         public UserViewModel CurrentUser { get; set; }
-        public int CurrentPage { get; set; }
-        public int TotalPages { get; set; }
+        public PaginationViewModel PageView { get; set; }
 
-        private static TimeLineViewModel timeLineViewModel;
-
-        private TimeLineViewModel() { }
-
-        public static TimeLineViewModel getTimeLineViewModel()
+        public TimeLineViewModel(int userId)
         {
-            if (timeLineViewModel == null)
-            {
-                timeLineViewModel = new TimeLineViewModel();
-                timeLineViewModel.CurrentPage = 0;
-                timeLineViewModel.newUser(1);
-            }
-            return timeLineViewModel;
+            if (userId == 0) return;
+            var userRepository = UserRepository.GetRepository();
+            var MethodUser = new UserViewModel();
+            var userList = userRepository.List();
+            CurrentUser = MethodUser.getView(userList.ElementAt(userId - 1));
+            NewUser(userId);
         }
 
         public void AddBork(string borkBoxString)
         {
-            var userRepository = UserRepository.getRepository();
-            var borkRepository = BorkRepository.getRepository();
+            var userRepository = UserRepository.GetRepository();
+            var borkRepository = BorkRepository.GetRepository();
             var userList = userRepository.List();
             borkRepository.Add(new BorkDatabaseModel
             {
@@ -41,27 +35,16 @@ namespace Calrom.Training.SocialMedia.Web.Models
                 DateBorked = DateTime.Now,
                 UserId = CurrentUser.UserId
             });
-            var newBork = borkRepository.List().ElementAt(borkRepository.List().Count() - 1);
+            var newBork = borkRepository.List().ElementAt(0);
             userList.ElementAt(CurrentUser.UserId - 1).UserBorks.Add(newBork);
             CurrentUser = CurrentUser.getView(userList.ElementAt(CurrentUser.UserId - 1));
         }
-
-        public int changePage(int newPage)
+  
+        public void NewUser(int userId)
         {
-            if (newPage == 1 && (CurrentPage + 1) < TotalPages) CurrentPage++;
-            else if (newPage != 1 && CurrentPage > 0) CurrentPage--;
-            return CurrentPage;
-        }
-
-        public void newUser(int id)
-        {
-            id--;
-            var userRepository = UserRepository.getRepository();
-            var timeLineViewModel = getTimeLineViewModel();
-            timeLineViewModel.CurrentUser = new UserViewModel();
+            var userRepository = UserRepository.GetRepository();
             var userGet = userRepository.List();
-            timeLineViewModel.CurrentUser = timeLineViewModel.CurrentUser.getView(userGet.ElementAt(0));
+            CurrentUser = CurrentUser.getView(userGet.ElementAt(userId - 1));
         }
-
     }
 }

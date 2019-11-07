@@ -36,23 +36,39 @@
 </head>
 
 <div class="background-shibe">
-    <div class="acc-borks">
-        <div class="page-container">
-            <p class="page-text">Your Borks! Bork!</p>
+    <div class="acc-row">
+        <div class="acc-borks">
+            <div class="page-container">
+                <p class="page-text">Your Borks! Bork!</p>
+            </div>
+            <ul>
+                @foreach (var bork in Model.CurrentUser.UserBorks)
+                {
+                    <div class="bork-container">
+                        <div class="image-container">
+                            <img src="../../images/doggo.jpg" />
+                        </div>
+                        <div class="single-bork">
+                            <li>@bork.BorkText</li>
+                            <li>Borked: @bork.DateBorked</li>
+                        </div>
+                    </div>
+                }
+            </ul>
         </div>
-        <ul>
-            @foreach (var bork in Model.CurrentUser.UserBorks)
-            {
-                <div class="bork-container">
-                    <div class="image-container">
-                        <img src="../../images/doggo.jpg" />
-                    </div>
-                    <div class="single-bork">
-                        <li>@bork.BorkText</li>
-                        <li>Borked: @bork.DateBorked</li>
-                    </div>
+        <div class="acc-borks">
+            <div class="box-row">
+                <img src=@Model.CurrentUser.UserPP />
+                <div class="account-detail-header">
+                    <p class="page-text">Account Details</p>
                 </div>
-            }
-        </ul>
+            </div>
+            <div class="account-detail-container">
+                <div>ID: [@Model.CurrentUser.UserId]</div>
+                <div>Username: @Model.CurrentUser.UserName </div>
+                <div>Following: @Model.CurrentUser.FollowingId.Count()</div>
+                <div>Followers: @Model.CurrentUser.FollowerId.Count()</div>
+            </div>
+        </div>
     </div>
 </div>

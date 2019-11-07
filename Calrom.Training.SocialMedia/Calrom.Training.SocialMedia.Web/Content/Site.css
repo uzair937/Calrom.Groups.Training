@@ -16,9 +16,16 @@ body {
     flex-direction: row;
     width: 100%;
     height: 5em;
+    justify-content: center;
     background-color: mediumpurple;
     border: 3px solid white;
 }
+
+    .navigation-bar > h1 {
+        color: indigo;
+        font-size: 5em;
+        margin: 0;
+    }
 
 .nav-home {
     flex-grow: 1;
@@ -32,10 +39,20 @@ body {
 
 .nav-account {
     font-size: 4em;
+    flex-grow: 1;
 }
 
 .nav-contact {
     flex-grow: 1;
+    font-size: 4em;
+}
+
+.nav-login {
+    flex-grow: 1;
+    font-size: 4em;
+}
+
+.nav-logout {
     font-size: 4em;
 }
 
@@ -93,20 +110,38 @@ textarea {
 }
 
 .bork-container {
-    display:flex;
-    flex-direction:row;
+    display: flex;
+    flex-direction: row;
     align-items: center;
     width: 100%;
+}
+
+.acc-row {
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    width: 100%;
+    margin-right: 30%;
+}
+
+.box-row {
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    width: 100%;
+}
+
+.box-row > img {
+    max-width: 5em;
 }
 
 .acc-borks {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: auto;
+    width: 50em;
     height: auto;
     margin-top: 5%;
-    margin-right: 30%;
 }
 
 .bork-timeline {
@@ -116,14 +151,14 @@ textarea {
     width: auto;
     height: auto;
     margin-top: 5%;
-    margin-right: 30%;
+    margin-right: 45%;
 }
 
 .single-bork {
     width: 100%;
     border: 3px solid black;
     background-color: cornflowerblue;
-    height:auto;
+    height: auto;
 }
 
 .bork-timeline > ul {
@@ -138,7 +173,7 @@ textarea {
     width: 100%;
 }
 
-.image-container > img{
+.image-container > img {
     width: auto;
     height: 110px;
 }
@@ -172,11 +207,35 @@ textarea {
     flex-direction: row;
 }
 
+
+.account-detail-container {
+    background-color: mediumpurple;
+    border: 3px solid white;
+    color: indigo;
+    margin: 0;
+    width: 14em;
+    display: flex;
+    justify-content:flex-start;
+    flex-direction: Column;
+    font-size: 2em;
+}
+
+.account-detail-header {
+    background-color: mediumpurple;
+    border: 3px solid white;
+    color: indigo;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: auto;
+}
+
 .address-container {
     background-color: mediumpurple;
     border: 3px solid white;
     padding: 0.2em;
-    height:4em;
+    height: 4em;
     font-size: 4em;
 }
 
@@ -202,3 +261,43 @@ textarea {
     font-size: 3em;
     max-width: 60%;
 }
+
+.login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-right: 30%;
+}
+
+.login-input {
+    background-color: mediumpurple;
+    border: 3px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 2em;
+    color: indigo;
+}
+
+    .login-input > h1 {
+        margin: 0.2em;
+        font-size: 2em;
+    }
+
+    .login-input > form {
+        background-color: mediumpurple;
+        border: 3px solid white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 100%;
+    }
+
+        .login-input > form > input {
+            width: 100%;
+            height: auto;
+            font-size: 1em;
+        }

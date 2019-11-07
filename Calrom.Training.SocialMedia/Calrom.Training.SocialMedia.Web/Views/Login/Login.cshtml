@@ -1,9 +1,5 @@
 ﻿@using Calrom.Training.SocialMedia.Web.Models
-@model TimeLineViewModel
-
-@{
-    ViewBag.Title = "Home Page";
-}
+@model LoginViewModel
 
 <head>
     @*<div>
@@ -36,22 +32,7 @@
 </head>
 
 <div class="background-shibe">
-    <div class="bork-timeline">
-        @Html.Partial("_BorkInputForm", new BorkViewModel())
-        <ul>
-            @foreach (var bork in Model.Borks)
-            {
-                <div class="bork-container">
-                    <div class="image-container">
-                        <img src="../../images/doggo.jpg" />
-                    </div>
-                    <div class="single-bork">
-                        <li>@bork.BorkText</li>
-                        <li>Borked: @bork.DateBorked</li>
-                    </div>
-                </div>
-            }
-            @Html.Partial("_PageForm", @Model.PageView)
-        </ul>
+    <div class="login-container">
+        @Html.Partial("_LoginInputForm", new LoginViewModel())
     </div>
 </div>

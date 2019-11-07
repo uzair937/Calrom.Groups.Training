@@ -7,11 +7,13 @@ using System.Web.Mvc;
 
 namespace Calrom.Training.SocialMedia.Web.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
         public ActionResult Account()
         {
-            var timeLineViewModel = TimeLineViewModel.getTimeLineViewModel();
+            var userId = this.HttpContext.Session["UserId"] as int?;
+            var timeLineViewModel = new TimeLineViewModel(userId ?? 0);
             return View(timeLineViewModel);
         }
     }

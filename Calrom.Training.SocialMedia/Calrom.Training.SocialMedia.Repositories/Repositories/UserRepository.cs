@@ -13,8 +13,8 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
 
         private void initialiseBorkers()
         {
-            var borkRepository = BorkRepository.getRepository();
-            var userRepository = getRepository();
+            var borkRepository = BorkRepository.GetRepository();
+            var userRepository = GetRepository();
             var assignBorks = new List<BorkDatabaseModel>();
             var borkList = borkRepository.List();
             for (int i = 0; i < 5; i++)
@@ -81,7 +81,20 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             return userList;
         }
 
-        public static UserRepository getRepository()
+        public IEnumerable<UserDatabaseModel> List(int userId)
+        {
+            var followedUsers = new List<UserDatabaseModel>();
+            foreach (var user in userList)    //move logic to .List() send current userId
+            {
+                if (user.FollowerId.Contains(userId) || userId == user.UserId)
+                {
+                    followedUsers.Add(user);
+                }
+            }
+            return followedUsers;
+        }
+
+        public static UserRepository GetRepository()
         {
             if (userRepository == null)
             {

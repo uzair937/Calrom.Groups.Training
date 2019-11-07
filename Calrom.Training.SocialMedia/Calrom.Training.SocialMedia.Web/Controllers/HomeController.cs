@@ -10,69 +10,70 @@ using System.Web.Mvc;
 
 namespace Calrom.Training.SocialMedia.Web.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        private List<BorkViewModel> getBorks()
+        protected override void OnException(ExceptionContext filterContext)
         {
-            var userRepository = UserRepository.getRepository();
-            var timeLineViewModel = TimeLineViewModel.getTimeLineViewModel();
+            base.OnException(filterContext);
+            
+            filterContext.Result = RedirectToAction("Error", "Error");
+        }
+
+        private TimeLineViewModel GetBorks(int userId, int pageNum)
+        {
+            if (userId == 0) RedirectToAction("Logout", "Login");
+            var timeLineViewModel = new TimeLineViewModel(userId);
+            var borkRepository = BorkRepository.GetRepository();
             var methodBork = new BorkViewModel();
-            var userGet = userRepository.List();
-            var currentUser = timeLineViewModel.CurrentUser;
+            var borkGet = borkRepository.List(userId);
+            var PageView = CurrentPageFinder(pageNum, borkGet.Count());
+
             var borks = new List<BorkViewModel>();
-            foreach(var user in userGet)
-            {
-                if (timeLineViewModel.CurrentUser.FollowingId.Contains(user.UserId) || timeLineViewModel.CurrentUser.UserId == user.UserId)
-                {
-                    foreach (var bork in user.UserBorks)
-                    {
-                        borks.Add(methodBork.getView(bork));
-                    }
-                }
-            }
-            borks = borks.OrderByDescending(a => a.DateBorked).ToList();
-            var currentBorks = new List<BorkViewModel>();
-            for (int x = timeLineViewModel.CurrentPage * 5; x < timeLineViewModel.CurrentPage * 5 + 5; x++)
-            {
-                if (x > borks.Count() - 1) break;
-                currentBorks.Add(borks.ElementAt(x));
-            }
-            var pageFinder = borks.Count() % 5;
-            timeLineViewModel.TotalPages = ((borks.Count() - pageFinder) / 5);
-            if (pageFinder > 0) timeLineViewModel.TotalPages++;
-            return currentBorks;
+            foreach (var bork in borkGet) borks.Add(methodBork.getView(bork));
+
+            borks = borks.Skip(pageNum*5).Take(5).ToList();
+            timeLineViewModel.Borks = borks;
+            timeLineViewModel.PageView = PageView;
+            return timeLineViewModel;
+        }
+
+        private PaginationViewModel CurrentPageFinder(int pageNum, int borkCount)
+        {
+            var PageView = new PaginationViewModel();
+
+            var pageFinder = borkCount % 5;
+            PageView.TotalPages = ((borkCount - pageFinder) / 5);
+            if (pageFinder > 0) PageView.TotalPages++;
+
+            PageView.CurrentPage = Math.Max(0, pageNum);
+            PageView.PreviousPage = Math.Max(0, PageView.CurrentPage - 1);
+            PageView.NextPage = Math.Min(PageView.TotalPages - 1, PageView.CurrentPage + 1);
+
+            return PageView;
         }
 
         public ActionResult Index()
         {
-            var timeLineViewModel = TimeLineViewModel.getTimeLineViewModel();
-            var borks = getBorks();
-            timeLineViewModel.Borks = borks;
+            var userId = this.HttpContext.Session["UserId"] as int?;
+            var timeLineViewModel = GetBorks(userId ?? 0, 0);
             return View(timeLineViewModel);
         }
 
-        [HttpGet]
-        public ActionResult NextBork()
+        [HttpPost]
+        public ActionResult Index(int pageNum)
         {
-            var timeLineViewModel = TimeLineViewModel.getTimeLineViewModel();
-            var borkRepository = BorkRepository.getRepository();
-            timeLineViewModel.changePage(1);
-            return RedirectToAction("Index");
-        }
-
-        [HttpGet]
-        public ActionResult PreviousBork()
-        {
-            var timeLineViewModel = TimeLineViewModel.getTimeLineViewModel();
-            var borkRepository = BorkRepository.getRepository();
-            timeLineViewModel.changePage(0);
-            return RedirectToAction("Index");
+            ModelState.Clear();
+            var userId = this.HttpContext.Session["UserId"] as int?;
+            var timeLineViewModel = GetBorks(userId ?? 0, pageNum);
+            return View(timeLineViewModel);
         }
 
         [HttpPost]
         public ActionResult NewBork(BorkViewModel bork)
         {
-            var timeLineViewModel = TimeLineViewModel.getTimeLineViewModel();
+            var userId = this.HttpContext.Session["UserId"] as int?;
+            var timeLineViewModel = new TimeLineViewModel(userId ?? 0);
             timeLineViewModel.AddBork(bork.BorkText);
             return RedirectToAction("Index");
         }

@@ -8,6 +8,8 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
     {
         IEnumerable<T> List();
 
+        IEnumerable<T> List(int userId);
+
         void Add(T entity);
 
         void Delete(T entity);

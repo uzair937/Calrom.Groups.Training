@@ -1,0 +1,15 @@
+﻿@model Calrom.Training.SocialMedia.Web.Models.PaginationViewModel
+
+<div class="page-container">
+    <p class="page-text">Page - @(Model.CurrentPage + 1) out of @Model.TotalPages</p>
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        <input class="next-button" type="submit" value="Last Bork" />
+        @Html.Hidden("pageNum", Model.PreviousPage, new { value = Model.PreviousPage })
+    }
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        <input class="next-button" type="submit" value="Next Bork" />
+        @Html.Hidden("pageNum", Model.NextPage, new { value = Model.NextPage })
+    }
+</div>

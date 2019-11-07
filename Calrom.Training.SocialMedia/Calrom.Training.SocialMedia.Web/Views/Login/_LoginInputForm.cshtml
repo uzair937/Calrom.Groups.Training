@@ -1,0 +1,13 @@
+﻿@model Calrom.Training.SocialMedia.Web.Models.LoginViewModel
+
+<div class="login-input">
+    <h1>Enter Login Details</h1>
+    @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+    {
+
+        @Html.TextBoxFor(m => m.UserName, new { placeholder = "...Username" })
+        @Html.TextBoxFor(m => m.Password, new { placeholder = "...Password!" })
+        <input id="bork-button" type="submit" name="borkBoxSubmit" value="Bork" />
+    }
+    @Html.ValidationMessage("LogOnError")
+</div>
