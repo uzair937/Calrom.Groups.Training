@@ -6,7 +6,10 @@
 }
 <h2>@ViewBag.Title.</h2>
 
-<h3>@Html.ActionLink("New Listing", "NewProduct", "Home")</h3>
+@if (Request.IsAuthenticated)
+{
+    <h3>@Html.ActionLink("New Listing", "NewProduct", "Home")</h3>
+}
 
 <h3>Current listings.</h3>
 
@@ -15,20 +18,15 @@
 {
     <table>
         <tr>
-            Item ID: @product.ItemID
-            <br />
             Item Name: @product.ItemName
             <br />
             Starting Bid: £@product.ItemPrice
             <br />
             Current Bid: £@product.CurrentBid
             <br />
-            Item Description: @product.ItemDescription
-            <br />
             <img src="@product.ImageSrc" class="images" />
             <br />
+            @Html.ActionLink("View this listing", "IndividualProduct", "Home", new { itemId = product.ItemID }, null)
         </tr>
     </table>
-    
-    @Html.Partial("_BidProductForm", new BidProductViewModel { ItemID = product.ItemID })
 }

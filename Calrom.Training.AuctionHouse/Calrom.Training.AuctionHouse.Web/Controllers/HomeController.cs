@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Web.Helpers;
 using System;
 using System.IO;
+using System.Web.Security;
+using System.Linq;
 
 namespace Calrom.Training.AuctionHouse.Web.Controllers
 {
@@ -19,43 +21,13 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             return View();
         }
 
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult NewUser(UserDatabaseModel userDatabaseModel)
-        {
-            UserInstance.Add(userDatabaseModel);
-            return RedirectToAction("Login");
-        }
-
-        public ActionResult NewUser()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult GetLogin(UserDatabaseModel userDatabaseModel)
-        {
-            var tempList = UserInstance.List();
-            foreach (var user in tempList)
-            {
-                if (user.Username == userDatabaseModel.Username && user.Password == userDatabaseModel.Password)
-                {
-                    return RedirectToAction("Listings");
-                }
-            }
-            return RedirectToAction("Login");
-        }
-
         public ActionResult NewProduct()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult NewProduct(ProductViewModel productViewModel, HttpPostedFileBase imageFile)
         {
             var productDatabaseModel = new ProductDatabaseModel();
@@ -76,15 +48,17 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         public ActionResult Listings()
         {
             var listingsViewModel = new ListingsViewModel();
-            var tempList = ProductInstance.List();
-            foreach (var product in tempList)
+            var TempList = ProductInstance.List();
+            foreach (var product in TempList)
             {
-                var productViewModel = new ProductViewModel();
-                productViewModel.ItemID = product.ItemID;
-                productViewModel.ItemName = product.ItemName;
-                productViewModel.ItemPrice = product.ItemPrice;
-                productViewModel.ItemDescription = product.ItemDescription;
-                productViewModel.CurrentBid = product.CurrentBid;
+                var productViewModel = new ProductViewModel
+                {
+                    ItemID = product.ItemID,
+                    ItemName = product.ItemName,
+                    ItemPrice = product.ItemPrice,
+                    ItemDescription = product.ItemDescription,
+                    CurrentBid = product.CurrentBid
+                };
                 if (product.ImageSrc != null)
                 {
                     productViewModel.ImageSrc = Path.Combine(@"\Images", product.ImageSrc);
@@ -97,8 +71,9 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         [HttpPost]
         public ActionResult BidProduct(BidProductViewModel viewModel)
         {
-            var tempList = ProductInstance.List();
-            foreach (var product in tempList)
+            var TempList = ProductInstance.List();
+            var product = TempList.FirstOrDefault(p => p.ItemID == viewModel.ItemID);
+            if(product != null)
             {
                 if (product.ItemID == viewModel.ItemID)
                 {
@@ -111,7 +86,29 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                     }
                 }
             }
-            return RedirectToAction("Listings");
+            return RedirectToAction("IndividualProduct", new { itemId = product.ItemID });
+        }
+
+        public ActionResult IndividualProduct(int itemId)
+        {
+            var TempList = ProductInstance.List();
+            var product = TempList.FirstOrDefault(p => p.ItemID == itemId);
+            if (product != null)
+            {
+                var viewModel = new IndividualProductViewModel
+                {
+                    ItemID = product.ItemID,
+                    ItemName = product.ItemName,
+                    ItemPrice = product.ItemPrice,
+                    CurrentBid = product.CurrentBid,
+                    ItemDescription = product.ItemName,
+                    ImageSrc = product.ImageSrc
+                };
+                return View(viewModel);
+            } else
+            {
+                return HttpNotFound();
+            }
         }
     }
 }
