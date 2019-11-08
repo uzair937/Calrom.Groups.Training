@@ -8,7 +8,7 @@
 
 <div>
     @Html.ValidationMessage("Invalid");
-    @using (Html.BeginForm("GetLogin", "Login", FormMethod.Get))
+    @using (Html.BeginForm("GetLogin", "Login", FormMethod.Post))
     {
         @Html.TextBoxFor(m => m.Username, new { placeholder = "Username" })
         @Html.PasswordFor(m => m.Password, new { placeholder = "Password" })

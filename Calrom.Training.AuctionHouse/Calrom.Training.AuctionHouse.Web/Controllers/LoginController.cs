@@ -23,7 +23,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             return View(model);
         }
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult GetLogin(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)

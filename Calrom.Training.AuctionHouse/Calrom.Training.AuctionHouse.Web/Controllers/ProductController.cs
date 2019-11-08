@@ -22,7 +22,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
 
         public void Populate()
         {
-            for (var i = 0; i < 20; i++)
+            for (var i = 0; i < 30; i++)
             {
                 var model = new ProductViewModel();
                 model.ItemName = i.ToString();

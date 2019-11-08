@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Calrom.Training.AuctionHouse.Web.Models
 {
-    public class UserViewModel
+    public class AccountViewModel
     {
         public int UserID { get; set; }
         public string Username { get; set; }
