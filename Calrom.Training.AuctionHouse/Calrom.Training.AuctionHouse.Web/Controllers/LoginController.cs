@@ -17,23 +17,22 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
 
         public ActionResult Login()
         {
-            var model = new UserDatabaseModel();
-            //var model = new LoginViewModel();
-            //model.UserList = new List<LoginViewModel>();
-            //model.IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated;
+            var model = new LoginViewModel();
+            model.UserList = new List<LoginViewModel>();
+            model.IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated;
             return View(model);
         }
 
         [HttpGet]
-        public ActionResult GetLogin(UserDatabaseModel userDatabaseModel)
+        public ActionResult GetLogin(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)
             {
-                bool isValid = IsValidUser(userDatabaseModel);
+                bool isValid = IsValidUser(loginViewModel);
                 if (isValid)
                 {
-                    FormsAuthentication.SetAuthCookie(userDatabaseModel.Username, false);
-                    Session.Add("UserID", userDatabaseModel.UserID);
+                    FormsAuthentication.SetAuthCookie(loginViewModel.Username, false);
+                    Session.Add("UserID", loginViewModel.UserID);
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -45,14 +44,14 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             return RedirectToAction("Login");
         }
 
-        public bool IsValidUser(UserDatabaseModel userDatabaseModel)
+        public bool IsValidUser(LoginViewModel loginViewModel)
         {
-            var TempList = UserInstance.List();
-            if (TempList.Count > 0)
+            var tempList = UserInstance.List();
+            if (tempList.Count > 0)
             {
-                foreach (var user in TempList)
+                foreach (var user in tempList)
                 {
-                    if (user.Username == userDatabaseModel.Username && user.Password == userDatabaseModel.Password)
+                    if (user.Username == loginViewModel.Username && user.Password == loginViewModel.Password)
                     {
                         return true;
                     } else
@@ -77,9 +76,13 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewUser(UserDatabaseModel userDatabaseModel)
+        public ActionResult NewUser(LoginViewModel loginViewModel)
         {
-            UserInstance.Add(userDatabaseModel);
+            var db = new UserDatabaseModel();
+            db.Username = loginViewModel.Username;
+            db.Password = loginViewModel.Password;
+            db.DateOfBirth = loginViewModel.DateOfBirth;
+            UserInstance.Add(db);
             return RedirectToAction("Login");
         }
     }
