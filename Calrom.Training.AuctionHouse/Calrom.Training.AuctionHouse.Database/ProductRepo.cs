@@ -40,6 +40,7 @@ namespace Calrom.Training.AuctionHouse.Database
         public ProductRepo()
         {
             _productContext = new ProductDatabaseModel();
+            _productContext.ProductList = new List<ProductDatabaseModel>();
         }
         public void Add(ProductDatabaseModel entity)
         {

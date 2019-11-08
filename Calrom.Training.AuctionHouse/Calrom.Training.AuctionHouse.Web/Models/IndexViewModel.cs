@@ -5,9 +5,9 @@ using System.Web;
 
 namespace Calrom.Training.AuctionHouse.Web.Models
 {
-    public class ListingsViewModel
+    public class IndexViewModel
     {
-        public List<ProductViewModel> ProductList { get; set; }
+        public string CurrentUser { get; set; }
         public bool IsAuthenticated { get; set; }
     }
 }

@@ -13,5 +13,6 @@ namespace Calrom.Training.AuctionHouse.Web.Models
         public double CurrentBid { get; set; }
         public string ItemDescription { get; set; }
         public string ImageSrc { get; set; }
+        public bool IsAuthenticated { get; set; }
     }
 }

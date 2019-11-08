@@ -6,7 +6,7 @@
 
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("NewProduct", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("NewProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.TextBoxFor(m => m.ItemName, new { placeholder = "Item Name" })
     @Html.TextBoxFor(m => m.ItemPrice, new { placeholder = "Starting Bid" })

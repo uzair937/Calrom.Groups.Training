@@ -1,17 +1,21 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+@model Calrom.Training.AuctionHouse.Web.Models.IndexViewModel
 
-<div>
-    <h1>Uzair's Auction House</h1>
-    <p >Welcome to the Auction House. MUCH better than eBay!</p>
-</div>
-
-<div>
     <div>
-        <h2>New here? Why not register?</h2>
-        <p>
-            Click the login button and create a new account.
-        </p>
+        <h1>Uzair's Auction House</h1>
+        <p>Welcome to the Auction House @Model.CurrentUser. MUCH better than eBay!</p>
     </div>
-</div>
+
+    <div>
+        @if (!Model.IsAuthenticated)
+        {
+            <div>
+                <h2>New here? Why not register?</h2>
+                <p>
+                    Click the login button and create a new account.
+                </p>
+            </div>
+        }
+    </div>

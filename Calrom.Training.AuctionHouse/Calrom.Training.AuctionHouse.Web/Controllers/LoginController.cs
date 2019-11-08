@@ -18,6 +18,8 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         public ActionResult Login()
         {
             var model = new UserDatabaseModel();
+            //model.UserList = new List<LoginViewModel>();
+            //model.IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated;
             return View(model);
         }
 
@@ -36,9 +38,10 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                 else
                 {
                     ModelState.AddModelError("Invalid", "Invalid username or password.");
+                    return RedirectToAction("Login");
                 }
             }
-            return View(userDatabaseModel);
+            return RedirectToAction("Login");
         }
 
         public ActionResult NewUser()

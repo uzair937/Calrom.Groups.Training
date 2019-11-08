@@ -8,8 +8,8 @@
 
 @using (Html.BeginForm("NewUser", "Login", FormMethod.Post))
 {
-    @Html.TextBoxFor(m => m.Username)
-    @Html.TextBoxFor(m => m.DateOfBirth)
-    @Html.PasswordFor(m => m.Password)
+    @Html.TextBoxFor(m => m.Username, new { placeholder = "Username" })
+    @Html.TextBoxFor(m => m.DateOfBirth, new { placeholder = "Date Of Birth" })
+    @Html.PasswordFor(m => m.Password, new { placeholder = "Password" })
     <input type="submit" value="Submit">
 }

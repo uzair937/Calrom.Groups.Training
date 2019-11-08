@@ -41,11 +41,12 @@ namespace Calrom.Training.AuctionHouse.Database
         public UserRepo()
         {
             _userContext = new UserDatabaseModel();
+            _userContext.UserList = new List<UserDatabaseModel>();
         }
-        public void Add(UserDatabaseModel entity)
+        public void Add(UserDatabaseModel userDatabaseModel)
         {
-            entity.UserID = GetRandom();
-            _userContext.UserList.Add(entity);
+            userDatabaseModel.UserID = GetRandom();
+            _userContext.UserList.Add(userDatabaseModel);
         }
 
         public List<UserDatabaseModel> List()

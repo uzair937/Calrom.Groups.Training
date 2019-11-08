@@ -122,11 +122,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Models\IndividualProductViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\ListingsViewModel.cs" />
@@ -158,12 +160,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Views\Home\Listings.cshtml" />
+    <Content Include="Views\Product\Listings.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
-    <Content Include="Views\Home\NewProduct.cshtml" />
+    <Content Include="Views\Product\NewProduct.cshtml" />
     <Content Include="Views\Login\NewUser.cshtml" />
-    <Content Include="Views\Home\_BidProductForm.cshtml" />
-    <Content Include="Views\Home\IndividualProduct.cshtml" />
+    <Content Include="Views\Product\_BidProductForm.cshtml" />
+    <Content Include="Views\Product\IndividualProduct.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Calrom.Training.AuctionHouse.Database\Calrom.Training.AuctionHouse.Database.csproj">

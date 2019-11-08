@@ -14,10 +14,5 @@ namespace Calrom.Training.AuctionHouse.Database
         public double CurrentBid { get; set; }
         public string ItemDescription { get; set; }
         public string ImageSrc { get; set; }
-
-        public ProductDatabaseModel()
-        {
-            ProductList = new List<ProductDatabaseModel>();
-        }
     }
 }
