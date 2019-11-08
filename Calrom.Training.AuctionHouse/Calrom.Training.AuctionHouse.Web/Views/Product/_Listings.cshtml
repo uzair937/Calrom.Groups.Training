@@ -1,22 +1,9 @@
 ﻿@using Calrom.Training.AuctionHouse.Web.Models
 @model ListingsViewModel
 
-@{
-    ViewBag.Title = "Listings";
-}
-<h2>@ViewBag.Title.</h2>
-
-@if (@Model.IsAuthenticated)
-{
-    <h3>@Html.ActionLink("New Listing", "NewProduct", "Product")</h3>
-}
-
-<h3>Current listings.</h3>
-
-<p>Listings will be displayed here.</p>
 @foreach (var product in Model.ProductList)
 {
-    <table>
+    <table class="listing">
         <tr>
             Item Name: @product.ItemName
             <br />
@@ -26,7 +13,7 @@
             <br />
             <img src="@product.ImageSrc" class="images" />
             <br />
-            @Html.ActionLink("View this listing", "IndividualProduct", "Product", new { ItemId = product.ItemID }, null)
+            @Html.ActionLink("View this listing", "IndividualProduct", "Product", new { itemId = product.ItemID }, null)
         </tr>
     </table>
 }

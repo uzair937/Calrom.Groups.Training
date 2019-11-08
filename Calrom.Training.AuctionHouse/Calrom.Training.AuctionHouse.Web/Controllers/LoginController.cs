@@ -18,6 +18,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         public ActionResult Login()
         {
             var model = new UserDatabaseModel();
+            //var model = new LoginViewModel();
             //model.UserList = new List<LoginViewModel>();
             //model.IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated;
             return View(model);
@@ -28,7 +29,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool isValid = IsAuthenticated(userDatabaseModel);
+                bool isValid = IsValidUser(userDatabaseModel);
                 if (isValid)
                 {
                     FormsAuthentication.SetAuthCookie(userDatabaseModel.Username, false);
@@ -44,19 +45,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             return RedirectToAction("Login");
         }
 
-        public ActionResult NewUser()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult NewUser(UserDatabaseModel userDatabaseModel)
-        {
-            UserInstance.Add(userDatabaseModel);
-            return RedirectToAction("Login");
-        }
-
-        public bool IsAuthenticated(UserDatabaseModel userDatabaseModel)
+        public bool IsValidUser(UserDatabaseModel userDatabaseModel)
         {
             var TempList = UserInstance.List();
             if (TempList.Count > 0)
@@ -79,6 +68,18 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         {
             FormsAuthentication.SignOut();
             Session.Abandon();
+            return RedirectToAction("Login");
+        }
+
+        public ActionResult NewUser()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult NewUser(UserDatabaseModel userDatabaseModel)
+        {
+            UserInstance.Add(userDatabaseModel);
             return RedirectToAction("Login");
         }
     }

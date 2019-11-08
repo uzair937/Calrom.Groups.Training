@@ -20,6 +20,18 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             return View();
         }
 
+        public void Populate()
+        {
+            for (var i = 0; i < 20; i++)
+            {
+                var model = new ProductViewModel();
+                model.ItemName = i.ToString();
+                model.ItemPrice = i;
+                model.ItemDescription = i.ToString() + "Description";
+                NewProduct(model, null);
+            }
+        }
+
         [HttpPost]
         [Authorize]
         public ActionResult NewProduct(ProductViewModel productViewModel, HttpPostedFileBase imageFile)
@@ -85,10 +97,10 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             return RedirectToAction("IndividualProduct", new { itemId = product.ItemID });
         }
 
-        public ActionResult IndividualProduct(int itemId)
+        public ActionResult IndividualProduct(int ItemID)
         {
             var tempList = ProductInstance.List();
-            var product = tempList.FirstOrDefault(p => p.ItemID == itemId);
+            var product = tempList.FirstOrDefault(p => p.ItemID == ItemID);
             if (product != null)
             {
                 var viewModel = new IndividualProductViewModel

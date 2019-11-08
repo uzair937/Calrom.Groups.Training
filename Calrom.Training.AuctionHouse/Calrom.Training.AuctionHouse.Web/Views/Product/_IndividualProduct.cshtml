@@ -1,0 +1,18 @@
+﻿@using Calrom.Training.AuctionHouse.Web.Models
+@model IndividualProductViewModel
+
+<h3>Item Name: @Model.ItemName</h3>
+<table>
+    <tr>
+        Item ID: @Model.ItemID
+        <br />
+        Starting Bid: £@Model.ItemPrice
+        <br />
+        Current Bid: £@Model.CurrentBid
+        <br />
+        Item Description: @Model.ItemDescription
+        <br />
+        <img src="/Images/@Model.ImageSrc" class="images" />
+        <br />
+    </tr>
+</table>
