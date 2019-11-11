@@ -14,6 +14,8 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
     public class ProductController : Controller
     {
         public static ProductRepo ProductInstance { get { return ProductRepo.getInstance; } }
+        private static UserRepo UserInstance { get { return UserRepo.getInstance; } }
+        private static BidRepo BidInstance { get { return BidRepo.getInstance; } }
 
         public ActionResult NewProduct()
         {
@@ -88,13 +90,56 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                     if (product.CurrentBid == 0)
                     {
                         product.CurrentBid = product.ItemPrice + viewModel.Amount;
+                        StoreBidItem(product);
                     } else
                     {
                         product.CurrentBid += viewModel.Amount;
+                        StoreBidItem(product);
                     }
                 }
             }
             return RedirectToAction("IndividualProduct", new { itemId = product.ItemID });
+        }
+
+        private void StoreBidItem(ProductDatabaseModel productDatabaseModel)
+        {
+            var tempList = UserInstance.List();
+            var index = 0;
+            int index2 = 0;
+            foreach (var user in tempList)
+            {
+                if (user.Username == this.HttpContext.User.Identity.Name)
+                {                    
+                    if (user.BidList.Count == 0)
+                    {
+                        var model = new BidDatabaseModel()
+                        {
+                            ItemID = productDatabaseModel.ItemID,
+                            ItemName = productDatabaseModel.ItemName,
+                            Amount = productDatabaseModel.CurrentBid
+                        };
+                        BidInstance.Add(model);
+                        user.BidList = BidInstance.List();
+                    }
+                    foreach (var bid in user.BidList)
+                    {
+                        if (bid.ItemID != productDatabaseModel.ItemID)
+                        {
+                            var model = new BidDatabaseModel()
+                            {
+                                ItemID = productDatabaseModel.ItemID,
+                                ItemName = productDatabaseModel.ItemName,
+                                Amount = productDatabaseModel.CurrentBid
+                            };
+                            BidInstance.Add(model);
+                            BidInstance.Update(index, index2, model, user);
+                            index2++;
+                        }
+                    }
+                    
+                }
+                index++;
+            }
         }
 
         public ActionResult IndividualProduct(int ItemID)

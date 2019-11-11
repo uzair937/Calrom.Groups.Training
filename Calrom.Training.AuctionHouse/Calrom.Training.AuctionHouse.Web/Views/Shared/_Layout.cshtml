@@ -19,6 +19,7 @@
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Logout", "Logout", "Login")</li>
+                        <li>@Html.ActionLink("Account", "Account", "Login")</li>
                     }
                     else
                     {

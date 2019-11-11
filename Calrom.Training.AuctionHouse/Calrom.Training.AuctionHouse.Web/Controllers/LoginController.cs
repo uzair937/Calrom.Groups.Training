@@ -17,9 +17,11 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
 
         public ActionResult Login()
         {
-            var model = new LoginViewModel();
-            model.UserList = new List<LoginViewModel>();
-            model.IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated;
+            var model = new LoginViewModel
+            {
+                UserList = new List<LoginViewModel>(),
+                IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated
+            };
             return View(model);
         }
 
@@ -79,11 +81,33 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         public ActionResult NewUser(LoginViewModel loginViewModel)
         {
             var db = new UserDatabaseModel();
+            db.BidList = new List<BidDatabaseModel>();
             db.Username = loginViewModel.Username;
             db.Password = loginViewModel.Password;
             db.DateOfBirth = loginViewModel.DateOfBirth;
             UserInstance.Add(db);
             return RedirectToAction("Login");
+        }
+
+        [Authorize]
+        public ActionResult Account()
+        {
+            var tempList = UserInstance.List();
+            foreach (var user in tempList)
+            {
+                if (user.Username == this.HttpContext.User.Identity.Name)
+                {
+                    var model = new AccountViewModel
+                    {
+                        UserID = user.UserID,
+                        Username = user.Username,
+                        DateOfBirth = user.DateOfBirth,
+                        BidList = user.BidList
+                    };
+                    return View(model);
+                }
+            }
+            return View();
         }
     }
 }

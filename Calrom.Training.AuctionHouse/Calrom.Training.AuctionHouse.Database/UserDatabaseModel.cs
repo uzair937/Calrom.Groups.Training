@@ -12,5 +12,6 @@ namespace Calrom.Training.AuctionHouse.Database
         public string Username { get; set; }
         public string DateOfBirth { get; set; }
         public string Password { get; set; }
+        public List<BidDatabaseModel> BidList { get; set; }
     }
 }

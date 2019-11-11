@@ -1,0 +1,35 @@
+﻿@model Calrom.Training.AuctionHouse.Web.Models.AccountViewModel
+
+@{
+    ViewBag.Title = "User Account";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<table class="listing">
+    <tr>
+        User ID: @Model.UserID
+        <br />
+        Username: @Model.Username
+        <br />
+        Date of Birth: @Model.DateOfBirth
+        <br />
+        @if (Model.BidList != null)
+        {
+            foreach (var item in Model.BidList)
+            {
+                <table class="listing">
+                    <tr>
+                        Item ID: @item.ItemID
+                        <br />
+                        Item Name: @item.ItemName
+                        <br />
+                        Amount Bidded: @item.Amount
+                        <br />
+                        Product Link: @Html.ActionLink("View this listing", "IndividualProduct", "Product", new { ItemId = item.ItemID }, null)
+                    </tr>
+                </table>
+            }
+        }
+
+</table>

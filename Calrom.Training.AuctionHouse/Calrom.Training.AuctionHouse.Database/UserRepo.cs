@@ -28,7 +28,7 @@ namespace Calrom.Training.AuctionHouse.Database
             }
         }
 
-        public static int GetRandom()
+        private static int GetRandom()
         {
             var rng = RandomNumberGenerator.Create();
             var salt = new byte[4];
@@ -37,7 +37,7 @@ namespace Calrom.Training.AuctionHouse.Database
             return result;
         }
 
-        UserDatabaseModel _userContext;
+        private UserDatabaseModel _userContext;
         public UserRepo()
         {
             _userContext = new UserDatabaseModel();
@@ -45,7 +45,10 @@ namespace Calrom.Training.AuctionHouse.Database
         }
         public void Add(UserDatabaseModel userDatabaseModel)
         {
-            userDatabaseModel.UserID = GetRandom();
+            if (userDatabaseModel.UserID == 0)
+            {
+                userDatabaseModel.UserID = GetRandom();
+            }
             _userContext.UserList.Add(userDatabaseModel);
         }
 

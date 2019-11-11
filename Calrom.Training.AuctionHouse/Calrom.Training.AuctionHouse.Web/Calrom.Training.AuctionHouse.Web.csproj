@@ -513,7 +513,7 @@
     <Content Include="Views\Product\IndividualProduct.cshtml" />
     <Content Include="Views\Product\_Listings.cshtml" />
     <Content Include="Views\Product\_IndividualProduct.cshtml" />
-    <Content Include="Views\Login\UserAccount.cshtml" />
+    <Content Include="Views\Login\Account.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Calrom.Training.AuctionHouse.Database\Calrom.Training.AuctionHouse.Database.csproj">
