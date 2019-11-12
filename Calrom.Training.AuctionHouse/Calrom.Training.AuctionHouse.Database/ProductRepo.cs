@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Security.Cryptography;
 
 namespace Calrom.Training.AuctionHouse.Database
@@ -32,11 +31,12 @@ namespace Calrom.Training.AuctionHouse.Database
             var rng = RandomNumberGenerator.Create();
             var salt = new byte[4];
             rng.GetBytes(salt);
-            var result = BitConverter.ToInt32(salt,0) & int.MaxValue;
+            var result = BitConverter.ToInt32(salt, 0) & int.MaxValue;
             return result;
         }
 
         ProductDatabaseModel _productContext;
+        //list in here no need for db model
         public ProductRepo()
         {
             _productContext = new ProductDatabaseModel();

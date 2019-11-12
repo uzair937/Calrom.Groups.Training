@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace Calrom.Training.AuctionHouse.Database
 {
@@ -12,6 +9,6 @@ namespace Calrom.Training.AuctionHouse.Database
         public string Username { get; set; }
         public string DateOfBirth { get; set; }
         public string Password { get; set; }
-        public List<BidDatabaseModel> BidList { get; set; }
+        public List<int> ItemIDS { get; set; }
     }
 }

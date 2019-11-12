@@ -9,16 +9,21 @@
 <h3>Item Name: @Model.ItemName</h3>
 <table>
     <tr>
-        Item ID: @Model.ItemID
-        <br />
-        Starting Bid: £@Model.ItemPrice
-        <br />
-        Current Bid: £@Model.CurrentBid
-        <br />
-        Item Description: @Model.ItemDescription
-        <br />
-        <img src="/Images/@Model.ImageSrc" class="images" />
-        <br />
+        <td>
+            Item ID: @Model.ItemID
+        </td>
+        <td>
+            Starting Bid: £@Model.ItemPrice
+        </td>
+        <td>
+            Current Bid: £@Model.CurrentBid
+        </td>
+        <td>
+            Item Description: @Model.ItemDescription
+        </td>
+        <td>
+            <img src="/Images/@Model.ImageSrc" class="images" />
+        </td>
     </tr>
 </table>
 @if (Model.IsAuthenticated)

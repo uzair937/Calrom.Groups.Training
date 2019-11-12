@@ -7,7 +7,7 @@
 <h3>Login Page.</h3>
 
 <div>
-    @Html.ValidationMessage("Invalid");
+    @*@Html.ValidationMessage("Invalid");*@
     @using (Html.BeginForm("GetLogin", "Login", FormMethod.Post))
     {
         @Html.TextBoxFor(m => m.Username, new { placeholder = "Username" })

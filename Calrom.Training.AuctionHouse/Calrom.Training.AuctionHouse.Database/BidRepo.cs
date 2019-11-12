@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Security.Cryptography;
-
-namespace Calrom.Training.AuctionHouse.Database
+﻿namespace Calrom.Training.AuctionHouse.Database
 {
-    public class BidRepo : IRepository<BidDatabaseModel>
+    public class BidRepo
     {
         private static BidRepo Instance = null;
         private static readonly object padlock = new object();
@@ -31,21 +26,21 @@ namespace Calrom.Training.AuctionHouse.Database
         public BidRepo()
         {
             _bidContext = new BidDatabaseModel();
-            _bidContext.BidList = new List<BidDatabaseModel>();
-        }
-        public void Update(int index, int index2, BidDatabaseModel bidDatabaseModel, UserDatabaseModel _userContext)
-        {
-            _userContext.UserList[index].BidList[index2] = bidDatabaseModel;
         }
 
-        public void Add(BidDatabaseModel entity)
+        public void Add(int entity)
         {
-            _bidContext.BidList.Add(entity);
+            _bidContext.UserID = entity;
         }
 
-        public List<BidDatabaseModel> List()
+        public int GetUser()
         {
-            return _bidContext.BidList;
+            return _bidContext.UserID;
+        }
+
+        public double GetAmount()
+        {
+            return _bidContext.Amount;
         }
     }
 }

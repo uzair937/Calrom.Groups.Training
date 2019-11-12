@@ -5,15 +5,21 @@
 {
     <table class="listing">
         <tr>
-            Item Name: @product.ItemName
-            <br />
-            Starting Bid: £@product.ItemPrice
-            <br />
-            Current Bid: £@product.CurrentBid
-            <br />
-            <img src="@product.ImageSrc" class="images" />
-            <br />
-            @Html.ActionLink("View this listing", "IndividualProduct", "Product", new { itemId = product.ItemID }, null)
+            <td>
+                Item Name: @product.ItemName
+                </td>
+            <td>
+                Starting Bid: £@product.ItemPrice
+            </td>
+            <td>
+                Current Bid: £@product.CurrentBid
+            </td>
+            <td>
+                <img src="@product.ImageSrc" class="images" />
+            </td>
+            <td>
+                @Html.ActionLink("View this listing", "IndividualProduct", "Product", new { itemId = product.ItemID }, null)
+            </td>
         </tr>
     </table>
 }

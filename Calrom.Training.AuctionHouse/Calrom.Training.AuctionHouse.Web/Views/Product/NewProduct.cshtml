@@ -9,11 +9,26 @@
 
 @using (Html.BeginForm("NewProduct", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
-    @Html.TextBoxFor(m => m.ItemName, new { placeholder = "Item Name" })
-    @Html.TextBoxFor(m => m.ItemPrice, new { placeholder = "Starting Bid" })
-    @Html.TextBoxFor(m => m.ItemDescription, new { placeholder = "Description" })
-    @Html.TextBoxFor(m => m.ImageFile, new { type = "file" })
-    <input type="submit" value="Submit">
+<table>
+    <tr>
+        <td>
+            @Html.TextBoxFor(m => m.ItemName, new { placeholder = "Item Name" })
+        </td>
+        <td>
+            @Html.TextBoxFor(m => m.ItemPrice, new { placeholder = "Starting Bid" })
+        </td>
+        <td>
+            @Html.TextBoxFor(m => m.ItemDescription, new { placeholder = "Description" })
+        </td>
+        <td>
+            @Html.TextBoxFor(m => m.ImageFile, new { type = "file" })
+        </td>
+        <td>
+            <input type="submit" value="Submit">
+        </td>
+    </tr>
+</table>
+    
 }
 <input type="button" value="Populate" onclick="onClick()">
 <script>

@@ -472,7 +472,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\PaginationViewModel.cs" />
     <Compile Include="Models\IndexViewModel.cs" />
     <Compile Include="Models\IndividualProductViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />

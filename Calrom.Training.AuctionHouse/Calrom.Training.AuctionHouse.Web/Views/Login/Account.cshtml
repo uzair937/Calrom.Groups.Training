@@ -9,27 +9,23 @@
 <table class="listing">
     <tr>
         User ID: @Model.UserID
-        <br />
         Username: @Model.Username
-        <br />
         Date of Birth: @Model.DateOfBirth
-        <br />
-        @if (Model.BidList != null)
-        {
-            foreach (var item in Model.BidList)
-            {
-                <table class="listing">
-                    <tr>
-                        Item ID: @item.ItemID
-                        <br />
-                        Item Name: @item.ItemName
-                        <br />
-                        Amount Bidded: @item.Amount
-                        <br />
-                        Product Link: @Html.ActionLink("View this listing", "IndividualProduct", "Product", new { ItemId = item.ItemID }, null)
-                    </tr>
-                </table>
-            }
-        }
-
+    </tr>
 </table>
+
+<h3>Live products</h3>
+@if (Model.ItemIDS != null)
+{
+    foreach (var item in Model.ItemIDS)
+    {
+        <table class="listing">
+            <tr>
+                Item ID: @item
+                @*Item Name: @item.ItemName
+                Amount Bidded: @item.Amount*@
+                Product Link: @Html.ActionLink("View this listing", "IndividualProduct", "Product", new { ItemId = item }, null)
+            </tr>
+        </table>
+    }
+}

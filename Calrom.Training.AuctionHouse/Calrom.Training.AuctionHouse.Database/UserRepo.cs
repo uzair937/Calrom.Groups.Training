@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Security.Cryptography;
 
 namespace Calrom.Training.AuctionHouse.Database
 {
     public class UserRepo : IRepository<UserDatabaseModel>
     {
-        private static int ids = 0;
         private static UserRepo Instance = null;
         private static readonly object padlock = new object();
         public static UserRepo getInstance
@@ -33,7 +31,7 @@ namespace Calrom.Training.AuctionHouse.Database
             var rng = RandomNumberGenerator.Create();
             var salt = new byte[4];
             rng.GetBytes(salt);
-            var result = BitConverter.ToInt32(salt,0) & int.MaxValue;
+            var result = BitConverter.ToInt32(salt, 0) & int.MaxValue;
             return result;
         }
 

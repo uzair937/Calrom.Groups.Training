@@ -1,13 +1,6 @@
-﻿using Calrom.Training.AuctionHouse.Web.Models;
-using Calrom.Training.AuctionHouse.Database;
-using System.Collections.Generic;
-using System.Web;
+﻿using Calrom.Training.AuctionHouse.Database;
+using Calrom.Training.AuctionHouse.Web.Models;
 using System.Web.Mvc;
-using System.Web.Helpers;
-using System;
-using System.IO;
-using System.Web.Security;
-using System.Linq;
 
 namespace Calrom.Training.AuctionHouse.Web.Controllers
 {

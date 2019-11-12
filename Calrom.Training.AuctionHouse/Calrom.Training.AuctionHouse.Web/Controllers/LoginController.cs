@@ -1,19 +1,15 @@
-﻿using Calrom.Training.AuctionHouse.Web.Models;
-using Calrom.Training.AuctionHouse.Database;
+﻿using Calrom.Training.AuctionHouse.Database;
+using Calrom.Training.AuctionHouse.Web.Models;
 using System.Collections.Generic;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Helpers;
-using System;
-using System.IO;
 using System.Web.Security;
-using System.Linq;
 
 namespace Calrom.Training.AuctionHouse.Web.Controllers
 {
     public class LoginController : Controller
     {
         private static UserRepo UserInstance { get { return UserRepo.getInstance; } }
+        private static BidRepo BidInstance { get { return BidRepo.getInstance; } }
 
         public ActionResult Login()
         {
@@ -56,9 +52,6 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                     if (user.Username == loginViewModel.Username && user.Password == loginViewModel.Password)
                     {
                         return true;
-                    } else
-                    {
-                        return false;
                     }
                 }
             }
@@ -80,12 +73,33 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         [HttpPost]
         public ActionResult NewUser(LoginViewModel loginViewModel)
         {
-            var db = new UserDatabaseModel();
-            db.BidList = new List<BidDatabaseModel>();
-            db.Username = loginViewModel.Username;
-            db.Password = loginViewModel.Password;
-            db.DateOfBirth = loginViewModel.DateOfBirth;
-            UserInstance.Add(db);
+            var tempList = UserInstance.List();
+            bool userExists = false;
+            if (tempList != null)
+            {
+                foreach (var user in tempList)
+                {
+                    if (user.Username != loginViewModel.Username)
+                    {
+                        userExists = false;
+                    }
+                    else
+                    {
+                        userExists = true;
+                    }
+                }
+            }
+            if (!userExists)
+            {
+                var db = new UserDatabaseModel()
+                {
+                    ItemIDS = new List<int>(),
+                    Username = loginViewModel.Username,
+                    Password = loginViewModel.Password,
+                    DateOfBirth = loginViewModel.DateOfBirth
+                };
+                UserInstance.Add(db);
+            }
             return RedirectToAction("Login");
         }
 
@@ -102,7 +116,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                         UserID = user.UserID,
                         Username = user.Username,
                         DateOfBirth = user.DateOfBirth,
-                        BidList = user.BidList
+                        ItemIDS = user.ItemIDS
                     };
                     return View(model);
                 }

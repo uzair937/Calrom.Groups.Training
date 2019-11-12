@@ -1,13 +1,10 @@
-﻿using Calrom.Training.AuctionHouse.Web.Models;
-using Calrom.Training.AuctionHouse.Database;
+﻿using Calrom.Training.AuctionHouse.Database;
+using Calrom.Training.AuctionHouse.Web.Models;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Helpers;
-using System;
-using System.IO;
-using System.Web.Security;
-using System.Linq;
 
 namespace Calrom.Training.AuctionHouse.Web.Controllers
 {
@@ -26,10 +23,13 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         {
             for (var i = 0; i < 30; i++)
             {
-                var model = new ProductViewModel();
-                model.ItemName = i.ToString();
-                model.ItemPrice = i;
-                model.ItemDescription = i.ToString() + "Description";
+                var model = new ProductViewModel()
+                {
+                    ItemName = i.ToString(),
+                    ItemPrice = i,
+                    ItemDescription = i.ToString() + "Description",
+                    ImageSrc = "ducky.jpg"
+                };
                 NewProduct(model, null);
             }
         }
@@ -49,15 +49,17 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             productDatabaseModel.ItemName = productViewModel.ItemName;
             productDatabaseModel.ItemPrice = productViewModel.ItemPrice;
             productDatabaseModel.ItemDescription = productViewModel.ItemDescription;
-            ProductInstance.Add(productDatabaseModel); 
+            ProductInstance.Add(productDatabaseModel);
             return RedirectToAction("Listings");
         }
 
         public ActionResult Listings()
         {
-            var listingsViewModel = new ListingsViewModel();
-            listingsViewModel.ProductList = new List<ProductViewModel>();
-            listingsViewModel.IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated;
+            var listingsViewModel = new ListingsViewModel()
+            {
+                ProductList = new List<ProductViewModel>(),
+                IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated
+            };
             var tempList = ProductInstance.List();
             foreach (var product in tempList)
             {
@@ -83,19 +85,20 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         {
             var tempList = ProductInstance.List();
             var product = tempList.FirstOrDefault(p => p.ItemID == viewModel.ItemID);
-            if(product != null)
+            if (product != null)
             {
                 if (product.ItemID == viewModel.ItemID)
                 {
                     if (product.CurrentBid == 0)
                     {
                         product.CurrentBid = product.ItemPrice + viewModel.Amount;
-                        StoreBidItem(product);
-                    } else
+                    }
+                    else
                     {
                         product.CurrentBid += viewModel.Amount;
-                        StoreBidItem(product);
                     }
+
+                    StoreBidItem(product);
                 }
             }
             return RedirectToAction("IndividualProduct", new { itemId = product.ItemID });
@@ -104,41 +107,17 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         private void StoreBidItem(ProductDatabaseModel productDatabaseModel)
         {
             var tempList = UserInstance.List();
-            var index = 0;
-            int index2 = 0;
             foreach (var user in tempList)
             {
                 if (user.Username == this.HttpContext.User.Identity.Name)
-                {                    
-                    if (user.BidList.Count == 0)
+                {
+                    BidInstance.Add(user.UserID);
+                    if (!user.ItemIDS.Contains(productDatabaseModel.ItemID))
                     {
-                        var model = new BidDatabaseModel()
-                        {
-                            ItemID = productDatabaseModel.ItemID,
-                            ItemName = productDatabaseModel.ItemName,
-                            Amount = productDatabaseModel.CurrentBid
-                        };
-                        BidInstance.Add(model);
-                        user.BidList = BidInstance.List();
+                        user.ItemIDS.Add(productDatabaseModel.ItemID);
                     }
-                    foreach (var bid in user.BidList)
-                    {
-                        if (bid.ItemID != productDatabaseModel.ItemID)
-                        {
-                            var model = new BidDatabaseModel()
-                            {
-                                ItemID = productDatabaseModel.ItemID,
-                                ItemName = productDatabaseModel.ItemName,
-                                Amount = productDatabaseModel.CurrentBid
-                            };
-                            BidInstance.Add(model);
-                            BidInstance.Update(index, index2, model, user);
-                            index2++;
-                        }
-                    }
-                    
+
                 }
-                index++;
             }
         }
 
@@ -159,7 +138,8 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                     IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated
                 };
                 return View(viewModel);
-            } else
+            }
+            else
             {
                 return HttpNotFound();
             }
