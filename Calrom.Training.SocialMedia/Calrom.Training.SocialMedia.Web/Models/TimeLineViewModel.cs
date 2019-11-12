@@ -13,6 +13,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
         public List<BorkViewModel> Borks { get; set; }
         public UserViewModel CurrentUser { get; set; }
         public PaginationViewModel PageView { get; set; }
+        public List<BorkViewModel> AllBorks { get; set; }
 
         public TimeLineViewModel(int userId)
         {
@@ -20,8 +21,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
             var userRepository = UserRepository.GetRepository();
             var MethodUser = new UserViewModel();
             var userList = userRepository.List();
-            CurrentUser = MethodUser.getView(userList.ElementAt(userId - 1));
-            NewUser(userId);
+            CurrentUser = MethodUser.getView(userList.First(a => a.UserId == userId));
         }
 
         public void AddBork(string borkBoxString)
@@ -36,15 +36,24 @@ namespace Calrom.Training.SocialMedia.Web.Models
                 UserId = CurrentUser.UserId
             });
             var newBork = borkRepository.List().ElementAt(0);
-            userList.ElementAt(CurrentUser.UserId - 1).UserBorks.Add(newBork);
-            CurrentUser = CurrentUser.getView(userList.ElementAt(CurrentUser.UserId - 1));
+            userList.First(a => a.UserName == HttpContext.Current.User.Identity.Name).UserBorks.Add(newBork);
+            CurrentUser = CurrentUser.getView(userList.First(a => a.UserName == HttpContext.Current.User.Identity.Name));
         }
-  
-        public void NewUser(int userId)
+
+        public string GetUserName(int userId)
         {
             var userRepository = UserRepository.GetRepository();
-            var userGet = userRepository.List();
-            CurrentUser = CurrentUser.getView(userGet.ElementAt(userId - 1));
+            var userList = userRepository.List();
+            var user = userList.First(a => a.UserId == userId);
+            return user.UserName;
+        }
+
+        public string GetUserPP (int userId)
+        {
+            var userRepository = UserRepository.GetRepository();
+            var userList = userRepository.List();
+            var user = userList.First(a => a.UserId == userId);
+            return user.UserPP;
         }
     }
 }

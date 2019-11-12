@@ -126,7 +126,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\BorkViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\PaginationViewModel.cs" />
@@ -164,6 +163,7 @@
     <Content Include="Views\Home\_PageForm.cshtml" />
     <Content Include="Views\Login\_LoginInputForm.cshtml" />
     <Content Include="Views\Login\Login.cshtml" />
+    <Content Include="Views\Login\_RegisterInputForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Calrom.Training.SocialMedia.Repositories\Calrom.Training.SocialMedia.Database.csproj">

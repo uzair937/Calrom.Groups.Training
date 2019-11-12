@@ -27,6 +27,8 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             }
             var followOne = new List<int> { 1 };
             var followTwo = new List<int> { 2 };
+            var followedOne = new List<int> { 1 };
+            var followedTwo = new List<int> { 2 };
             userRepository.Add(new UserDatabaseModel
             {
                 UserId = 1,
@@ -35,7 +37,7 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
                 UserBorks = assignBorks,
                 UserPP = "../../images/doggo.jpg",
                 FollowingId = followTwo,
-                FollowerId = followTwo
+                FollowerId = followedTwo
             });
             assignBorks = new List<BorkDatabaseModel>();
             for (int i = 0; i < 5; i++)
@@ -52,9 +54,9 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
                 UserName = ("test-user-" + 2),
                 Password = ("test-pass-" + 2),
                 UserBorks = assignBorks,
-                UserPP = "../../images/doggo.jpg",
+                UserPP = "../../images/user-2.jpg",
                 FollowingId = followOne,
-                FollowerId = followOne
+                FollowerId = followedOne
             });
         }
 
@@ -84,9 +86,10 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
         public IEnumerable<UserDatabaseModel> List(int userId)
         {
             var followedUsers = new List<UserDatabaseModel>();
+            var currentUser = userList.First(a => a.UserId == userId);
             foreach (var user in userList)    //move logic to .List() send current userId
             {
-                if (user.FollowerId.Contains(userId) || userId == user.UserId)
+                if (currentUser.FollowingId.Contains(user.UserId) || userId == user.UserId)
                 {
                     followedUsers.Add(user);
                 }
@@ -104,6 +107,25 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             return userRepository;
         }
 
+        public void FollowUser(int currentUserId, int targetUserId)
+        {
+            if (currentUserId == 0) return;
+            var currentUser = userList.First(a => a.UserId == currentUserId);
+            var targetUser = userList.First(a => a.UserId == targetUserId);
 
+            var currentUserIndex = userList.IndexOf(currentUser);
+            var targetUserIndex = userList.IndexOf(targetUser);
+
+            if (!currentUser.FollowingId.Contains(targetUserId))
+            {
+                userList.ElementAt(currentUserIndex).FollowingId.Add(targetUserId);
+                //userList.ElementAt(targetUserIndex).FollowerId.Add(currentUserId);
+            }
+            else
+            {
+                userList.ElementAt(currentUserIndex).FollowingId.Remove(targetUserId);
+                //userList.ElementAt(targetUserIndex).FollowerId.Remove(currentUserId);
+            }
+        }
     }
 }

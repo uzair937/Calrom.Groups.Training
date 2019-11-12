@@ -38,20 +38,44 @@
 <div class="background-shibe">
     <div class="bork-timeline">
         @Html.Partial("_BorkInputForm", new BorkViewModel())
-        <ul>
-            @foreach (var bork in Model.Borks)
+        @foreach (var bork in Model.Borks)
+        {
+            using (Html.BeginForm("Account", "Account", FormMethod.Post))
             {
+                @Html.Hidden("userId", bork.UserId, new { value = bork.UserId })
                 <div class="bork-container">
                     <div class="image-container">
-                        <img src="../../images/doggo.jpg" />
+                        <img src="@Model.GetUserPP(bork.UserId)" />
                     </div>
-                    <div class="single-bork">
+                    <ul class="single-bork" href="www.Hello.com">
+                        <input type="submit" class="fake-button" value=@Model.GetUserName(bork.UserId) />
                         <li>@bork.BorkText</li>
                         <li>Borked: @bork.DateBorked</li>
-                    </div>
+                    </ul>
                 </div>
             }
-            @Html.Partial("_PageForm", @Model.PageView)
-        </ul>
+        }
+        @Html.Partial("_PageForm", @Model.PageView)
+    </div>
+
+    <div class="all-bork-timeline">
+        <div class="page-container"><div class="page-text">Recent Borks</div></div>
+        @foreach (var bork in Model.AllBorks)
+        {
+            using (Html.BeginForm("Account", "Account", FormMethod.Post))
+            {
+                @Html.Hidden("userId", bork.UserId, new { value = bork.UserId })
+                <div class="bork-container">
+                    <div class="image-container">
+                        <img src="@Model.GetUserPP(bork.UserId)" />
+                    </div>
+                    <ul class="single-bork">
+                        <input type="submit" class="fake-button" value=@Model.GetUserName(bork.UserId) />
+                        <li>@bork.BorkText</li>
+                        <li>Borked: @bork.DateBorked</li>
+                    </ul>
+                </div>
+            }
+        }
     </div>
 </div>

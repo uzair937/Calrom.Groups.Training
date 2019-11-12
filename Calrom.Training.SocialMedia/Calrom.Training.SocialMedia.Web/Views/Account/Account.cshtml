@@ -42,17 +42,20 @@
                 <p class="page-text">Your Borks! Bork!</p>
             </div>
             <ul>
-                @foreach (var bork in Model.CurrentUser.UserBorks)
+                @if (Model.CurrentUser.UserBorks != null)
                 {
-                    <div class="bork-container">
-                        <div class="image-container">
-                            <img src="../../images/doggo.jpg" />
+                    foreach (var bork in Model.CurrentUser.UserBorks)
+                    {
+                        <div class="bork-container">
+                            <div class="image-container">
+                                <img src="@Model.GetUserPP(bork.UserId)" />
+                            </div>
+                            <div class="single-bork-acc">
+                                <li>@bork.BorkText</li>
+                                <li>Borked: @bork.DateBorked</li>
+                            </div>
                         </div>
-                        <div class="single-bork">
-                            <li>@bork.BorkText</li>
-                            <li>Borked: @bork.DateBorked</li>
-                        </div>
-                    </div>
+                    }
                 }
             </ul>
         </div>
@@ -69,6 +72,14 @@
                 <div>Following: @Model.CurrentUser.FollowingId.Count()</div>
                 <div>Followers: @Model.CurrentUser.FollowerId.Count()</div>
             </div>
+            @if (HttpContext.Current.User.Identity.Name != Model.CurrentUser.UserName)
+            {
+                using (Html.BeginForm("FollowUser", "Account", FormMethod.Post))
+                {
+                    @Html.Hidden("userId", Model.CurrentUser.UserId, new { value = Model.CurrentUser.UserId })
+                    <input type="submit" class="follow-button" value="Follow User" />
+                }
+            }
         </div>
     </div>
 </div>

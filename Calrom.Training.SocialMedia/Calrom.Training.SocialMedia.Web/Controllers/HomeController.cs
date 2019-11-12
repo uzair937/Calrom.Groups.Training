@@ -30,12 +30,25 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var PageView = CurrentPageFinder(pageNum, borkGet.Count());
 
             var borks = new List<BorkViewModel>();
-            foreach (var bork in borkGet) borks.Add(methodBork.getView(bork));
+            if (borkGet != null) foreach (var bork in borkGet) borks.Add(methodBork.getView(bork));
 
             borks = borks.Skip(pageNum*5).Take(5).ToList();
             timeLineViewModel.Borks = borks;
             timeLineViewModel.PageView = PageView;
+            timeLineViewModel.AllBorks = GetSomeBorks();
             return timeLineViewModel;
+        }
+
+        private List<BorkViewModel> GetSomeBorks()
+        {
+            var borkRepository = BorkRepository.GetRepository();
+            var methodBork = new BorkViewModel();
+            var borkGet = borkRepository.List();
+            var someBorks = new List<BorkViewModel>();
+
+            for (int x = 0; x < 6; x++) someBorks.Add(methodBork.getView(borkGet.ElementAt(x)));
+
+            return someBorks;
         }
 
         private PaginationViewModel CurrentPageFinder(int pageNum, int borkCount)
@@ -53,8 +66,21 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             return PageView;
         }
 
+        private bool CheckValidUser()
+        {
+            var userRepository = UserRepository.GetRepository();
+            var MethodUser = new UserViewModel();
+            var userList = userRepository.List();
+            if (MethodUser.getView(userList.FirstOrDefault(a => a.UserName == HttpContext.User.Identity.Name)) == null || this.HttpContext.Session["UserId"] as int? == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public ActionResult Index()
         {
+            if (!CheckValidUser()) return RedirectToAction("Logout", "Login");
             var userId = this.HttpContext.Session["UserId"] as int?;
             var timeLineViewModel = GetBorks(userId ?? 0, 0);
             return View(timeLineViewModel);

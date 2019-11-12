@@ -38,14 +38,24 @@ namespace Calrom.Training.SocialMedia.Web.Models
 
         public UserViewModel getView(UserDatabaseModel getdb)
         {
+            if (getdb == null) return null;
             var getViewBorks = new List<BorkViewModel>();
             var methodBork = new BorkViewModel();
-            foreach (var bork in getdb.UserBorks)
+            UserViewModel newDb = null;
+            if (getdb.UserBorks != null)
             {
-                getViewBorks.Add(methodBork.getView(bork));
+                foreach (var bork in getdb.UserBorks)
+                {
+                    getViewBorks.Add(methodBork.getView(bork));
+                }
+                getViewBorks = getViewBorks.OrderByDescending(a => a.DateBorked).ToList();
             }
-            getViewBorks = getViewBorks.OrderByDescending(a => a.DateBorked).ToList();
-            var newDb = new UserViewModel
+
+            if (getdb.FollowingId == null) getdb.FollowingId = new List<int>();
+            if (getdb.FollowerId == null) getdb.FollowerId = new List<int>();
+            if (getdb.UserBorks == null) getViewBorks = new List<BorkViewModel>();
+
+            newDb = new UserViewModel
             {
                 UserId = getdb.UserId,
                 UserName = getdb.UserName,

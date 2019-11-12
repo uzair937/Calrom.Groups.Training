@@ -54,8 +54,17 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             var userRepo = UserRepository.GetRepository();
             var followedUsers = userRepo.List(userId);
             var followedBorks = new List<BorkDatabaseModel>();
-            foreach (var user in followedUsers) followedBorks = followedBorks.Concat(user.UserBorks).ToList();
-            followedBorks = followedBorks.OrderByDescending(a => a.DateBorked).ToList();
+            if (followedUsers != null)
+            {
+                foreach (var user in followedUsers)
+                {
+                    if (user.UserBorks != null)
+                    {
+                        followedBorks = followedBorks.Concat(user.UserBorks).ToList();
+                    }
+                }
+                followedBorks = followedBorks.OrderByDescending(a => a.DateBorked).ToList();
+            }
             return followedBorks;
         }
 
