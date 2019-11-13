@@ -122,50 +122,6 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             return RedirectToAction("IndividualProduct", new { itemId = product.ItemID });
         }
 
-        //private void StoreBidItem(ProductDatabaseModel productDatabaseModel)
-        //{
-        //    var tempList = UserInstance.List();
-        //    var bidList = BidInstance.List();
-        //    foreach (var user in tempList)
-        //    {
-        //        if (user.Username == this.HttpContext.User.Identity.Name)
-        //        {
-        //            if (bidList.Count > 0)
-        //            {
-        //                foreach (var bid in bidList)
-        //                {
-        //                    if (bid.ItemID != productDatabaseModel.ItemID)
-        //                    {
-        //                        var model = new BidDatabaseModel()
-        //                        {
-        //                            ItemID = productDatabaseModel.ItemID,
-        //                            ItemName = productDatabaseModel.ItemName,
-        //                            Amount = productDatabaseModel.CurrentBid,
-        //                            UserID = user.UserID
-        //                        };
-        //                        BidInstance.Add(model);
-        //                    }
-        //                    else
-        //                    {
-        //                        bid.Amount = productDatabaseModel.CurrentBid;
-        //                    }
-        //                }
-        //            }
-        //            else
-        //            {
-        //                var model = new BidDatabaseModel()
-        //                {
-        //                    ItemID = productDatabaseModel.ItemID,
-        //                    ItemName = productDatabaseModel.ItemName,
-        //                    Amount = productDatabaseModel.CurrentBid,
-        //                    UserID = user.UserID
-        //                };
-        //                BidInstance.Add(model);
-        //            }
-        //        }
-        //    }
-        //}
-
         public ActionResult IndividualProduct(int ItemID)
         {
             var tempList = ProductInstance.List();
