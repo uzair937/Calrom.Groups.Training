@@ -14,7 +14,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
         public AccountViewModel(int userId)
         {
             if (userId == 0) return;
-            var converter = new ConverterViewModel();
+            var converter = new ViewModelConverter();
             var userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();
             CurrentUser = converter.GetView(userList.First(a => a.UserId == userId));

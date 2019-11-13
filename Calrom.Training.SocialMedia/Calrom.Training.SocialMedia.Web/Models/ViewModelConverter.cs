@@ -7,20 +7,19 @@ using System.Web;
 
 namespace Calrom.Training.SocialMedia.Web.Models
 {
-    public class ConverterViewModel
+    public class ViewModelConverter
     {
         public UserViewModel GetView(UserDatabaseModel getdb)
         {
             if (getdb == null) return null;
             var getViewBorks = new List<BorkViewModel>();
-            var converter = new ConverterViewModel();
             var viewNotif = new List<NotificationViewModel>();
 
             if (getdb.Notifications != null)
             {
                 foreach (var notif in getdb.Notifications)
                 {
-                    viewNotif.Add(converter.GetView(notif));
+                    viewNotif.Add(this.GetView(notif));
                 }
                 viewNotif = viewNotif.OrderByDescending(a => a.DateCreated).ToList();
             }
@@ -29,7 +28,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
             {
                 foreach (var bork in getdb.UserBorks)
                 {
-                    getViewBorks.Add(converter.GetView(bork));
+                    getViewBorks.Add(this.GetView(bork));
                 }
                 getViewBorks = getViewBorks.OrderByDescending(a => a.DateBorked).ToList();
             }

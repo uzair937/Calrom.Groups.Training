@@ -34,7 +34,7 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             return userList;
         }
 
-        public IEnumerable<UserDatabaseModel> List(int userId)
+        public IEnumerable<UserDatabaseModel> FollowedUserBorks(int userId)
         {
             var followedUsers = new List<UserDatabaseModel>();
             var currentUser = userList.First(a => a.UserId == userId);

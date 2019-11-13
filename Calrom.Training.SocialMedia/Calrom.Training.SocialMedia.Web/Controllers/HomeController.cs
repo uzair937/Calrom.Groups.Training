@@ -18,8 +18,8 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             if (userId == 0) RedirectToAction("Logout", "Login");
             var timeLineViewModel = new TimeLineViewModel(userId);
             var borkRepository = BorkRepository.GetRepository();
-            var converter = new ConverterViewModel();
-            var borkGet = borkRepository.List(userId);
+            var converter = new ViewModelConverter();
+            var borkGet = borkRepository.FollowedUserBorks(userId);
             var PageView = CurrentPageFinder(pageNum, borkGet.Count());
 
             var borks = new List<BorkViewModel>();
@@ -32,7 +32,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             return timeLineViewModel;
         }
 
-        private List<BorkViewModel> GetSomeBorks(ConverterViewModel converter)
+        private List<BorkViewModel> GetSomeBorks(ViewModelConverter converter)
         {
             var borkRepository = BorkRepository.GetRepository();
             var borkGet = borkRepository.List();
@@ -58,7 +58,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             return PageView;
         }
 
-        private bool CheckValidUser(ConverterViewModel converter)
+        private bool CheckValidUser(ViewModelConverter converter)
         {
             
             var userRepository = UserRepository.GetRepository();
@@ -72,7 +72,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
 
         public ActionResult Index()
         {
-            var converter = new ConverterViewModel();
+            var converter = new ViewModelConverter();
             if (!CheckValidUser(converter)) return RedirectToAction("Logout", "Login");
             var userId = this.HttpContext.Session["UserId"] as int?;
             var timeLineViewModel = GetBorks(userId ?? 0, 0);

@@ -129,7 +129,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\BorkViewModel.cs" />
-    <Compile Include="Models\ConverterViewModel.cs" />
+    <Compile Include="Models\ViewModelConverter.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\NotificationViewModel.cs" />
     <Compile Include="Models\PaginationViewModel.cs" />
