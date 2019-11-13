@@ -1,6 +1,8 @@
-﻿namespace Calrom.Training.AuctionHouse.Database
+﻿using System.Collections.Generic;
+
+namespace Calrom.Training.AuctionHouse.Database
 {
-    public class BidRepo
+    public class BidRepo : IRepository<BidDatabaseModel>
     {
         private static BidRepo Instance = null;
         private static readonly object padlock = new object();
@@ -22,25 +24,20 @@
             }
         }
 
-        private BidDatabaseModel _bidContext;
+        private List<BidDatabaseModel> _bidContext;
         public BidRepo()
         {
-            _bidContext = new BidDatabaseModel();
+            _bidContext = new List<BidDatabaseModel>();
         }
 
-        public void Add(int entity)
+        public void Add(BidDatabaseModel entity)
         {
-            _bidContext.UserID = entity;
+            _bidContext.Add(entity);
         }
 
-        public int GetUser()
+        public List<BidDatabaseModel> List()
         {
-            return _bidContext.UserID;
-        }
-
-        public double GetAmount()
-        {
-            return _bidContext.Amount;
+            return _bidContext;
         }
     }
 }

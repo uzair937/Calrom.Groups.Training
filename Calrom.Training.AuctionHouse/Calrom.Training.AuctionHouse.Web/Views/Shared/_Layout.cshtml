@@ -18,8 +18,8 @@
                     <li>@Html.ActionLink("Listings", "Listings", "Product")</li>
                     @if (Request.IsAuthenticated)
                     {
+                        <li>@Html.ActionLink("Account", "Account", "Account")</li>
                         <li>@Html.ActionLink("Logout", "Logout", "Login")</li>
-                        <li>@Html.ActionLink("Account", "Account", "Login")</li>
                     }
                     else
                     {

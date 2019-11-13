@@ -93,7 +93,6 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             {
                 var db = new UserDatabaseModel()
                 {
-                    ItemIDS = new List<int>(),
                     Username = loginViewModel.Username,
                     Password = loginViewModel.Password,
                     DateOfBirth = loginViewModel.DateOfBirth
@@ -101,27 +100,6 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                 UserInstance.Add(db);
             }
             return RedirectToAction("Login");
-        }
-
-        [Authorize]
-        public ActionResult Account()
-        {
-            var tempList = UserInstance.List();
-            foreach (var user in tempList)
-            {
-                if (user.Username == this.HttpContext.User.Identity.Name)
-                {
-                    var model = new AccountViewModel
-                    {
-                        UserID = user.UserID,
-                        Username = user.Username,
-                        DateOfBirth = user.DateOfBirth,
-                        ItemIDS = user.ItemIDS
-                    };
-                    return View(model);
-                }
-            }
-            return View();
         }
     }
 }

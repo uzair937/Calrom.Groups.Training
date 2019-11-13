@@ -60,8 +60,8 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                 ProductList = new List<ProductViewModel>(),
                 IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated
             };
-            var tempList = ProductInstance.List();
-            foreach (var product in tempList)
+            var productList = ProductInstance.List();
+            foreach (var product in productList)
             {
                 var productViewModel = new ProductViewModel
                 {
@@ -83,43 +83,87 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         [HttpPost]
         public ActionResult BidProduct(BidProductViewModel viewModel)
         {
-            var tempList = ProductInstance.List();
-            var product = tempList.FirstOrDefault(p => p.ItemID == viewModel.ItemID);
+            var productList = ProductInstance.List();
+            var userList = UserInstance.List();
+            var bidList = BidInstance.List();
+            var product = productList.FirstOrDefault(p => p.ItemID == viewModel.ItemID);
+            var user = userList.FirstOrDefault(u => u.Username == this.HttpContext.User.Identity.Name);
+            var bid = bidList.FirstOrDefault(b => b.ItemID == product.ItemID);
+
             if (product != null)
             {
-                if (product.ItemID == viewModel.ItemID)
+                if (product.CurrentBid == 0)
                 {
-                    if (product.CurrentBid == 0)
-                    {
-                        product.CurrentBid = product.ItemPrice + viewModel.Amount;
-                    }
-                    else
-                    {
-                        product.CurrentBid += viewModel.Amount;
-                    }
-
-                    StoreBidItem(product);
+                    product.CurrentBid = product.ItemPrice + viewModel.Amount;
                 }
-            }
+                else
+                {
+                    product.CurrentBid += viewModel.Amount;
+                }
+                if (bid == null)
+                {
+                    var model = new BidDatabaseModel()
+                    {
+                        ItemID = product.ItemID,
+                        ItemName = product.ItemName,
+                        Amount = product.CurrentBid,
+                        UserID = user.UserID
+                    };
+                    BidInstance.Add(model);
+                }
+                else
+                {
+                    bid.Amount = product.CurrentBid;
+                    bid.UserID = user.UserID;
+                }
+            }   
+            
             return RedirectToAction("IndividualProduct", new { itemId = product.ItemID });
         }
 
-        private void StoreBidItem(ProductDatabaseModel productDatabaseModel)
-        {
-            var tempList = UserInstance.List();
-            foreach (var user in tempList)
-            {
-                if (user.Username == this.HttpContext.User.Identity.Name)
-                {
-                    BidInstance.Add(user.UserID);
-                    if (!user.ItemIDS.Contains(productDatabaseModel.ItemID))
-                    {
-                        user.ItemIDS.Add(productDatabaseModel.ItemID);
-                    }
-
-                }
-            }
-        }
+        //private void StoreBidItem(ProductDatabaseModel productDatabaseModel)
+        //{
+        //    var tempList = UserInstance.List();
+        //    var bidList = BidInstance.List();
+        //    foreach (var user in tempList)
+        //    {
+        //        if (user.Username == this.HttpContext.User.Identity.Name)
+        //        {
+        //            if (bidList.Count > 0)
+        //            {
+        //                foreach (var bid in bidList)
+        //                {
+        //                    if (bid.ItemID != productDatabaseModel.ItemID)
+        //                    {
+        //                        var model = new BidDatabaseModel()
+        //                        {
+        //                            ItemID = productDatabaseModel.ItemID,
+        //                            ItemName = productDatabaseModel.ItemName,
+        //                            Amount = productDatabaseModel.CurrentBid,
+        //                            UserID = user.UserID
+        //                        };
+        //                        BidInstance.Add(model);
+        //                    }
+        //                    else
+        //                    {
+        //                        bid.Amount = productDatabaseModel.CurrentBid;
+        //                    }
+        //                }
+        //            }
+        //            else
+        //            {
+        //                var model = new BidDatabaseModel()
+        //                {
+        //                    ItemID = productDatabaseModel.ItemID,
+        //                    ItemName = productDatabaseModel.ItemName,
+        //                    Amount = productDatabaseModel.CurrentBid,
+        //                    UserID = user.UserID
+        //                };
+        //                BidInstance.Add(model);
+        //            }
+        //        }
+        //    }
+        //}
 
         public ActionResult IndividualProduct(int ItemID)
         {

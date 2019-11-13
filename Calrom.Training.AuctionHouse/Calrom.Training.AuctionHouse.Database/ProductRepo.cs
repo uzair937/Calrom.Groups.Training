@@ -35,22 +35,21 @@ namespace Calrom.Training.AuctionHouse.Database
             return result;
         }
 
-        ProductDatabaseModel _productContext;
+        private List<ProductDatabaseModel> _productContext;
         //list in here no need for db model
         public ProductRepo()
         {
-            _productContext = new ProductDatabaseModel();
-            _productContext.ProductList = new List<ProductDatabaseModel>();
+            _productContext = new List<ProductDatabaseModel>();
         }
         public void Add(ProductDatabaseModel entity)
         {
             entity.ItemID = GetRandom();
-            _productContext.ProductList.Add(entity);
+            _productContext.Add(entity);
         }
 
         public List<ProductDatabaseModel> List()
         {
-            return _productContext.ProductList;
+            return _productContext;
         }
     }
 }

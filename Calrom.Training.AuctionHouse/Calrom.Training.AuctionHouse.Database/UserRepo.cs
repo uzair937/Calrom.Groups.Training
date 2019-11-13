@@ -35,11 +35,10 @@ namespace Calrom.Training.AuctionHouse.Database
             return result;
         }
 
-        private UserDatabaseModel _userContext;
+        private List<UserDatabaseModel> _userContext;
         public UserRepo()
         {
-            _userContext = new UserDatabaseModel();
-            _userContext.UserList = new List<UserDatabaseModel>();
+            _userContext = new List<UserDatabaseModel>();
         }
         public void Add(UserDatabaseModel userDatabaseModel)
         {
@@ -47,12 +46,12 @@ namespace Calrom.Training.AuctionHouse.Database
             {
                 userDatabaseModel.UserID = GetRandom();
             }
-            _userContext.UserList.Add(userDatabaseModel);
+            _userContext.Add(userDatabaseModel);
         }
 
         public List<UserDatabaseModel> List()
         {
-            return _userContext.UserList;
+            return _userContext;
         }
     }
 }

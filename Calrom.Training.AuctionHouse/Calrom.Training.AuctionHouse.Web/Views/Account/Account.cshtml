@@ -1,0 +1,42 @@
+﻿@model Calrom.Training.AuctionHouse.Web.Models.AccountViewModel
+
+@{
+    ViewBag.Title = "User Account";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<table class="listing">
+    <tr>
+        <td>
+            User ID: @Model.UserID
+        </td>
+        <td>
+            Username: @Model.Username
+        </td>
+        <td>
+            Date of Birth: @Model.DateOfBirth
+        </td>
+    </tr>
+</table>
+
+@if (Model.ItemID != 0)
+{
+    <h3>Live products</h3>
+    <table class="listing">
+        <tr>
+            <td>
+                Item ID: @Model.ItemID
+            </td>
+            <td>
+                Item Name: @Model.ItemName
+            </td>
+            <td>
+                Amount Bidded: @Model.Amount
+            </td>
+            <td>
+                Product Link: @Html.ActionLink("View this listing", "IndividualProduct", "Product", new { ItemId = Model.ItemID }, null)
+            </td>
+        </tr>
+    </table>
+}

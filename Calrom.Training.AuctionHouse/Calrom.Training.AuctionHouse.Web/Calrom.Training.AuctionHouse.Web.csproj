@@ -466,6 +466,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -512,7 +513,7 @@
     <Content Include="Views\Product\IndividualProduct.cshtml" />
     <Content Include="Views\Product\_Listings.cshtml" />
     <Content Include="Views\Product\_IndividualProduct.cshtml" />
-    <Content Include="Views\Login\Account.cshtml" />
+    <Content Include="Views\Account\Account.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Calrom.Training.AuctionHouse.Database\Calrom.Training.AuctionHouse.Database.csproj">
