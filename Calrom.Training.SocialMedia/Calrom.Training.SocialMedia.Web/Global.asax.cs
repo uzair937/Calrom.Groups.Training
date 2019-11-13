@@ -16,6 +16,8 @@ namespace Calrom.Training.SocialMedia.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            var repositorySetup = new RepositorySetup();
+            repositorySetup.Initialise();
         }
     }
 }

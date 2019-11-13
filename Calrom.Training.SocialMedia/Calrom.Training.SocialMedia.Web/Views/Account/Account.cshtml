@@ -1,5 +1,5 @@
 ﻿@using Calrom.Training.SocialMedia.Web.Models
-@model TimeLineViewModel
+@model AccountViewModel
 
 @{
     ViewBag.Title = "Home Page";
@@ -48,7 +48,7 @@
                     {
                         <div class="bork-container">
                             <div class="image-container">
-                                <img src="@Model.GetUserPP(bork.UserId)" />
+                                <img src="@Model.CurrentUser.UserPP" />
                             </div>
                             <div class="single-bork-acc">
                                 <li>@bork.BorkText</li>
@@ -80,6 +80,31 @@
                     <input type="submit" class="follow-button" value="Follow User" />
                 }
             }
+            @*@if (HttpContext.Current.User.Identity.Name == Model.CurrentUser.UserName)
+            {
+                <div class="acc-borks">
+                    <div class="page-container">
+                        <p class="page-text">Your Borkifications!</p>
+                    </div>
+                    <ul>
+                        @if (Model.CurrentUser.Notifications != null)
+                        {
+                            foreach (var notif in Model.CurrentUser.Notifications)
+                            {
+                                <div class="bork-container">
+                                    <div class="image-container">
+                                        <img src="@Model.GetUserPP(notif.UserId)" />
+                                    </div>
+                                    <div class="single-bork-acc">
+                                        <li>@bork.BorkText</li>
+                                        <li>Borked: @bork.DateBorked</li>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </ul>
+                </div>
+            }*@
         </div>
     </div>
 </div>

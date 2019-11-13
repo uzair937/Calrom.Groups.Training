@@ -11,55 +11,6 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
 
         private UserRepository() { }
 
-        private void initialiseBorkers()
-        {
-            var borkRepository = BorkRepository.GetRepository();
-            var userRepository = GetRepository();
-            var assignBorks = new List<BorkDatabaseModel>();
-            var borkList = borkRepository.List();
-            for (int i = 0; i < 5; i++)
-            {
-                if (i * 2 < 10)
-                {
-                    borkList.ElementAt(i * 2).UserId = 1;
-                    assignBorks.Add(borkList.ElementAt(i * 2));
-                }
-            }
-            var followOne = new List<int> { 1 };
-            var followTwo = new List<int> { 2 };
-            var followedOne = new List<int> { 1 };
-            var followedTwo = new List<int> { 2 };
-            userRepository.Add(new UserDatabaseModel
-            {
-                UserId = 1,
-                UserName = ("test-user-" + 1),
-                Password = ("test-pass-" + 1),
-                UserBorks = assignBorks,
-                UserPP = "../../images/doggo.jpg",
-                FollowingId = followTwo,
-                FollowerId = followedTwo
-            });
-            assignBorks = new List<BorkDatabaseModel>();
-            for (int i = 0; i < 5; i++)
-            {
-                if (i * 2 + 1 < 10)
-                {
-                    borkList.ElementAt(i * 2 + 1).UserId = 2;
-                    assignBorks.Add(borkRepository.List().ElementAt(i * 2 + 1));
-                }
-            }
-            userRepository.Add(new UserDatabaseModel
-            {
-                UserId = 2,
-                UserName = ("test-user-" + 2),
-                Password = ("test-pass-" + 2),
-                UserBorks = assignBorks,
-                UserPP = "../../images/user-2.jpg",
-                FollowingId = followOne,
-                FollowerId = followedOne
-            });
-        }
-
         private List<UserDatabaseModel> userList = new List<UserDatabaseModel>();
 
         public void Add(UserDatabaseModel entity)
@@ -102,8 +53,8 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             if (userRepository == null)
             {
                 userRepository = new UserRepository();
-                userRepository.initialiseBorkers();
             }
+
             return userRepository;
         }
 
@@ -119,12 +70,12 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             if (!currentUser.FollowingId.Contains(targetUserId))
             {
                 userList.ElementAt(currentUserIndex).FollowingId.Add(targetUserId);
-                //userList.ElementAt(targetUserIndex).FollowerId.Add(currentUserId);
+                userList.ElementAt(targetUserIndex).FollowerId.Add(currentUserId);
             }
             else
             {
                 userList.ElementAt(currentUserIndex).FollowingId.Remove(targetUserId);
-                //userList.ElementAt(targetUserIndex).FollowerId.Remove(currentUserId);
+                userList.ElementAt(targetUserIndex).FollowerId.Remove(currentUserId);
             }
         }
     }

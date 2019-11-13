@@ -26,15 +26,15 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
         {
             if (!CheckValidUser()) return RedirectToAction("Logout", "Login");
             var userId = this.HttpContext.Session["UserId"] as int?;
-            var timeLineViewModel = new TimeLineViewModel(userId ?? 0);
-            return View(timeLineViewModel);
+            var accountViewModel = new AccountViewModel(userId ?? 0);
+            return View(accountViewModel);
         }
 
         [HttpPost]
         public ActionResult Account(int? userId)
         {
-            var timeLineViewModel = new TimeLineViewModel(userId ?? 0);
-            return View(timeLineViewModel);
+            var accountViewModel = new AccountViewModel(userId ?? 0);
+            return View(accountViewModel);
         }
 
         [HttpPost]

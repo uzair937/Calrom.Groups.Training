@@ -11,21 +11,6 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
 
         private BorkRepository() { }
 
-        private void Initialise()
-        {
-            var borkRepository = GetRepository();
-            for (int x = 0; x < 10; x++)
-            {
-                var y = x % 2;
-                borkRepository.Add(new BorkDatabaseModel
-                {
-                    BorkText = "Bork! This is an example bork",
-                    DateBorked = DateTime.Now.AddYears(-x * 100),
-                    UserId = y + 1
-                });
-            }
-        }
-
         public List<BorkDatabaseModel> borks = new List<BorkDatabaseModel>();
 
         public void Add(BorkDatabaseModel entity)
@@ -73,11 +58,9 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             if (borkRepository == null)
             {
                 borkRepository = new BorkRepository();
-                borkRepository.Initialise();
             }
+
             return borkRepository;
         }
-
-
     }
 }
