@@ -52,11 +52,5 @@ namespace Calrom.Training.SocialMedia.Web.Models
             var newNotif = new NotificationDatabaseModel(Type, UserId, LikedBork);
             return newNotif;
         }
-
-        public NotificationViewModel GetView(NotificationDatabaseModel getNotif)
-        {
-            var newNotif = new NotificationViewModel(getNotif.Type, getNotif.UserId, getNotif.LikedBork, getNotif.DateCreated);
-            return newNotif;
-        }
     }
 }

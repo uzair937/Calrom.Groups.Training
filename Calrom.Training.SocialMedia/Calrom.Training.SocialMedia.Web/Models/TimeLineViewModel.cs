@@ -19,9 +19,9 @@ namespace Calrom.Training.SocialMedia.Web.Models
         {
             if (userId == 0) return;
             var userRepository = UserRepository.GetRepository();
-            var MethodUser = new UserViewModel();
+            var converter = new ConverterViewModel();
             var userList = userRepository.List();
-            CurrentUser = MethodUser.GetView(userList.First(a => a.UserId == userId));
+            CurrentUser = converter.GetView(userList.First(a => a.UserId == userId));
         }
 
         public void AddBork(string borkBoxString)

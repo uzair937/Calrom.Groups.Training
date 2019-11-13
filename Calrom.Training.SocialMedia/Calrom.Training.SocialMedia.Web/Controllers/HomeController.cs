@@ -13,40 +13,32 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
     [Authorize]
     public class HomeController : Controller
     {
-        protected override void OnException(ExceptionContext filterContext)
-        {
-            base.OnException(filterContext);
-            
-            filterContext.Result = RedirectToAction("Error", "Error");
-        }
-
         private TimeLineViewModel GetBorks(int userId, int pageNum)
         {
             if (userId == 0) RedirectToAction("Logout", "Login");
             var timeLineViewModel = new TimeLineViewModel(userId);
             var borkRepository = BorkRepository.GetRepository();
-            var methodBork = new BorkViewModel();
+            var converter = new ConverterViewModel();
             var borkGet = borkRepository.List(userId);
             var PageView = CurrentPageFinder(pageNum, borkGet.Count());
 
             var borks = new List<BorkViewModel>();
-            if (borkGet != null) foreach (var bork in borkGet) borks.Add(methodBork.GetView(bork));
+            if (borkGet != null) foreach (var bork in borkGet) borks.Add(converter.GetView(bork));
 
             borks = borks.Skip(pageNum*5).Take(5).ToList();
             timeLineViewModel.Borks = borks;
             timeLineViewModel.PageView = PageView;
-            timeLineViewModel.AllBorks = GetSomeBorks();
+            timeLineViewModel.AllBorks = GetSomeBorks(converter);
             return timeLineViewModel;
         }
 
-        private List<BorkViewModel> GetSomeBorks()
+        private List<BorkViewModel> GetSomeBorks(ConverterViewModel converter)
         {
             var borkRepository = BorkRepository.GetRepository();
-            var methodBork = new BorkViewModel();
             var borkGet = borkRepository.List();
             var someBorks = new List<BorkViewModel>();
 
-            for (int x = 0; x < 6; x++) someBorks.Add(methodBork.GetView(borkGet.ElementAt(x)));
+            for (int x = 0; x < 6; x++) someBorks.Add(converter.GetView(borkGet.ElementAt(x)));
 
             return someBorks;
         }
@@ -66,12 +58,12 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             return PageView;
         }
 
-        private bool CheckValidUser()
+        private bool CheckValidUser(ConverterViewModel converter)
         {
+            
             var userRepository = UserRepository.GetRepository();
-            var MethodUser = new UserViewModel();
             var userList = userRepository.List();
-            if (MethodUser.GetView(userList.FirstOrDefault(a => a.UserName == HttpContext.User.Identity.Name)) == null || this.HttpContext.Session["UserId"] as int? == null)
+            if (converter.GetView(userList.FirstOrDefault(a => a.UserName == HttpContext.User.Identity.Name)) == null || this.HttpContext.Session["UserId"] as int? == null)
             {
                 return false;
             }
@@ -80,7 +72,8 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
 
         public ActionResult Index()
         {
-            if (!CheckValidUser()) return RedirectToAction("Logout", "Login");
+            var converter = new ConverterViewModel();
+            if (!CheckValidUser(converter)) return RedirectToAction("Logout", "Login");
             var userId = this.HttpContext.Session["UserId"] as int?;
             var timeLineViewModel = GetBorks(userId ?? 0, 0);
             return View(timeLineViewModel);

@@ -45,10 +45,10 @@
                 @Html.Hidden("userId", bork.UserId, new { value = bork.UserId })
                 <div class="bork-container">
                     <div class="image-container">
-                        <img src="@Model.GetUserPP(bork.UserId)" />
+                        <img src="@bork.UserPP" />
                     </div>
                     <ul class="single-bork">
-                        <input type="submit" class="fake-button" value= @Model.GetUserName(bork.UserId) />
+                        <input type="submit" class="fake-button" value= @bork.UserName />
                         <li>@bork.BorkText</li>
                         <li>Borked: @bork.DateBorked</li>
                     </ul>
@@ -67,10 +67,10 @@
                 @Html.Hidden("userId", bork.UserId, new { value = bork.UserId })
                 <div class="bork-container">
                     <div class="image-container">
-                        <img src="@Model.GetUserPP(bork.UserId)" />
+                        <img src="@bork.UserPP" />
                     </div>
                     <ul class="single-bork">
-                        <input type="submit" class="fake-button" value=@Model.GetUserName(bork.UserId) />
+                        <input type="submit" class="fake-button" value=@bork.UserName />
                         <li>@bork.BorkText</li>
                         <li>Borked: @bork.DateBorked</li>
                     </ul>

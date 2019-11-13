@@ -14,10 +14,10 @@ namespace Calrom.Training.SocialMedia.Web.Models
         public AccountViewModel(int userId)
         {
             if (userId == 0) return;
+            var converter = new ConverterViewModel();
             var userRepository = UserRepository.GetRepository();
-            var MethodUser = new UserViewModel();
             var userList = userRepository.List();
-            CurrentUser = MethodUser.GetView(userList.First(a => a.UserId == userId));
+            CurrentUser = converter.GetView(userList.First(a => a.UserId == userId));
 
             if(CurrentUser.UserName == HttpContext.Current.User.Identity.Name) IsCurrentUser = true;
             else IsCurrentUser = false;
