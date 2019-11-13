@@ -21,7 +21,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
             var userRepository = UserRepository.GetRepository();
             var MethodUser = new UserViewModel();
             var userList = userRepository.List();
-            CurrentUser = MethodUser.getView(userList.First(a => a.UserId == userId));
+            CurrentUser = MethodUser.GetView(userList.First(a => a.UserId == userId));
         }
 
         public void AddBork(string borkBoxString)
@@ -29,15 +29,14 @@ namespace Calrom.Training.SocialMedia.Web.Models
             var userRepository = UserRepository.GetRepository();
             var borkRepository = BorkRepository.GetRepository();
             var userList = userRepository.List();
-            borkRepository.Add(new BorkDatabaseModel
+            var currentUserDb = userList.First(a => a.UserName == HttpContext.Current.User.Identity.Name);
+            currentUserDb.UserBorks.Add(new BorkDatabaseModel
             {
                 BorkText = borkBoxString,
                 DateBorked = DateTime.Now,
                 UserId = CurrentUser.UserId
             });
-            var newBork = borkRepository.List().ElementAt(0);
-            userList.First(a => a.UserName == HttpContext.Current.User.Identity.Name).UserBorks.Add(newBork);
-            CurrentUser = CurrentUser.getView(userList.First(a => a.UserName == HttpContext.Current.User.Identity.Name));
+            borkRepository.Add(currentUserDb.UserBorks.Last());
         }
 
         public string GetUserName(int userId)

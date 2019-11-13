@@ -15,47 +15,37 @@ namespace Calrom.Training.SocialMedia.Web.Models
         public string UserPP { get; set; }
         public List<int> FollowingId { get; set; }
         public List<int> FollowerId { get; set; }
+        public List<NotificationViewModel> Notifications { get; set; }
 
-        public UserDatabaseModel getDb()
-        {
-            var getDbBorks = new List<BorkDatabaseModel>();
-            foreach (var bork in UserBorks)
-            {
-                getDbBorks.Add(bork.getDb());
-            }
-            var newDb = new UserDatabaseModel
-            {
-                UserId = UserId,
-                UserName = UserName,
-                Password = Password,
-                UserBorks = getDbBorks,
-                UserPP = UserPP,
-                FollowingId = FollowingId,
-                FollowerId = FollowerId
-            };
-            return newDb;
-        }
-
-        public UserViewModel getView(UserDatabaseModel getdb)
+        public UserViewModel GetView(UserDatabaseModel getdb)
         {
             if (getdb == null) return null;
             var getViewBorks = new List<BorkViewModel>();
             var methodBork = new BorkViewModel();
-            UserViewModel newDb = null;
+            var viewNotif = new List<NotificationViewModel>();
+
+            if (getdb.Notifications != null)
+            {
+                foreach (var notif in getdb.Notifications)
+                {
+                    viewNotif.Add(new NotificationViewModel(notif.Type, notif.UserId, notif.LikedBork, notif.DateCreated));
+                }
+                viewNotif = viewNotif.OrderByDescending(a => a.DateCreated).ToList();
+            }
+
             if (getdb.UserBorks != null)
             {
                 foreach (var bork in getdb.UserBorks)
                 {
-                    getViewBorks.Add(methodBork.getView(bork));
+                    getViewBorks.Add(methodBork.GetView(bork));
                 }
                 getViewBorks = getViewBorks.OrderByDescending(a => a.DateBorked).ToList();
             }
 
             if (getdb.FollowingId == null) getdb.FollowingId = new List<int>();
             if (getdb.FollowerId == null) getdb.FollowerId = new List<int>();
-            if (getdb.UserBorks == null) getViewBorks = new List<BorkViewModel>();
 
-            newDb = new UserViewModel
+            var newView = new UserViewModel
             {
                 UserId = getdb.UserId,
                 UserName = getdb.UserName,
@@ -63,9 +53,10 @@ namespace Calrom.Training.SocialMedia.Web.Models
                 UserBorks = getViewBorks,
                 UserPP = getdb.UserPP,
                 FollowingId = getdb.FollowingId,
-                FollowerId = getdb.FollowerId
+                FollowerId = getdb.FollowerId,
+                Notifications = viewNotif
             };
-            return newDb;
+            return newView;
         }
     }
 }

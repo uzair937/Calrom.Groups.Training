@@ -30,7 +30,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var PageView = CurrentPageFinder(pageNum, borkGet.Count());
 
             var borks = new List<BorkViewModel>();
-            if (borkGet != null) foreach (var bork in borkGet) borks.Add(methodBork.getView(bork));
+            if (borkGet != null) foreach (var bork in borkGet) borks.Add(methodBork.GetView(bork));
 
             borks = borks.Skip(pageNum*5).Take(5).ToList();
             timeLineViewModel.Borks = borks;
@@ -46,7 +46,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var borkGet = borkRepository.List();
             var someBorks = new List<BorkViewModel>();
 
-            for (int x = 0; x < 6; x++) someBorks.Add(methodBork.getView(borkGet.ElementAt(x)));
+            for (int x = 0; x < 6; x++) someBorks.Add(methodBork.GetView(borkGet.ElementAt(x)));
 
             return someBorks;
         }
@@ -71,7 +71,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var userRepository = UserRepository.GetRepository();
             var MethodUser = new UserViewModel();
             var userList = userRepository.List();
-            if (MethodUser.getView(userList.FirstOrDefault(a => a.UserName == HttpContext.User.Identity.Name)) == null || this.HttpContext.Session["UserId"] as int? == null)
+            if (MethodUser.GetView(userList.FirstOrDefault(a => a.UserName == HttpContext.User.Identity.Name)) == null || this.HttpContext.Session["UserId"] as int? == null)
             {
                 return false;
             }

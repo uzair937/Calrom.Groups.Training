@@ -14,5 +14,6 @@ namespace Calrom.Training.SocialMedia.Database.Models
         public string UserPP { get; set; }
         public List<int> FollowingId { get; set; }
         public List<int> FollowerId { get; set; }
+        public List<NotificationDatabaseModel> Notifications { get; set; }
     }
 }

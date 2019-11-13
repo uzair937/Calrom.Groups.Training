@@ -27,6 +27,8 @@ namespace Calrom.Training.SocialMedia.Web
             var followTwo = new List<int> { 2 };
             var followedOne = new List<int> { 1 };
             var followedTwo = new List<int> { 2 };
+            var notifOne = new List<NotificationDatabaseModel>();
+            var notifTwo = new List<NotificationDatabaseModel>();
             userRepository.Add(new UserDatabaseModel
             {
                 UserId = 1,
@@ -35,7 +37,8 @@ namespace Calrom.Training.SocialMedia.Web
                 UserBorks = assignBorks,
                 UserPP = "../../images/doggo.jpg",
                 FollowingId = followTwo,
-                FollowerId = followedTwo
+                FollowerId = followedTwo,
+                Notifications = notifOne
             });
             var assignTwoBorks = new List<BorkDatabaseModel>();
             userRepository.Add(new UserDatabaseModel
@@ -46,7 +49,8 @@ namespace Calrom.Training.SocialMedia.Web
                 UserBorks = assignTwoBorks,
                 UserPP = "../../images/user-2.jpg",
                 FollowingId = followOne,
-                FollowerId = followedOne
+                FollowerId = followedOne,
+                Notifications = notifTwo
             });
 
             var userList = userRepository.List();

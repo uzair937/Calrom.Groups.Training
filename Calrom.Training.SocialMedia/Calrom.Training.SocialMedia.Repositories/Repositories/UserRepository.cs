@@ -71,11 +71,15 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             {
                 userList.ElementAt(currentUserIndex).FollowingId.Add(targetUserId);
                 userList.ElementAt(targetUserIndex).FollowerId.Add(currentUserId);
+                var type = (NotificationType)Enum.Parse(typeof(NotificationType), "Follow");
+                userList.ElementAt(targetUserIndex).Notifications.Add(new NotificationDatabaseModel(type, currentUserId, ""));
             }
             else
             {
                 userList.ElementAt(currentUserIndex).FollowingId.Remove(targetUserId);
                 userList.ElementAt(targetUserIndex).FollowerId.Remove(currentUserId);
+                var type = (NotificationType)Enum.Parse(typeof(NotificationType), "Unfollow");
+                userList.ElementAt(targetUserIndex).Notifications.Add(new NotificationDatabaseModel(type, currentUserId, ""));
             }
         }
     }

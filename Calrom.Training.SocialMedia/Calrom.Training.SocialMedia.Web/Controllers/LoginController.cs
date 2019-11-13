@@ -81,6 +81,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                     var newBorkList = new List<BorkDatabaseModel>();
                     var followingId = new List<int>();
                     var followerId = new List<int>();
+                    var notif = new List<NotificationDatabaseModel>();
                     userRepository.Add(new UserDatabaseModel
                     {
                         UserId = userId,
@@ -89,7 +90,8 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                         Password = entry.Password,
                         UserPP = "../../images/def-dog.jpg",
                         FollowerId = followerId,
-                        FollowingId = followingId
+                        FollowingId = followingId,
+                        Notifications = notif
                     });
                     return RedirectToAction("Login");
                 }

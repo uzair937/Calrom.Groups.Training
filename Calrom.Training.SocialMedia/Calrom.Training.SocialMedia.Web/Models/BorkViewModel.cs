@@ -12,18 +12,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
         public string BorkText { get; set; }
         public int UserId { get; set; }
 
-        public BorkDatabaseModel getDb()
-        {
-            var newBork = new BorkDatabaseModel
-            {
-                DateBorked = DateBorked,
-                BorkText = BorkText,
-                UserId = UserId
-            };
-            return newBork;
-        }
-
-        public BorkViewModel getView(BorkDatabaseModel getBork)
+        public BorkViewModel GetView(BorkDatabaseModel getBork)
         {
             var newBork = new BorkViewModel
             {

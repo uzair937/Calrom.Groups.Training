@@ -42,7 +42,7 @@
                 <p class="page-text">Your Borks! Bork!</p>
             </div>
             <ul>
-                @if (Model.CurrentUser.UserBorks != null)
+                @if (Model.HasBorks)
                 {
                     foreach (var bork in Model.CurrentUser.UserBorks)
                     {
@@ -72,7 +72,7 @@
                 <div>Following: @Model.CurrentUser.FollowingId.Count()</div>
                 <div>Followers: @Model.CurrentUser.FollowerId.Count()</div>
             </div>
-            @if (HttpContext.Current.User.Identity.Name != Model.CurrentUser.UserName)
+            @if (!Model.IsCurrentUser)
             {
                 using (Html.BeginForm("FollowUser", "Account", FormMethod.Post))
                 {
@@ -80,31 +80,36 @@
                     <input type="submit" class="follow-button" value="Follow User" />
                 }
             }
-            @*@if (HttpContext.Current.User.Identity.Name == Model.CurrentUser.UserName)
+            @if (Model.IsCurrentUser)
             {
                 <div class="acc-borks">
                     <div class="page-container">
                         <p class="page-text">Your Borkifications!</p>
                     </div>
                     <ul>
-                        @if (Model.CurrentUser.Notifications != null)
+                        @if (Model.HasNotifications)
                         {
                             foreach (var notif in Model.CurrentUser.Notifications)
                             {
-                                <div class="bork-container">
-                                    <div class="image-container">
-                                        <img src="@Model.GetUserPP(notif.UserId)" />
+                                using (Html.BeginForm("Account", "Account", FormMethod.Post))
+                                {
+                                    @Html.Hidden("userId", notif.UserId, new { value = notif.UserId })
+                                    <div class="bork-container">
+                                        <div class="image-container">
+                                            <img src="@notif.UserPP" />
+                                        </div>
+                                        <div class="single-bork">
+                                            <input type="submit" class="fake-button" value=@notif.Username />
+                                            <li>@notif.Text</li>
+                                            <li>Borked: @notif.DateCreated</li>
+                                        </div>
                                     </div>
-                                    <div class="single-bork-acc">
-                                        <li>@bork.BorkText</li>
-                                        <li>Borked: @bork.DateBorked</li>
-                                    </div>
-                                </div>
+                                }
                             }
                         }
                     </ul>
                 </div>
-            }*@
+            }
         </div>
     </div>
 </div>

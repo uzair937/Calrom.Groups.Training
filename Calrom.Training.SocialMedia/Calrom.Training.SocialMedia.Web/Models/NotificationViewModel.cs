@@ -1,32 +1,33 @@
-﻿using Calrom.Training.SocialMedia.Database.Repositories;
+﻿using Calrom.Training.SocialMedia.Database.Models;
+using Calrom.Training.SocialMedia.Database.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Web;
 
-namespace Calrom.Training.SocialMedia.Database.Models
+namespace Calrom.Training.SocialMedia.Web.Models
 {
-    public class NotificationDatabaseModel
+    public class NotificationViewModel
     {
         public int UserId { get; set; }
 
         public string Username { get; set; }
 
         public string Text { get; set; }
-        
+
         public NotificationType Type { get; set; }
 
         public string LikedBork { get; set; }
 
         public string UserPP { get; set; }
 
-        public DateTime DateCreated { get; set; }
+        public DateTime DateCreated { get; set;  }
 
-        public NotificationDatabaseModel(NotificationType type, int userId, string likedBork)
+        public NotificationViewModel(NotificationType type, int userId, string likedBork, DateTime dateCreated)
         {
             var userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();
-            DateCreated = DateTime.Now;
+            DateCreated = dateCreated;
             Type = type;
             UserId = userId;
             Username = userList.First(a => a.UserId == UserId).UserName;
@@ -34,7 +35,7 @@ namespace Calrom.Training.SocialMedia.Database.Models
             LikedBork = likedBork;
             if (Type == NotificationType.Like)
             {
-                Text = Username + " has liked your bork: \n" + LikedBork; 
+                Text = Username + " has liked your bork: \n" + LikedBork;
             }
             else if (Type == NotificationType.Follow)
             {
@@ -45,7 +46,17 @@ namespace Calrom.Training.SocialMedia.Database.Models
                 Text = Username + " has unfollowed you!";
             }
         }
-    }
 
-    public enum NotificationType { Like, Follow, Unfollow }
+        public NotificationDatabaseModel GetDb()
+        {
+            var newNotif = new NotificationDatabaseModel(Type, UserId, LikedBork);
+            return newNotif;
+        }
+
+        public NotificationViewModel GetView(NotificationDatabaseModel getNotif)
+        {
+            var newNotif = new NotificationViewModel(getNotif.Type, getNotif.UserId, getNotif.LikedBork, getNotif.DateCreated);
+            return newNotif;
+        }
+    }
 }
