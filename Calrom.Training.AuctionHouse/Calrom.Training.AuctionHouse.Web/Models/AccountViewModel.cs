@@ -7,8 +7,6 @@ namespace Calrom.Training.AuctionHouse.Web.Models
         public int UserID { get; set; }
         public string Username { get; set; }
         public string DateOfBirth { get; set; }
-        public int ItemID { get; set; }
-        public string ItemName { get; set; }
-        public double Amount { get; set; }
+        public List<BidProductViewModel> AllUserBids { get; set; }
     }
 }

@@ -15,34 +15,34 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         [Authorize]
         public ActionResult Account()
         {
-            AccountViewModel accountViewModel;
+            AccountViewModel accountViewModel = new AccountViewModel();
+            accountViewModel.AllUserBids = new List<BidProductViewModel>();
             var userList = UserInstance.List();
             var bidList = BidInstance.List();
             var user = userList.FirstOrDefault(u => u.Username == this.HttpContext.User.Identity.Name);
-            var bid = bidList.FirstOrDefault(b => b.UserID == user.UserID);
+            //var bid = bidList.FirstOrDefault(b => b.UserID == user.UserID);
 
-            if (bid != null)
+            accountViewModel.UserID = user.UserID;
+            accountViewModel.Username = user.Username;
+            accountViewModel.DateOfBirth = user.DateOfBirth;
+
+            if (bidList.Count > 0)
             {
-                accountViewModel = new AccountViewModel
+                foreach (var bid in bidList)
                 {
-                    UserID = user.UserID,
-                    Username = user.Username,
-                    DateOfBirth = user.DateOfBirth,
-                    ItemID = bid.ItemID,
-                    ItemName = bid.ItemName,
-                    Amount = bid.Amount
-                };
-                return View(accountViewModel);
-            } else
-            {
-                accountViewModel = new AccountViewModel
-                {
-                    UserID = user.UserID,
-                    Username = user.Username,
-                    DateOfBirth = user.DateOfBirth
-                };
-                return View(accountViewModel);
+                    if (user.UserID == bid.UserID)
+                    {
+                        var bidProductViewModel = new BidProductViewModel
+                        {
+                            ItemID = bid.ItemID,
+                            ItemName = bid.ItemName,
+                            Amount = bid.Amount
+                        };
+                        accountViewModel.AllUserBids.Add(bidProductViewModel);
+                    }
+                }
             }
+            return View(accountViewModel);
         }
     }
 }
