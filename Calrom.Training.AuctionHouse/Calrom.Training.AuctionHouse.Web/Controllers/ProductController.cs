@@ -100,6 +100,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                 {
                     product.CurrentBid += viewModel.Amount;
                 }
+
                 if (bid == null)
                 {
                     var model = new BidDatabaseModel()
