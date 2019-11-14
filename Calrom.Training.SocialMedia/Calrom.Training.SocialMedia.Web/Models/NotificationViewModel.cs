@@ -46,11 +46,5 @@ namespace Calrom.Training.SocialMedia.Web.Models
                 Text = Username + " has unfollowed you!";
             }
         }
-
-        public NotificationDatabaseModel GetDb()
-        {
-            var newNotif = new NotificationDatabaseModel(Type, UserId, LikedBork);
-            return newNotif;
-        }
     }
 }

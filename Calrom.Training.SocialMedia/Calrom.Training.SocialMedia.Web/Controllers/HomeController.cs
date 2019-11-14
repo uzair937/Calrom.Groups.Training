@@ -43,13 +43,14 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             return someBorks;
         }
 
-        private PaginationViewModel CurrentPageFinder(int pageNum, int borkCount)
+        public PaginationViewModel CurrentPageFinder(int pageNum, int borkCount)
         {
             var PageView = new PaginationViewModel();
 
             var pageFinder = borkCount % 5;
             PageView.TotalPages = ((borkCount - pageFinder) / 5);
             if (pageFinder > 0) PageView.TotalPages++;
+            if (PageView.TotalPages == 0) PageView.TotalPages++;
 
             PageView.CurrentPage = Math.Max(0, pageNum);
             PageView.PreviousPage = Math.Max(0, PageView.CurrentPage - 1);
@@ -60,7 +61,6 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
 
         private bool CheckValidUser(ViewModelConverter converter)
         {
-            
             var userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();
             if (converter.GetView(userList.FirstOrDefault(a => a.UserName == HttpContext.User.Identity.Name)) == null || this.HttpContext.Session["UserId"] as int? == null)

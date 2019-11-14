@@ -36,16 +36,5 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var accountViewModel = new AccountViewModel(userId ?? 0);
             return View(accountViewModel);
         }
-
-        [HttpPost]
-        public ActionResult FollowUser(int? userId)
-        {
-            var followThisId = userId ?? 0;
-            if (followThisId == 0) return RedirectToAction("Account");
-            var currentUserId = this.HttpContext.Session["UserId"] as int?;
-            var userRepository = UserRepository.GetRepository();
-            userRepository.FollowUser(currentUserId ?? 0, followThisId);
-            return RedirectToAction("Account", "Account", userId);
-        }
     }
 }

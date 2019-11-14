@@ -1,6 +1,7 @@
 ﻿html {
     width: 100%;
-    height: 95%;
+    height: 85%;
+    zoom: 80%;
 }
 
 body {
@@ -22,10 +23,27 @@ body {
 }
 
 .navigation-bar > h1 {
-        color: indigo;
-        font-size: 5em;
-        margin: 0;
-    }
+    color: indigo;
+    font-size: 5em;
+    margin: 0;
+}
+
+.navigation-bar-bottom {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 5em;
+    justify-content: center;
+    background-color: mediumpurple;
+    border: 3px solid white;
+    position: relative;
+}
+
+.navigation-bar-bottom > h1 {
+    color: indigo;
+    font-size: 5em;
+    margin: 0;
+}
 
 .nav-home {
     flex-grow: 1;
@@ -114,7 +132,7 @@ textarea {
     flex-direction: row;
     justify-content: center;
     width: 100%;
-    margin-right: 30%;
+    margin-right: 20%;
 }
 
 .box-row {
@@ -124,7 +142,7 @@ textarea {
     width: 100%;
 }
 
-.box-row > img {
+    .box-row > img {
         max-width: 5em;
     }
 
@@ -147,9 +165,9 @@ textarea {
     margin-right: 10%;
 }
 
-.bork-timeline > form {
-    width: 100%;
-}
+    .bork-timeline > form {
+        width: 100%;
+    }
 
 .bork-container {
     display: flex;
@@ -159,12 +177,12 @@ textarea {
     margin: 0;
 }
 
-.bork-container > ul {
-    margin: 0;
-    padding: 0;
-    height: auto;
-    width: 100%;
-}
+    .bork-container > ul {
+        margin: 0;
+        padding: 0;
+        height: auto;
+        width: 100%;
+    }
 
 .fake-button {
     border: 0px;
@@ -174,9 +192,9 @@ textarea {
     font-size: 2em;
 }
 
-.fake-button:hover {
-    text-decoration: underline;
-}
+    .fake-button:hover {
+        text-decoration: underline;
+    }
 
 .all-bork-timeline {
     display: flex;
@@ -189,15 +207,15 @@ textarea {
     opacity: 0.6;
 }
 
-.all-bork-timeline > ul {
-    margin: 0;
-    padding: 0;
-    height: auto;
-}
+    .all-bork-timeline > ul {
+        margin: 0;
+        padding: 0;
+        height: auto;
+    }
 
-.all-bork-timeline > form {
-    width: 100%;
-}
+    .all-bork-timeline > form {
+        width: 100%;
+    }
 
 .single-bork {
     width: 100%;
@@ -207,11 +225,11 @@ textarea {
     margin: 0;
 }
 
-.single-bork > li {
-    font-size: 2.1em;
-    list-style-type: none;
-    width: 100%;
-}
+    .single-bork > li {
+        font-size: 2.1em;
+        list-style-type: none;
+        width: 100%;
+    }
 
 .single-bork-acc {
     width: 100%;
@@ -220,11 +238,11 @@ textarea {
     height: auto;
 }
 
-.single-bork-acc > li {
-    font-size: 3em;
-    list-style-type: none;
-    width: 100%;
-}
+    .single-bork-acc > li {
+        font-size: 3em;
+        list-style-type: none;
+        width: 100%;
+    }
 
 .image-container > img {
     object-fit: fill;
@@ -268,9 +286,9 @@ textarea {
     width: auto;
 }
 
-.follow-button:hover {
-    text-decoration: underline;
-}
+    .follow-button:hover {
+        text-decoration: underline;
+    }
 
 .account-detail-container {
     background-color: mediumpurple;
@@ -330,8 +348,8 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    margin-right: 30%;
+    flex-direction: row;
+    width: 100%;
 }
 
 .login-input {
@@ -343,6 +361,8 @@ textarea {
     flex-direction: column;
     font-size: 2em;
     color: indigo;
+    width: auto;
+    margin-right: 10%;
 }
 
     .login-input > h1 {

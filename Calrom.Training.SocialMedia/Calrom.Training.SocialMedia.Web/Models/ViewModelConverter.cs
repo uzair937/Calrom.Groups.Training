@@ -22,6 +22,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
                     viewNotif.Add(this.GetView(notif));
                 }
                 viewNotif = viewNotif.OrderByDescending(a => a.DateCreated).ToList();
+                viewNotif = viewNotif.Take(4).ToList();
             }
 
             if (getdb.UserBorks != null)

@@ -10,6 +10,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
         public bool IsCurrentUser { get; set; }
         public bool HasNotifications { get; set; }
         public bool HasBorks { get; set; }
+        public bool FollowsUser { get; set; }
 
         public AccountViewModel(int userId)
         {
@@ -17,9 +18,10 @@ namespace Calrom.Training.SocialMedia.Web.Models
             var converter = new ViewModelConverter();
             var userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();
+            var viewingUser = userList.First(a => a.UserName == HttpContext.Current.User.Identity.Name);
             CurrentUser = converter.GetView(userList.First(a => a.UserId == userId));
 
-            if(CurrentUser.UserName == HttpContext.Current.User.Identity.Name) IsCurrentUser = true;
+            if(CurrentUser.UserName == viewingUser.UserName) IsCurrentUser = true;
             else IsCurrentUser = false;
 
             if (CurrentUser.Notifications != null) HasNotifications = true;
@@ -27,6 +29,9 @@ namespace Calrom.Training.SocialMedia.Web.Models
 
             if (CurrentUser.UserBorks != null) HasBorks = true;
             else HasBorks = false;
+
+            if (viewingUser.FollowingId.Contains(userId)) FollowsUser = true;
+            else FollowsUser = false;
         }
 
     }
