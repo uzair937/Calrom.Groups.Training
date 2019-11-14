@@ -9,15 +9,16 @@
 
 function onBidItem(e) {
     var xhttp = new XMLHttpRequest();
-
+    var itemId = window.document.getElementById("ItemID").value;
+    
     // Response returns
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            var response = JSON.parse(this.response);
+            window.location.reload();
         }
     };
 
-    var element = ;
-    xhttp.open("POST", "/api/HttpBid/BidItem" + element, true);
+    var element = this.value;
+    xhttp.open("POST", "/api/HttpBid/BidItem?value=" + element + "&itemId=" + itemId, true);
     xhttp.send();
 }

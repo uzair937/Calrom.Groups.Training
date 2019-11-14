@@ -1,9 +1,7 @@
 ﻿@model Calrom.Training.AuctionHouse.Web.Models.BidProductViewModel
 
-@using (Html.BeginForm("BidProduct", "Product", FormMethod.Post))
-{
+@Scripts.Render("~/Content/bid/scripts");
     @Html.HiddenFor(m => m.ItemID)
     <input type="submit" value="10" name="Amount" />
     <input type="submit" value="25" name="Amount" />
     <input type="submit" value="50" name="Amount" />
-}

@@ -18,12 +18,12 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
         private static BidRepo BidInstance { get { return BidRepo.getInstance; } }
 
         [HttpPost]
-        public IHttpActionResult BidItem(BidProductViewModel viewModel)
+        public IHttpActionResult BidItem(int ItemID, int value)
         {
             var productList = ProductInstance.List();
             var userList = UserInstance.List();
             var bidList = BidInstance.List();
-            var product = productList.FirstOrDefault(p => p.ItemID == viewModel.ItemID);
+            var product = productList.FirstOrDefault(p => p.ItemID == ItemID);
             var user = userList.FirstOrDefault(u => u.Username == this.RequestContext.Principal.Identity.Name);
             var bid = bidList.FirstOrDefault(b => b.ItemID == product.ItemID);
 
@@ -31,11 +31,11 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             {
                 if (product.CurrentBid == 0)
                 {
-                    product.CurrentBid = product.ItemPrice + viewModel.Amount;
+                    product.CurrentBid = product.ItemPrice + value;
                 }
                 else
                 {
-                    product.CurrentBid += viewModel.Amount;
+                    product.CurrentBid += value;
                 }
 
                 if (bid == null)
