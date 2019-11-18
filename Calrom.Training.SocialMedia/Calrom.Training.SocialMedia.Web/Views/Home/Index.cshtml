@@ -2,51 +2,24 @@
 @model TimeLineViewModel
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Borker!";
 }
 @Scripts.Render("~/Content/home/scripts")
-
-<div class="background-shibe">
-    <div class="bork-timeline">
+<div class="background-shibe" id="home-content">
+    <div class="bork-timeline" id="bork-current" data-newborkurl="@Url.Action("AddBork", "Home")">
         @Html.Partial("_BorkInputForm", new BorkViewModel())
         @foreach (var bork in Model.Borks)
         {
-            using (Html.BeginForm("Account", "Account", FormMethod.Post))
-            {
-                @Html.Hidden("userId", bork.UserId, new { value = bork.UserId })
-                <div class="bork-container">
-                    <div class="image-container">
-                        <img src="@bork.UserPP" />
-                    </div>
-                    <ul class="single-bork">
-                        <input type="submit" class="fake-button" value=@bork.UserName />
-                        <li>@bork.BorkText</li>
-                        <li>Borked: @bork.DateBorked</li>
-                    </ul>
-                </div>
-            }
+            @Html.Partial("_BorkBox", bork)
         }
         @Html.Partial("_PageForm", @Model.PageView)
     </div>
 
-    <div class="all-bork-timeline">
+    <div class="all-bork-timeline" id="bork-all">
         <div class="page-container"><div class="page-text">Recent Borks</div></div>
         @foreach (var bork in Model.AllBorks)
         {
-            using (Html.BeginForm("Account", "Account", FormMethod.Post))
-            {
-                @Html.Hidden("userId", bork.UserId, new { value = bork.UserId })
-                <div class="bork-container">
-                    <div class="image-container">
-                        <img src="@bork.UserPP" />
-                    </div>
-                    <ul class="single-bork">
-                        <input type="submit" class="fake-button" value=@bork.UserName />
-                        <li>@bork.BorkText</li>
-                        <li>Borked: @bork.DateBorked</li>
-                    </ul>
-                </div>
-            }
+            @Html.Partial("_BorkBox", bork)
         }
     </div>
 </div>

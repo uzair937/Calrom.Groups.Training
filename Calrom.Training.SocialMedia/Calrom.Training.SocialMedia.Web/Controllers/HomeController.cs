@@ -43,7 +43,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             return someBorks;
         }
 
-        public PaginationViewModel CurrentPageFinder(int pageNum, int borkCount)
+        private PaginationViewModel CurrentPageFinder(int pageNum, int borkCount)
         {
             var PageView = new PaginationViewModel();
 
@@ -75,26 +75,9 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var converter = new ViewModelConverter();
             if (!CheckValidUser(converter)) return RedirectToAction("Logout", "Login");
             var userId = this.HttpContext.Session["UserId"] as int?;
-            var timeLineViewModel = GetBorks(userId ?? 0, 0);
+            var pageNum = this.HttpContext.Session["CurrentPage"] as int?;
+            var timeLineViewModel = GetBorks(userId ?? 0, pageNum ?? 0);
             return View(timeLineViewModel);
-        }
-
-        [HttpPost]
-        public ActionResult Index(int pageNum)
-        {
-            ModelState.Clear();
-            var userId = this.HttpContext.Session["UserId"] as int?;
-            var timeLineViewModel = GetBorks(userId ?? 0, pageNum);
-            return View(timeLineViewModel);
-        }
-
-        [HttpPost]
-        public ActionResult NewBork(BorkViewModel bork)
-        {
-            var userId = this.HttpContext.Session["UserId"] as int?;
-            var timeLineViewModel = new TimeLineViewModel(userId ?? 0);
-            timeLineViewModel.AddBork(bork.BorkText);
-            return RedirectToAction("Index");
         }
 
         public ActionResult About()
@@ -105,6 +88,34 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
         public ActionResult Contact()
         {
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddBork(string borkText)
+        {
+            var userRepo = UserRepository.GetRepository();
+            var borkRepo = BorkRepository.GetRepository();
+            var converter = new ViewModelConverter();
+            var currentUser = userRepo.List().FirstOrDefault(u => u.UserName == this.HttpContext.User.Identity.Name);
+            
+            if (currentUser == null) return HttpNotFound();
+
+            userRepo.AddBork(borkText, currentUser.UserId);
+            var borkViewModel = converter.GetView(currentUser.UserBorks.First());
+
+            return PartialView("_BorkBox", borkViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult ChangePage(int pageNum)
+        {
+            var userRepo = UserRepository.GetRepository();
+            var currentUser = userRepo.List().FirstOrDefault(u => u.UserName == this.HttpContext.User.Identity.Name);
+
+            this.HttpContext.Session["CurrentPage"] = pageNum;
+            var timeLineViewModel = GetBorks(currentUser.UserId, pageNum);
+
+            return PartialView("Index", timeLineViewModel);
         }
     }
 }

@@ -2,13 +2,13 @@
 @model AccountViewModel
 
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = @Model.CurrentUser.UserName;
 }
 @Scripts.Render("~/Content/account/scripts")
 
 <div class="background-shibe">
     <div class="acc-row">
-        <div class="acc-borks">
+        <div class="acc-borks-self">
             <div class="page-container">
                 <p class="page-text">Your Borks! Bork!</p>
             </div>
@@ -86,6 +86,14 @@
                         }
                     </ul>
                 </div>
+            }
+        </div>
+        <div class="acc-borks">
+            @if (Model.IsCurrentUser)
+            {
+            <div class="account-detail-container">
+                @Html.Partial("_ViewFollowing", Model)
+            </div>
             }
         </div>
     </div>

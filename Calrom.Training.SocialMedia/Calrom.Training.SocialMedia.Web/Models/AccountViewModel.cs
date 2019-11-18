@@ -1,4 +1,5 @@
 ﻿using Calrom.Training.SocialMedia.Database.Repositories;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
@@ -11,6 +12,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
         public bool HasNotifications { get; set; }
         public bool HasBorks { get; set; }
         public bool FollowsUser { get; set; }
+        public List<string> FollowedUsers { get; set; }
 
         public AccountViewModel(int userId)
         {
@@ -21,7 +23,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
             var viewingUser = userList.First(a => a.UserName == HttpContext.Current.User.Identity.Name);
             CurrentUser = converter.GetView(userList.First(a => a.UserId == userId));
 
-            if(CurrentUser.UserName == viewingUser.UserName) IsCurrentUser = true;
+            if (CurrentUser.UserName == viewingUser.UserName) IsCurrentUser = true;
             else IsCurrentUser = false;
 
             if (CurrentUser.Notifications != null) HasNotifications = true;

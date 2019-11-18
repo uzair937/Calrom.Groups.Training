@@ -28,5 +28,20 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
 
             return Ok(userId);
         }
+
+        [HttpPost]
+        public IHttpActionResult GetId(string userName)
+        {
+            var repo = UserRepository.GetRepository();
+            var targetUser = repo.List().FirstOrDefault(u => u.UserName == userName);
+            if (targetUser == null)
+            {
+                return NotFound();
+            }
+
+            var targetUserId = targetUser.UserId;
+
+            return Ok(targetUserId);
+        }
     }
 }

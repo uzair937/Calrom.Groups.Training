@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using Calrom.Training.SocialMedia.Database.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Calrom.Training.SocialMedia.Database.Repositories
 {
@@ -34,11 +36,26 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             return userList;
         }
 
+        public void AddBork(string borkBoxString, int userId)
+        {
+            var borkRepository = BorkRepository.GetRepository();
+            var userList = userRepository.List();
+            var currentUserDb = userList.First(a => a.UserId == userId);
+            currentUserDb.UserBorks.Add(new BorkDatabaseModel
+            {
+                BorkText = borkBoxString,
+                DateBorked = DateTime.Now,
+                UserId = userId
+            });
+            currentUserDb.UserBorks = currentUserDb.UserBorks.OrderByDescending(a => a.DateBorked).ToList();
+            borkRepository.Add(currentUserDb.UserBorks.First());
+        }
+
         public IEnumerable<UserDatabaseModel> FollowedUserBorks(int userId)
         {
             var followedUsers = new List<UserDatabaseModel>();
             var currentUser = userList.First(a => a.UserId == userId);
-            foreach (var user in userList)    //move logic to .List() send current userId
+            foreach (var user in userList)
             {
                 if (currentUser.FollowingId.Contains(user.UserId) || userId == user.UserId)
                 {

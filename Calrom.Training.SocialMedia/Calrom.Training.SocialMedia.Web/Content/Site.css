@@ -22,11 +22,11 @@ body {
     border: 3px solid white;
 }
 
-.navigation-bar > h1 {
-    color: indigo;
-    font-size: 5em;
-    margin: 0;
-}
+    .navigation-bar > h1 {
+        color: indigo;
+        font-size: 5em;
+        margin: 0;
+    }
 
 .navigation-bar-bottom {
     display: flex;
@@ -39,11 +39,11 @@ body {
     position: relative;
 }
 
-.navigation-bar-bottom > h1 {
-    color: indigo;
-    font-size: 5em;
-    margin: 0;
-}
+    .navigation-bar-bottom > h1 {
+        color: indigo;
+        font-size: 5em;
+        margin: 0;
+    }
 
 .nav-home {
     flex-grow: 1;
@@ -116,7 +116,8 @@ textarea {
 #bork-button {
     min-width: 150px;
     min-height: 30px;
-    font-size: 50px;
+    font-size: 40px;
+    height: 100%;
 }
 
 .bork-submitter {
@@ -132,7 +133,6 @@ textarea {
     flex-direction: row;
     justify-content: center;
     width: 100%;
-    margin-right: 20%;
 }
 
 .box-row {
@@ -150,9 +150,20 @@ textarea {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 50em;
+    width: auto;
     height: auto;
     margin-top: 5%;
+    margin-left: 5%;
+}
+
+.acc-borks-self {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-top: 5%;
+    
 }
 
 .bork-timeline {
@@ -250,10 +261,16 @@ textarea {
     height: 110px;
 }
 
-.next-button {
-    width: 100%;
+#next-button {
+    width: auto;
     height: 50px;
-    font-size: 2em;
+    font-size: 1.5em;
+}
+
+#prev-button {
+    width: auto;
+    height: 50px;
+    font-size: 1.5em;
 }
 
 .page-text {
@@ -288,6 +305,21 @@ textarea {
 
     .follow-button:hover {
         text-decoration: underline;
+    }
+
+.followed-borker-list {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+    .followed-borker-list > h1 {
+        margin: 0;
+    }
+
+    .followed-borker-list > select {
+        font-size: 1em;
+        background-color: transparent;
     }
 
 .account-detail-container {

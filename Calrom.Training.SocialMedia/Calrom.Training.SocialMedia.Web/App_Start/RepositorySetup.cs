@@ -16,41 +16,33 @@ namespace Calrom.Training.SocialMedia.Web
             var userRepo = UserRepository.GetRepository();
             var borkRepo = BorkRepository.GetRepository();
 
-            InitialiseBorkers(userRepo, borkRepo);
+            InitialiseBorkers(userRepo);
             InitialiseBorkRepo(userRepo, borkRepo);
         }
 
-        private void InitialiseBorkers(UserRepository userRepository, BorkRepository borkRepository)
+        private void InitialiseBorkers(UserRepository userRepository)
         {
-            var assignBorks = new List<BorkDatabaseModel>();
-            var followOne = new List<int> { 1 };
-            var followTwo = new List<int> { 2 };
-            var followedOne = new List<int> { 1 };
-            var followedTwo = new List<int> { 2 };
-            var notifOne = new List<NotificationDatabaseModel>();
-            var notifTwo = new List<NotificationDatabaseModel>();
             userRepository.Add(new UserDatabaseModel
             {
                 UserId = 1,
                 UserName = ("test-user-" + 1),
                 Password = ("test-pass-" + 1),
-                UserBorks = assignBorks,
+                UserBorks = new List<BorkDatabaseModel>(),
                 UserPP = "../../images/doggo.jpg",
-                FollowingId = followTwo,
-                FollowerId = followedTwo,
-                Notifications = notifOne
+                FollowingId = new List<int> { 2 },
+                FollowerId = new List<int> { 2 },
+                Notifications = new List<NotificationDatabaseModel>()
             });
-            var assignTwoBorks = new List<BorkDatabaseModel>();
             userRepository.Add(new UserDatabaseModel
             {
                 UserId = 2,
                 UserName = ("test-user-" + 2),
                 Password = ("test-pass-" + 2),
-                UserBorks = assignTwoBorks,
+                UserBorks = new List<BorkDatabaseModel>(),
                 UserPP = "../../images/user-2.jpg",
-                FollowingId = followOne,
-                FollowerId = followedOne,
-                Notifications = notifTwo
+                FollowingId = new List<int> { 1 },
+                FollowerId = new List<int> { 1 },
+                Notifications = new List<NotificationDatabaseModel>()
             });
 
             var userList = userRepository.List();

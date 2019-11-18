@@ -24,21 +24,6 @@ namespace Calrom.Training.SocialMedia.Web.Models
             CurrentUser = converter.GetView(userList.First(a => a.UserId == userId));
         }
 
-        public void AddBork(string borkBoxString)
-        {
-            var userRepository = UserRepository.GetRepository();
-            var borkRepository = BorkRepository.GetRepository();
-            var userList = userRepository.List();
-            var currentUserDb = userList.First(a => a.UserName == HttpContext.Current.User.Identity.Name);
-            currentUserDb.UserBorks.Add(new BorkDatabaseModel
-            {
-                BorkText = borkBoxString,
-                DateBorked = DateTime.Now,
-                UserId = CurrentUser.UserId
-            });
-            borkRepository.Add(currentUserDb.UserBorks.Last());
-        }
-
         public string GetUserName(int userId)
         {
             var userRepository = UserRepository.GetRepository();

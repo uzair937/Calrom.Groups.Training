@@ -1,0 +1,6 @@
+﻿@model Calrom.Training.SocialMedia.Web.Models.AccountViewModel
+
+<div class="followed-borker-list">
+    <h1>Followed Users</h1>
+    @Html.DropDownList("-- Followed Users --", new SelectList(Model.FollowedUsers), new { @class = "followed-list" })
+</div>

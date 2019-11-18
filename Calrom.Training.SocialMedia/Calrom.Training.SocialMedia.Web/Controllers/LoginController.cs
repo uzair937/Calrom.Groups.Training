@@ -33,7 +33,6 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             if (ModelState.IsValid)
             {
                 var userId = 0;
-                //string id = HttpContext.User.Identity.Name;
                 var userList = UserRepository.GetRepository().List();
                 foreach (var user in userList)
                 {
@@ -49,6 +48,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(entry.UserName, false);
                     this.HttpContext.Session.Add("UserId", userId);
+                    this.HttpContext.Session.Add("CurrentPage", 0);
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -65,10 +65,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                 var alreadyExists = false;
                 var userRepository = UserRepository.GetRepository();
                 var userList = userRepository.List();
-                foreach (var user in userList)
-                {
-                    if (user.UserName == entry.UserName) alreadyExists = true;
-                }
+                if (userList.FirstOrDefault(a=>a.UserName == entry.UserName) != null) alreadyExists = true;
                 if (alreadyExists)
                 {
                     return RedirectToAction("Login");
@@ -96,8 +93,6 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                     return RedirectToAction("Login");
                 }
             }
-
-            
             return RedirectToAction("Login");
         }
     }
