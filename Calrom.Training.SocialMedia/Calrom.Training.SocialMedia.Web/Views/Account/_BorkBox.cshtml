@@ -1,0 +1,12 @@
+﻿@model Calrom.Training.SocialMedia.Web.Models.BorkViewModel
+
+<div class="bork-container">
+    <div class="image-container">
+        <img src="@Model.UserPP" />
+    </div>
+    <ul class="single-bork">
+        <a class="fake-button" href="@Url.Action("Account", "Account", new { userId = Model.UserId })">@Model.UserName</a>
+        <li>@Model.BorkText</li>
+        <li>Borked: @Model.DateBorked</li>
+    </ul>
+</div>

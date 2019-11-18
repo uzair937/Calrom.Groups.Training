@@ -60,5 +60,24 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             };
             return View(accountViewModel);
         }
+
+        [HttpPost]
+        public ActionResult SearchBork(string searchText, int userId)
+        {
+            if (searchText == "") return PartialView("_SearchBorks", new SearchViewModel());
+
+            var userRepo = UserRepository.GetRepository();
+            var converter = new ViewModelConverter();
+            var searchViewModel = new SearchViewModel
+            {
+                BorkResults = converter.GetView(userRepo.SearchUserBorks(searchText, userId))
+            };
+            if (searchViewModel.BorkResults.Count > 0) searchViewModel.ValidResults = true;
+            else searchViewModel.ValidResults = false;
+
+
+
+            return PartialView("_SearchBorks", searchViewModel);
+        }
     }
 }

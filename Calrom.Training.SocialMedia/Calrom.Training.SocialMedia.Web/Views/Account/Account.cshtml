@@ -6,7 +6,7 @@
 }
 @Scripts.Render("~/Content/account/scripts")
 
-<div class="background-shibe">
+<div class="background-shibe" currentuserId=@Model.CurrentUser.UserId>
     <div class="acc-row">
         <div class="acc-borks-self">
             <div class="page-container">
@@ -17,15 +17,7 @@
                 {
                     foreach (var bork in Model.CurrentUser.UserBorks)
                     {
-                        <div class="bork-container">
-                            <div class="image-container">
-                                <img src="@Model.CurrentUser.UserPP" />
-                            </div>
-                            <div class="single-bork-acc">
-                                <li>@bork.BorkText</li>
-                                <li>Borked: @bork.DateBorked</li>
-                            </div>
-                        </div>
+                        @Html.Partial("_BorkBox", bork)
                     }
                 }
             </ul>
@@ -91,10 +83,12 @@
         <div class="acc-borks">
             @if (Model.IsCurrentUser)
             {
-            <div class="followed-user-container">
-                @Html.Partial("_ViewFollowing", Model)
-            </div>
+                <div class="followed-user-container">
+                    @Html.Partial("_ViewFollowing", Model)
+                </div>
+
             }
+            @Html.Partial("_SearchBorks", new SearchViewModel())
         </div>
     </div>
 </div>

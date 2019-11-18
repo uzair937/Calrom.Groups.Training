@@ -35,9 +35,26 @@ function onUserClick(e) {
     xhttp.send();
 }
 
+function searchBork(e) {
+    var url = $(".search-container").attr("data-searchborkurl");
+    var searchText = document.getElementById("SearchText").value;
+    var userId = $(".background-shibe").attr("currentuserId");
+    $.ajax({
+        type: "POST",
+        url: url + "?searchText=" + searchText + "&userId=" + userId,
+        success: function (data, status, xhr) {
+            if (data) {
+                $(".search-container").replaceWith(data);
+                addListeners();
+            }
+        }
+    });
+}
+
 function addListeners() {
     var followButton = window.document.getElementsByClassName("follow-button")[0];
     var followedUserList = window.document.getElementsByClassName("followed-list")[0];
+    var searchButton = window.document.getElementById("search-bork");
 
     if (followButton !== undefined && followButton !== null) {
         followButton.addEventListener("click", onFollowUser);
@@ -49,6 +66,10 @@ function addListeners() {
         topItem.innerHTML += "Select User";
         topItem.setAttribute("selected", "selected");
         followedUserList.insertBefore(topItem, followedUserList.firstChild);
+    }
+
+    if (searchButton !== undefined && searchButton !== null) {
+        searchButton.addEventListener("click", searchBork);
     }
 
 }

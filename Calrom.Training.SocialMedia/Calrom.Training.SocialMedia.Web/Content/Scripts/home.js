@@ -51,7 +51,7 @@ function changePage(e) {
 }
 
 function searchBork(e) {
-    var url = $(".search-container").attr("data-newborkurl");
+    var url = $(".search-container").attr("data-searchborkurl");
     var searchText = document.getElementById("SearchText").value;
     $.ajax({
         type: "POST",

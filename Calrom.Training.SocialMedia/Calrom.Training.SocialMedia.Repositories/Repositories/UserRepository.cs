@@ -118,5 +118,19 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             }
             return foundBorks;
         }
+
+        public List<BorkDatabaseModel> SearchUserBorks(string searchText, int userId)
+        {
+            var user = userList.FirstOrDefault(a => a.UserId == userId);
+            var foundBorks = new List<BorkDatabaseModel>();
+            foreach (var bork in user.UserBorks)
+            {
+                if (bork.BorkText.Contains(searchText))
+                {
+                    foundBorks.Add(bork);
+                }
+            }
+            return foundBorks;
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model Calrom.Training.SocialMedia.Web.Models.SearchViewModel
 
-<div class="search-container" data-searchborkurl="@Url.Action("SearchBork", "Home")">
+<div class="search-container" data-searchborkurl="@Url.Action("SearchBork", "Account")">
     <div class="search-submitter">
         @Html.TextBoxFor(m => m.SearchText, new { placeholder = "...Search for a bork!" })
         <input id="search-bork" type="submit" name="borkBoxSubmit" value="Search" />
