@@ -1,0 +1,17 @@
+﻿@model Calrom.Training.SocialMedia.Web.Models.SearchViewModel
+
+<div class="search-container" data-newborkurl="@Url.Action("SearchBork", "Home")">
+    <div class="search-submitter">
+        @Html.TextBoxFor(m => m.SearchText, new { placeholder = "...Search for a bork!" })
+        <input id="search-bork" type="submit" name="borkBoxSubmit" value="Search" />
+    </div>
+    <div>
+        @if (Model.ValidResults)
+        {
+            foreach (var bork in Model.BorkResults)
+            {
+                @Html.Partial("_BorkBox", bork)
+            }
+        }
+    </div>
+</div>

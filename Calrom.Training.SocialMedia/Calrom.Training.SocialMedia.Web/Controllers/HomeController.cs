@@ -19,7 +19,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var timeLineViewModel = new TimeLineViewModel(userId);
             var borkRepository = BorkRepository.GetRepository();
             var converter = new ViewModelConverter();
-            var borkGet = borkRepository.FollowedUserBorks(userId);
+            var borkGet = borkRepository.GetFollowedUsers(userId);
             var PageView = CurrentPageFinder(pageNum, borkGet.Count());
 
             var borks = new List<BorkViewModel>();
@@ -116,6 +116,25 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var timeLineViewModel = GetBorks(currentUser.UserId, pageNum);
 
             return PartialView("Index", timeLineViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult SearchBork(string searchText)
+        {
+            if (searchText == "") return PartialView("_SearchBorks", new SearchViewModel());
+
+            var userRepo = UserRepository.GetRepository();
+            var borkRepo = BorkRepository.GetRepository();
+            var converter = new ViewModelConverter();
+            var searchViewModel = new SearchViewModel();
+            var currentUser = userRepo.List().FirstOrDefault(u => u.UserName == this.HttpContext.User.Identity.Name);
+            var currentUserId = currentUser.UserId;
+            if (currentUser == null) return HttpNotFound();
+
+            searchViewModel.BorkResults = converter.GetView(userRepo.GetSearchBorks(searchText, currentUserId));
+            if (searchViewModel.BorkResults.Count > 0) searchViewModel.ValidResults = true;
+            else searchViewModel.ValidResults = false;
+            return PartialView("_SearchBorks", searchViewModel);
         }
     }
 }

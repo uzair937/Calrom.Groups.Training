@@ -5,6 +5,7 @@
     ViewBag.Title = "Borker!";
 }
 @Scripts.Render("~/Content/home/scripts")
+
 <div class="background-shibe" id="home-content">
     <div class="bork-timeline" id="bork-current" data-newborkurl="@Url.Action("AddBork", "Home")">
         @Html.Partial("_BorkInputForm", new BorkViewModel())
@@ -22,4 +23,5 @@
             @Html.Partial("_BorkBox", bork)
         }
     </div>
+    @Html.Partial("_SearchBorks", new SearchViewModel())
 </div>

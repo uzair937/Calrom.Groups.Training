@@ -8,7 +8,7 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
     {
         IEnumerable<T> List();
 
-        IEnumerable<T> FollowedUserBorks(int userId);
+        IEnumerable<T> GetFollowedUsers(int userId);
 
         void Add(T entity);
 

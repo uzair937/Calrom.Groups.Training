@@ -67,6 +67,15 @@ namespace Calrom.Training.SocialMedia.Web.Models
             };
             return newBork;
         }
+        public List<BorkViewModel> GetView(List<BorkDatabaseModel> getBork)
+        {
+            var newBorks = new List<BorkViewModel>();
+            foreach (var bork in getBork)
+            {
+                newBorks.Add(GetView(bork));
+            }
+            return newBorks;
+        }
 
         public NotificationViewModel GetView(NotificationDatabaseModel getNotif)
         {

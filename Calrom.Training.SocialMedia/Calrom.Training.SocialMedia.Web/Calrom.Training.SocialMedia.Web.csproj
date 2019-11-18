@@ -137,6 +137,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
+    <Compile Include="Models\SearchViewModel.cs" />
     <Compile Include="Models\BorkViewModel.cs" />
     <Compile Include="Models\ViewModelConverter.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
@@ -173,6 +174,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\_BorkBox.cshtml" />
     <Content Include="Views\Account\_ViewFollowing.cshtml" />
+    <Content Include="Views\Home\_SearchBorks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ApiControllers\" />

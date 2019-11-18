@@ -34,10 +34,10 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             return borks;
         }
 
-        public IEnumerable<BorkDatabaseModel> FollowedUserBorks(int userId)
+        public IEnumerable<BorkDatabaseModel> GetFollowedUsers(int userId)
         {
             var userRepo = UserRepository.GetRepository();
-            var followedUsers = userRepo.FollowedUserBorks(userId);
+            var followedUsers = userRepo.GetFollowedUsers(userId);
             var followedBorks = new List<BorkDatabaseModel>();
             if (followedUsers != null)
             {

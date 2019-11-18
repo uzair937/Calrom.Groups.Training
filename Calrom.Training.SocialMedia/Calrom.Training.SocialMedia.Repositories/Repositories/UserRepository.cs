@@ -51,7 +51,7 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             borkRepository.Add(currentUserDb.UserBorks.First());
         }
 
-        public IEnumerable<UserDatabaseModel> FollowedUserBorks(int userId)
+        public IEnumerable<UserDatabaseModel> GetFollowedUsers(int userId)
         {
             var followedUsers = new List<UserDatabaseModel>();
             var currentUser = userList.First(a => a.UserId == userId);
@@ -98,6 +98,25 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
                 var type = (NotificationType)Enum.Parse(typeof(NotificationType), "Unfollow");
                 userList.ElementAt(targetUserIndex).Notifications.Add(new NotificationDatabaseModel(type, currentUserId, ""));
             }
+        }
+
+        public List<BorkDatabaseModel> GetSearchBorks(string searchText, int userId)
+        {
+            var searchedUsers = GetFollowedUsers(userId);
+            var foundBorks = new List<BorkDatabaseModel>();
+            var borkList = new List<BorkDatabaseModel>();
+            foreach (var user in searchedUsers)
+            {
+                borkList = borkList.Concat(user.UserBorks).ToList();
+            }
+            foreach (var bork in borkList)
+            {
+                if (bork.BorkText.Contains(searchText))
+                {
+                    foundBorks.Add(bork);
+                }
+            }
+            return foundBorks;
         }
     }
 }

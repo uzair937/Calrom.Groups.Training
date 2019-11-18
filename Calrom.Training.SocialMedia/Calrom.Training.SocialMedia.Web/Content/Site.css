@@ -133,6 +133,7 @@ textarea {
     flex-direction: row;
     justify-content: center;
     width: 100%;
+    margin-right:5%;
 }
 
 .box-row {
@@ -214,7 +215,7 @@ textarea {
     width: auto;
     height: auto;
     margin-top: 5%;
-    margin-right: 20%;
+    margin-right: 5%;
     opacity: 0.6;
 }
 
@@ -227,6 +228,44 @@ textarea {
     .all-bork-timeline > form {
         width: 100%;
     }
+
+.search-timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+    height: auto;
+    margin-top: 5%;
+    margin-right:5%;
+}
+
+.search-container {
+    margin: 0;
+    margin-top: 5%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height:auto;
+    min-width: 550px;
+    max-height: 790px;
+    overflow-y: auto;
+}
+
+#SearchText {
+    width: 100%;
+}
+
+.search-submitter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.search-submitter > input {
+    font-size: 2em;
+    height: 1.6em;
+}
 
 .single-bork {
     width: 100%;
@@ -334,6 +373,18 @@ textarea {
     font-size: 2em;
 }
 
+.followed-user-container {
+    background-color: mediumpurple;
+    border: 3px solid white;
+    color: indigo;
+    margin: 0;
+    width: 14em;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: Column;
+    font-size: 2em;
+}
+
 .account-detail-header {
     background-color: mediumpurple;
     border: 3px solid white;
@@ -417,3 +468,4 @@ textarea {
             height: auto;
             font-size: 1em;
         }
+
