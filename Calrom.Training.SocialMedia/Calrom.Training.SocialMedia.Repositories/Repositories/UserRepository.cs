@@ -41,7 +41,7 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             var borkRepository = BorkRepository.GetRepository();
             var userList = userRepository.List();
             var currentUserDb = userList.First(a => a.UserId == userId);
-            currentUserDb.UserBorks.Add(new BorkDatabaseModel
+            currentUserDb.UserBorks.Add(new BorkModel
             {
                 BorkText = borkBoxString,
                 DateBorked = DateTime.Now,
@@ -89,22 +89,22 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
                 userList.ElementAt(currentUserIndex).FollowingId.Add(targetUserId);
                 userList.ElementAt(targetUserIndex).FollowerId.Add(currentUserId);
                 var type = (NotificationType)Enum.Parse(typeof(NotificationType), "Follow");
-                userList.ElementAt(targetUserIndex).Notifications.Add(new NotificationDatabaseModel(type, currentUserId, ""));
+                userList.ElementAt(targetUserIndex).Notifications.Add(new NotificationModel(type, currentUserId, ""));
             }
             else
             {
                 userList.ElementAt(currentUserIndex).FollowingId.Remove(targetUserId);
                 userList.ElementAt(targetUserIndex).FollowerId.Remove(currentUserId);
                 var type = (NotificationType)Enum.Parse(typeof(NotificationType), "Unfollow");
-                userList.ElementAt(targetUserIndex).Notifications.Add(new NotificationDatabaseModel(type, currentUserId, ""));
+                userList.ElementAt(targetUserIndex).Notifications.Add(new NotificationModel(type, currentUserId, ""));
             }
         }
 
-        public List<BorkDatabaseModel> GetSearchBorks(string searchText, int userId)
+        public List<BorkModel> GetSearchBorks(string searchText, int userId)
         {
             var searchedUsers = GetFollowedUsers(userId);
-            var foundBorks = new List<BorkDatabaseModel>();
-            var borkList = new List<BorkDatabaseModel>();
+            var foundBorks = new List<BorkModel>();
+            var borkList = new List<BorkModel>();
             foreach (var user in searchedUsers)
             {
                 borkList = borkList.Concat(user.UserBorks).ToList();
@@ -119,10 +119,10 @@ namespace Calrom.Training.SocialMedia.Database.Repositories
             return foundBorks;
         }
 
-        public List<BorkDatabaseModel> SearchUserBorks(string searchText, int userId)
+        public List<BorkModel> SearchUserBorks(string searchText, int userId)
         {
             var user = userList.FirstOrDefault(a => a.UserId == userId);
-            var foundBorks = new List<BorkDatabaseModel>();
+            var foundBorks = new List<BorkModel>();
             foreach (var bork in user.UserBorks)
             {
                 if (bork.BorkText.Contains(searchText))

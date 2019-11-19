@@ -75,10 +75,10 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                     var userId = Enumerable.Range(1, int.MaxValue)
                                 .Except(userList.Select(u => u.UserId))
                                 .FirstOrDefault();
-                    var newBorkList = new List<BorkDatabaseModel>();
+                    var newBorkList = new List<BorkModel>();
                     var followingId = new List<int>();
                     var followerId = new List<int>();
-                    var notif = new List<NotificationDatabaseModel>();
+                    var notif = new List<NotificationModel>();
                     userRepository.Add(new UserDatabaseModel
                     {
                         UserId = userId,

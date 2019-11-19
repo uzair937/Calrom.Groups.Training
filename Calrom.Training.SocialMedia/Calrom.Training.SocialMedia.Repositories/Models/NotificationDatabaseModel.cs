@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Calrom.Training.SocialMedia.Database.Models
 {
-    public class NotificationDatabaseModel
+    public class NotificationModel
     {
         public int UserId { get; set; }
 
@@ -22,7 +22,7 @@ namespace Calrom.Training.SocialMedia.Database.Models
 
         public DateTime DateCreated { get; set; }
 
-        public NotificationDatabaseModel(NotificationType type, int userId, string likedBork)
+        public NotificationModel(NotificationType type, int userId, string likedBork)
         {
             var userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();

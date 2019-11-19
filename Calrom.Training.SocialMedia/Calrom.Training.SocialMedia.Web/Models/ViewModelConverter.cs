@@ -51,7 +51,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
             return newView;
         }
 
-        public BorkViewModel GetView(BorkDatabaseModel getBork)
+        public BorkViewModel GetView(BorkModel getBork)
         {
             var userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();
@@ -67,7 +67,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
             };
             return newBork;
         }
-        public List<BorkViewModel> GetView(List<BorkDatabaseModel> getBork)
+        public List<BorkViewModel> GetView(List<BorkModel> getBork)
         {
             var newBorks = new List<BorkViewModel>();
             foreach (var bork in getBork)
@@ -77,7 +77,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
             return newBorks;
         }
 
-        public NotificationViewModel GetView(NotificationDatabaseModel getNotif)
+        public NotificationViewModel GetView(NotificationModel getNotif)
         {
             var newNotif = new NotificationViewModel(getNotif.Type, getNotif.UserId, getNotif.LikedBork, getNotif.DateCreated);
             return newNotif;

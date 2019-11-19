@@ -27,29 +27,29 @@ namespace Calrom.Training.SocialMedia.Web
                 UserId = 1,
                 UserName = ("test-user-" + 1),
                 Password = ("test-pass-" + 1),
-                UserBorks = new List<BorkDatabaseModel>(),
+                UserBorks = new List<BorkModel>(),
                 UserPP = "../../images/doggo.jpg",
                 FollowingId = new List<int> { 2 },
                 FollowerId = new List<int> { 2 },
-                Notifications = new List<NotificationDatabaseModel>()
+                Notifications = new List<NotificationModel>()
             });
             userRepository.Add(new UserDatabaseModel
             {
                 UserId = 2,
                 UserName = ("test-user-" + 2),
                 Password = ("test-pass-" + 2),
-                UserBorks = new List<BorkDatabaseModel>(),
+                UserBorks = new List<BorkModel>(),
                 UserPP = "../../images/user-2.jpg",
                 FollowingId = new List<int> { 1 },
                 FollowerId = new List<int> { 1 },
-                Notifications = new List<NotificationDatabaseModel>()
+                Notifications = new List<NotificationModel>()
             });
 
             var userList = userRepository.List();
             for (int x = 0; x < 10; x++)
             {
                 var y = x % 2;
-                userList.ElementAt(y).UserBorks.Add(new BorkDatabaseModel
+                userList.ElementAt(y).UserBorks.Add(new BorkModel
                 {
                     BorkText = "Bork! This is an example bork",
                     DateBorked = DateTime.Now.AddYears(-x * 100),

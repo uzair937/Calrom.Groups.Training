@@ -35,7 +35,7 @@ namespace Calrom.Training.SocialMedia.Database.NHibernate
             string dbConnection = @"Data Source = (LocalDB)\MSSQLLocalDB; Initial Catalog = TestDB; Integrated Security = True";
 
             sessionFactory = Fluently.Configure().Database(MsSqlConfiguration.MsSql2012.ConnectionString(dbConnection)).
-                Mappings(m => m.FluentMappings.AddFromAssemblyOf<BorkDatabaseModel>()).
+                Mappings(m => m.FluentMappings.AddFromAssemblyOf<BorkModel>()).
                 ExposeConfiguration(cfg => new SchemaExport(cfg).
                 Create(true, true)).BuildSessionFactory();
 

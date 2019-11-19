@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Calrom.Training.SocialMedia.Database.Models
 {
-    public class BorkDatabaseModel
+    public class BorkModel
     {
         public DateTime DateBorked { get; set; }
         public string BorkText { get; set; }

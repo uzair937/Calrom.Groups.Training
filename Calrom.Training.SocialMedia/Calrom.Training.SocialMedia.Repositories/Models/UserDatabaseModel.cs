@@ -10,10 +10,10 @@ namespace Calrom.Training.SocialMedia.Database.Models
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
-        public List<BorkDatabaseModel> UserBorks { get; set; }
+        public List<BorkModel> UserBorks { get; set; }
         public string UserPP { get; set; }
         public List<int> FollowingId { get; set; }
         public List<int> FollowerId { get; set; }
-        public List<NotificationDatabaseModel> Notifications { get; set; }
+        public List<NotificationModel> Notifications { get; set; }
     }
 }
