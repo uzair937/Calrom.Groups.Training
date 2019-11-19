@@ -177,6 +177,7 @@
     <Content Include="Views\Home\_SearchBorks.cshtml" />
     <Content Include="Views\Account\_SearchBorks.cshtml" />
     <Content Include="Views\Account\_BorkBox.cshtml" />
+    <Content Include="Views\Home\_ViewFollowing.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ApiControllers\" />

@@ -119,22 +119,31 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult SearchBork(string searchText)
+        public ActionResult SearchBork(string searchText, string searchUser)
         {
             if (searchText == "") return PartialView("_SearchBorks", new SearchViewModel());
 
             var userRepo = UserRepository.GetRepository();
-            var borkRepo = BorkRepository.GetRepository();
             var converter = new ViewModelConverter();
             var searchViewModel = new SearchViewModel();
-            var currentUser = userRepo.List().FirstOrDefault(u => u.UserName == this.HttpContext.User.Identity.Name);
-            var currentUserId = currentUser.UserId;
-            if (currentUser == null) return HttpNotFound();
 
-            searchViewModel.BorkResults = converter.GetView(userRepo.GetSearchBorks(searchText, currentUserId));
-            if (searchViewModel.BorkResults.Count > 0) searchViewModel.ValidResults = true;
-            else searchViewModel.ValidResults = false;
-            return PartialView("_SearchBorks", searchViewModel);
+            var user = userRepo.List().FirstOrDefault(u => u.UserName == searchUser);
+            if (user != null)
+            {
+                var userId = user.UserId;
+                searchViewModel.BorkResults = converter.GetView(userRepo.SearchUserBorks(searchText, userId));
+                if (searchViewModel.BorkResults.Count > 0) searchViewModel.ValidResults = true;
+                else searchViewModel.ValidResults = false;
+                return PartialView("_SearchBorks", searchViewModel);
+            }
+            else
+            {
+                var userId = this.HttpContext.Session["userId"] as int?;
+                searchViewModel.BorkResults = converter.GetView(userRepo.GetSearchBorks(searchText, userId ?? 0));
+                if (searchViewModel.BorkResults.Count > 0) searchViewModel.ValidResults = true;
+                else searchViewModel.ValidResults = false;
+                return PartialView("_SearchBorks", searchViewModel);
+            }
         }
     }
 }

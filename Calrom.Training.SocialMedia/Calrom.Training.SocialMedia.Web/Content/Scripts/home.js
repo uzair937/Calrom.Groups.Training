@@ -1,5 +1,13 @@
 ﻿window.onload = function () {
     addListeners();
+    var followedUserList = window.document.getElementsByClassName("followed-list")[0];
+
+    if (followedUserList !== undefined && followedUserList !== null) {
+        var topItem = document.createElement('option');
+        topItem.innerHTML += "Select User";
+        topItem.setAttribute("selected", "selected");
+        followedUserList.insertBefore(topItem, followedUserList.firstChild);
+    }
 }
 
 function onBork(e) {
@@ -53,16 +61,20 @@ function changePage(e) {
 function searchBork(e) {
     var url = $(".search-container").attr("data-searchborkurl");
     var searchText = document.getElementById("SearchText").value;
-    $.ajax({
-        type: "POST",
-        url: url + "?searchText=" + searchText,
-        success: function (data, status, xhr) {
-            if (data) {
-                $(".search-container").replaceWith(data);
-                addListeners();
+    var searchUser = window.document.getElementsByClassName("followed-list")[0].value;
+
+    if (searchUser) {
+        $.ajax({
+            type: "POST",
+            url: url + "?searchText=" + searchText + "&searchUser=" + searchUser,
+            success: function (data, status, xhr) {
+                if (data) {
+                    $(".search-container").replaceWith(data);
+                    addListeners();
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 function addListeners() {

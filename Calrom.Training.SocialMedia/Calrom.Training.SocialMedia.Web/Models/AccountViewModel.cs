@@ -34,6 +34,23 @@ namespace Calrom.Training.SocialMedia.Web.Models
 
             if (viewingUser.FollowingId.Contains(userId)) FollowsUser = true;
             else FollowsUser = false;
+
+            FollowedUsers = GetFollowedUsers(userRepository, CurrentUser.UserId);
+        }
+
+        private List<string> GetFollowedUsers(UserRepository userRepository, int userId)
+        {
+            var userList = userRepository.List();
+            var user = userList.First(a => a.UserId == userId);
+            var followedUserNames = new List<string>();
+            foreach (var otherUser in userList)
+            {
+                if (user.FollowingId.Contains(otherUser.UserId))
+                {
+                    followedUserNames.Add(otherUser.UserName);
+                }
+            }
+            return followedUserNames;
         }
 
     }
