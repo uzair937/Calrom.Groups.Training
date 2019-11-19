@@ -9,7 +9,10 @@
 @using (Html.BeginForm("NewUser", "Login", FormMethod.Post))
 {
     @Html.TextBoxFor(m => m.Username, new { placeholder = "Username" })
+    @Html.ValidationMessageFor(m => m.Username);
     @Html.TextBoxFor(m => m.DateOfBirth, new { placeholder = "Date Of Birth" })
+    @Html.ValidationMessageFor(m => m.DateOfBirth);
     @Html.PasswordFor(m => m.Password, new { placeholder = "Password" })
+    @Html.ValidationMessageFor(m => m.Password);
     <input type="submit" value="Submit">
 }

@@ -9,7 +9,7 @@
 
 function onBidItem(e) {
     var xhttp = new XMLHttpRequest();
-    var itemId = window.document.getElementById("ItemID").value;
+    var ItemId = window.document.getElementById("ItemID").value;
     
     // Response returns
     xhttp.onreadystatechange = function () {
@@ -19,6 +19,6 @@ function onBidItem(e) {
     };
 
     var element = this.value;
-    xhttp.open("POST", "/api/HttpBid/BidItem?value=" + element + "&itemId=" + itemId, true);
+    xhttp.open("POST", "/api/HttpBid/BidItem?value=" + element + "&itemId=" + ItemId, true);
     xhttp.send();
 }

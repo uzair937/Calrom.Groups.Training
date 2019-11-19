@@ -15,7 +15,6 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         {
             var model = new LoginViewModel
             {
-                UserList = new List<LoginViewModel>(),
                 IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated
             };
             return View(model);
