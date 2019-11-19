@@ -5,13 +5,16 @@ using System.Text;
 
 namespace Calrom.Training.AuctionHouse.Database
 {
-    public class BidMap : ClassMap<BidDatabaseModel>
+    public class ProductMap : ClassMap<ProductDatabaseModel>
     {
-        public BidMap()
+        public ProductMap()
         {
             Id(i => i.ItemID);
             Map(i => i.ItemName);
-            Map(i => i.UserID);
+            Map(i => i.ItemDescription);
+            Map(i => i.ItemPrice);
+            Map(i => i.CurrentBid);
+            Map(i => i.ImageSrc);
         }
     }
 }
