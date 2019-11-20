@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Calrom.Training.SocialMedia.Database.Models
 {
-    public class NotificationModel
+    public class NotificationDatabaseModel
     {
         public int UserId { get; set; }
 
@@ -22,7 +22,7 @@ namespace Calrom.Training.SocialMedia.Database.Models
 
         public DateTime DateCreated { get; set; }
 
-        public NotificationModel(NotificationType type, int userId, string likedBork)
+        public NotificationDatabaseModel(NotificationType type, int userId, string likedBork)
         {
             var userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();
@@ -34,7 +34,7 @@ namespace Calrom.Training.SocialMedia.Database.Models
             LikedBork = likedBork;
             if (Type == NotificationType.Like)
             {
-                Text = Username + " has liked your bork: \n" + LikedBork; 
+                Text = Username + " has liked your bork: \n" + LikedBork;
             }
             else if (Type == NotificationType.Follow)
             {

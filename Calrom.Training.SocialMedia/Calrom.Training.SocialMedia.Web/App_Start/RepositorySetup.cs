@@ -1,5 +1,6 @@
-﻿using Calrom.Training.SocialMedia.Database.Models;
-using Calrom.Training.SocialMedia.Database.Repositories;
+﻿using Calrom.Training.SocialMedia.Database.NHibernateTools;
+using Calrom.Training.SocialMedia.Database.ORMModels;
+using Calrom.Training.SocialMedia.Database.ORMRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,55 +15,63 @@ namespace Calrom.Training.SocialMedia.Web
         public void Initialise()
         {
             var userRepo = UserRepository.GetRepository();
-            var borkRepo = BorkRepository.GetRepository();
 
             InitialiseBorkers(userRepo);
-            InitialiseBorkRepo(userRepo, borkRepo);
         }
 
         private void InitialiseBorkers(UserRepository userRepository)
         {
-            userRepository.Add(new UserDatabaseModel
+            var userOne = new UserModel
             {
-                UserId = 1,
                 UserName = ("test-user-" + 1),
                 Password = ("test-pass-" + 1),
-                UserBorks = new List<BorkModel>(),
-                UserPP = "../../images/doggo.jpg",
-                FollowingId = new List<int> { 2 },
-                FollowerId = new List<int> { 2 },
-                Notifications = new List<NotificationModel>()
-            });
-            userRepository.Add(new UserDatabaseModel
+                UserPP = "../../images/doggo.jpg"
+            };
+            var userTwo = new UserModel
             {
-                UserId = 2,
                 UserName = ("test-user-" + 2),
                 Password = ("test-pass-" + 2),
-                UserBorks = new List<BorkModel>(),
-                UserPP = "../../images/user-2.jpg",
-                FollowingId = new List<int> { 1 },
-                FollowerId = new List<int> { 1 },
-                Notifications = new List<NotificationModel>()
-            });
+                UserPP = "../../images/user-2.jpg"
+            };
 
-            var userList = userRepository.List();
+            userOne.AddFollower(userTwo);
+            userOne.AddFollowing(userTwo);
+            userTwo.AddFollower(userOne);
+            userTwo.AddFollowing(userOne);
+
+            userRepository.AddOrUpdate(userOne);
+            userRepository.AddOrUpdate(userTwo);
+
+
+
             for (int x = 0; x < 10; x++)
             {
                 var y = x % 2;
-                userList.ElementAt(y).UserBorks.Add(new BorkModel
-                {
-                    BorkText = "Bork! This is an example bork",
-                    DateBorked = DateTime.Now.AddYears(-x * 100),
-                    UserId = userList.ElementAt(y).UserId
-                });
-            }
-        }
 
-        private void InitialiseBorkRepo(UserRepository userRepository, BorkRepository borkRepository)
-        {
-            var userList = userRepository.List();
-            for (int x = 0; x < 5; x++) borkRepository.Add(userList.ElementAt(0).UserBorks[x]);
-            for (int x = 0; x < 5; x++) borkRepository.Add(userList.ElementAt(1).UserBorks[x]);
+                if (y == 0)
+                {
+                    var newBork = new BorkModel
+                    {
+                        BorkText = "Bork! This is an example bork",
+                        DateBorked = DateTime.Now.AddYears(-x * 100),
+                    };
+                    newBork.AddUser(userOne);
+                    userOne.AddBorkToUser(newBork);
+                }
+                else if (y == 1)
+                {
+                    var newBork = new BorkModel
+                    {
+                        BorkText = "Bork! This is an example bork",
+                        DateBorked = DateTime.Now.AddYears(-x * 100),
+                    };
+                    newBork.AddUser(userTwo);
+                    userTwo.AddBorkToUser(newBork);
+                }
+
+                userRepository.AddOrUpdate(userOne);
+                userRepository.AddOrUpdate(userTwo);
+            }
         }
     }
 }

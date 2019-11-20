@@ -1,4 +1,4 @@
-﻿using Calrom.Training.SocialMedia.Database.Repositories;
+﻿using Calrom.Training.SocialMedia.Database.ORMRepositories;
 using Calrom.Training.SocialMedia.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var followedUserNames = new List<string>();
             foreach(var otherUser in userList)
             {
-                if (user.FollowingId.Contains(otherUser.UserId))
+                if (user.Following.Contains(otherUser))
                 {
                     followedUserNames.Add(otherUser.UserName);
                 }

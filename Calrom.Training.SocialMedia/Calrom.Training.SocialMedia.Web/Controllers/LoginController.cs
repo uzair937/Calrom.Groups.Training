@@ -1,5 +1,5 @@
-﻿using Calrom.Training.SocialMedia.Database.Models;
-using Calrom.Training.SocialMedia.Database.Repositories;
+﻿using Calrom.Training.SocialMedia.Database.ORMModels;
+using Calrom.Training.SocialMedia.Database.ORMRepositories;
 using Calrom.Training.SocialMedia.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -72,24 +72,13 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                 }
                 else
                 {
-                    var userId = Enumerable.Range(1, int.MaxValue)
-                                .Except(userList.Select(u => u.UserId))
-                                .FirstOrDefault();
-                    var newBorkList = new List<BorkModel>();
-                    var followingId = new List<int>();
-                    var followerId = new List<int>();
-                    var notif = new List<NotificationModel>();
-                    userRepository.Add(new UserDatabaseModel
+                    var newUser = new UserModel
                     {
-                        UserId = userId,
-                        UserBorks = newBorkList,
                         UserName = entry.UserName,
                         Password = entry.Password,
                         UserPP = "../../images/def-dog.jpg",
-                        FollowerId = followerId,
-                        FollowingId = followingId,
-                        Notifications = notif
-                    });
+                    };
+                    userRepository.AddOrUpdate(newUser);
                     return RedirectToAction("Login");
                 }
             }

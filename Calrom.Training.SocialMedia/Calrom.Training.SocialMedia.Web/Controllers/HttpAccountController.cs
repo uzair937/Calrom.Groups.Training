@@ -1,4 +1,4 @@
-﻿using Calrom.Training.SocialMedia.Database.Repositories;
+﻿using Calrom.Training.SocialMedia.Database.ORMRepositories;
 using Calrom.Training.SocialMedia.Web.Models;
 using System;
 using System.Collections.Generic;

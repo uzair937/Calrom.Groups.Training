@@ -1,4 +1,4 @@
-﻿using Calrom.Training.SocialMedia.Database.Repositories;
+﻿using Calrom.Training.SocialMedia.Database.ORMRepositories;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,7 +20,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
             var converter = new ViewModelConverter();
             var userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();
-            var viewingUser = userList.First(a => a.UserName == HttpContext.Current.User.Identity.Name);
+            var viewingUser = converter.GetView(userList.First(a => a.UserName == HttpContext.Current.User.Identity.Name));
             CurrentUser = converter.GetView(userList.First(a => a.UserId == userId));
 
             if (CurrentUser.UserName == viewingUser.UserName) IsCurrentUser = true;
@@ -45,7 +45,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
             var followedUserNames = new List<string>();
             foreach (var otherUser in userList)
             {
-                if (user.FollowingId.Contains(otherUser.UserId))
+                if (user.Following.Contains(otherUser))
                 {
                     followedUserNames.Add(otherUser.UserName);
                 }

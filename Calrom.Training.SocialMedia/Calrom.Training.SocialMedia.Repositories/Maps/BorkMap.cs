@@ -1,4 +1,4 @@
-﻿using Calrom.Training.SocialMedia.Database.Models;
+﻿using Calrom.Training.SocialMedia.Database.ORMModels;
 using FluentNHibernate.Mapping;
 using System;
 using System.Collections.Generic;
@@ -11,9 +11,10 @@ namespace Calrom.Training.SocialMedia.Database.Maps
     {
         public BorkMap()
         {
-            Id(x => x.UserId);
+            Id(x => x.BorkId);
             Map(x => x.BorkText);
             Map(x => x.DateBorked);
+            References(x => x.UserModel).Cascade.All();
         }
     }
 }

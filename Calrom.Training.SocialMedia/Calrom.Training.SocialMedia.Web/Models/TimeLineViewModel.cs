@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Calrom.Training.SocialMedia.Database.Repositories;
+using Calrom.Training.SocialMedia.Database.ORMRepositories;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;

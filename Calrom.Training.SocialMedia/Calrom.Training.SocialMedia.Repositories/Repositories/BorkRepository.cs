@@ -5,40 +5,40 @@ using Calrom.Training.SocialMedia.Database.Models;
 
 namespace Calrom.Training.SocialMedia.Database.Repositories
 {
-    public class BorkRepository : IRepository<BorkModel>
+    public class BorkRepository : IRepository<BorkDatabaseModel>
     {
         private static BorkRepository borkRepository;
 
         private BorkRepository() { }
 
-        public List<BorkModel> borks = new List<BorkModel>();
+        public List<BorkDatabaseModel> borks = new List<BorkDatabaseModel>();
 
-        public void Add(BorkModel entity)
+        public void Add(BorkDatabaseModel entity)
         {
             borks.Add(entity);
         }
 
-        public void Delete(BorkModel entity)
+        public void Delete(BorkDatabaseModel entity)
         {
             borks.Remove(entity);
         }
 
-        public BorkModel FindById(int Id)
+        public BorkDatabaseModel FindById(int Id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<BorkModel> List()
+        public IEnumerable<BorkDatabaseModel> List()
         {
             borks = borks.OrderByDescending(a => a.DateBorked).ToList();
             return borks;
         }
 
-        public IEnumerable<BorkModel> GetFollowedUsers(int userId)
+        public IEnumerable<BorkDatabaseModel> GetFollowedUsers(int userId)
         {
             var userRepo = UserRepository.GetRepository();
             var followedUsers = userRepo.GetFollowedUsers(userId);
-            var followedBorks = new List<BorkModel>();
+            var followedBorks = new List<BorkDatabaseModel>();
             if (followedUsers != null)
             {
                 foreach (var user in followedUsers)

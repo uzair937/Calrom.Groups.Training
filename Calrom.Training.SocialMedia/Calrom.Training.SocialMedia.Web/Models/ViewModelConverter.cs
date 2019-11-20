@@ -1,5 +1,7 @@
 ﻿using Calrom.Training.SocialMedia.Database.Models;
-using Calrom.Training.SocialMedia.Database.Repositories;
+using Calrom.Training.SocialMedia.Database.ORMModels;
+using Calrom.Training.SocialMedia.Database.ORMRepositories;
+using NHibernate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +11,15 @@ namespace Calrom.Training.SocialMedia.Web.Models
 {
     public class ViewModelConverter
     {
-        public UserViewModel GetView(UserDatabaseModel getdb)
+        public UserViewModel GetView(UserModel userModel)
         {
-            if (getdb == null) return null;
+            if (userModel == null) return null;
             var getViewBorks = new List<BorkViewModel>();
             var viewNotif = new List<NotificationViewModel>();
 
-            if (getdb.Notifications != null)
+            if (userModel.Notifications.Count != 0)
             {
-                foreach (var notif in getdb.Notifications)
+                foreach (var notif in userModel.Notifications)
                 {
                     viewNotif.Add(this.GetView(notif));
                 }
@@ -25,61 +27,81 @@ namespace Calrom.Training.SocialMedia.Web.Models
                 viewNotif = viewNotif.Take(4).ToList();
             }
 
-            if (getdb.UserBorks != null)
+            if (userModel.UserBorks.Count != 0)
             {
-                foreach (var bork in getdb.UserBorks)
+                foreach (var bork in userModel.UserBorks)
                 {
                     getViewBorks.Add(this.GetView(bork));
                 }
                 getViewBorks = getViewBorks.OrderByDescending(a => a.DateBorked).ToList();
             }
 
-            if (getdb.FollowingId == null) getdb.FollowingId = new List<int>();
-            if (getdb.FollowerId == null) getdb.FollowerId = new List<int>();
+            var FollowingId = new List<int>();
+            var FollowerId = new List<int>();
+            if (userModel.Following.Count != 0)
+            {
+                foreach (var user in userModel.Following)
+                {
+                    FollowingId.Add(user.UserId);
+                }
+            }
+            if (userModel.Followers.Count != 0)
+            {
+                foreach (var user in userModel.Followers)
+                {
+                    FollowerId.Add(user.UserId);
+                }
+            }
 
             var newView = new UserViewModel
             {
-                UserId = getdb.UserId,
-                UserName = getdb.UserName,
-                Password = getdb.Password,
+                UserId = userModel.UserId,
+                UserName = userModel.UserName,
+                Password = userModel.Password,
                 UserBorks = getViewBorks,
-                UserPP = getdb.UserPP,
-                FollowingId = getdb.FollowingId,
-                FollowerId = getdb.FollowerId,
+                UserPP = userModel.UserPP,
+                FollowingId = FollowingId,
+                FollowerId = FollowerId,
                 Notifications = viewNotif
             };
             return newView;
         }
 
-        public BorkViewModel GetView(BorkModel getBork)
+        public BorkViewModel GetView(BorkModel borkModel)
         {
             var userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();
-            var userPP = userList.First(a => a.UserId == getBork.UserId).UserPP;
-            var userName = userList.First(a => a.UserId == getBork.UserId).UserName;
+            var user = userList.First(a => a.UserBorks.Contains(borkModel));
             var newBork = new BorkViewModel
             {
-                DateBorked = getBork.DateBorked,
-                BorkText = getBork.BorkText,
-                UserId = getBork.UserId,
-                UserPP = userPP,
-                UserName = userName
+                DateBorked = borkModel.DateBorked,
+                BorkText = borkModel.BorkText,
+                UserId = user.UserId,
+                UserPP = user.UserPP,
+                UserName = user.UserName
             };
             return newBork;
         }
-        public List<BorkViewModel> GetView(List<BorkModel> getBork)
+
+        public List<BorkViewModel> GetView(List<BorkModel> borkModel)
         {
             var newBorks = new List<BorkViewModel>();
-            foreach (var bork in getBork)
+            foreach (var bork in borkModel)
             {
                 newBorks.Add(GetView(bork));
             }
             return newBorks;
         }
 
-        public NotificationViewModel GetView(NotificationModel getNotif)
+        public NotificationViewModel GetView(NotificationModel notificationModel)
         {
-            var newNotif = new NotificationViewModel(getNotif.Type, getNotif.UserId, getNotif.LikedBork, getNotif.DateCreated);
+            var userRepository = UserRepository.GetRepository();
+            var userList = userRepository.List();
+            var user = userList.First(a => a.Notifications.Contains(notificationModel));
+
+            var type = (int)notificationModel.Type;
+
+            var newNotif = new NotificationViewModel((NotificationType)type, user.UserId, notificationModel.Text, notificationModel.DateCreated);
             return newNotif;
         }
     }

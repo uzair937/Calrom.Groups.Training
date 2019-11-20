@@ -14,11 +14,11 @@ namespace Calrom.Training.SocialMedia.Database.Maps
             Id(x => x.UserId);
             Map(x => x.UserName);
             Map(x => x.UserPP);
-            Map(x => x.UserBorks);
             Map(x => x.Password);
-            Map(x => x.Notifications);
-            Map(x => x.FollowingId);
-            Map(x => x.FollowerId);
+            HasMany(x => x.UserBorks).Cascade.All();
+            HasMany(x => x.Notifications).Cascade.All();
+            HasMany(x => x.Following).Cascade.All();
+            HasMany(x => x.Followers).Cascade.All();
         }
     }
 }

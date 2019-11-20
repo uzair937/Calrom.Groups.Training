@@ -12,13 +12,11 @@ namespace Calrom.Training.SocialMedia.Database.Maps
     {
         public NotificationMap()
         {
-            Id(x => x.UserId);
-            Map(x => x.Username);
-            Map(x => x.UserPP);
+            Id(x => x.NotificationId);
             Map(x => x.Type);
             Map(x => x.Text);
             Map(x => x.DateCreated);
-            Map(x => x.LikedBork);
+            References(x => x.UserModel).Cascade.All();
         }
     }
 }

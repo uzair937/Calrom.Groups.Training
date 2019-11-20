@@ -1,5 +1,5 @@
 ﻿using Calrom.Training.SocialMedia.Web.Models;
-using Calrom.Training.SocialMedia.Database.Repositories;
+using Calrom.Training.SocialMedia.Database.ORMRepositories;
 using Calrom.Training.SocialMedia.Database.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var timeLineViewModel = new TimeLineViewModel(userId);
             var borkRepository = BorkRepository.GetRepository();
             var converter = new ViewModelConverter();
-            var borkGet = borkRepository.GetFollowedUsers(userId);
+            var borkGet = borkRepository.GetFollowedBorks(userId);
             var PageView = CurrentPageFinder(pageNum, borkGet.Count());
 
             var borks = new List<BorkViewModel>();
