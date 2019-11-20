@@ -10,5 +10,6 @@ namespace Calrom.Training.AuctionHouse.Database
         public virtual double CurrentBid { get; set; }
         public virtual string ItemDescription { get; set; }
         public virtual string ImageSrc { get; set; }
+        public virtual BidModel Bid { get; set; }
     }
 }

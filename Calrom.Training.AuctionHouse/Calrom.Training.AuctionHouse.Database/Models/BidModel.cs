@@ -2,9 +2,8 @@
 {
     public class BidModel
     {
-        public virtual int ItemID { get; set; } //make these boys virtuals
-        public virtual string ItemName { get; set; }
-        public virtual double Amount { get; set; }
-        public virtual int UserID { get; set; }
+        public virtual int BidID { get; set; }
+        public virtual ProductModel Product { get; set; }
+        public virtual UserModel User { get; set; }
     }
 }
