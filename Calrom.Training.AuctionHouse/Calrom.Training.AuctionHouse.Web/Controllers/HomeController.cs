@@ -6,7 +6,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
 {
     public class HomeController : Controller
     {
-        public static ProductRepo ProductInstance { get { return ProductRepo.getInstance; } }
+        public static ProductRepo ProductInstance { get { return ProductRepo.GetInstance; } }
 
         public ActionResult Index()
         {

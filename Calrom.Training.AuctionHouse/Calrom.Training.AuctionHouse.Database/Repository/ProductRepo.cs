@@ -6,9 +6,10 @@ namespace Calrom.Training.AuctionHouse.Database
 {
     public class ProductRepo : IRepository<ProductDatabaseModel>
     {
+        private static DataConverter DataInstance{ get { return DataConverter.GetInstance; } }
         private static ProductRepo Instance = null;
         private static readonly object padlock = new object();
-        public static ProductRepo getInstance
+        public static ProductRepo GetInstance
         {
             get
             {
@@ -36,7 +37,7 @@ namespace Calrom.Training.AuctionHouse.Database
         }
 
         private List<ProductDatabaseModel> _productContext;
-        //list in here no need for db model
+
         public ProductRepo()
         {
             _productContext = new List<ProductDatabaseModel>();
@@ -45,6 +46,7 @@ namespace Calrom.Training.AuctionHouse.Database
         {
             entity.ItemID = GetRandom();
             _productContext.Add(entity);
+            DataInstance.ConvertProduct(entity);
         }
 
         public List<ProductDatabaseModel> List()

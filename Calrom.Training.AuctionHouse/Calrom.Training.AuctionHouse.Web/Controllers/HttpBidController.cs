@@ -13,9 +13,9 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
     [Authorize]
     public class HttpBidController : ApiController
     {
-        public static ProductRepo ProductInstance { get { return ProductRepo.getInstance; } }
-        private static UserRepo UserInstance { get { return UserRepo.getInstance; } }
-        private static BidRepo BidInstance { get { return BidRepo.getInstance; } }
+        public static ProductRepo ProductInstance { get { return ProductRepo.GetInstance; } }
+        private static UserRepo UserInstance { get { return UserRepo.GetInstance; } }
+        private static BidRepo BidInstance { get { return BidRepo.GetInstance; } }
 
         [HttpPost]
         public IHttpActionResult BidItem(int ItemID, int value)

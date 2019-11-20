@@ -6,7 +6,7 @@ namespace Calrom.Training.AuctionHouse.Database
     {
         private static BidRepo Instance = null;
         private static readonly object padlock = new object();
-        public static BidRepo getInstance
+        public static BidRepo GetInstance
         {
             get
             {

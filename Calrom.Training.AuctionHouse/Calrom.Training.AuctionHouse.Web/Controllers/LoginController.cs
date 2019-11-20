@@ -8,8 +8,8 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
 {
     public class LoginController : Controller
     {
-        private static UserRepo UserInstance { get { return UserRepo.getInstance; } }
-        private static BidRepo BidInstance { get { return BidRepo.getInstance; } }
+        private static UserRepo UserInstance { get { return UserRepo.GetInstance; } }
+        //private static BidRepo BidInstance { get { return BidRepo.GetInstance; } }
 
         public ActionResult Login()
         {
