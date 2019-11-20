@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Calrom.Training.AuctionHouse.Database
 {
-    public class ProductMap : ClassMap<ProductDatabaseModel>
+    public class ProductMap : ClassMap<ProductModel>
     {
         public ProductMap()
         {

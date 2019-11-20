@@ -1,6 +1,6 @@
 ﻿namespace Calrom.Training.AuctionHouse.Database
 {
-    public class BidDatabaseModel
+    public class BidModel
     {
         public virtual int ItemID { get; set; } //make these boys virtuals
         public virtual string ItemName { get; set; }

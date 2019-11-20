@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Calrom.Training.AuctionHouse.Database
 {
-    public class UserMap : ClassMap<UserDatabaseModel>
+    public class UserMap : ClassMap<UserModel>
     {
         public UserMap()
         {
