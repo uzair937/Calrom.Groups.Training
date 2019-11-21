@@ -45,9 +45,12 @@ namespace Calrom.Training.SocialMedia.Web.Models
             var followedUserNames = new List<string>();
             foreach (var otherUser in userList)
             {
-                if (user.Following.Contains(otherUser))
+                foreach (var following in user.Following)
                 {
-                    followedUserNames.Add(otherUser.UserName);
+                    if (following.FollowingId == otherUser.UserId)
+                    {
+                        followedUserNames.Add(otherUser.UserName);
+                    }
                 }
             }
             return followedUserNames;

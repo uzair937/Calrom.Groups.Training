@@ -168,6 +168,8 @@ textarea {
     width: auto;
     height: auto;
     margin-top: 5%;
+    overflow-y: auto;
+    max-height: 80%;
 }
 
 .bork-timeline {

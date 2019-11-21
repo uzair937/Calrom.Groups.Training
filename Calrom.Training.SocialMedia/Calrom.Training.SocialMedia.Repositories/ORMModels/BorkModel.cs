@@ -10,7 +10,7 @@ namespace Calrom.Training.SocialMedia.Database.ORMModels
         public virtual int BorkId { get; set; }
         public virtual DateTime DateBorked { get; set; }
         public virtual string BorkText { get; set; }
-        public virtual UserModel UserModel { get; protected set; }
+        public virtual UserModel UserModel { get; set; }
 
         public virtual void AddUser(UserModel user)
         {

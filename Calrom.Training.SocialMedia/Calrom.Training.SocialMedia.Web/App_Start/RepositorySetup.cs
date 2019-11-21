@@ -34,15 +34,39 @@ namespace Calrom.Training.SocialMedia.Web
                 UserPP = "../../images/user-2.jpg"
             };
 
-            userOne.AddFollower(userTwo);
-            userOne.AddFollowing(userTwo);
-            userTwo.AddFollower(userOne);
-            userTwo.AddFollowing(userOne);
-
             userRepository.AddOrUpdate(userOne);
             userRepository.AddOrUpdate(userTwo);
 
+            var followerModel = new FollowerModel
+            {
+                UserId = 1,
+            };
+            followerModel.SetFollower(userTwo);
+            userOne.AddFollower(followerModel);
 
+            followerModel = new FollowerModel
+            {
+                UserId = 2,
+            };
+            followerModel.SetFollower(userOne);
+            userTwo.AddFollower(followerModel);
+            
+            var followingModel = new FollowingModel
+            {
+                UserId = 1,
+            };
+            followingModel.SetFollowing(userTwo);
+            userOne.AddFollowing(followingModel);
+
+            followingModel = new FollowingModel
+            {
+                UserId = 2,
+            };
+            followingModel.SetFollowing(userOne);
+            userTwo.AddFollowing(followingModel);
+
+            userRepository.AddOrUpdate(userOne);
+            userRepository.AddOrUpdate(userTwo);
 
             for (int x = 0; x < 10; x++)
             {

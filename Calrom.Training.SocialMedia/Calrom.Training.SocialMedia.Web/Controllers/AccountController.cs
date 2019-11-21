@@ -28,7 +28,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var followedUserNames = new List<string>();
             foreach(var otherUser in userList)
             {
-                if (user.Following.Contains(otherUser))
+                if (user.Following.Select(a => a.FollowingId).Contains(otherUser.UserId))
                 {
                     followedUserNames.Add(otherUser.UserName);
                 }

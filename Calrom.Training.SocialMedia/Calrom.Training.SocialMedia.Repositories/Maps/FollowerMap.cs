@@ -7,14 +7,13 @@ using System.Web;
 
 namespace Calrom.Training.SocialMedia.Database.Maps
 {
-    public class BorkMap : ClassMap<BorkModel>
+    public class FollowerMap : ClassMap<FollowerModel>
     {
-        public BorkMap()
+        public FollowerMap()
         {
-            Id(x => x.BorkId);
-            Map(x => x.BorkText);
-            Map(x => x.DateBorked);
-            References(x => x.UserModel);
+            Id(x => x.Id);
+            Map(x => x.FollowerId);
+            Map(x => x.UserId);
         }
     }
 }

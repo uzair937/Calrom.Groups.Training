@@ -16,7 +16,7 @@ namespace Calrom.Training.SocialMedia.Database.Maps
             Map(x => x.Type);
             Map(x => x.Text);
             Map(x => x.DateCreated);
-            References(x => x.UserModel).Cascade.All();
+            References(x => x.UserModel);
         }
     }
 }

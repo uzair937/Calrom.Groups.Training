@@ -26,6 +26,8 @@ namespace Calrom.Training.SocialMedia.Database.NHibernateTools
                 //UserBorks = new List<BorkModel>() { borkModel },
                 //Notifications = new List<NotificationModel>() { notificationModel }
             };
+            userModel.AddBorkToUser(borkModel);
+            userModel.AddNotification(notificationModel);
             nHibernateManager.SaveUserModel(userModel);
 
             var getUserModel = nHibernateManager.GetUserModel(1);

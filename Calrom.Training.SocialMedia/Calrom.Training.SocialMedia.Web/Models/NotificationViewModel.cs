@@ -1,5 +1,5 @@
 ﻿using Calrom.Training.SocialMedia.Database.Models;
-using Calrom.Training.SocialMedia.Database.Repositories;
+using Calrom.Training.SocialMedia.Database.ORMRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,12 +26,12 @@ namespace Calrom.Training.SocialMedia.Web.Models
         public NotificationViewModel(NotificationType type, int userId, string likedBork, DateTime dateCreated)
         {
             var userRepository = UserRepository.GetRepository();
-            var userList = userRepository.List();
+            var user = userRepository.FindById(userId);
             DateCreated = dateCreated;
             Type = type;
             UserId = userId;
-            Username = userList.First(a => a.UserId == UserId).UserName;
-            UserPP = userList.First(a => a.UserId == UserId).UserPP;
+            Username = user.UserName;
+            UserPP = user.UserPP;
             LikedBork = likedBork;
             if (Type == NotificationType.Like)
             {

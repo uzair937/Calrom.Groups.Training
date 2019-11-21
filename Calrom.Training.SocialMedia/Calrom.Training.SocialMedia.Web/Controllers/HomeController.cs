@@ -38,6 +38,8 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var borkGet = borkRepository.List();
             var someBorks = new List<BorkViewModel>();
 
+            borkGet.First().UserModel.
+
             for (int x = 0; x < 6; x++) someBorks.Add(converter.GetView(borkGet.ElementAt(x)));
 
             return someBorks;
@@ -101,7 +103,8 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             if (currentUser == null) return HttpNotFound();
 
             userRepo.AddBork(borkText, currentUser.UserId);
-            var borkViewModel = converter.GetView(currentUser.UserBorks.First());
+            currentUser = userRepo.List().FirstOrDefault(u => u.UserName == this.HttpContext.User.Identity.Name);
+            var borkViewModel = converter.GetView(currentUser.UserBorks.First(a => a.BorkText == borkText));
 
             return PartialView("_BorkBox", borkViewModel);
         }

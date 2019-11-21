@@ -14,6 +14,22 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
 
         private UserRepository() { }
 
+        private UserModel cleanseReturn(UserModel user)
+        {
+            var x = 0;
+            var newUser = user;
+            if (user.Followers.Count == 0) newUser.Followers = new List<FollowerModel>();
+            if (user.Following.Count == 0) newUser.Following = new List<FollowingModel>();
+            if (user.Notifications.Count == 0) newUser.Notifications = new List<NotificationModel>();
+            if (user.UserBorks.Count == 0) newUser.UserBorks = new List<BorkModel>();
+
+            foreach (var bork in user.UserBorks)
+            {
+                newUser.UserBorks[x++].UserModel = newUser;
+            }
+            return newUser;
+        }
+
         public void AddOrUpdate(UserModel userModel)
         {
             using (var session = NHibernateHelper.OpenSession())
@@ -34,31 +50,34 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
 
         public UserModel FindById(int Id)
         {
-            var userModel = new UserModel();
             using (var session = NHibernateHelper.OpenSession())
             {
-                userModel = session.Get<UserModel>(Id);
+                var userModel = session.Get<UserModel>(Id);
+                return cleanseReturn(userModel);
             }
-            return userModel;
         }
 
         public IEnumerable<UserModel> List()
         {
-            var userList = new List<UserModel>();
+            var newList = new List<UserModel>();
             using (var session = NHibernateHelper.OpenSession())
             {
-                userList = session.Query<UserModel>().ToList();
+                var userList = session.Query<UserModel>().ToList();
+                foreach (var user in userList)
+                {
+                    newList.Add(cleanseReturn(user));
+                }
             }
-            return userList;
+            return newList;
         }
 
         public void AddBork(string borkBoxString, int userId)
         {
-            var userModel = new UserModel();
             using (var session = NHibernateHelper.OpenSession())
             {
+                var userModel = new UserModel();
                 userModel = session.Get<UserModel>(userId);
-                userModel.UserBorks.Add(new BorkModel
+                userModel.AddBorkToUser(new BorkModel
                 {
                     BorkText = borkBoxString,
                     DateBorked = DateTime.Now
@@ -70,12 +89,17 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
 
         public IEnumerable<UserModel> GetFollowedUsers(int userId)
         {
-            var userModel = new UserModel();
+            var newUsers = new List<UserModel>();
             using (var session = NHibernateHelper.OpenSession())
             {
-                userModel = session.Get<UserModel>(userId);
+                var userModel = session.Get<UserModel>(userId);
+                foreach (var following in userModel.Following)
+                {
+                    newUsers.Add(cleanseReturn(session.Get<UserModel>(following.FollowingId)));
+                }
+                newUsers.Add(cleanseReturn(userModel));
             }
-            return userModel.Followers;
+            return newUsers;
         }
 
         public static UserRepository GetRepository()
@@ -90,37 +114,28 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
 
         public void FollowUser(int currentUserId, int targetUserId)
         {
-            var currentUser = new UserModel();
             using (var session = NHibernateHelper.OpenSession())
             {
-                currentUser = session.Get<UserModel>(currentUserId);
-            }
+                var currentUser = session.Get<UserModel>(currentUserId);
+                var targetUser = session.Get<UserModel>(targetUserId);
 
-            var targetUser = new UserModel();
-            using (var session = NHibernateHelper.OpenSession())
-            {
-                targetUser = session.Get<UserModel>(targetUserId);
-            }
 
-            if (!currentUser.Following.Contains(targetUser))
-            {
-                currentUser.Following.Add(targetUser);
-                targetUser.Followers.Add(currentUser);
+                if (!currentUser.Following.Select(a => a.FollowingId).ToList().Contains(targetUser.UserId))
+                {
+                    currentUser.AddFollowing(targetUser);
+                    targetUser.AddFollower(currentUser);
 
-                var type = (NotificationEnum)Enum.Parse(typeof(NotificationEnum), "Follow");
-                targetUser.Notifications.Add(NewNotification(type, currentUserId, ""));
-            }
-            else
-            {
-                currentUser.Following.Remove(targetUser);
-                targetUser.Followers.Remove(currentUser);
+                    var type = (NotificationEnum)Enum.Parse(typeof(NotificationEnum), "Follow");
+                    targetUser.AddNotification(NewNotification(type, currentUserId, ""));
+                }
+                else
+                {
+                    currentUser.RemoveFollowing(targetUser);
+                    targetUser.RemoveFollower(currentUser);
 
-                var type = (NotificationEnum)Enum.Parse(typeof(NotificationEnum), "Unfollow");
-                targetUser.Notifications.Add(NewNotification(type, currentUserId, ""));
-            }
-
-            using (var session = NHibernateHelper.OpenSession())
-            {
+                    var type = (NotificationEnum)Enum.Parse(typeof(NotificationEnum), "Unfollow");
+                    targetUser.AddNotification(NewNotification(type, currentUserId, ""));
+                }
                 session.SaveOrUpdate(currentUser);
                 session.SaveOrUpdate(targetUser);
                 session.Flush();
@@ -151,7 +166,7 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
             var user = new UserModel();
             using (var session = NHibernateHelper.OpenSession())
             {
-                user = session.Get<UserModel>(userId);
+                user = cleanseReturn(session.Get<UserModel>(userId));
             }
 
             var foundBorks = new List<BorkModel>();

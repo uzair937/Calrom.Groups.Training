@@ -42,14 +42,14 @@ namespace Calrom.Training.SocialMedia.Web.Models
             {
                 foreach (var user in userModel.Following)
                 {
-                    FollowingId.Add(user.UserId);
+                    FollowingId.Add(user.FollowingId);
                 }
             }
             if (userModel.Followers.Count != 0)
             {
                 foreach (var user in userModel.Followers)
                 {
-                    FollowerId.Add(user.UserId);
+                    FollowerId.Add(user.FollowerId);
                 }
             }
 
@@ -71,7 +71,13 @@ namespace Calrom.Training.SocialMedia.Web.Models
         {
             var userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();
-            var user = userList.First(a => a.UserBorks.Contains(borkModel));
+            var user = new UserModel();
+            var borkRaw = userList.SelectMany(a => a.UserBorks).FirstOrDefault(a => a.BorkId == borkModel.BorkId);
+            if (borkRaw == null) return null;
+            else
+            {
+                user = borkRaw.UserModel;
+            }
             var newBork = new BorkViewModel
             {
                 DateBorked = borkModel.DateBorked,
@@ -97,7 +103,13 @@ namespace Calrom.Training.SocialMedia.Web.Models
         {
             var userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();
-            var user = userList.First(a => a.Notifications.Contains(notificationModel));
+            var user = new UserModel();
+            var notifRaw = userList.SelectMany(a => a.Notifications).FirstOrDefault(a => a.NotificationId == notificationModel.NotificationId);
+            if (notifRaw == null) return null;
+            else
+            {
+                user = notifRaw.UserModel;
+            }
 
             var type = (int)notificationModel.Type;
 
