@@ -6,6 +6,7 @@ namespace Calrom.Training.AuctionHouse.Database
 {
     public class UserRepo : IRepository<UserDatabaseModel>
     {
+        private static DataConverter DataInstance { get { return DataConverter.GetInstance; } }
         private static UserRepo Instance = null;
         private static readonly object padlock = new object();
         public static UserRepo GetInstance
@@ -40,13 +41,14 @@ namespace Calrom.Training.AuctionHouse.Database
         {
             _userContext = new List<UserDatabaseModel>();
         }
-        public void Add(UserDatabaseModel userDatabaseModel)
+        public void Add(UserDatabaseModel entity)
         {
-            if (userDatabaseModel.UserID == 0)
+            if (entity.UserID == 0)
             {
-                userDatabaseModel.UserID = GetRandom();
+                entity.UserID = GetRandom();
             }
-            _userContext.Add(userDatabaseModel);
+            DataInstance.ConvertUser(entity);
+            _userContext.Add(entity);
         }
 
         public List<UserDatabaseModel> List()

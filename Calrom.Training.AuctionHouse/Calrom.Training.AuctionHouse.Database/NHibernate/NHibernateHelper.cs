@@ -33,7 +33,7 @@ namespace Calrom.Training.AuctionHouse.Database
         {
             string dbConnection = @"Data Source = (LocalDB)\MSSQLLocalDB; Initial Catalog = AuctionDB; Integrated Security = True";
             sessionFactory = Fluently.Configure().Database(MsSqlConfiguration.MsSql2012.ConnectionString(dbConnection)).
-                Mappings(m => m.FluentMappings.AddFromAssemblyOf<ProductModel>()).
+                Mappings(m => m.FluentMappings.AddFromAssemblyOf<UserModel>()).
                 ExposeConfiguration(cfg => new SchemaExport(cfg).
                 Create(true, true)).BuildSessionFactory();
             //return sessionFactory;

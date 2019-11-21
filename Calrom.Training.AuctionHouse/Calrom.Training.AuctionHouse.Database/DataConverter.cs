@@ -35,11 +35,15 @@ namespace Calrom.Training.AuctionHouse.Database
                 ItemDescription = productDatabaseModel.ItemDescription,
                 ItemPrice = productDatabaseModel.ItemPrice,
                 CurrentBid = productDatabaseModel.CurrentBid,
-                Bid = null,
+                Bid = new BidModel()
+                {
+                    BidID = productDatabaseModel.ItemID
+                }
             };
             using (var dbSession = NHibernateHelper.OpenSession())
             {
                 dbSession.SaveOrUpdate(productModel);
+                dbSession.Flush();
             }
         }
 
@@ -61,7 +65,7 @@ namespace Calrom.Training.AuctionHouse.Database
         {
             UserModel userModel = new UserModel()
             {
-                UserID = userDatabaseModel.UserID,
+                //UserID = userDatabaseModel.UserID,
                 Username = userDatabaseModel.Username,
                 Password = userDatabaseModel.Password,
                 DateOfBirth = userDatabaseModel.DateOfBirth
@@ -69,6 +73,7 @@ namespace Calrom.Training.AuctionHouse.Database
             using (var dbSession = NHibernateHelper.OpenSession())
             {
                 dbSession.SaveOrUpdate(userModel);
+                dbSession.Flush();
             }
         }
 
