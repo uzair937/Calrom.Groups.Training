@@ -1,6 +1,7 @@
 ﻿using Calrom.Training.AuctionHouse.Database;
 using Calrom.Training.AuctionHouse.Web.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -9,7 +10,6 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
     public class LoginController : Controller
     {
         private static UserRepo UserInstance { get { return UserRepo.GetInstance; } }
-        //private static BidRepo BidInstance { get { return BidRepo.GetInstance; } }
 
         public ActionResult Login()
         {
@@ -43,15 +43,14 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
 
         public bool IsValidUser(LoginViewModel loginViewModel)
         {
-            var tempList = UserInstance.List();
-            if (tempList.Count > 0)
+            var userList = UserInstance.DBList();
+            var user = userList.FirstOrDefault(u => u.Username == loginViewModel.Username);
+
+            if (user != null)
             {
-                foreach (var user in tempList)
+                if (user.Username == loginViewModel.Username && user.Password == loginViewModel.Password)
                 {
-                    if (user.Username == loginViewModel.Username && user.Password == loginViewModel.Password)
-                    {
-                        return true;
-                    }
+                    return true;
                 }
             }
             return false;
@@ -72,23 +71,10 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         [HttpPost]
         public ActionResult NewUser(LoginViewModel loginViewModel)
         {
-            var tempList = UserInstance.List();
-            bool userExists = false;
-            if (tempList != null)
-            {
-                foreach (var user in tempList)
-                {
-                    if (user.Username != loginViewModel.Username)
-                    {
-                        userExists = false;
-                    }
-                    else
-                    {
-                        userExists = true;
-                    }
-                }
-            }
-            if (!userExists)
+            var userList = UserInstance.DBList();
+            var user = userList.FirstOrDefault(u => u.Username == loginViewModel.Username);
+            
+            if (user == null)
             {
                 var db = new UserDatabaseModel()
                 {

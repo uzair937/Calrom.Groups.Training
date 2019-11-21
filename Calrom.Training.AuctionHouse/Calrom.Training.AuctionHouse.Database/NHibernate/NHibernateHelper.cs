@@ -36,7 +36,6 @@ namespace Calrom.Training.AuctionHouse.Database
                 Mappings(m => m.FluentMappings.AddFromAssemblyOf<UserModel>()).
                 ExposeConfiguration(cfg => new SchemaExport(cfg).
                 Create(true, true)).BuildSessionFactory();
-            //return sessionFactory;
         }
     }
 }

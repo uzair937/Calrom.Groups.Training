@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 
 namespace Calrom.Training.AuctionHouse.Database
@@ -48,12 +50,22 @@ namespace Calrom.Training.AuctionHouse.Database
                 entity.UserID = GetRandom();
             }
             DataInstance.ConvertUser(entity);
-            _userContext.Add(entity);
+            //_userContext.Add(entity);
         }
 
         public List<UserDatabaseModel> List()
         {
             return _userContext;
+        }
+
+        public List<UserModel> DBList()
+        {
+            var list = new List<UserModel>();
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                list = dbSession.Query<UserModel>().ToList();
+            }
+            return list;
         }
     }
 }

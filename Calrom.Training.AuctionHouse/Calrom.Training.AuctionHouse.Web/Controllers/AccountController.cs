@@ -15,27 +15,28 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         [Authorize]
         public ActionResult Account()
         {
-            AccountViewModel accountViewModel = new AccountViewModel();
-            accountViewModel.AllUserBids = new List<BidProductViewModel>();
-            var userList = UserInstance.List();
-            var bidList = BidInstance.List();
+            var userList = UserInstance.DBList();
+            var bidList = BidInstance.DBList();
             var user = userList.FirstOrDefault(u => u.Username == this.HttpContext.User.Identity.Name);
-
-            accountViewModel.UserID = user.UserID;
-            accountViewModel.Username = user.Username;
-            accountViewModel.DateOfBirth = user.DateOfBirth;
+            AccountViewModel accountViewModel = new AccountViewModel
+            {
+                AllUserBids = new List<BidProductViewModel>(),
+                UserID = user.UserID,
+                Username = user.Username,
+                DateOfBirth = user.DateOfBirth
+            };
 
             if (bidList.Count > 0)
             {
                 foreach (var bid in bidList)
                 {
-                    if (user.UserID == bid.UserID)
+                    if (user.UserID == bid.User.UserID)
                     {
                         var bidProductViewModel = new BidProductViewModel
                         {
-                            ItemID = bid.ItemID,
-                            ItemName = bid.ItemName,
-                            Amount = bid.Amount
+                            ItemID = bid.Product.ItemID,
+                            ItemName = bid.Product.ItemName,
+                            Amount = bid.Product.CurrentBid
                         };
                         accountViewModel.AllUserBids.Add(bidProductViewModel);
                     }

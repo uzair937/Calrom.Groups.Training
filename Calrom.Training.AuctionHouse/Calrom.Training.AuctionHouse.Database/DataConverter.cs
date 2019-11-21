@@ -30,15 +30,10 @@ namespace Calrom.Training.AuctionHouse.Database
         {
             ProductModel productModel = new ProductModel()
             {
-                ItemID = productDatabaseModel.ItemID,
                 ItemName = productDatabaseModel.ItemName,
                 ItemDescription = productDatabaseModel.ItemDescription,
                 ItemPrice = productDatabaseModel.ItemPrice,
-                CurrentBid = productDatabaseModel.CurrentBid,
-                Bid = new BidModel()
-                {
-                    BidID = productDatabaseModel.ItemID
-                }
+                CurrentBid = productDatabaseModel.CurrentBid
             };
             using (var dbSession = NHibernateHelper.OpenSession())
             {
@@ -49,15 +44,12 @@ namespace Calrom.Training.AuctionHouse.Database
 
         public void ConvertBid(BidDatabaseModel bidDatabaseModel)
         {
-            BidModel bidModel = new BidModel()
-            {
-                BidID = bidDatabaseModel.ItemID
-            };
+            BidModel bidModel = new BidModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                ProductModel productModel = dbSession.Get<ProductModel>(bidDatabaseModel.ItemID);
-                productModel.Bid = bidModel;
-                dbSession.SaveOrUpdate(productModel);
+                bidModel.Product = GetProduct(bidDatabaseModel.ItemID);
+                bidModel.User = GetUser(bidDatabaseModel.UserID);
+                dbSession.SaveOrUpdate(bidModel);
             }
         }
 
@@ -65,7 +57,6 @@ namespace Calrom.Training.AuctionHouse.Database
         {
             UserModel userModel = new UserModel()
             {
-                //UserID = userDatabaseModel.UserID,
                 Username = userDatabaseModel.Username,
                 Password = userDatabaseModel.Password,
                 DateOfBirth = userDatabaseModel.DateOfBirth
@@ -85,19 +76,19 @@ namespace Calrom.Training.AuctionHouse.Database
             }
         }
         
-        public void GetBid(int ID)
+        public BidModel GetBid(int ID)
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                dbSession.Get<BidModel>(ID);
+                return dbSession.Get<BidModel>(ID);
             }
         }
         
-        public void GetUser(int ID)
+        public UserModel GetUser(int ID)
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                dbSession.Get<UserModel>(ID);
+                return dbSession.Get<UserModel>(ID);
             }
         }
     }

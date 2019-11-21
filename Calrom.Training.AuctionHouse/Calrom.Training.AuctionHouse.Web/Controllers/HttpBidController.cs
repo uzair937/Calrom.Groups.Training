@@ -20,12 +20,12 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
         [HttpPost]
         public IHttpActionResult BidItem(int ItemID, int value)
         {
-            var productList = ProductInstance.List();
-            var userList = UserInstance.List();
-            var bidList = BidInstance.List();
+            var productList = ProductInstance.DBList();
+            var userList = UserInstance.DBList();
+            var bidList = BidInstance.DBList();
             var product = productList.FirstOrDefault(p => p.ItemID == ItemID);
             var user = userList.FirstOrDefault(u => u.Username == this.RequestContext.Principal.Identity.Name);
-            var bid = bidList.FirstOrDefault(b => b.ItemID == product.ItemID);
+            var bid = bidList.FirstOrDefault(b => b.BidID == product.ItemID);
 
             if (product != null)
             {
@@ -38,8 +38,8 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                     product.CurrentBid += value;
                 }
 
-                if (bid == null)
-                {
+                //if (bid == null)
+                //{
                     var model = new BidDatabaseModel()
                     {
                         ItemID = product.ItemID,
@@ -48,12 +48,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                         UserID = user.UserID
                     };
                     BidInstance.Add(model);
-                }
-                else
-                {
-                    bid.Amount = product.CurrentBid;
-                    bid.UserID = user.UserID;
-                }
+                //}
             }
 
             return Ok();
