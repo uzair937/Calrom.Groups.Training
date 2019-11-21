@@ -32,7 +32,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                 {
                     if (user.UserID == bid.User.UserID)
                     {
-                        var bidProductViewModel = new BidProductViewModel
+                        BidProductViewModel bidProductViewModel = new BidProductViewModel
                         {
                             ItemID = bid.Product.ItemID,
                             ItemName = bid.Product.ItemName,

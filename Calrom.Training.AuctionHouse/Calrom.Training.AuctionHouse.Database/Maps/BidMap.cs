@@ -10,7 +10,7 @@ namespace Calrom.Training.AuctionHouse.Database
         public BidMap()
         {
             Id(i => i.BidID);
-            HasOne(i => i.Product).Cascade.All();
+            References(i => i.Product).Cascade.All();
             References(i => i.User).Cascade.All();
         }
     }

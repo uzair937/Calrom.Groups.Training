@@ -10,6 +10,18 @@ namespace Calrom.Training.AuctionHouse.Database
         public virtual double CurrentBid { get; set; }
         public virtual string ItemDescription { get; set; }
         public virtual string ImageSrc { get; set; }
-        public virtual BidModel Bid { get; set; }
+        public virtual IList<BidModel> BidList { get; set; }
+        public virtual void AddBid(BidModel bidModel)
+        {
+            if (BidList == null)
+            {
+                BidList = new List<BidModel>();
+            }
+            BidList.Add(bidModel);
+        }
+        public virtual void RemoveBid(BidModel bidModel)
+        {
+            BidList.Remove(bidModel);
+        }
     }
 }
