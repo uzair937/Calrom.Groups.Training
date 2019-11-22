@@ -11,6 +11,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
     {
         private static UserRepo UserInstance { get { return UserRepo.GetInstance; } }
         private static BidRepo BidInstance { get { return BidRepo.GetInstance; } }
+        public static ProductRepo ProductInstance { get { return ProductRepo.GetInstance; } }
 
         [Authorize]
         public ActionResult Account()
@@ -18,6 +19,9 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             var userList = UserInstance.DBList();
             var user = userList.FirstOrDefault(u => u.Username == this.HttpContext.User.Identity.Name);
             var bidList = BidInstance.DBList();
+            var productList = ProductInstance.DBList();
+            //var bid = bidList.FirstOrDefault(b => b.User.UserID == user.UserID);
+
             AccountViewModel accountViewModel = new AccountViewModel
             {
                 AllUserBids = new List<BidProductViewModel>(),
@@ -25,16 +29,21 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                 Username = user.Username,
                 DateOfBirth = user.DateOfBirth
             };
-
-            if (bidList.Count > 0)
+            if (bidList == null)
             {
-                foreach (var bid in bidList)
+                return View(accountViewModel);
+            }
+
+            foreach (var bid in bidList)
+            {
+                if (bid.User.UserID == user.UserID)
                 {
+                    var product = productList.FirstOrDefault(p => p.ItemID == bid.Product.ItemID);
                     BidProductViewModel bidProductViewModel = new BidProductViewModel
                     {
-                        ItemID = bid.Product.ItemID,
-                        ItemName = bid.Product.ItemName,
-                        Amount = bid.Product.CurrentBid
+                        ItemID = product.ItemID,
+                        ItemName = product.ItemName,
+                        Amount = product.CurrentBid
                     };
                     accountViewModel.AllUserBids.Add(bidProductViewModel);
                 }

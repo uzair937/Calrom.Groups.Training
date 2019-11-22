@@ -47,7 +47,12 @@ namespace Calrom.Training.AuctionHouse.Database
             BidModel bidModel = new BidModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
+                if (GetBid(bidDatabaseModel.ItemID) != null)
+                {
+                    bidModel = GetBid(bidDatabaseModel.ItemID);
+                }
                 bidModel.Product = GetProduct(bidDatabaseModel.ItemID);
+                bidModel.Product.CurrentBid = bidDatabaseModel.Amount;
                 bidModel.User = GetUser(bidDatabaseModel.UserID);
                 dbSession.SaveOrUpdate(bidModel);
                 dbSession.Flush();
@@ -76,7 +81,7 @@ namespace Calrom.Training.AuctionHouse.Database
                 return dbSession.Get<ProductModel>(ID);
             }
         }
-        
+
         public BidModel GetBid(int ID)
         {
             using (var dbSession = NHibernateHelper.OpenSession())
@@ -84,7 +89,7 @@ namespace Calrom.Training.AuctionHouse.Database
                 return dbSession.Get<BidModel>(ID);
             }
         }
-        
+
         public UserModel GetUser(int ID)
         {
             using (var dbSession = NHibernateHelper.OpenSession())

@@ -27,6 +27,22 @@ namespace Calrom.Training.AuctionHouse.Database
             }
         }
 
+        public BidModel PopulateObjects(BidModel bidModel)
+        {
+            var updatedModel = bidModel;
+            if (bidModel.Product == null)
+            {
+                updatedModel.Product = new ProductModel();
+            }
+            if (bidModel.User == null)
+            {
+                updatedModel.User = new UserModel();
+            }
+            updatedModel.User = bidModel.User;
+            updatedModel.Product = bidModel.Product;
+            return updatedModel;
+        }
+
         private List<BidDatabaseModel> _bidContext;
         public BidRepo()
         {
@@ -44,28 +60,20 @@ namespace Calrom.Training.AuctionHouse.Database
             return _bidContext;
         }
 
-        //public List<ProductModel> GetUserBids(int userID)
-        //{
-        //    var list = new List<ProductModel>();
-        //    using (var dbSession = NHibernateHelper.OpenSession())
-        //    {
-        //        var bidList = dbSession.Query<BidModel>().Where(u => u.User.UserID == userID).ToList();
-        //        foreach (var bid in bidList)
-        //        {
-        //            list.Add(bid.Product);
-        //        }
-        //    }
-        //    return list;
-        //}
-
         public List<BidModel> DBList()
         {
             var list = new List<BidModel>();
+            var updatedList = new List<BidModel>();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
                 list = dbSession.Query<BidModel>().ToList();
+                
+                foreach (var child in list)
+                {
+                   updatedList.Add(PopulateObjects(child));
+                }
             }
-            return list;
+            return updatedList;
         }
     }
 }
