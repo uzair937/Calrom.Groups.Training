@@ -25,7 +25,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var bidList = BidInstance.DBList();
             var product = productList.FirstOrDefault(p => p.ItemID == ItemID);
             var user = userList.FirstOrDefault(u => u.Username == this.RequestContext.Principal.Identity.Name);
-            var bid = bidList.FirstOrDefault(b => b.BidID == product.ItemID);
+            var bid = bidList.FirstOrDefault(b => b.Product.ItemID == product.ItemID);
 
             if (product != null)
             {
@@ -38,19 +38,15 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                     product.CurrentBid += value;
                 }
 
-                //if (bid == null)
-                //{
-                    var model = new BidDatabaseModel()
-                    {
-                        ItemID = product.ItemID,
-                        ItemName = product.ItemName,
-                        Amount = product.CurrentBid,
-                        UserID = user.UserID
-                    };
-                    BidInstance.Add(model);
-                //}
+                var model = new BidDatabaseModel()
+                {
+                    ItemID = product.ItemID,
+                    ItemName = product.ItemName,
+                    Amount = product.CurrentBid,
+                    UserID = user.UserID
+                };
+                BidInstance.Add(model);
             }
-
             return Ok();
         }
     }

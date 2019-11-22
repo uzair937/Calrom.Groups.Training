@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NHibernate;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Calrom.Training.AuctionHouse.Database
@@ -42,6 +43,20 @@ namespace Calrom.Training.AuctionHouse.Database
         {
             return _bidContext;
         }
+
+        //public List<ProductModel> GetUserBids(int userID)
+        //{
+        //    var list = new List<ProductModel>();
+        //    using (var dbSession = NHibernateHelper.OpenSession())
+        //    {
+        //        var bidList = dbSession.Query<BidModel>().Where(u => u.User.UserID == userID).ToList();
+        //        foreach (var bid in bidList)
+        //        {
+        //            list.Add(bid.Product);
+        //        }
+        //    }
+        //    return list;
+        //}
 
         public List<BidModel> DBList()
         {

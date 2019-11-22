@@ -15,7 +15,7 @@ namespace Calrom.Training.AuctionHouse.Database
             Map(i => i.ItemPrice);
             Map(i => i.CurrentBid);
             Map(i => i.ImageSrc);
-            HasMany(i => i.BidList);
+            HasMany(i => i.BidList).Cascade.All().Inverse();
         }
     }
 }

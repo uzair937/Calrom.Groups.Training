@@ -13,7 +13,7 @@ namespace Calrom.Training.AuctionHouse.Database
             Map(i => i.Username);
             Map(i => i.Password);
             Map(i => i.DateOfBirth);
-            HasMany(i => i.BidList);
+            HasMany(i => i.BidList).Cascade.All().Inverse();
         }
     }
 }

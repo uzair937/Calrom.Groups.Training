@@ -46,7 +46,7 @@ namespace Calrom.Training.AuctionHouse.Database
 
         public void Add(ProductDatabaseModel entity)
         {
-            entity.ItemID = GetRandom();
+            //entity.ItemID = GetRandom();
             //_productContext.Add(entity);
             DataInstance.ConvertProduct(entity);
         }

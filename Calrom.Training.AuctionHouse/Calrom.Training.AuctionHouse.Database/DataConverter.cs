@@ -50,6 +50,7 @@ namespace Calrom.Training.AuctionHouse.Database
                 bidModel.Product = GetProduct(bidDatabaseModel.ItemID);
                 bidModel.User = GetUser(bidDatabaseModel.UserID);
                 dbSession.SaveOrUpdate(bidModel);
+                dbSession.Flush();
             }
         }
 
