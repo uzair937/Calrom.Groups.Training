@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Calrom.Training.SocialMedia.Database.ORMRepositories
 {
-    public class UserRepository
+    public class UserRepository : IRepository<UserModel>
     {
         private static UserRepository userRepository;
 
@@ -108,7 +108,6 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
             {
                 userRepository = new UserRepository();
             }
-
             return userRepository;
         }
 
@@ -206,7 +205,8 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
             {
                 DateCreated = DateTime.Now,
                 Type = type,
-                Text = Text
+                Text = Text,
+                UserId = userId
             };
 
             return notificationModel;

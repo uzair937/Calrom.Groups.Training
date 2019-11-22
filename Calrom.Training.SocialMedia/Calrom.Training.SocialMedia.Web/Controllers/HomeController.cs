@@ -1,6 +1,6 @@
 ﻿using Calrom.Training.SocialMedia.Web.Models;
 using Calrom.Training.SocialMedia.Database.ORMRepositories;
-using Calrom.Training.SocialMedia.Database.Models;
+using Calrom.Training.SocialMedia.Database.ORMModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +13,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        private IRepository<UserModel> userRepository;
         private TimeLineViewModel GetBorks(int userId, int pageNum)
         {
             if (userId == 0) RedirectToAction("Logout", "Login");
@@ -38,8 +39,6 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var borkGet = borkRepository.List();
             var someBorks = new List<BorkViewModel>();
 
-            borkGet.First().UserModel.
-
             for (int x = 0; x < 6; x++) someBorks.Add(converter.GetView(borkGet.ElementAt(x)));
 
             return someBorks;
@@ -63,7 +62,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
 
         private bool CheckValidUser(ViewModelConverter converter)
         {
-            var userRepository = UserRepository.GetRepository();
+            userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();
             if (converter.GetView(userList.FirstOrDefault(a => a.UserName == HttpContext.User.Identity.Name)) == null || this.HttpContext.Session["UserId"] as int? == null)
             {
@@ -96,14 +95,13 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
         public ActionResult AddBork(string borkText)
         {
             var userRepo = UserRepository.GetRepository();
-            var borkRepo = BorkRepository.GetRepository();
             var converter = new ViewModelConverter();
             var currentUser = userRepo.List().FirstOrDefault(u => u.UserName == this.HttpContext.User.Identity.Name);
             
             if (currentUser == null) return HttpNotFound();
 
             userRepo.AddBork(borkText, currentUser.UserId);
-            currentUser = userRepo.List().FirstOrDefault(u => u.UserName == this.HttpContext.User.Identity.Name);
+            currentUser = userRepo.FindById(currentUser.UserId);
             var borkViewModel = converter.GetView(currentUser.UserBorks.First(a => a.BorkText == borkText));
 
             return PartialView("_BorkBox", borkViewModel);
@@ -129,22 +127,25 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             var userRepo = UserRepository.GetRepository();
             var converter = new ViewModelConverter();
             var searchViewModel = new SearchViewModel();
+            var userId = this.HttpContext.Session["userId"] as int?;
 
             var user = userRepo.List().FirstOrDefault(u => u.UserName == searchUser);
             if (user != null)
             {
-                var userId = user.UserId;
-                searchViewModel.BorkResults = converter.GetView(userRepo.SearchUserBorks(searchText, userId));
+                userId = user.UserId;
+                searchViewModel.BorkResults = converter.GetView(userRepo.SearchUserBorks(searchText, userId ?? 0));
                 if (searchViewModel.BorkResults.Count > 0) searchViewModel.ValidResults = true;
                 else searchViewModel.ValidResults = false;
+                searchViewModel.BorkResults = searchViewModel.BorkResults.OrderByDescending(a => a.DateBorked).ToList();
                 return PartialView("_SearchBorks", searchViewModel);
             }
             else
             {
-                var userId = this.HttpContext.Session["userId"] as int?;
+                userId = this.HttpContext.Session["userId"] as int?;
                 searchViewModel.BorkResults = converter.GetView(userRepo.GetSearchBorks(searchText, userId ?? 0));
                 if (searchViewModel.BorkResults.Count > 0) searchViewModel.ValidResults = true;
                 else searchViewModel.ValidResults = false;
+                searchViewModel.BorkResults = searchViewModel.BorkResults.OrderByDescending(a => a.DateBorked).ToList();
                 return PartialView("_SearchBorks", searchViewModel);
             }
         }

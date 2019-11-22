@@ -110,10 +110,9 @@ namespace Calrom.Training.SocialMedia.Web.Models
             {
                 user = notifRaw.UserModel;
             }
-
             var type = (int)notificationModel.Type;
 
-            var newNotif = new NotificationViewModel((NotificationType)type, user.UserId, notificationModel.Text, notificationModel.DateCreated);
+            var newNotif = new NotificationViewModel((NotificationType)type, notifRaw.UserId, notificationModel.Text, notificationModel.DateCreated);
             return newNotif;
         }
     }

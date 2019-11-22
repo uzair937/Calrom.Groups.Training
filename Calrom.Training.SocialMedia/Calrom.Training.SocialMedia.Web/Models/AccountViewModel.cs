@@ -12,8 +12,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
         public bool HasNotifications { get; set; }
         public bool HasBorks { get; set; }
         public bool FollowsUser { get; set; }
-        public List<string> FollowedUsers { get; set; }
-
+        public FollowViewModel followViewModel { get; set; }
         public AccountViewModel(int userId)
         {
             if (userId == 0) return;
@@ -21,6 +20,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
             var userRepository = UserRepository.GetRepository();
             var userList = userRepository.List();
             var viewingUser = converter.GetView(userList.First(a => a.UserName == HttpContext.Current.User.Identity.Name));
+            
             CurrentUser = converter.GetView(userList.First(a => a.UserId == userId));
 
             if (CurrentUser.UserName == viewingUser.UserName) IsCurrentUser = true;
@@ -35,7 +35,8 @@ namespace Calrom.Training.SocialMedia.Web.Models
             if (viewingUser.FollowingId.Contains(userId)) FollowsUser = true;
             else FollowsUser = false;
 
-            FollowedUsers = GetFollowedUsers(userRepository, CurrentUser.UserId);
+            var followedUsers = GetFollowedUsers(userRepository, viewingUser.UserId);
+            followViewModel = new FollowViewModel { FollowedUsers = followedUsers };
         }
 
         private List<string> GetFollowedUsers(UserRepository userRepository, int userId)

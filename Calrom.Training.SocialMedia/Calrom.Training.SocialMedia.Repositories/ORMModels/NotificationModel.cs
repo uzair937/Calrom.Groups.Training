@@ -11,6 +11,8 @@ namespace Calrom.Training.SocialMedia.Database.ORMModels
     {
         public virtual int NotificationId { get; set; }
 
+        public virtual int UserId { get; set; }
+
         public virtual string Text { get; set; }
         
         public virtual NotificationEnum Type { get; set; }

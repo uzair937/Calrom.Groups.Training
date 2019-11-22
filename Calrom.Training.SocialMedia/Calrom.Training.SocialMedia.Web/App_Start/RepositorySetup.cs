@@ -14,12 +14,12 @@ namespace Calrom.Training.SocialMedia.Web
     {
         public void Initialise()
         {
-            var userRepo = UserRepository.GetRepository();
+            IRepository<UserModel> repo = UserRepository.GetRepository();
 
-            InitialiseBorkers(userRepo);
+            InitialiseBorkers(repo);
         }
 
-        private void InitialiseBorkers(UserRepository userRepository)
+        private void InitialiseBorkers(IRepository<UserModel> repo)
         {
             var userOne = new UserModel
             {
@@ -34,8 +34,8 @@ namespace Calrom.Training.SocialMedia.Web
                 UserPP = "../../images/user-2.jpg"
             };
 
-            userRepository.AddOrUpdate(userOne);
-            userRepository.AddOrUpdate(userTwo);
+            repo.AddOrUpdate(userOne);
+            repo.AddOrUpdate(userTwo);
 
             var followerModel = new FollowerModel
             {
@@ -65,8 +65,8 @@ namespace Calrom.Training.SocialMedia.Web
             followingModel.SetFollowing(userOne);
             userTwo.AddFollowing(followingModel);
 
-            userRepository.AddOrUpdate(userOne);
-            userRepository.AddOrUpdate(userTwo);
+            repo.AddOrUpdate(userOne);
+            repo.AddOrUpdate(userTwo);
 
             for (int x = 0; x < 10; x++)
             {
@@ -92,9 +92,8 @@ namespace Calrom.Training.SocialMedia.Web
                     newBork.AddUser(userTwo);
                     userTwo.AddBorkToUser(newBork);
                 }
-
-                userRepository.AddOrUpdate(userOne);
-                userRepository.AddOrUpdate(userTwo);
+                repo.AddOrUpdate(userOne);
+                repo.AddOrUpdate(userTwo);
             }
         }
     }

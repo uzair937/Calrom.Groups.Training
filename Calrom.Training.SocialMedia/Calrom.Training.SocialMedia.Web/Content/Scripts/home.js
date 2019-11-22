@@ -1,7 +1,7 @@
 ﻿window.onload = function () {
     addListeners();
-    var followedUserList = window.document.getElementsByClassName("followed-list")[0];
 
+    var followedUserList = window.document.getElementsByClassName("followed-list")[0];
     if (followedUserList !== undefined && followedUserList !== null) {
         var topItem = document.createElement('option');
         topItem.innerHTML += "Select User";
@@ -27,8 +27,10 @@ function onBork(e) {
                     url: urlBork + "?borkText=" + borkText,
                     success: function (data, status, xhr) {
                         if (data) {
-                            $(".bork-timeline > .bork-container:last").remove();
-                            $(".bork-timeline > .bork-container:first").before(data);
+                            if ($(".bork-timeline > .bork-container").length >= 5) {
+                                $(".bork-timeline > .bork-container:last").remove();
+                            }
+                            $(".bork-timeline > .bork-submitter:first").after(data);
                             $(".all-bork-timeline > .bork-container:last").remove();
                             $(".all-bork-timeline > .bork-container:first").before(data);
                             $("#BorkText")[0].value = "";

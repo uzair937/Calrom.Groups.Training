@@ -15,6 +15,7 @@ namespace Calrom.Training.SocialMedia.Database.Maps
             Id(x => x.NotificationId);
             Map(x => x.Type);
             Map(x => x.Text);
+            Map(x => x.UserId);
             Map(x => x.DateCreated);
             References(x => x.UserModel);
         }

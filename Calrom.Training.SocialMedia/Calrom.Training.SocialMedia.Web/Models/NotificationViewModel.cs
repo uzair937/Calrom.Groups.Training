@@ -23,7 +23,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
 
         public DateTime DateCreated { get; set;  }
 
-        public NotificationViewModel(NotificationType type, int userId, string likedBork, DateTime dateCreated)
+        public NotificationViewModel(NotificationType type, int userId, string text, DateTime dateCreated)
         {
             var userRepository = UserRepository.GetRepository();
             var user = userRepository.FindById(userId);
@@ -32,19 +32,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
             UserId = userId;
             Username = user.UserName;
             UserPP = user.UserPP;
-            LikedBork = likedBork;
-            if (Type == NotificationType.Like)
-            {
-                Text = Username + " has liked your bork: \n" + LikedBork;
-            }
-            else if (Type == NotificationType.Follow)
-            {
-                Text = Username + " has followed you!";
-            }
-            else if (Type == NotificationType.Unfollow)
-            {
-                Text = Username + " has unfollowed you!";
-            }
+            Text = text;
         }
     }
 }

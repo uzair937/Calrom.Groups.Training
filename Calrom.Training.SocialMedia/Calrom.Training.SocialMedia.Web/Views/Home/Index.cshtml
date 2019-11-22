@@ -23,8 +23,8 @@
             @Html.Partial("_BorkBox", bork)
         }
     </div>
-    <div class="acc-column">
-        @Html.Partial("_ViewFollowing", new AccountViewModel(Model.CurrentUser.UserId))
+    <div class="acc-column"  currentUser ="@Model.CurrentUser.UserId">
+        @Html.Partial("_ViewFollowing", new AccountViewModel(Model.CurrentUser.UserId).followViewModel)
         @Html.Partial("_SearchBorks", new SearchViewModel())
     </div>
 </div>

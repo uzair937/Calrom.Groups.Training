@@ -81,13 +81,9 @@
             }
         </div>
         <div class="acc-borks">
-            @if (Model.IsCurrentUser)
-            {
-                <div class="followed-user-container">
-                    @Html.Partial("_ViewFollowing", Model)
-                </div>
-
-            }
+            <div class="followed-user-container">
+                @Html.Partial("_ViewFollowing", Model.followViewModel)
+            </div>
             @Html.Partial("_SearchBorks", new SearchViewModel())
         </div>
     </div>

@@ -1,5 +1,11 @@
 ﻿window.onload = function () {
     addListeners();
+
+    var followedUserList = window.document.getElementsByClassName("followed-list")[0];
+    var topItem = document.createElement('option');
+    topItem.innerHTML += "Select User";
+    topItem.setAttribute("selected", "selected");
+    followedUserList.insertBefore(topItem, followedUserList.firstChild);
 }
 
 function onFollowUser(e) {
@@ -62,10 +68,7 @@ function addListeners() {
 
     if (followedUserList !== undefined && followedUserList !== null) {
         followedUserList.addEventListener("change", onUserClick);
-        var topItem = document.createElement('option');
-        topItem.innerHTML += "Select User";
-        topItem.setAttribute("selected", "selected");
-        followedUserList.insertBefore(topItem, followedUserList.firstChild);
+        
     }
 
     if (searchButton !== undefined && searchButton !== null) {

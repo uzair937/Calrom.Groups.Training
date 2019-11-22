@@ -63,8 +63,8 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             if (ModelState.IsValid)
             {
                 var alreadyExists = false;
-                var userRepository = UserRepository.GetRepository();
-                var userList = userRepository.List();
+                IRepository<UserModel> repo = UserRepository.GetRepository();
+                var userList = repo.List();
                 if (userList.FirstOrDefault(a=>a.UserName == entry.UserName) != null) alreadyExists = true;
                 if (alreadyExists)
                 {
@@ -78,7 +78,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                         Password = entry.Password,
                         UserPP = "../../images/def-dog.jpg",
                     };
-                    userRepository.AddOrUpdate(newUser);
+                    repo.AddOrUpdate(newUser);
                     return RedirectToAction("Login");
                 }
             }

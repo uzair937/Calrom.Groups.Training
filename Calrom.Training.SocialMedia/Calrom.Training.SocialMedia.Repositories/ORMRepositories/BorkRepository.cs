@@ -6,7 +6,7 @@ using Calrom.Training.SocialMedia.Database.ORMModels;
 
 namespace Calrom.Training.SocialMedia.Database.ORMRepositories
 {
-    public class BorkRepository
+    public class BorkRepository : IRepository<BorkModel>
     {
         private static BorkRepository borkRepository;
 
