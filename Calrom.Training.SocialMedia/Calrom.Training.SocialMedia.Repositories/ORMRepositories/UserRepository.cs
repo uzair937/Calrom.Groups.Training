@@ -16,17 +16,17 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
 
         private UserModel cleanseReturn(UserModel user)
         {
-            var x = 0;
+            
             var newUser = user;
+
             if (user.Followers.Count == 0) newUser.Followers = new List<FollowerModel>();
             if (user.Following.Count == 0) newUser.Following = new List<FollowingModel>();
             if (user.Notifications.Count == 0) newUser.Notifications = new List<NotificationModel>();
             if (user.UserBorks.Count == 0) newUser.UserBorks = new List<BorkModel>();
 
-            foreach (var bork in user.UserBorks)
-            {
-                newUser.UserBorks[x++].UserModel = newUser;
-            }
+            var x = 0;
+            foreach (var bork in user.UserBorks) newUser.UserBorks[x++].UserModel = newUser;
+
             return newUser;
         }
 
