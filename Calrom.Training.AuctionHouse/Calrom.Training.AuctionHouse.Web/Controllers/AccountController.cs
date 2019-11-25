@@ -20,7 +20,6 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             var user = userList.FirstOrDefault(u => u.Username == this.HttpContext.User.Identity.Name);
             var bidList = BidInstance.DBList();
             var productList = ProductInstance.DBList();
-            //var bid = bidList.FirstOrDefault(b => b.User.UserID == user.UserID);
 
             AccountViewModel accountViewModel = new AccountViewModel
             {

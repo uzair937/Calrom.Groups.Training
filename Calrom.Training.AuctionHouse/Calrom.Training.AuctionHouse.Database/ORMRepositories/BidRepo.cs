@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace Calrom.Training.AuctionHouse.Database
 {
-    public class BidRepo : IRepository<BidDatabaseModel>
+    public class BidRepo : IRepository<BidModel>
     {
-        private static DataConverter DataInstance { get { return DataConverter.GetInstance; } }
+        private static DataRetriever DataInstance { get { return DataRetriever.GetInstance; } }
         private static BidRepo Instance = null;
         private static readonly object padlock = new object();
         public static BidRepo GetInstance
@@ -43,37 +43,40 @@ namespace Calrom.Training.AuctionHouse.Database
             return updatedModel;
         }
 
-        private List<BidDatabaseModel> _bidContext;
+        private List<BidModel> _bidContext;
         public BidRepo()
         {
-            _bidContext = new List<BidDatabaseModel>();
+            _bidContext = new List<BidModel>();
         }
 
-        public void Add(BidDatabaseModel entity)
+        public void Add(BidModel entity)
         {
-            //_bidContext.Add(entity);
-            DataInstance.ConvertBid(entity);
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                if (DataInstance.GetBid(entity.Product.ItemID) != null)
+                {
+                    bidModel = GetBid(bidDatabaseModel.ItemID);
+                }
+                bidModel.Product = GetProduct(bidDatabaseModel.ItemID);
+                bidModel.Product.CurrentBid = bidDatabaseModel.Amount;
+                bidModel.User = GetUser(bidDatabaseModel.UserID);
+                dbSession.SaveOrUpdate(bidModel);
+                dbSession.Flush();
+            }
         }
 
-        public List<BidDatabaseModel> List()
+        public List<BidModel> List()
         {
-            return _bidContext;
-        }
-
-        public List<BidModel> DBList()
-        {
-            var list = new List<BidModel>();
             var updatedList = new List<BidModel>();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                list = dbSession.Query<BidModel>().ToList();
+                _bidContext = dbSession.Query<BidModel>().ToList();
                 
-                foreach (var child in list)
+                foreach (var child in _bidContext)
                 {
                    updatedList.Add(PopulateObjects(child));
                 }
             }
-
             return updatedList;
         }
     }

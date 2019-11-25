@@ -2,6 +2,8 @@
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Tool.hbm2ddl;
+using FluentNHibernate.Conventions.Helpers;
+using NHibernate.Caches.SysCache2;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -32,10 +34,12 @@ namespace Calrom.Training.AuctionHouse.Database
         public static void InitialiseSession()
         {
             string dbConnection = @"Data Source = (LocalDB)\MSSQLLocalDB; Initial Catalog = AuctionDB; Integrated Security = True";
-            sessionFactory = Fluently.Configure().Database(MsSqlConfiguration.MsSql2012.ConnectionString(dbConnection)).
+            var nhConfig = Fluently.Configure().Database(MsSqlConfiguration.MsSql2012.ConnectionString(dbConnection)).
                 Mappings(m => m.FluentMappings.AddFromAssemblyOf<UserModel>()).
                 ExposeConfiguration(cfg => new SchemaExport(cfg).
-                Create(true, true)).BuildSessionFactory();
+                Create(true, true)).Cache(c => c.ProviderClass<SysCacheProvider>().UseSecondLevelCache());
+
+            sessionFactory = nhConfig.BuildSessionFactory();
         }
     }
 }

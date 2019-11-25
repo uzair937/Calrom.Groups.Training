@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Calrom.Training.AuctionHouse.Database
 {
-    public class DataConverter
+    public class DataRetriever
     {
-        private static DataConverter Instance = null;
+        private static DataRetriever Instance = null;
         private static readonly object padlock = new object();
-        public static DataConverter GetInstance
+        public static DataRetriever GetInstance
         {
             get
             {
@@ -18,7 +18,7 @@ namespace Calrom.Training.AuctionHouse.Database
                     {
                         if (Instance == null)
                         {
-                            Instance = new DataConverter();
+                            Instance = new DataRetriever();
                         }
                     }
                 }
@@ -38,23 +38,6 @@ namespace Calrom.Training.AuctionHouse.Database
             using (var dbSession = NHibernateHelper.OpenSession()) //single responsibilty
             {
                 dbSession.SaveOrUpdate(productModel);
-                dbSession.Flush();
-            }
-        }
-
-        public void ConvertBid(BidDatabaseModel bidDatabaseModel)
-        {
-            BidModel bidModel = new BidModel();
-            using (var dbSession = NHibernateHelper.OpenSession())
-            {
-                if (GetBid(bidDatabaseModel.ItemID) != null)
-                {
-                    bidModel = GetBid(bidDatabaseModel.ItemID);
-                }
-                bidModel.Product = GetProduct(bidDatabaseModel.ItemID);
-                bidModel.Product.CurrentBid = bidDatabaseModel.Amount;
-                bidModel.User = GetUser(bidDatabaseModel.UserID);
-                dbSession.SaveOrUpdate(bidModel);
                 dbSession.Flush();
             }
         }
