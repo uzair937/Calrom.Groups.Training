@@ -43,7 +43,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
 
         public bool IsValidUser(LoginViewModel loginViewModel)
         {
-            var userList = UserInstance.DBList();
+            var userList = UserInstance.List();
             var user = userList.FirstOrDefault(u => u.Username == loginViewModel.Username);
 
             if (user != null)
@@ -71,12 +71,12 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         [HttpPost]
         public ActionResult NewUser(LoginViewModel loginViewModel)
         {
-            var userList = UserInstance.DBList();
+            var userList = UserInstance.List();
             var user = userList.FirstOrDefault(u => u.Username == loginViewModel.Username);
             
             if (user == null)
             {
-                var db = new UserDatabaseModel()
+                var db = new UserModel()
                 {
                     Username = loginViewModel.Username,
                     Password = loginViewModel.Password,

@@ -5,11 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DatabaseModels\**" />
+    <Compile Remove="Repository\**" />
+    <EmbeddedResource Remove="DatabaseModels\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <None Remove="DatabaseModels\**" />
+    <None Remove="Repository\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="BidCrud.cs" />
+    <Compile Remove="DataConverter.cs" />
+    <Compile Remove="DataRetriever.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentNHibernate" Version="2.1.2" />
+    <PackageReference Include="NHibernate" Version="5.2.6" />
+    <PackageReference Include="NHibernate.Caches.SysCache2" Version="5.6.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.7.0" />
     <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
     <PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />

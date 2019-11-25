@@ -6,9 +6,8 @@ using System.Security.Cryptography;
 
 namespace Calrom.Training.AuctionHouse.Database
 {
-    public class UserRepo : IRepository<UserDatabaseModel>
+    public class UserRepo : IRepository<UserModel>
     {
-        private static DataConverter DataInstance { get { return DataConverter.GetInstance; } }
         private static UserRepo Instance = null;
         private static readonly object padlock = new object();
         public static UserRepo GetInstance
@@ -29,43 +28,36 @@ namespace Calrom.Training.AuctionHouse.Database
             }
         }
 
-        private static int GetRandom()
-        {
-            var rng = RandomNumberGenerator.Create();
-            var salt = new byte[4];
-            rng.GetBytes(salt);
-            var result = BitConverter.ToInt32(salt, 0) & int.MaxValue;
-            return result;
-        }
+        //private static int GetRandom()
+        //{
+        //    var rng = RandomNumberGenerator.Create();
+        //    var salt = new byte[4];
+        //    rng.GetBytes(salt);
+        //    var result = BitConverter.ToInt32(salt, 0) & int.MaxValue;
+        //    return result;
+        //}
 
-        private List<UserDatabaseModel> _userContext;
+        private List<UserModel> _userContext;
         public UserRepo()
         {
-            _userContext = new List<UserDatabaseModel>();
+            _userContext = new List<UserModel>();
         }
-        public void Add(UserDatabaseModel entity)
+        public void Add(UserModel entity)
         {
-            if (entity.UserID == 0)
+            using (var dbSession = NHibernateHelper.OpenSession()) //single responsibilty
             {
-                entity.UserID = GetRandom();
+                dbSession.SaveOrUpdate(entity);
+                dbSession.Flush();
             }
-            DataInstance.ConvertUser(entity);
-            //_userContext.Add(entity);
         }
 
-        public List<UserDatabaseModel> List()
+        public List<UserModel> List()
         {
-            return _userContext;
-        }
-
-        public List<UserModel> DBList()
-        {
-            var list = new List<UserModel>();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                list = dbSession.Query<UserModel>().ToList();
+                _userContext = dbSession.Query<UserModel>().ToList();
             }
-            return list;
+            return _userContext;
         }
     }
 }

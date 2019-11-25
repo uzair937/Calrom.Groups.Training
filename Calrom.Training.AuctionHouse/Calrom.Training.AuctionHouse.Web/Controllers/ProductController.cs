@@ -36,7 +36,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         [Authorize]
         public ActionResult NewProduct(ProductViewModel productViewModel, HttpPostedFileBase imageFile)
         {
-            var productDatabaseModel = new ProductDatabaseModel();
+            var productDatabaseModel = new ProductModel();
             if (productViewModel.ImageFile != null)
             {
                 var fileName = Path.GetFileName(imageFile.FileName);
@@ -58,7 +58,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                 ProductList = new List<ProductViewModel>(),
                 IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated
             };
-            var productList = ProductInstance.DBList();
+            var productList = ProductInstance.List();
             foreach (var product in productList)
             {
                 var productViewModel = new ProductViewModel
@@ -78,51 +78,9 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             return View(listingsViewModel);
         }
 
-        /*[HttpPost]
-        public ActionResult BidProduct(BidProductViewModel viewModel)
-        {
-            var productList = ProductInstance.List();
-            var userList = UserInstance.List();
-            var bidList = BidInstance.List();
-            var product = productList.FirstOrDefault(p => p.ItemID == viewModel.ItemID);
-            var user = userList.FirstOrDefault(u => u.Username == this.HttpContext.User.Identity.Name);
-            var bid = bidList.FirstOrDefault(b => b.ItemID == product.ItemID);
-
-            if (product != null)
-            {
-                if (product.CurrentBid == 0)
-                {
-                    product.CurrentBid = product.ItemPrice + viewModel.Amount;
-                }
-                else
-                {
-                    product.CurrentBid += viewModel.Amount;
-                }
-
-                if (bid == null)
-                {
-                    var model = new BidDatabaseModel()
-                    {
-                        ItemID = product.ItemID,
-                        ItemName = product.ItemName,
-                        Amount = product.CurrentBid,
-                        UserID = user.UserID
-                    };
-                    BidInstance.Add(model);
-                }
-                else
-                {
-                    bid.Amount = product.CurrentBid;
-                    bid.UserID = user.UserID;
-                }
-            }
-
-            return RedirectToAction("IndividualProduct", new { itemId = product.ItemID });
-        }*/
-
         public ActionResult IndividualProduct(int ItemID)
         {
-            var productList = ProductInstance.DBList();
+            var productList = ProductInstance.List();
             var product = productList.FirstOrDefault(p => p.ItemID == ItemID);
             if (product != null)
             {

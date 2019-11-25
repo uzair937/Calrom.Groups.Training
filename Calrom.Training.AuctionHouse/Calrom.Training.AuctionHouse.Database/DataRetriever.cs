@@ -26,37 +26,6 @@ namespace Calrom.Training.AuctionHouse.Database
             }
         }
 
-        public void ConvertProduct(ProductDatabaseModel productDatabaseModel)
-        {
-            ProductModel productModel = new ProductModel()
-            {
-                ItemName = productDatabaseModel.ItemName,
-                ItemDescription = productDatabaseModel.ItemDescription,
-                ItemPrice = productDatabaseModel.ItemPrice,
-                CurrentBid = productDatabaseModel.CurrentBid
-            };
-            using (var dbSession = NHibernateHelper.OpenSession()) //single responsibilty
-            {
-                dbSession.SaveOrUpdate(productModel);
-                dbSession.Flush();
-            }
-        }
-
-        public void ConvertUser(UserDatabaseModel userDatabaseModel)
-        {
-            UserModel userModel = new UserModel()
-            {
-                Username = userDatabaseModel.Username,
-                Password = userDatabaseModel.Password,
-                DateOfBirth = userDatabaseModel.DateOfBirth
-            };
-            using (var dbSession = NHibernateHelper.OpenSession())
-            {
-                dbSession.SaveOrUpdate(userModel);
-                dbSession.Flush();
-            }
-        }
-
         public ProductModel GetProduct(int ID)
         {
             using (var dbSession = NHibernateHelper.OpenSession())

@@ -16,10 +16,10 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         [Authorize]
         public ActionResult Account()
         {
-            var userList = UserInstance.DBList();
+            var userList = UserInstance.List();
             var user = userList.FirstOrDefault(u => u.Username == this.HttpContext.User.Identity.Name);
-            var bidList = BidInstance.DBList();
-            var productList = ProductInstance.DBList();
+            var bidList = BidInstance.List();
+            var productList = ProductInstance.List();
 
             AccountViewModel accountViewModel = new AccountViewModel
             {

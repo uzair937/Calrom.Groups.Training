@@ -6,7 +6,6 @@ namespace Calrom.Training.AuctionHouse.Database
 {
     public class BidRepo : IRepository<BidModel>
     {
-        private static DataRetriever DataInstance { get { return DataRetriever.GetInstance; } }
         private static BidRepo Instance = null;
         private static readonly object padlock = new object();
         public static BidRepo GetInstance
@@ -53,14 +52,7 @@ namespace Calrom.Training.AuctionHouse.Database
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                if (DataInstance.GetBid(entity.Product.ItemID) != null)
-                {
-                    bidModel = GetBid(bidDatabaseModel.ItemID);
-                }
-                bidModel.Product = GetProduct(bidDatabaseModel.ItemID);
-                bidModel.Product.CurrentBid = bidDatabaseModel.Amount;
-                bidModel.User = GetUser(bidDatabaseModel.UserID);
-                dbSession.SaveOrUpdate(bidModel);
+                dbSession.SaveOrUpdate(entity);
                 dbSession.Flush();
             }
         }

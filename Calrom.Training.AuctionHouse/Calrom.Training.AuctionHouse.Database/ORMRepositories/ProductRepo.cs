@@ -5,9 +5,8 @@ using System.Security.Cryptography;
 
 namespace Calrom.Training.AuctionHouse.Database
 {
-    public class ProductRepo : IRepository<ProductDatabaseModel>
+    public class ProductRepo : IRepository<ProductModel>
     {
-        private static DataConverter DataInstance{ get { return DataConverter.GetInstance; } }
         private static ProductRepo Instance = null;
         private static readonly object padlock = new object();
         public static ProductRepo GetInstance
@@ -28,42 +27,29 @@ namespace Calrom.Training.AuctionHouse.Database
             }
         }
 
-        public static int GetRandom()
-        {
-            var rng = RandomNumberGenerator.Create();
-            var salt = new byte[4];
-            rng.GetBytes(salt);
-            var result = BitConverter.ToInt32(salt, 0) & int.MaxValue;
-            return result;
-        }
-
-        private List<ProductDatabaseModel> _productContext;
+        private List<ProductModel> _productContext;
 
         public ProductRepo()
         {
-            _productContext = new List<ProductDatabaseModel>();
+            _productContext = new List<ProductModel>();
         }
 
-        public void Add(ProductDatabaseModel entity)
+        public void Add(ProductModel entity)
         {
-            //entity.ItemID = GetRandom();
-            //_productContext.Add(entity);
-            DataInstance.ConvertProduct(entity);
-        }
-
-        public List<ProductDatabaseModel> List()
-        {
-            return _productContext;
-        }
-
-        public List<ProductModel> DBList()
-        {
-            var list = new List<ProductModel>();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                list = dbSession.Query<ProductModel>().ToList();
+                dbSession.SaveOrUpdate(entity);
+                dbSession.Flush();
             }
-            return list;
+        }
+
+        public List<ProductModel> List()
+        {
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                _productContext = dbSession.Query<ProductModel>().ToList();
+            }
+            return _productContext;
         }
     }
 }
