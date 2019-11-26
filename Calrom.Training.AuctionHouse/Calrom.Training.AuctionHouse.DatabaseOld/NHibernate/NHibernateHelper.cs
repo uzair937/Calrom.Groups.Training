@@ -3,11 +3,11 @@ using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Tool.hbm2ddl;
 using FluentNHibernate.Conventions.Helpers;
-using NHibernate.Caches.SysCache2;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using NHibernate.Caches.SysCache;
 
 namespace Calrom.Training.AuctionHouse.Database
 {
