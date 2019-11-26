@@ -38,13 +38,27 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                 if (bid.User.UserID == user.UserID)
                 {
                     var product = productList.FirstOrDefault(p => p.ItemID == bid.Product.ItemID);
+
                     BidProductViewModel bidProductViewModel = new BidProductViewModel
                     {
                         ItemID = product.ItemID,
                         ItemName = product.ItemName,
                         Amount = product.CurrentBid
                     };
-                    accountViewModel.AllUserBids.Add(bidProductViewModel);
+
+                    if (accountViewModel.AllUserBids.Count > 0)
+                    {
+                        foreach (var item in accountViewModel.AllUserBids)
+                        {
+                            if (item.ItemID != product.ItemID)
+                            {
+                                accountViewModel.AllUserBids.Add(bidProductViewModel);
+                            }
+                        }
+                    } else
+                    {
+                        accountViewModel.AllUserBids.Add(bidProductViewModel);
+                    }
                 }
             }
             return View(accountViewModel);
