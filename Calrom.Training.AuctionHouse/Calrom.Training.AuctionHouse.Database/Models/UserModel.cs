@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Xunit.Sdk;
 
 namespace Calrom.Training.AuctionHouse.Database
 {

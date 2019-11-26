@@ -7,8 +7,8 @@
     <ProjectGuid>{E0B59856-ADB6-4269-96D2-90FD178D82EC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Calrom.Training.AuctionHouse.Database1</RootNamespace>
-    <AssemblyName>Calrom.Training.AuctionHouse.Database1</AssemblyName>
+    <RootNamespace>Calrom.Training.AuctionHouse.Database</RootNamespace>
+    <AssemblyName>Calrom.Training.AuctionHouse.Database</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

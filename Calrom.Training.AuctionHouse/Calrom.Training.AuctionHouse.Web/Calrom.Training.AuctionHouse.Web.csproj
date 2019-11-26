@@ -557,7 +557,7 @@
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.CSharp.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Calrom.Training.AuctionHouse.Database1\Calrom.Training.AuctionHouse.Database.csproj">
+    <ProjectReference Include="..\Calrom.Training.AuctionHouse.Database\Calrom.Training.AuctionHouse.Database.csproj">
       <Project>{e0b59856-adb6-4269-96d2-90fd178d82ec}</Project>
       <Name>Calrom.Training.AuctionHouse.Database</Name>
     </ProjectReference>
