@@ -1,5 +1,6 @@
 ﻿using Calrom.Training.AuctionHouse.Database;
 using Calrom.Training.AuctionHouse.Web.Models;
+using log4net;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
 {
     public class ProductController : Controller
     {
+        private static readonly ILog Log = LogManager.GetLogger(typeof(ProductController));
         public static ProductRepo ProductInstance { get { return ProductRepo.GetInstance; } }
 
         public ActionResult NewProduct()
@@ -48,6 +50,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             productDatabaseModel.ItemPrice = productViewModel.ItemPrice;
             productDatabaseModel.ItemDescription = productViewModel.ItemDescription;
             ProductInstance.Add(productDatabaseModel);
+            Log.Debug("Creating Product.");
             return RedirectToAction("Listings");
         }
 

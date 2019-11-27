@@ -20,6 +20,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             var user = userList.FirstOrDefault(u => u.Username == this.HttpContext.User.Identity.Name);
             var bidList = BidInstance.List();
             var productList = ProductInstance.List();
+            var tempProductList = new List<BidProductViewModel>();
 
             AccountViewModel accountViewModel = new AccountViewModel
             {
@@ -38,7 +39,6 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                 if (bid.User.UserID == user.UserID)
                 {
                     var product = productList.FirstOrDefault(p => p.ItemID == bid.Product.ItemID);
-
                     BidProductViewModel bidProductViewModel = new BidProductViewModel
                     {
                         ItemID = product.ItemID,
@@ -52,16 +52,34 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                         {
                             if (item.ItemID != product.ItemID)
                             {
-                                accountViewModel.AllUserBids.Add(bidProductViewModel);
+                                tempProductList.Add(bidProductViewModel);
                             }
                         }
-                    } else
+                    } else if (accountViewModel.AllUserBids.Count == 0)
                     {
-                        accountViewModel.AllUserBids.Add(bidProductViewModel);
+                        tempProductList.Add(bidProductViewModel);
                     }
+                    accountViewModel.AllUserBids = UserBids(tempProductList);
                 }
             }
             return View(accountViewModel);
+        }
+
+        private List<BidProductViewModel> UserBids(List<BidProductViewModel> list)
+        {
+            var userProductList = new List<BidProductViewModel>();
+            foreach(var child in list)
+            {
+                if (userProductList.Count > 0 && !userProductList.Contains(userProductList.FirstOrDefault(p => p.ItemID == child.ItemID)))
+                {
+                    userProductList.Add(child);
+                }
+                else if (userProductList.Count == 0)
+                {
+                    userProductList.Add(child);
+                }
+            }
+            return userProductList;
         }
     }
 }
