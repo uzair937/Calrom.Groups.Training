@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calrom.Training.AuctionHous
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calrom.Training.AuctionHouse.EntityMapper", "Calrom.Training.AuctionHouse.EntityMapper\Calrom.Training.AuctionHouse.EntityMapper.csproj", "{FA9E1BDB-FE51-402B-B464-E64F276B3FA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calrom.Training.AuctionHouse.ViewModels", "Calrom.Training.AuctionHouse.ViewModels\Calrom.Training.AuctionHouse.ViewModels.csproj", "{34F9570D-94CB-4D2D-840D-5505518A7F03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{FA9E1BDB-FE51-402B-B464-E64F276B3FA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA9E1BDB-FE51-402B-B464-E64F276B3FA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA9E1BDB-FE51-402B-B464-E64F276B3FA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34F9570D-94CB-4D2D-840D-5505518A7F03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34F9570D-94CB-4D2D-840D-5505518A7F03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34F9570D-94CB-4D2D-840D-5505518A7F03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34F9570D-94CB-4D2D-840D-5505518A7F03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

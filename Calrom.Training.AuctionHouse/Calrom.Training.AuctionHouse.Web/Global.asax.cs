@@ -14,6 +14,7 @@ namespace Calrom.Training.AuctionHouse.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             ApplicationConfig.Initialise();
+            AutoMapperConfig.Initialise();
         }
     }
 }

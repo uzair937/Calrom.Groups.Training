@@ -1,5 +1,6 @@
 ﻿using Calrom.Training.AuctionHouse.Database;
-using Calrom.Training.AuctionHouse.Web.Models;
+using Calrom.Training.AuctionHouse.EntityMapper;
+using Calrom.Training.AuctionHouse.ViewModels;
 using log4net;
 using System.Collections.Generic;
 using System.IO;
@@ -38,18 +39,15 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
         [Authorize]
         public ActionResult NewProduct(ProductViewModel productViewModel, HttpPostedFileBase imageFile)
         {
-            var productDatabaseModel = new ProductModel();
+            var productModel = AutoMapperConfiguration.GetInstance<ProductModel>(productViewModel);
             if (productViewModel.ImageFile != null)
             {
                 var fileName = Path.GetFileName(imageFile.FileName);
                 productViewModel.ImageSrc = Path.Combine(Server.MapPath("~/Images"), fileName);
                 imageFile.SaveAs(productViewModel.ImageSrc);
-                productDatabaseModel.ImageSrc = Path.GetFileName(imageFile.FileName);
+                productModel.ImageSrc = Path.GetFileName(imageFile.FileName);
             }
-            productDatabaseModel.ItemName = productViewModel.ItemName;
-            productDatabaseModel.ItemPrice = productViewModel.ItemPrice;
-            productDatabaseModel.ItemDescription = productViewModel.ItemDescription;
-            ProductInstance.Add(productDatabaseModel);
+            ProductInstance.Add(productModel);
             Log.Debug("Creating Product.");
             return RedirectToAction("Listings");
         }
@@ -64,19 +62,13 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             var productList = ProductInstance.List();
             foreach (var product in productList)
             {
-                var productViewModel = new ProductViewModel
-                {
-                    ItemID = product.ItemID,
-                    ItemName = product.ItemName,
-                    ItemPrice = product.ItemPrice,
-                    ItemDescription = product.ItemDescription,
-                    CurrentBid = product.CurrentBid
-                };
+                var newProduct = AutoMapperConfiguration.GetInstance<ProductViewModel>(product);
+
                 if (product.ImageSrc != null)
                 {
-                    productViewModel.ImageSrc = Path.Combine(@"\Images", product.ImageSrc);
+                    newProduct.ImageSrc = Path.Combine(@"\Images", product.ImageSrc);
                 }
-                listingsViewModel.ProductList.Add(productViewModel);
+                listingsViewModel.ProductList.Add(newProduct);
             }
             return View(listingsViewModel);
         }
@@ -87,17 +79,8 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             var product = productList.FirstOrDefault(p => p.ItemID == ItemID);
             if (product != null)
             {
-                var viewModel = new IndividualProductViewModel
-                {
-                    ItemID = product.ItemID,
-                    ItemName = product.ItemName,
-                    ItemPrice = product.ItemPrice,
-                    CurrentBid = product.CurrentBid,
-                    ItemDescription = product.ItemName,
-                    ImageSrc = product.ImageSrc,
-                    IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated
-                };
-                return View(viewModel);
+                var individualProductViewModel = AutoMapperConfiguration.GetInstance<IndividualProductViewModel>(product);
+                return View(individualProductViewModel);
             }
             else
             {

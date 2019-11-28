@@ -1,4 +1,5 @@
 ﻿using Calrom.Training.AuctionHouse.Database;
+using Calrom.Training.AuctionHouse.EntityMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Calrom.Training.AuctionHouse.Web.App_Start
         public static void Initialise()
         {
             log4net.Config.XmlConfigurator.Configure();
+            
             ////////Configure database context and Load default data if any
             using (var dbSession = NHibernateHelper.OpenSession())
             {

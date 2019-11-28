@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Calrom.Training.AuctionHouse.Web.Models
+namespace Calrom.Training.AuctionHouse.ViewModels
 {
     public class LoginViewModel
     {        

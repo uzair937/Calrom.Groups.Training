@@ -498,6 +498,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\ApplicationConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -510,13 +511,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\IndexViewModel.cs" />
-    <Compile Include="Models\IndividualProductViewModel.cs" />
-    <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\ListingsViewModel.cs" />
-    <Compile Include="Models\BidProductViewModel.cs" />
-    <Compile Include="Models\AccountViewModel.cs" />
-    <Compile Include="Models\ProductViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -564,9 +558,17 @@
       <Project>{e0b59856-adb6-4269-96d2-90fd178d82ec}</Project>
       <Name>Calrom.Training.AuctionHouse.Database</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Calrom.Training.AuctionHouse.EntityMapper\Calrom.Training.AuctionHouse.EntityMapper.csproj">
+      <Project>{FA9E1BDB-FE51-402B-B464-E64F276B3FA8}</Project>
+      <Name>Calrom.Training.AuctionHouse.EntityMapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Calrom.Training.AuctionHouse.Logging\Calrom.Training.AuctionHouse.Logging.csproj">
       <Project>{711363ef-83cd-4be8-a094-765cf7c32340}</Project>
       <Name>Calrom.Training.AuctionHouse.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Calrom.Training.AuctionHouse.ViewModels\Calrom.Training.AuctionHouse.ViewModels.csproj">
+      <Project>{34f9570d-94cb-4d2d-840d-5505518a7f03}</Project>
+      <Name>Calrom.Training.AuctionHouse.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
