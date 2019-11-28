@@ -1,8 +1,0 @@
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Repositories\bin\Debug\netstandard2.0\Calrom.Training.SocialMedia.Database.deps.json
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Repositories\bin\Debug\netstandard2.0\Calrom.Training.SocialMedia.Database.dll
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Repositories\bin\Debug\netstandard2.0\Calrom.Training.SocialMedia.Database.pdb
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Repositories\obj\Debug\netstandard2.0\Calrom.Training.SocialMedia.Database.csprojAssemblyReference.cache
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Repositories\obj\Debug\netstandard2.0\Calrom.Training.SocialMedia.Database.AssemblyInfoInputs.cache
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Repositories\obj\Debug\netstandard2.0\Calrom.Training.SocialMedia.Database.AssemblyInfo.cs
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Repositories\obj\Debug\netstandard2.0\Calrom.Training.SocialMedia.Database.dll
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Repositories\obj\Debug\netstandard2.0\Calrom.Training.SocialMedia.Database.pdb

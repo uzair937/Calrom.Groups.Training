@@ -1,0 +1,15 @@
+﻿@using CustomRegionEditor.Models
+@model LayoutViewModel
+
+@{
+    ViewBag.Title = "";
+}
+
+<div class="flex-row">
+    <div class="sidebar">
+        @Html.Partial("_Sidebar", Model.SidebarViewModel)
+    </div>
+    <div class="content-container">
+        @Html.Partial("_Content", Model.ContentViewModel)
+    </div>
+</div>

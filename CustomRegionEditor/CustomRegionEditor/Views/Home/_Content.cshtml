@@ -1,0 +1,18 @@
+﻿@using CustomRegionEditor.Models
+@model ContentViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="content-container">
+    @if (Model.EditRegion)
+    {
+        @Html.Partial("_EditRegion", Model.EditViewModel)
+    }
+
+    @if (Model.SearchRegion)
+    {
+        @Html.Partial("_SearchRegion", Model.SearchViewModel)
+    }
+</div>
