@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calrom.Training.SocialMedia
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calrom.Training.SocialMedia.Database", "Calrom.Training.SocialMedia.Repositories\Calrom.Training.SocialMedia.Database.csproj", "{6F2AC709-CCCC-4357-8F26-028552FA61AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calrom.Training.SocialMedia.Mapper", "Calrom.Training.SocialMedia.Mapper\Calrom.Training.SocialMedia.Mapper.csproj", "{D7476E87-E9BA-4E36-8906-4C9E09F278F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calrom.Training.SocialMedia.Logging", "Calrom.Training.SocialMedia.Logging\Calrom.Training.SocialMedia.Logging.csproj", "{49B99272-9F2A-440D-B469-754A96E60F00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{6F2AC709-CCCC-4357-8F26-028552FA61AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F2AC709-CCCC-4357-8F26-028552FA61AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F2AC709-CCCC-4357-8F26-028552FA61AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7476E87-E9BA-4E36-8906-4C9E09F278F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7476E87-E9BA-4E36-8906-4C9E09F278F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7476E87-E9BA-4E36-8906-4C9E09F278F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7476E87-E9BA-4E36-8906-4C9E09F278F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49B99272-9F2A-440D-B469-754A96E60F00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49B99272-9F2A-440D-B469-754A96E60F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49B99272-9F2A-440D-B469-754A96E60F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49B99272-9F2A-440D-B469-754A96E60F00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
