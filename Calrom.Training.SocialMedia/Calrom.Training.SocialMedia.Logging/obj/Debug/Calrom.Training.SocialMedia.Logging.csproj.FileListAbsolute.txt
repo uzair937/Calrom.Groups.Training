@@ -1,0 +1,7 @@
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Logging\bin\Debug\Calrom.Training.SocialMedia.Logging.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Logging\bin\Debug\Calrom.Training.SocialMedia.Logging.pdb
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Logging\bin\Debug\log4net.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Logging\bin\Debug\log4net.xml
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Logging\obj\Debug\Calrom.Training.SocialMedia.Logging.csproj.CopyComplete
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Logging\obj\Debug\Calrom.Training.SocialMedia.Logging.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\Calrom.Training.SocialMedia\Calrom.Training.SocialMedia.Logging\obj\Debug\Calrom.Training.SocialMedia.Logging.pdb
