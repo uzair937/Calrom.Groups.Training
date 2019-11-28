@@ -1,0 +1,15 @@
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\obj\Debug\netstandard2.0\Calrom.Training.AuctionHouse.Database.AssemblyInfoInputs.cache
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\obj\Debug\netstandard2.0\Calrom.Training.AuctionHouse.Database.AssemblyInfo.cs
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\bin\Debug\netstandard2.0\Calrom.Training.AuctionHouse.Database.deps.json
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\bin\Debug\netstandard2.0\Calrom.Training.AuctionHouse.Database.dll
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\bin\Debug\netstandard2.0\System.ComponentModel.DataAnnotations.dll
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\bin\Debug\netstandard2.0\System.Configuration.dll
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\bin\Debug\netstandard2.0\System.Security.dll
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\bin\Debug\netstandard2.0\System.ComponentModel.DataAnnotations.xml
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\bin\Debug\netstandard2.0\System.Configuration.xml
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\bin\Debug\netstandard2.0\System.Security.xml
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\obj\Debug\netstandard2.0\Calrom.Training.AuctionHouse.Database.csproj.CopyComplete
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\bin\Debug\netstandard2.0\Calrom.Training.AuctionHouse.Database.pdb
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\obj\Debug\netstandard2.0\Calrom.Training.AuctionHouse.Database.dll
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\obj\Debug\netstandard2.0\Calrom.Training.AuctionHouse.Database.pdb
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\Calrom.Training.AuctionHouse.Database\obj\Debug\netstandard2.0\Calrom.Training.AuctionHouse.Database.csprojAssemblyReference.cache

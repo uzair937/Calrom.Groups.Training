@@ -1,0 +1,3 @@
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\TestApp\obj\Debug\netcoreapp3.0\TestApp.csprojAssemblyReference.cache
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\TestApp\obj\Debug\netcoreapp3.0\TestApp.AssemblyInfoInputs.cache
+C:\Users\ufoolat\Documents\Graduate Training Programme\Calrom.Training.AuctionHouse\TestApp\obj\Debug\netcoreapp3.0\TestApp.AssemblyInfo.cs
