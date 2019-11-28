@@ -1,5 +1,6 @@
 ﻿using Calrom.Training.AuctionHouse.Database;
-using Calrom.Training.AuctionHouse.Web.Models;
+using Calrom.Training.AuctionHouse.EntityMapper;
+using Calrom.Training.AuctionHouse.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -22,13 +23,9 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             var productList = ProductInstance.List();
             var tempProductList = new List<BidProductViewModel>();
 
-            AccountViewModel accountViewModel = new AccountViewModel
-            {
-                AllUserBids = new List<BidProductViewModel>(),
-                UserID = user.UserID,
-                Username = user.Username,
-                DateOfBirth = user.DateOfBirth
-            };
+            var accountViewModel = AutoMapperConfiguration.GetInstance<AccountViewModel>(user);
+            accountViewModel.AllUserBids = new List<BidProductViewModel>();
+
             if (bidList == null)
             {
                 return View(accountViewModel);
@@ -39,13 +36,8 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
                 if (bid.User.UserID == user.UserID)
                 {
                     var product = productList.FirstOrDefault(p => p.ItemID == bid.Product.ItemID);
-                    BidProductViewModel bidProductViewModel = new BidProductViewModel
-                    {
-                        ItemID = product.ItemID,
-                        ItemName = product.ItemName,
-                        Amount = product.CurrentBid
-                    };
-
+                    var bidProductViewModel = AutoMapperConfiguration.GetInstance<BidProductViewModel>(product);
+                    
                     if (accountViewModel.AllUserBids.Count > 0)
                     {
                         foreach (var item in accountViewModel.AllUserBids)

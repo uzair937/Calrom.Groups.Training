@@ -1,5 +1,5 @@
 ﻿using Calrom.Training.AuctionHouse.Database;
-using Calrom.Training.AuctionHouse.Web.Models;
+using Calrom.Training.AuctionHouse.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
