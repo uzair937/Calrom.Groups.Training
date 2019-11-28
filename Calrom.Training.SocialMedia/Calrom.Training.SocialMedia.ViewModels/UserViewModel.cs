@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Calrom.Training.SocialMedia.Web.Models
+namespace Calrom.Training.SocialMedia.ViewModels
 {
     public class UserViewModel
     {
@@ -16,7 +16,5 @@ namespace Calrom.Training.SocialMedia.Web.Models
         public List<int> FollowingId { get; set; }
         public List<int> FollowerId { get; set; }
         public List<NotificationViewModel> Notifications { get; set; }
-
-        
     }
 }

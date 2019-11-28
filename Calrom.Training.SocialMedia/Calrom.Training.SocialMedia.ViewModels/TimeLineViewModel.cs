@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Calrom.Training.SocialMedia.Database.ORMRepositories;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Calrom.Training.SocialMedia.Database.Models;
 
-namespace Calrom.Training.SocialMedia.Web.Models
+namespace Calrom.Training.SocialMedia.ViewModels
 {
     public class TimeLineViewModel
     {
@@ -14,15 +10,7 @@ namespace Calrom.Training.SocialMedia.Web.Models
         public UserViewModel CurrentUser { get; set; }
         public PaginationViewModel PageView { get; set; }
         public List<BorkViewModel> AllBorks { get; set; }
-
-        public TimeLineViewModel(int userId)
-        {
-            if (userId == 0) return;
-            var userRepository = UserRepository.GetRepository();
-            var converter = new ViewModelConverter();
-            var userList = userRepository.List();
-            CurrentUser = converter.GetView(userList.First(a => a.UserId == userId));
-        }
+        public FollowViewModel followViewModel { get; set; }
 
         public string GetUserName(int userId)
         {

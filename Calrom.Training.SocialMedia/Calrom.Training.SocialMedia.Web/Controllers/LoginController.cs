@@ -1,6 +1,6 @@
 ﻿using Calrom.Training.SocialMedia.Database.ORMModels;
 using Calrom.Training.SocialMedia.Database.ORMRepositories;
-using Calrom.Training.SocialMedia.Web.Models;
+using Calrom.Training.SocialMedia.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,11 +34,8 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
             {
                 var userId = 0;
                 var userList = UserRepository.GetRepository().List();
-                foreach (var user in userList)
-                {
-                    if (user.UserName == entry.UserName) userId = user.UserId;
-                }
-                bool isValidUser = !(userId == 0);
+                var user = userList.FirstOrDefault(a => a.UserName == entry.UserName);
+                bool isValidUser = (user != null);
                 if (!isValidUser)
                 {
                     ModelState.AddModelError("LogOnError", "Incorrect Username/Password, please try again.");
@@ -46,6 +43,7 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
                 }
                 else
                 {
+                    userId = user.UserId;
                     FormsAuthentication.SetAuthCookie(entry.UserName, false);
                     this.HttpContext.Session.Add("UserId", userId);
                     this.HttpContext.Session.Add("CurrentPage", 0);

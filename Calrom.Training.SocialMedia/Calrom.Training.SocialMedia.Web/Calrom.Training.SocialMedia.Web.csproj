@@ -48,11 +48,17 @@
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\packages\Antlr3.Runtime.3.5.1\lib\net40-client\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="FluentNHibernate, Version=2.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentNHibernate.2.1.2\lib\net461\FluentNHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Iesi.Collections, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <HintPath>..\packages\Iesi.Collections.4.0.4\lib\net461\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NHibernate, Version=5.1.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
@@ -142,6 +148,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\ApplicationConfig.cs" />
+    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="Controllers\HttpAccountController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RepositorySetup.cs" />
@@ -152,16 +160,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModel.cs" />
-    <Compile Include="Models\SearchViewModel.cs" />
-    <Compile Include="Models\BorkViewModel.cs" />
-    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Models\ViewModelConverter.cs" />
-    <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\NotificationViewModel.cs" />
-    <Compile Include="Models\PaginationViewModel.cs" />
-    <Compile Include="Models\TimeLineViewModel.cs" />
-    <Compile Include="Models\FollowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -215,9 +214,21 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Calrom.Training.SocialMedia.Logging\Calrom.Training.SocialMedia.Logging.csproj">
+      <Project>{49b99272-9f2a-440d-b469-754a96e60f00}</Project>
+      <Name>Calrom.Training.SocialMedia.Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Calrom.Training.SocialMedia.Mapper\Calrom.Training.SocialMedia.Mapper.csproj">
+      <Project>{d7476e87-e9ba-4e36-8906-4c9e09f278f4}</Project>
+      <Name>Calrom.Training.SocialMedia.Mapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Calrom.Training.SocialMedia.Repositories\Calrom.Training.SocialMedia.Database.csproj">
       <Project>{6f2ac709-cccc-4357-8f26-028552fa61ac}</Project>
       <Name>Calrom.Training.SocialMedia.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Calrom.Training.SocialMedia.ViewModels\Calrom.Training.SocialMedia.ViewModels.csproj">
+      <Project>{0062d4ea-fd18-4c97-800b-6c9279bea3fa}</Project>
+      <Name>Calrom.Training.SocialMedia.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -253,7 +264,9 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets'))" />
   </Target>
+  <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,4 +1,5 @@
 ﻿using Calrom.Training.SocialMedia.Database.NHibernateTools;
+using Calrom.Training.SocialMedia.Mapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,12 @@ namespace Calrom.Training.SocialMedia.Web.App_Start
         public static void Initialise()
         {
             log4net.Config.XmlConfigurator.Configure();
+            
             using (var session = NHibernateHelper.OpenSession())
             {
                 // Do Nothing - wrapped in using block to dispose session automatically
             }
         }
+
     }
 }

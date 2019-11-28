@@ -9,8 +9,21 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
     public class BorkRepository : IRepository<BorkModel>
     {
         private static BorkRepository borkRepository;
-
         private BorkRepository() { }
+
+        private List<BorkModel> CleanseReturn(List<BorkModel> borks)
+        {
+            if (borks == null) return null;
+
+            var x = 0;
+            var repo = UserRepository.GetRepository();
+            var newBorks = borks;
+            foreach (var bork in borks)
+            {
+                newBorks[x++].UserModel = repo.CleanseReturn(bork.UserModel);
+            }
+            return newBorks;
+        }
 
         public List<BorkModel> borks = new List<BorkModel>();
 
@@ -47,7 +60,7 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
             var borkList = new List<BorkModel>();
             using (var session = NHibernateHelper.OpenSession())
             {
-                borkList = session.Query<BorkModel>().ToList();
+                borkList = CleanseReturn(session.Query<BorkModel>().ToList());
             }
             return borkList;
         }

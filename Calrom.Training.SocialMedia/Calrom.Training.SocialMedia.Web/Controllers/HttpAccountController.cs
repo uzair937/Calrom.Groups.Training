@@ -1,5 +1,5 @@
 ﻿using Calrom.Training.SocialMedia.Database.ORMRepositories;
-using Calrom.Training.SocialMedia.Web.Models;
+using Calrom.Training.SocialMedia.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

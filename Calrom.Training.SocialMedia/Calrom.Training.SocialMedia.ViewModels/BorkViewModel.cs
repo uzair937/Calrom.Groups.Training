@@ -1,11 +1,9 @@
-﻿using Calrom.Training.SocialMedia.Database.Models;
-using Calrom.Training.SocialMedia.Database.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Calrom.Training.SocialMedia.Web.Models
+namespace Calrom.Training.SocialMedia.ViewModels
 {
     public class BorkViewModel
     {

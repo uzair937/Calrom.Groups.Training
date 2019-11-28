@@ -14,9 +14,9 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
 
         private UserRepository() { }
 
-        private UserModel cleanseReturn(UserModel user)
+        public UserModel CleanseReturn(UserModel user)
         {
-            
+            if (user == null) return null;
             var newUser = user;
 
             if (user.Followers.Count == 0) newUser.Followers = new List<FollowerModel>();
@@ -53,7 +53,7 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
             using (var session = NHibernateHelper.OpenSession())
             {
                 var userModel = session.Get<UserModel>(Id);
-                return cleanseReturn(userModel);
+                return CleanseReturn(userModel);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
                 var userList = session.Query<UserModel>().ToList();
                 foreach (var user in userList)
                 {
-                    newList.Add(cleanseReturn(user));
+                    newList.Add(CleanseReturn(user));
                 }
             }
             return newList;
@@ -95,9 +95,9 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
                 var userModel = session.Get<UserModel>(userId);
                 foreach (var following in userModel.Following)
                 {
-                    newUsers.Add(cleanseReturn(session.Get<UserModel>(following.FollowingId)));
+                    newUsers.Add(CleanseReturn(session.Get<UserModel>(following.FollowingId)));
                 }
-                newUsers.Add(cleanseReturn(userModel));
+                newUsers.Add(CleanseReturn(userModel));
             }
             return newUsers;
         }
@@ -165,7 +165,7 @@ namespace Calrom.Training.SocialMedia.Database.ORMRepositories
             var user = new UserModel();
             using (var session = NHibernateHelper.OpenSession())
             {
-                user = cleanseReturn(session.Get<UserModel>(userId));
+                user = CleanseReturn(session.Get<UserModel>(userId));
             }
 
             var foundBorks = new List<BorkModel>();

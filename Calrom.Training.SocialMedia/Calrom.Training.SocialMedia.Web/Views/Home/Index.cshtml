@@ -1,4 +1,4 @@
-﻿@using Calrom.Training.SocialMedia.Web.Models
+﻿@using Calrom.Training.SocialMedia.ViewModels
 @model TimeLineViewModel
 
 @{
@@ -24,7 +24,7 @@
         }
     </div>
     <div class="acc-column"  currentUser ="@Model.CurrentUser.UserId">
-        @Html.Partial("_ViewFollowing", new AccountViewModel(Model.CurrentUser.UserId).followViewModel)
+        @Html.Partial("_ViewFollowing", Model.followViewModel)
         @Html.Partial("_SearchBorks", new SearchViewModel())
     </div>
 </div>

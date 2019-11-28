@@ -65,9 +65,6 @@ namespace Calrom.Training.SocialMedia.Web
             followingModel.SetFollowing(userOne);
             userTwo.AddFollowing(followingModel);
 
-            repo.AddOrUpdate(userOne);
-            repo.AddOrUpdate(userTwo);
-
             for (int x = 0; x < 10; x++)
             {
                 var y = x % 2;

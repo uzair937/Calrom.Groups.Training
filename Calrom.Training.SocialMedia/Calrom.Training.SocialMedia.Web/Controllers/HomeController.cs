@@ -1,4 +1,4 @@
-﻿using Calrom.Training.SocialMedia.Web.Models;
+﻿using Calrom.Training.SocialMedia.ViewModels;
 using Calrom.Training.SocialMedia.Database.ORMRepositories;
 using Calrom.Training.SocialMedia.Database.ORMModels;
 using System;
@@ -6,7 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
-
+using AutoMapper;
+using Calrom.Training.SocialMedia.Mapper;
 
 namespace Calrom.Training.SocialMedia.Web.Controllers
 {
@@ -14,13 +15,46 @@ namespace Calrom.Training.SocialMedia.Web.Controllers
     public class HomeController : Controller
     {
         private IRepository<UserModel> userRepository;
+
+        private List<string> GetFollowedUsers(int userId)
+        {
+            userRepository = UserRepository.GetRepository();
+            var userList = userRepository.List();
+            var user = userList.First(a => a.UserId == userId);
+            var followedUserNames = new List<string>();
+            foreach (var otherUser in userList)
+            {
+                if (user.Following.Select(a => a.FollowingId).Contains(otherUser.UserId))
+                {
+                    followedUserNames.Add(otherUser.UserName);
+                }
+            }
+            return followedUserNames;
+        }
+        private TimeLineViewModel GenerateTimeLineViewModel(int userId)
+        {
+            if (userId == 0) return null;
+            var timeLineViewModel = new TimeLineViewModel();
+            var userRepository = UserRepository.GetRepository();
+            var converter = new ViewModelConverter();
+            var userList = userRepository.List();
+            timeLineViewModel.CurrentUser = converter.GetView(userList.First(a => a.UserId == userId));
+            timeLineViewModel.followViewModel = new FollowViewModel { FollowedUsers = GetFollowedUsers(userId) };
+            return timeLineViewModel;
+        }
         private TimeLineViewModel GetBorks(int userId, int pageNum)
         {
             if (userId == 0) RedirectToAction("Logout", "Login");
-            var timeLineViewModel = new TimeLineViewModel(userId);
+            var timeLineViewModel = GenerateTimeLineViewModel(userId);
             var borkRepository = BorkRepository.GetRepository();
             var converter = new ViewModelConverter();
+
+            
+
             var borkGet = borkRepository.GetFollowedBorks(userId);
+
+           
+
             var PageView = CurrentPageFinder(pageNum, borkGet.Count());
 
             var borks = new List<BorkViewModel>();

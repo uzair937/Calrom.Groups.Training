@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Calrom.Training.SocialMedia.Web.App_Start;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,8 @@ namespace Calrom.Training.SocialMedia.Web
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            
+            AutoMapperConfig.Initialise();
             var repositorySetup = new RepositorySetup();
             repositorySetup.Initialise();
         }

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D7476E87-E9BA-4E36-8906-4C9E09F278F4}</ProjectGuid>
+    <ProjectGuid>{0062D4EA-FD18-4C97-800B-6C9279BEA3FA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Calrom.Training.SocialMedia.Mapper</RootNamespace>
-    <AssemblyName>Calrom.Training.SocialMedia.Mapper</AssemblyName>
+    <RootNamespace>Calrom.Training.SocialMedia.ViewModels</RootNamespace>
+    <AssemblyName>Calrom.Training.SocialMedia.ViewModels</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,23 +41,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoMapperConfiguration.cs" />
-    <Compile Include="NotificationProfile.cs" />
-    <Compile Include="UserProfile.cs" />
-    <Compile Include="BorkProfile.cs" />
+    <Compile Include="AccountViewModel.cs" />
+    <Compile Include="BorkViewModel.cs" />
+    <Compile Include="FollowViewModel.cs" />
+    <Compile Include="LoginViewModel.cs" />
+    <Compile Include="NotificationViewModel.cs" />
+    <Compile Include="PaginationViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="SearchViewModel.cs" />
+    <Compile Include="TimeLineViewModel.cs" />
+    <Compile Include="UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Calrom.Training.SocialMedia.Repositories\Calrom.Training.SocialMedia.Database.csproj">
       <Project>{6f2ac709-cccc-4357-8f26-028552fa61ac}</Project>
       <Name>Calrom.Training.SocialMedia.Database</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Calrom.Training.SocialMedia.ViewModels\Calrom.Training.SocialMedia.ViewModels.csproj">
-      <Project>{0062d4ea-fd18-4c97-800b-6c9279bea3fa}</Project>
-      <Name>Calrom.Training.SocialMedia.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
