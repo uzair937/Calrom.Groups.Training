@@ -9,21 +9,25 @@
 <div class="background-shibe" id="home-content">
     <div class="bork-timeline" id="bork-current" data-newborkurl="@Url.Action("AddBork", "Home")">
         @Html.Partial("_BorkInputForm", new BorkViewModel())
-        @foreach (var bork in Model.Borks)
-        {
-            @Html.Partial("_BorkBox", bork)
-        }
+        <div class="bork-scroll">
+            @foreach (var bork in Model.Borks)
+            {
+                @Html.Partial("_BorkBox", bork)
+            }
+        </div>
         @Html.Partial("_PageForm", @Model.PageView)
     </div>
 
     <div class="all-bork-timeline" id="bork-all">
         <div class="page-container"><div class="page-text">Recent Borks</div></div>
-        @foreach (var bork in Model.AllBorks)
-        {
-            @Html.Partial("_BorkBox", bork)
-        }
+        <div class="bork-scroll">
+            @foreach (var bork in Model.AllBorks)
+            {
+                @Html.Partial("_BorkBox", bork)
+            }
+        </div>
     </div>
-    <div class="acc-column"  currentUser ="@Model.CurrentUser.UserId">
+    <div class="acc-column" currentUser="@Model.CurrentUser.UserId">
         @Html.Partial("_ViewFollowing", Model.followViewModel)
         @Html.Partial("_SearchBorks", new SearchViewModel())
     </div>

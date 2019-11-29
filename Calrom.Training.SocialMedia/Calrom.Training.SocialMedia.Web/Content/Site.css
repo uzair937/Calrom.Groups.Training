@@ -87,6 +87,11 @@ body {
     background-size: cover;
 }
 
+.bork-scroll {
+    overflow-y: auto;
+    max-height: 50em;
+}
+
 .home-search-borks {
     font-size: 0.3em;
 }
@@ -179,7 +184,7 @@ textarea {
     width: auto;
     height: auto;
     margin-top: 5%;
-    margin-right: 10%;
+    margin-right: 5%;
 }
 
     .bork-timeline > form {
