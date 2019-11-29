@@ -19,7 +19,7 @@ namespace Calrom.Training.AuctionHouse.EntityMapper
         {
             foreach (var item in GetProfiles())
             {
-                mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile((Profile)Activator.CreateInstance(item)));
+                mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfiles(GetProfiles()));
             }
         }
 
@@ -33,13 +33,13 @@ namespace Calrom.Training.AuctionHouse.EntityMapper
         /// Gets the profiles.
         /// </summary>
         /// <returns>return profiles</returns>
-        private static IEnumerable<Type> GetProfiles()
+        private static IEnumerable<Profile> GetProfiles()
         {
             foreach (Type type in Assembly.GetExecutingAssembly().GetTypes())
             {
                 if (!type.IsAbstract && typeof(Profile).IsAssignableFrom(type) && !type.IsGenericType)
                 {
-                    yield return type;
+                    yield return (Profile)Activator.CreateInstance(type);
                 }
             }
         }

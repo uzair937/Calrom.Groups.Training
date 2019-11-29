@@ -80,6 +80,7 @@ namespace Calrom.Training.AuctionHouse.Web.Controllers
             if (product != null)
             {
                 var individualProductViewModel = AutoMapperConfiguration.GetInstance<IndividualProductViewModel>(product);
+                individualProductViewModel.IsAuthenticated = this.HttpContext.User.Identity.IsAuthenticated;
                 return View(individualProductViewModel);
             }
             else

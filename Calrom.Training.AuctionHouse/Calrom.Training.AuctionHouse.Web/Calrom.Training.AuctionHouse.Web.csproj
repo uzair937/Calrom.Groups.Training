@@ -545,7 +545,6 @@
     <Content Include="Views\Product\_BidProductForm.cshtml" />
     <Content Include="Views\Product\IndividualProduct.cshtml" />
     <Content Include="Views\Product\_Listings.cshtml" />
-    <Content Include="Views\Product\_IndividualProduct.cshtml" />
     <Content Include="Views\Account\Account.cshtml" />
     <Content Include="SysCache2.config" />
   </ItemGroup>
