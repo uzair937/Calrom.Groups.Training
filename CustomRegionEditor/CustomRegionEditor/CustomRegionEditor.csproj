@@ -124,12 +124,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\CustomRegionViewModel.cs" />
-    <Compile Include="Models\LayoutViewModel.cs" />
-    <Compile Include="Models\ContentViewModel.cs" />
-    <Compile Include="Models\SearchViewModel.cs" />
-    <Compile Include="Models\SidebarViewModel.cs" />
-    <Compile Include="Models\StateViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +179,20 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomRegionEditor.Database\CustomRegionEditor.Database.csproj">
+      <Project>{8265bbbc-b01a-419a-b1b0-f0edf652bf94}</Project>
+      <Name>CustomRegionEditor.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomRegionEditor.Mapping\CustomRegionEditor.Mapping.csproj">
+      <Project>{45e78950-3fa1-40e9-835f-2b6bf962ab7f}</Project>
+      <Name>CustomRegionEditor.Mapping</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomRegionEditor.ViewModels\CustomRegionEditor.ViewModels.csproj">
+      <Project>{62a780e8-32ab-41e0-a8cd-7da5e6238154}</Project>
+      <Name>CustomRegionEditor.ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

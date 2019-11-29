@@ -73,3 +73,6 @@ C:\Users\wbooth\source\repos\CustomRegionEditor\CustomRegionEditor\obj\Debug\Cus
 C:\Users\wbooth\source\repos\CustomRegionEditor\CustomRegionEditor\obj\Debug\CustomRegionEditor.csproj.CopyComplete
 C:\Users\wbooth\source\repos\CustomRegionEditor\CustomRegionEditor\obj\Debug\CustomRegionEditor.dll
 C:\Users\wbooth\source\repos\CustomRegionEditor\CustomRegionEditor\obj\Debug\CustomRegionEditor.pdb
+C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor\obj\Debug\CustomRegionEditor.csprojAssemblyReference.cache
+C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor\obj\Debug\CustomRegionEditor.dll
+C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor\obj\Debug\CustomRegionEditor.pdb
