@@ -7,10 +7,8 @@ namespace CustomRegionEditor.ViewModels
 {
     public class StateViewModel
     {
-        public int StateID { get; set; }
-        public string StateName { get; set; }
-        public string StateCountry { get; set; }
-        public List<string> Cities { get; set; }
-        public List<string> Airports { get; set; }
+        public string ID { get; set; }
+        public string Name { get; set; }
+        public string Abbreviation { get; set; }
     }
 }

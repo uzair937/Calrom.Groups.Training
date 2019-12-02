@@ -45,11 +45,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoMapperConfiguration.cs" />
-    <Compile Include="RegionMap.cs" />
+    <Compile Include="CustomRegionProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CustomRegionEditor.Database\CustomRegionEditor.Database.csproj">
+      <Project>{8265BBBC-B01A-419A-B1B0-F0EDF652BF94}</Project>
+      <Name>CustomRegionEditor.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomRegionEditor.ViewModels\CustomRegionEditor.ViewModels.csproj">
+      <Project>{62A780E8-32AB-41E0-A8CD-7DA5E6238154}</Project>
+      <Name>CustomRegionEditor.ViewModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

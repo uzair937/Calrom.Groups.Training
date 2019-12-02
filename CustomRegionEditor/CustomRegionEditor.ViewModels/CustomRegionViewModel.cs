@@ -4,11 +4,13 @@ namespace CustomRegionEditor.ViewModels
 {
     public class CustomRegionViewModel
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
         public string Name { get; set; }
         public string Abbreviation { get; set; }
-        public List<string> Countries { get; set; }
-        public List<StateViewModel> States { get; set; }
-
+        public RegionViewModel Region { get; set; }
+        public CountryViewModel Country { get; set; }
+        public StateViewModel State { get; set; }
+        public CityViewModel City { get; set; }
+        public AirportViewModel Airport { get; set; }
     }
 }
