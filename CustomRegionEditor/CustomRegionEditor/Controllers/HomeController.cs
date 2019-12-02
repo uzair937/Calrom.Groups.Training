@@ -53,7 +53,21 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditRegion(string regionId)
+        public ActionResult DeleteEntry(string entryId, string regionId)
+        {
+            CustomRegionRepo.DeleteEntry(entryId, regionId);
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult AddRegion(string entry, string type)
+        {
+            CustomRegionRepo.AddByType(entry, type);
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult EditRegionGroup(string regionId)
         {
             var contentViewModel = new ContentViewModel
             {
