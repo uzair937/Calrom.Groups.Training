@@ -2,3 +2,7 @@ C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\Custom
 C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.ViewModels\bin\Debug\CustomRegionEditor.ViewModels.pdb
 C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.ViewModels\obj\Debug\CustomRegionEditor.ViewModels.dll
 C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.ViewModels\obj\Debug\CustomRegionEditor.ViewModels.pdb
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\CustomRegionEditor\CustomRegionEditor.ViewModels\bin\Debug\CustomRegionEditor.ViewModels.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\CustomRegionEditor\CustomRegionEditor.ViewModels\bin\Debug\CustomRegionEditor.ViewModels.pdb
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\CustomRegionEditor\CustomRegionEditor.ViewModels\obj\Debug\CustomRegionEditor.ViewModels.dll
+C:\Users\wbooth\Documents\GraduateTrainingProgramme\CustomRegionEditor\CustomRegionEditor.ViewModels\obj\Debug\CustomRegionEditor.ViewModels.pdb

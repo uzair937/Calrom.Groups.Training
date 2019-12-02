@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CustomRegionEditor.Models
+namespace CustomRegionEditor.ViewModels
 {
     public class CustomRegionViewModel
     {

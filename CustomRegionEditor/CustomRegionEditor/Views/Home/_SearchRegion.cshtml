@@ -1,4 +1,4 @@
-﻿@using CustomRegionEditor.Models
+﻿@using CustomRegionEditor.ViewModels
 @model SearchViewModel
 
 
@@ -13,7 +13,7 @@
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>
-            @foreach (var result in Model.SearchResults)
+            foreach (var result in Model.SearchResults)
             {
                 <tr class="search-result">
                     <th>@result.ID</th>
