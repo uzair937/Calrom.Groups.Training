@@ -1,10 +1,7 @@
 ﻿@using CustomRegionEditor.ViewModels
 @model LayoutViewModel
 
-@{
-    ViewBag.Title = "Custom Region Editor";
-}
-
+@Scripts.Render("~/Content/home/scripts")
 <div class="flex-row">
     <div class="sidebar-container">
         @Html.Partial("_Sidebar", Model.SidebarViewModel)

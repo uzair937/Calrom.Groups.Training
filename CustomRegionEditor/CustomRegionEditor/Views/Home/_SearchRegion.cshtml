@@ -3,32 +3,35 @@
 
 
 <div class="search-results-container">
-    <table>
-        @if (Model.ValidResults)
-        {
-            <tr class="table-header" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-editurl="@Url.Action("EditRegion", "Home")">
-                <th>ID</th>
-                <th>Name</th>
-                <th>Abbv</th>
-                <th>Edit</th>
-                <th>Delete</th>
-            </tr>
-            foreach (var result in Model.SearchResults)
+    @if (Model.IsSearching)
+    {
+        <table>
+            @if (Model.ValidResults)
             {
-                <tr class="search-result">
-                    <th>@result.ID</th>
-                    <th>@result.Name</th>
-                    <th>@result.Abbreviation</th>
-                    <th><input type="button" value="Edit" class="edit-button"/></th>
-                    <th><input type="button" value="Delete" class="delete-button" /></th>
+                <tr class="table-header" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-editurl="@Url.Action("EditRegion", "Home")">
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Abbv</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                foreach (var result in Model.SearchResults)
+                {
+                    <tr class="search-result">
+                        <th>@result.ID</th>
+                        <th>@result.Name</th>
+                        <th>@result.Abbreviation</th>
+                        <th><input type="button" value="Edit" class="edit-button" /></th>
+                        <th><input type="button" value="Delete" class="delete-button" /></th>
+                    </tr>
+                }
+            }
+            @if (!Model.ValidResults)
+            {
+                <tr>
+                    <th>No Results</th>
                 </tr>
             }
-        }
-        @if (!Model.ValidResults)
-        {
-            <tr>
-                <th>No Results</th>
-            </tr>
-        }
-    </table>
+        </table>
+    }
 </div>

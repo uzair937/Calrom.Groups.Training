@@ -25,6 +25,7 @@ namespace CustomRegionEditor
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+            bundles.Add(new ScriptBundle("~/Content/home/scripts").Include("~/Content/Scripts/Main.js"));
         }
     }
 }

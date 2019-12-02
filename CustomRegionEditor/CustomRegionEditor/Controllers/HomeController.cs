@@ -16,12 +16,14 @@ namespace CustomRegionEditor.Controllers
                 ContentViewModel = new ContentViewModel(),
                 SidebarViewModel = new SidebarViewModel()
             };
-            layoutViewModel.ContentViewModel.IsEditing = false;
-            layoutViewModel.ContentViewModel.IsSearching = false;
+            layoutViewModel.ContentViewModel.EditViewModel = new EditViewModel() { IsEditing = false } ;
+            layoutViewModel.ContentViewModel.SearchViewModel = new SearchViewModel() { IsSearching = false };
 
             return layoutViewModel;
         }
-        public static CustomRegionRepo CustomRegionRepo { get { return CustomRegionRepo.GetInstance; } }
+
+        private static ViewModelConverter ViewModelConverter { get { return ViewModelConverter.GetInstance; } }
+        private static CustomRegionRepo CustomRegionRepo { get { return CustomRegionRepo.GetInstance; } }
 
         public ActionResult Index()
         {
@@ -29,43 +31,39 @@ namespace CustomRegionEditor.Controllers
             return View(layoutViewModel);
         }
 
+        [HttpPost]
         public ActionResult Search(string searchTerm)
         {
-            var searchModelList = CustomRegionRepo.GetSearchResults(searchTerm);
-            var newList = new List<CustomRegionViewModel>();
-            //newList = AutoMapperConfiguration.GetInstance<CustomRegionViewModel>(searchModelList);
-            SearchViewModel searchViewModel = new SearchViewModel
+            var contentViewModel = new ContentViewModel
             {
-                SearchTerm = searchTerm,
-                CustomRegionList = newList
+                EditViewModel = new EditViewModel() { IsEditing = false },
+                SearchViewModel = new SearchViewModel() { IsSearching = true }
             };
+            var SearchResults = CustomRegionRepo.GetSearchResults(searchTerm);
+            contentViewModel.SearchViewModel.SearchResults = ViewModelConverter.GetView(SearchResults);
 
-            return PartialView("_SearchResults", searchViewModel);
+            return PartialView("_Content", contentViewModel);
         }
 
+        [HttpPost]
         public ActionResult DeleteRegion(string regionId)
         {
-            var customList = new List<CustomRegionViewModel>();
-            SearchViewModel searchViewModel = new SearchViewModel
-            {
-                CustomRegionList = customList
-            };
-
-            return PartialView("_SearchResults", searchViewModel);
+            CustomRegionRepo.DeleteById(regionId);
+            return null;
         }
 
+        [HttpPost]
         public ActionResult EditRegion(string regionId)
         {
             var contentViewModel = new ContentViewModel
             {
-                EditViewModel = new EditViewModel(),
-                IsEditing = true,
-                IsSearching = false
+                EditViewModel = new EditViewModel() { IsEditing = true },
+                SearchViewModel = new SearchViewModel() { IsSearching = false }
             };
             var FoundRegion = CustomRegionRepo.FindById(regionId);
-            //contentViewModel.EditViewModel.CustomRegionViewModel = 
+            contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion);
 
-            return PartialView("_SearchResults", contentViewModel);
+            return PartialView("_Content", contentViewModel);
         }
     }
 }
