@@ -11,7 +11,7 @@ namespace CustomRegionEditor.Database
     {
         private static CustomRegionRepo Instance = null;
 
-        private static readonly object padlock = new object();
+        private static readonly object Padlock = new object();
 
         public static CustomRegionRepo GetInstance
         {
@@ -19,7 +19,7 @@ namespace CustomRegionEditor.Database
             {
                 if (Instance == null)
                 {
-                    lock (padlock)
+                    lock (Padlock)
                     {
                         if (Instance == null)
                         {
@@ -31,11 +31,11 @@ namespace CustomRegionEditor.Database
             }
         }
 
-        private List<CustomRegionGroupModel> customRegionGroupList;
+        private List<CustomRegionGroupModel> _customRegionGroupList;
 
         public CustomRegionRepo()
         {
-            customRegionGroupList = new List<CustomRegionGroupModel>();
+            _customRegionGroupList = new List<CustomRegionGroupModel>();
         }
 
         public void Add(CustomRegionGroupModel entity)
@@ -60,18 +60,18 @@ namespace CustomRegionEditor.Database
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().ToList();
+                _customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().ToList();
             }
-            return customRegionGroupList;
+            return _customRegionGroupList;
         }
 
         public List<CustomRegionGroupModel> GetSearchResults(string searchTerm)
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().Where(s => s.Abbreviation.Contains(searchTerm) || s.Name.Contains(searchTerm)).ToList();
+                _customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().Where(s => s.Abbreviation.Contains(searchTerm) || s.Name.Contains(searchTerm)).ToList();
             }
-            return customRegionGroupList;
+            return _customRegionGroupList;
         }
 
         public CustomRegionGroupModel FindById(string id)
