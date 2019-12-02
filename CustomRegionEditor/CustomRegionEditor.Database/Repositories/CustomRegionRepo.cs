@@ -10,7 +10,9 @@ namespace CustomRegionEditor.Database
     public class CustomRegionRepo : IRepository<CustomRegionModel>
     {
         private static CustomRegionRepo Instance = null;
+
         private static readonly object padlock = new object();
+
         public static CustomRegionRepo GetInstance
         {
             get
