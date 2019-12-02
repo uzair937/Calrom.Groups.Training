@@ -8,21 +8,24 @@ namespace CustomRegionEditor.Controllers
 {
     public class HomeController : Controller
     {
+        private LayoutViewModel SetupLayoutModel()
+        {
+            var layoutViewModel = new LayoutViewModel
+            {
+                ContentViewModel = new ContentViewModel(),
+                SidebarViewModel = new SidebarViewModel()
+            };
+            layoutViewModel.ContentViewModel.IsEditing = false;
+            layoutViewModel.ContentViewModel.IsSearching = false;
+
+            return layoutViewModel;
+        }
         public static CustomRegionRepo CustomRegionRepo { get { return CustomRegionRepo.GetInstance; } }
 
-        public ActionResult ViewRegions()
+        public ActionResult Index()
         {
-            var customRegionViewModel = new CustomRegionViewModel()
-            {
-
-            };
-            var customRegionList = CustomRegionRepo.List();
-            foreach (var cr in customRegionList)
-            {
-                var newRegion = AutoMapperConfiguration.GetInstance<CustomRegionViewModel>(cr);
-            }
-            return View(customRegionViewModel);
-
+            var layoutViewModel = SetupLayoutModel();
+            return View(layoutViewModel);
         }
 
         public ActionResult Search(string searchTerm)
