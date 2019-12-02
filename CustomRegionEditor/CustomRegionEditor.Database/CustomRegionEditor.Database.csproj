@@ -71,6 +71,7 @@
     <Compile Include="Models\CountryModel.cs" />
     <Compile Include="Models\CustomRegionGroupModel.cs" />
     <Compile Include="Models\CityModel.cs" />
+    <Compile Include="Models\CustomRegionModel.cs" />
     <Compile Include="Models\StateModel.cs" />
     <Compile Include="Models\RegionModel.cs" />
     <Compile Include="NHibernate\NHibernateHelper.cs" />
