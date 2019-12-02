@@ -8,10 +8,9 @@ namespace CustomRegionEditor.Database.Models
 {
     public class CustomRegionGroupModel
     {
-        public string CreID { get; set; }
-        public string CrgID { get; set; }
-        public string Name { get; set; }
-        public string Abbreviation { get; set; }
-        public List<CustomRegionModel> CustomRegions { get; set; }
+        public virtual string ID { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Abbreviation { get; set; }
+        public virtual List<CustomRegionEntryModel> CustomRegionEntries { get; set; }
     }
 }

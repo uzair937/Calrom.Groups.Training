@@ -67,12 +67,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\IRepository.cs" />
+    <Compile Include="Maps\RegionMap.cs" />
+    <Compile Include="Maps\CountryMap.cs" />
+    <Compile Include="Maps\AirportMap.cs" />
+    <Compile Include="Maps\StateMap.cs" />
+    <Compile Include="Maps\CityMap.cs" />
+    <Compile Include="Maps\CustomRegionGroupMap.cs" />
+    <Compile Include="Maps\CustomRegionEntryMap.cs" />
     <Compile Include="Models\AirportModel.cs" />
     <Compile Include="Models\CountryModel.cs" />
-    <Compile Include="Models\CustomRegionEntry.cs" />
+    <Compile Include="Models\CustomRegionEntryModel.cs" />
     <Compile Include="Models\CustomRegionGroupModel.cs" />
     <Compile Include="Models\CityModel.cs" />
-    <Compile Include="Models\CustomRegionModel.cs" />
     <Compile Include="Models\StateModel.cs" />
     <Compile Include="Models\RegionModel.cs" />
     <Compile Include="NHibernate\NHibernateHelper.cs" />
