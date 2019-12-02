@@ -8,8 +8,8 @@ namespace CustomRegionEditor.Database.Models
 {
     public class CityModel
     {
-        public string ID { get; set; }
-        public string Name { get; set; }
-        public string Abbreviation { get; set; }
+        public virtual string ID { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Abbreviation { get; set; }
     }
 }
