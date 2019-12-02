@@ -47,6 +47,15 @@ namespace CustomRegionEditor.Database
             }
         }
 
+        public void Delete(CustomRegionGroupModel entity)
+        {
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                dbSession.Delete(entity);
+                dbSession.Flush();
+            }
+        }
+
         public List<CustomRegionGroupModel> List()
         {
             using (var dbSession = NHibernateHelper.OpenSession())
@@ -73,6 +82,16 @@ namespace CustomRegionEditor.Database
                 customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(id);
             }
             return customRegionGroupModel;
+        }
+
+        public void DeleteById(string id)
+        {
+            var customRegionGroupModel = new CustomRegionGroupModel();
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(id);
+            }
+            Delete(customRegionGroupModel);
         }
     }
 }
