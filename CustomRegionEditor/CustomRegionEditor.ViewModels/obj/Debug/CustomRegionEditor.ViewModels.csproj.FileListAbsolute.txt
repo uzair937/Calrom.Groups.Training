@@ -1,5 +1,0 @@
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\CustomRegionEditor\CustomRegionEditor.ViewModels\bin\Debug\CustomRegionEditor.ViewModels.dll
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\CustomRegionEditor\CustomRegionEditor.ViewModels\bin\Debug\CustomRegionEditor.ViewModels.pdb
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\CustomRegionEditor\CustomRegionEditor.ViewModels\obj\Debug\CustomRegionEditor.ViewModels.dll
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\CustomRegionEditor\CustomRegionEditor.ViewModels\obj\Debug\CustomRegionEditor.ViewModels.pdb
-C:\Users\wbooth\Documents\GraduateTrainingProgramme\CustomRegionEditor\CustomRegionEditor.ViewModels\obj\Debug\CustomRegionEditor.ViewModels.csprojAssemblyReference.cache
