@@ -1,6 +1,2 @@
-################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-/.vs/Graduate Training Programme/v16
-Calrom.Training.AuctionHouse/
+﻿/Calrom.Training.SocialMedia/packages
+/Calrom.Training.AuctionHouse
