@@ -8,7 +8,7 @@
         <table>
             @if (Model.ValidResults)
             {
-                <tr class="table-header" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-editurl="@Url.Action("EditRegion", "Home")">
+                <tr class="table-header" data-deleteurl="@Url.Action("DeleteRegionGroup", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")">
                     <th>ID</th>
                     <th>Name</th>
                     <th>Abbv</th>
@@ -18,11 +18,11 @@
                 foreach (var result in Model.SearchResults)
                 {
                     <tr class="search-result">
-                        <th>@result.ID</th>
-                        <th>@result.Name</th>
-                        <th>@result.Abbreviation</th>
-                        <th><input type="button" value="Edit" class="edit-button" /></th>
-                        <th><input type="button" value="Delete" class="delete-button" /></th>
+                        <td>@result.ID</td>
+                        <td>@result.Name</td>
+                        <td>@result.Abbreviation</td>
+                        <td><input type="button" value="Edit" class="edit-button" /></td>
+                        <td><input type="button" value="Delete" class="delete-button" /></td>
                     </tr>
                 }
             }

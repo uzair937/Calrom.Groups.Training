@@ -51,6 +51,47 @@ function onDelete(e) {
     }
 } //Calls onSearch on finish to refresh list
 
+function onAdd(e) {
+    var container = $(".airport-text-box");
+    var url = $(".table-header").attr("data-addurl");
+    var value, type = "";
+    if (container.value !== "") {
+        type = "airport";
+        value = container.value;
+    }
+    container = container.prev();
+    if (container.value !== "") {
+        type = "city";
+        value = container.value;
+    }
+    container = container.prev();
+    if (container.value !== "") {
+        type = "state";
+        value = container.value;
+    }
+    container = container.prev();
+    if (container.value !== "") {
+        type = "country";
+        value = container.value;
+    }
+    container = container.prev();
+    if (container.value !== "") {
+        type = "region";
+        value = container.value;
+    }
+    if (value !== "") {
+        addRegion(url, value, type);
+    }
+} //Calls onSearch on finish to refresh list
+
+function addRegion(url, value, type) {
+    $.ajax({
+        type: "POST",
+        url: url + "?entry=" + value + "&type=" + type,
+        success: onSearch,
+    });
+}
+
 function addMainListeners() {
     var searchButton = window.document.getElementsByClassName("search-button")[0];
 
@@ -60,13 +101,21 @@ function addMainListeners() {
 }
 
 function addSearchListeners() {
-    var editButton = window.document.getElementsByClassName("edit-button")[0];
-    var deleteButton = window.document.getElementsByClassName("delete-button")[0];
+    var editButtons = window.document.getElementsByClassName("edit-button");
+    var deleteButtons = window.document.getElementsByClassName("delete-button");
 
-    if (editButton !== undefined && editButton !== null) {
-        editButton.addEventListener("click", onEdit);
+    editButtons.forEach(editButtonListeners);
+    deleteButtons.forEach(deleteButtonListeners);
+}
+
+function deleteButtonListeners(item) {
+    if (item !== undefined && item !== null) {
+        item.addEventListener("click", onDelete);
     }
-    if (deleteButton !== undefined && deleteButton !== null) {
-        deleteButton.addEventListener("click", onDelete);
+}
+
+function editButtonListeners(item) {
+    if (item !== undefined && item !== null) {
+        item.addEventListener("click", onEdit);
     }
 }
