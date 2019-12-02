@@ -130,5 +130,55 @@ namespace CustomRegionEditor.Database
 
             AddOrUpdate(customRegionGroupModel);
         }
+
+        public AirportModel GetAirport(string entry)
+        {
+            var airportModel = new AirportModel();
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.airport_name.Contains(entry));
+            }
+            return airportModel;
+        }
+
+        public CityModel GetCity(string entry)
+        {
+            var cityModel = new CityModel();
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.city_name.Contains(entry));
+            }
+            return cityModel;
+        }
+
+        public StateModel GetState(string entry)
+        {
+            var stateModel = new StateModel();
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                stateModel = dbSession.Query<StateModel>().FirstOrDefault(a => a.state_name.Contains(entry));
+            }
+            return stateModel;
+        }
+
+        public CountryModel GetCountry(string entry)
+        {
+            var countryModel = new CountryModel();
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.country_name.Contains(entry));
+            }
+            return countryModel;
+        }
+
+        public RegionModel GetRegion(string entry)
+        {
+            var regionModel = new RegionModel();
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                regionModel = dbSession.Query<RegionModel>().FirstOrDefault(a => a.region_name.Contains(entry));
+            }
+            return regionModel;
+        }
     }
 }
