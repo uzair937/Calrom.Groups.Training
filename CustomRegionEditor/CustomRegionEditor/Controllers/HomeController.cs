@@ -1,4 +1,5 @@
 ﻿using CustomRegionEditor.Database;
+using CustomRegionEditor.EntityMapper;
 using CustomRegionEditor.Models;
 using System.Web.Mvc;
 
@@ -6,7 +7,7 @@ namespace CustomRegionEditor.Controllers
 {
     public class HomeController : Controller
     {
-        public static CustomRegionRepo CustomInstance { get { return CustomRegionRepo.GetInstance; } }
+        public static CustomRegionRepo CustomRegionRepoInstance { get { return CustomRegionRepo.GetInstance; } }
 
         public ActionResult ViewRegions()
         {
@@ -14,7 +15,7 @@ namespace CustomRegionEditor.Controllers
             {
 
             };
-            var customRegionList = CustomInstance.List();
+            var customRegionList = CustomRegionRepoInstance.List();
             foreach (var cr in customRegionList)
             {
                 var newRegion = AutoMapperConfiguration.GetInstance<CustomRegionViewModel>(cr);
@@ -25,13 +26,11 @@ namespace CustomRegionEditor.Controllers
         }
         public ActionResult Search(string searchTerm)
         {
-            var repo = CustomRegionRepo.GetRegionRepo();
+            
             SearchViewModel searchViewModel = new SearchViewModel
             {
                 SearchTerm = searchTerm
             };
-            CustomRegionViewModel customRegionViewModel = repo.GetSearchResults(searchTerm);
-            searchViewModel.CustomRegionList.Add(customRegionViewModel);
 
             return PartialView("_SearchRegion", searchViewModel);
         }
