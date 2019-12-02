@@ -1,11 +1,3 @@
-C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Mapping\bin\Debug\CustomRegionEditor.EntityMapper.dll
-C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Mapping\bin\Debug\CustomRegionEditor.EntityMapper.pdb
-C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Mapping\bin\Debug\AutoMapper.dll
-C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Mapping\bin\Debug\AutoMapper.pdb
-C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Mapping\bin\Debug\AutoMapper.xml
-C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Mapping\obj\Debug\CustomRegionEditor.EntityMapper.csproj.CopyComplete
-C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Mapping\obj\Debug\CustomRegionEditor.EntityMapper.dll
-C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Mapping\obj\Debug\CustomRegionEditor.EntityMapper.pdb
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\CustomRegionEditor\CustomRegionEditor.Mapping\bin\Debug\CustomRegionEditor.EntityMapper.dll
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\CustomRegionEditor\CustomRegionEditor.Mapping\bin\Debug\CustomRegionEditor.EntityMapper.pdb
 C:\Users\wbooth\Documents\GraduateTrainingProgramme\CustomRegionEditor\CustomRegionEditor.Mapping\bin\Debug\AutoMapper.dll

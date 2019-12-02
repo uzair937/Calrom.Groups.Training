@@ -8,7 +8,7 @@ namespace CustomRegionEditor.Database.Models
 {
     public class CustomRegionModel
     {
-        public int ID { get; set; }
+        public string ID { get; set; }
 
         public string Name { get; set; }
 

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace CustomRegionEditor.ViewModels
 {
-    public class StateViewModel
+    public class CityViewModel
     {
         public string ID { get; set; }
         public string Name { get; set; }

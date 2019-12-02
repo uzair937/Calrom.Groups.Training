@@ -63,7 +63,7 @@ namespace CustomRegionEditor.Controllers
                 IsSearching = false
             };
             var FoundRegion = CustomRegionRepo.FindById(regionId);
-            contentViewModel.EditViewModel.CustomRegionViewModel = 
+            //contentViewModel.EditViewModel.CustomRegionViewModel = 
 
             return PartialView("_SearchResults", contentViewModel);
         }

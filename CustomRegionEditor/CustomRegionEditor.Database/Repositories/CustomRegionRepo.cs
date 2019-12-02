@@ -31,11 +31,11 @@ namespace CustomRegionEditor.Database
             }
         }
 
-        private List<CustomRegionGroupModel> _customRegionContext;
+        private List<CustomRegionGroupModel> customRegionGroupList;
 
         public CustomRegionRepo()
         {
-            _customRegionContext = new List<CustomRegionGroupModel>();
+            customRegionGroupList = new List<CustomRegionGroupModel>();
         }
 
         public void Add(CustomRegionGroupModel entity)
@@ -51,18 +51,28 @@ namespace CustomRegionEditor.Database
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                _customRegionContext = dbSession.Query<CustomRegionGroupModel>().ToList();
+                customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().ToList();
             }
-            return _customRegionContext;
+            return customRegionGroupList;
         }
 
         public List<CustomRegionGroupModel> GetSearchResults(string searchTerm)
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                _customRegionContext = dbSession.Query<CustomRegionGroupModel>().Where(s => s.Abbreviation.Contains(searchTerm) || s.Name.Contains(searchTerm)).ToList();
+                customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().Where(s => s.Abbreviation.Contains(searchTerm) || s.Name.Contains(searchTerm)).ToList();
             }
-            return _customRegionContext;
+            return customRegionGroupList;
+        }
+
+        public CustomRegionGroupModel FindById(string id)
+        {
+            var customRegionGroupModel = new CustomRegionGroupModel();
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(id);
+            }
+            return customRegionGroupModel;
         }
     }
 }
