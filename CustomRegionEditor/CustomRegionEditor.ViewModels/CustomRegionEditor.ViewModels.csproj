@@ -44,6 +44,7 @@
     <Compile Include="AirportViewModel.cs" />
     <Compile Include="ContentViewModel.cs" />
     <Compile Include="CityViewModel.cs" />
+    <Compile Include="CustomRegionGroupViewModel.cs" />
     <Compile Include="CustomRegionViewModel.cs" />
     <Compile Include="LayoutViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,5 +55,6 @@
     <Compile Include="RegionViewModel.cs" />
     <Compile Include="StateViewModel.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

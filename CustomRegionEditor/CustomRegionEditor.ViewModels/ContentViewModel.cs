@@ -9,7 +9,5 @@ namespace CustomRegionEditor.ViewModels
     {
         public SearchViewModel SearchViewModel { get; set; }
         public EditViewModel EditViewModel { get; set; }
-        public bool IsEditing { get; set; }
-        public bool IsSearching { get; set; }
     }
 }

@@ -7,9 +7,9 @@ namespace CustomRegionEditor.ViewModels
 {
     public class SearchViewModel
     {
-        public List<CustomRegionViewModel> CustomRegionList { get; set; }
+        public bool IsSearching { get; set; }
 
-        public List<CustomRegionViewModel> SearchResults { get; set; }
+        public List<CustomRegionGroupViewModel> SearchResults { get; set; }
 
         public string SearchTerm { get; set; }
 

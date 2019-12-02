@@ -2,14 +2,7 @@
 @model ContentViewModel
 
 
-<div class="content-container">
-    @if (Model.IsEditing)
-    {
-        @Html.Partial("_EditRegion", Model.EditViewModel)
-    }
-
-    @if (Model.IsSearching)
-    {
-        @Html.Partial("_SearchRegion", Model.SearchViewModel)
-    }
+<div class="content-model-container">
+    @Html.Partial("_EditRegion", Model.EditViewModel)
+    @Html.Partial("_SearchRegion", Model.SearchViewModel)
 </div>
