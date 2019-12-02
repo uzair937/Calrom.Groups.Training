@@ -69,6 +69,7 @@
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Models\AirportModel.cs" />
     <Compile Include="Models\CountryModel.cs" />
+    <Compile Include="Models\CustomRegionEntry.cs" />
     <Compile Include="Models\CustomRegionGroupModel.cs" />
     <Compile Include="Models\CityModel.cs" />
     <Compile Include="Models\CustomRegionModel.cs" />

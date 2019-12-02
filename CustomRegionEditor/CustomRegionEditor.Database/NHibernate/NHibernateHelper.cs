@@ -28,9 +28,9 @@ namespace CustomRegionEditor.Database.Models
 
         public static ISessionFactory InitialiseSession()
         {
-            string dbConnection = @"Data Source = (LocalDB)\MSSQLLocalDB; Initial Catalog = AuctionDB; Integrated Security = True";
+            string dbConnection = @"Data Source = (LocalDB)\MSSQLLocalDB; Initial Catalog = CalromGroupsDev; Integrated Security = True";
             var nhConfig = Fluently.Configure().Database(MsSqlConfiguration.MsSql2012.ConnectionString(dbConnection)).
-                Mappings(m => m.FluentMappings.AddFromAssemblyOf<CustomRegionGroupModel>()).
+                Mappings(m => m.FluentMappings.AddFromAssemblyOf<CustomRegionEntry>()).
                 ExposeConfiguration(cfg => new SchemaExport(cfg).
                 Create(true, true)).Cache(c => c.ProviderClass<SysCacheProvider>().UseSecondLevelCache());
 
