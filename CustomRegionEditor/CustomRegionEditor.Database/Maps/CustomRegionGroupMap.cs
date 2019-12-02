@@ -15,7 +15,7 @@ namespace CustomRegionEditor.Database.Maps
             Id(i => i.ID);
             Map(i => i.Name);
             Map(i => i.Abbreviation);
-            HasMany(i => i.CustomRegionEntries).Cascade.All().Inverse();
+            HasMany(i => i.CustomRegionEntries).Cascade.All();
         }
     }
 }

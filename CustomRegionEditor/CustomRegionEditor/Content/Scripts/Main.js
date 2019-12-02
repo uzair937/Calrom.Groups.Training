@@ -23,7 +23,6 @@ function onSearch(e) {
 function onEdit(e) {
     var url = $(".table-header").attr("data-editurl");
     var regionId = this.parentNode.firstChild.innerHTML;
-
     if (regionId) {
         $.ajax({
             type: "POST",
@@ -31,7 +30,7 @@ function onEdit(e) {
             success: function (data, status, xhr) {
                 if (data) {
                     $(".content-container").replaceWith(data);      //replaces all content/ search and edit
-                    addEditListeners();                 //
+                    addEditListeners();                 
                 }
             }
         });
@@ -50,6 +49,37 @@ function onDelete(e) {
         });
     }
 } //Calls onSearch on finish to refresh list
+
+function refreshEdit(e) {
+    var url = $(".table-header").attr("data-editurl");
+    var regionId = $(".table-header").attr("regionId");
+    if (regionId) {
+        $.ajax({
+            type: "POST",
+            url: url + "?regionId=" + regionId,
+            success: function (data, status, xhr) {
+                if (data) {
+                    $(".content-container").replaceWith(data);      //replaces all content/ search and edit
+                    addEditListeners();
+                }
+            }
+        });
+    }
+}
+
+function entryDelete(e) {
+    var url = $(".table-header").attr("data-deleteentryurl");
+    var regionId = $(".table-header").attr("regionId");
+    var entryId = this.parentNode.firstChild.innerHTML;
+    if (entryId) {
+        $.ajax({
+            type: "POST",
+            url: url + "?entryId=" + entryId + "&regionId=" + regionId,
+            success: refreshEdit,
+        });
+    }
+}
+
 
 function onAdd(e) {
     var container = $(".airport-text-box");
@@ -106,6 +136,22 @@ function addSearchListeners() {
 
     editButtons.forEach(editButtonListeners);
     deleteButtons.forEach(deleteButtonListeners);
+}
+
+function addEditListeners() {
+    var deleteButtons = window.document.getElementsByClassName("delete-button");
+    var addButton = window.document.getElementsByClassName("add-button")[0];
+
+    deleteButtons.forEach(deleteEntryListeners);
+    if (addButton !== undefined && addButton !== null) {
+        addButton.addEventListener("click", addRegion);
+    }
+}
+
+function deleteEntryListeners(item) {
+    if (item !== undefined && item !== null) {
+        item.addEventListener("click", entryDelete);
+    }
 }
 
 function deleteButtonListeners(item) {

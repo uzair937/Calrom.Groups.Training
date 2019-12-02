@@ -46,9 +46,23 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteRegionGroup(string regionId)
+        public ActionResult DeleteRegion(string regionId)
         {
             CustomRegionRepo.DeleteById(regionId);
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult DeleteEntry(string entryId, string regionId)
+        {
+            CustomRegionRepo.DeleteEntry(entryId, regionId);
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult AddRegion(string entry, string type)
+        {
+            CustomRegionRepo.AddByType(entry, type);
             return null;
         }
 

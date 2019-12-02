@@ -4,7 +4,7 @@
 <div class="edit_container">
     @if (Model.IsEditing) {
     <table>
-        <tr class="table-header" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-addurl="@Url.Action("AddRegion", "Home")">
+        <tr class="table-header" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")" regionid="@Model.CustomRegionGroupViewModel.ID">
             <th>ID</th>
             <th>Region</th>
             <th>Country</th>
