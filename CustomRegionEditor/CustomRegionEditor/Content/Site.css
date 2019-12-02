@@ -14,8 +14,14 @@ body {
     padding-right: 15px;
 }
 
-.dl-horizontal dt {
-    white-space: normal;
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
 }
 
 input,
@@ -25,6 +31,27 @@ textarea {
 }
 
 .layout-body-content {
+    width: 70%;
+    height: 80%;
+    background-color: cornflowerblue;
+    border: 3px solid black;
+}
+
+.sidebar-container {
+    width: 70%;
+    height: 80%;
+    background-color: cornflowerblue;
+    border: 3px solid black;
+}
+
+.search-container {
+    width: 70%;
+    height: 80%;
+    background-color: cornflowerblue;
+    border: 3px solid black;
+}
+
+.edit-container {
     width: 70%;
     height: 80%;
     background-color: cornflowerblue;

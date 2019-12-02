@@ -6,12 +6,12 @@
 }
 
 <div class="content-container">
-    @if (Model.EditRegion)
+    @if (Model.IsEditing)
     {
         @Html.Partial("_EditRegion", Model.EditViewModel)
     }
 
-    @if (Model.SearchRegion)
+    @if (Model.IsSearching)
     {
         @Html.Partial("_SearchRegion", Model.SearchViewModel)
     }

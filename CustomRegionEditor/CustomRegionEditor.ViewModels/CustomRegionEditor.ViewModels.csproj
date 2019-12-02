@@ -46,6 +46,7 @@
     <Compile Include="LayoutViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchViewModel.cs" />
+    <Compile Include="EditViewModel.cs" />
     <Compile Include="SidebarViewModel.cs" />
     <Compile Include="StateViewModel.cs" />
   </ItemGroup>

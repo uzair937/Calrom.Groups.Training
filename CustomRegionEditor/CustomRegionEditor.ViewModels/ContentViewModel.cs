@@ -7,6 +7,9 @@ namespace CustomRegionEditor.Models
 {
     public class ContentViewModel
     {
-        public bool EditRegion { get; set; }
+        public SearchViewModel SearchViewModel { get; set; }
+        public EditViewModel EditViewModel { get; set; }
+        public bool IsEditing { get; set; }
+        public bool IsSearching { get; set; }
     }
 }

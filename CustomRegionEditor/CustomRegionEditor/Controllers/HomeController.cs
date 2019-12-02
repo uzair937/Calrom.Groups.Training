@@ -11,11 +11,15 @@ namespace CustomRegionEditor.Controllers
     {
         public ActionResult Search(string searchTerm)
         {
-            CustomRegionViewModel customRegionViewModel = new CustomRegionViewModel();
-            SearchViewModel searchViewModel = new SearchViewModel();
+            var repo = CustomRegionRepo.GetRegionRepo();
+            SearchViewModel searchViewModel = new SearchViewModel
+            {
+                SearchTerm = searchTerm
+            };
+            CustomRegionViewModel customRegionViewModel = repo.GetSearchResults(searchTerm);
             searchViewModel.CustomRegionList.Add(customRegionViewModel);
 
-            return PartialView("_SearchResults", searchViewModel);
+            return PartialView("_SearchRegion", searchViewModel);
         }
     }
 }
