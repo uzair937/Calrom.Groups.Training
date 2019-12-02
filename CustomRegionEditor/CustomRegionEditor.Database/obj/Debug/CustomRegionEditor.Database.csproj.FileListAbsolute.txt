@@ -1,0 +1,5 @@
+C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Database\bin\Debug\CustomRegionEditor.Database.dll
+C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Database\bin\Debug\CustomRegionEditor.Database.pdb
+C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Database\obj\Debug\CustomRegionEditor.Database.csprojAssemblyReference.cache
+C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Database\obj\Debug\CustomRegionEditor.Database.dll
+C:\Users\ufoolat\Documents\Graduate Training Programme\CustomRegionEditor\CustomRegionEditor.Database\obj\Debug\CustomRegionEditor.Database.pdb
