@@ -12,9 +12,14 @@ namespace CustomRegionEditor.Database.Maps
     {
         public CityMap()
         {
-            Id(i => i.ID);
-            Map(i => i.Name);
-            Map(i => i.Abbreviation);
+            Id(i => i.cty_id);
+            Map(i => i.city_name);
+            Map(i => i.cnt_id);
+            Map(i => i.row_version);
+            Map(i => i.sta_id);
+            Map(i => i.timezone);
+            Map(i => i.utc_offset);
+            Map(i => i.lto_id);
         }
     }
 }

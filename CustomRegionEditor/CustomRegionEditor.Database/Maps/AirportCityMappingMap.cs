@@ -8,16 +8,15 @@ using FluentNHibernate.Mapping;
 
 namespace CustomRegionEditor.Database.Maps
 {
-    public class StateMap : ClassMap<StateModel>
+    public class AirportCityMappingMap : ClassMap<AirportCityMappingModel>
     {
-        public StateMap()
+        public AirportCityMappingMap()
         {
-            Id(i => i.sta_id);
-            Map(i => i.cnt_id);
-            Map(i => i.state_name);
-            Map(i => i.display_order);
+            Id(i => i.acm_id);
+            Map(i => i.apt_id);
+            Map(i => i.mapped_cty_id);
+            Map(i => i.live_to_date);
             Map(i => i.row_version);
-            Map(i => i.lto_id);
         }
     }
 }

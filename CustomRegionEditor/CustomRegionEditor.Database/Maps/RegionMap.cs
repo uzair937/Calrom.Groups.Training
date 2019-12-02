@@ -12,9 +12,10 @@ namespace CustomRegionEditor.Database.Maps
     {
         public RegionMap()
         {
-            Id(i => i.ID);
-            Map(i => i.Name);
-            Map(i => i.Abbreviation);
+            Id(i => i.reg_id);
+            Map(i => i.region_name);
+            Map(i => i.row_version);
+            Map(i => i.lto_id);
         }
     }
 }

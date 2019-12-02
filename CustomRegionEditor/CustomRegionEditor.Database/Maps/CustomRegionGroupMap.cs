@@ -12,10 +12,14 @@ namespace CustomRegionEditor.Database.Maps
     {
         public CustomRegionGroupMap()
         {
-            Id(i => i.ID);
-            Map(i => i.Name);
-            Map(i => i.Abbreviation);
-            HasMany(i => i.CustomRegionEntries).Cascade.All().Inverse();
+            Id(i => i.crg_id);
+            Map(i => i.custom_region_name);
+            Map(i => i.custom_region_description);
+            Map(i => i.stm_id);
+            Map(i => i.rsm_id);
+            Map(i => i.display_order);
+            Map(i => i.row_version);
+            HasMany(i => i.CustomRegionEntries).Cascade.All();
         }
     }
 }

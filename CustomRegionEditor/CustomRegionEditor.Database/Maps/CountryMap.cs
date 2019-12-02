@@ -12,9 +12,14 @@ namespace CustomRegionEditor.Database.Maps
     {
         public CountryMap()
         {
-            Id(i => i.ID);
-            Map(i => i.Name);
-            Map(i => i.Abbreviation);
+            Id(i => i.cnt_id);
+            Map(i => i.country_name);
+            Map(i => i.iso_code);
+            Map(i => i.iso_number);
+            Map(i => i.reg_id);
+            Map(i => i.row_version);
+            Map(i => i.dialing_code);
+            Map(i => i.lto_id);
         }
     }
 }

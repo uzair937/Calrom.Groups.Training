@@ -8,15 +8,16 @@ using FluentNHibernate.Mapping;
 
 namespace CustomRegionEditor.Database.Maps
 {
-    public class StateMap : ClassMap<StateModel>
+    public class SystemMap : ClassMap<SystemModel>
     {
-        public StateMap()
+        public SystemMap()
         {
-            Id(i => i.sta_id);
-            Map(i => i.cnt_id);
-            Map(i => i.state_name);
-            Map(i => i.display_order);
+            Id(i => i.stm_id);
+            Map(i => i.internal_system_name);
+            Map(i => i.external_system_name);
+            Map(i => i.system_description);
             Map(i => i.row_version);
+            Map(i => i.comp_id);
             Map(i => i.lto_id);
         }
     }

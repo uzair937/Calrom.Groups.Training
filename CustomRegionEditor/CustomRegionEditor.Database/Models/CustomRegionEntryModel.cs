@@ -15,6 +15,6 @@ namespace CustomRegionEditor.Database.Models
         public virtual StateModel State { get; set; }
         public virtual CityModel City { get; set; }
         public virtual AirportModel Airport { get; set; }
-        public virtual string row_version { get; set; }
+        public virtual int row_version { get; set; }
     }
 }

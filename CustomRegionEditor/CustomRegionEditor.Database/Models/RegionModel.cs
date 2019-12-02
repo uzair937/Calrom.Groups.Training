@@ -8,8 +8,9 @@ namespace CustomRegionEditor.Database.Models
 {
     public class RegionModel
     {
-        public virtual string ID { get; set; }
-        public virtual string Name { get; set; }
-        public virtual string Abbreviation { get; set; }
+        public virtual string reg_id { get; set; }
+        public virtual string region_name { get; set; }
+        public virtual int row_version { get; set; }
+        public virtual int lto_id { get; set; }
     }
 }
