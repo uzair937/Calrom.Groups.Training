@@ -30,7 +30,7 @@ namespace CustomRegionEditor.Database.Models
         {
             string dbConnection = @"Data Source = (LocalDB)\MSSQLLocalDB; Initial Catalog = AuctionDB; Integrated Security = True";
             var nhConfig = Fluently.Configure().Database(MsSqlConfiguration.MsSql2012.ConnectionString(dbConnection)).
-                Mappings(m => m.FluentMappings.AddFromAssemblyOf<CustomRegionModel>()).
+                Mappings(m => m.FluentMappings.AddFromAssemblyOf<CustomRegionGroupModel>()).
                 ExposeConfiguration(cfg => new SchemaExport(cfg).
                 Create(true, true)).Cache(c => c.ProviderClass<SysCacheProvider>().UseSecondLevelCache());
 

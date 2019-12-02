@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Database
 {
-    public class CustomRegionRepo : IRepository<CustomRegionModel>
+    public class CustomRegionRepo : IRepository<CustomRegionGroupModel>
     {
         private static CustomRegionRepo Instance = null;
 
@@ -31,14 +31,14 @@ namespace CustomRegionEditor.Database
             }
         }
 
-        private List<CustomRegionModel> _customRegionContext;
+        private List<CustomRegionGroupModel> _customRegionContext;
 
         public CustomRegionRepo()
         {
-            _customRegionContext = new List<CustomRegionModel>();
+            _customRegionContext = new List<CustomRegionGroupModel>();
         }
 
-        public void Add(CustomRegionModel entity)
+        public void Add(CustomRegionGroupModel entity)
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
@@ -47,20 +47,20 @@ namespace CustomRegionEditor.Database
             }
         }
 
-        public List<CustomRegionModel> List()
+        public List<CustomRegionGroupModel> List()
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                _customRegionContext = dbSession.Query<CustomRegionModel>().ToList();
+                _customRegionContext = dbSession.Query<CustomRegionGroupModel>().ToList();
             }
             return _customRegionContext;
         }
 
-        public List<CustomRegionModel> GetSearchResults(string searchTerm)
+        public List<CustomRegionGroupModel> GetSearchResults(string searchTerm)
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                _customRegionContext = dbSession.Query<CustomRegionModel>().Where(s => s.Abbreviation.Contains(searchTerm) || s.Name.Contains(searchTerm)).ToList();
+                _customRegionContext = dbSession.Query<CustomRegionGroupModel>().Where(s => s.Abbreviation.Contains(searchTerm) || s.Name.Contains(searchTerm)).ToList();
             }
             return _customRegionContext;
         }
