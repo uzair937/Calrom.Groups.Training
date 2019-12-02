@@ -60,9 +60,9 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddRegion(string entry, string type)
+        public ActionResult AddRegion(string entry, string type, string regionId)
         {
-            CustomRegionRepo.AddByType(entry, type);
+            CustomRegionRepo.AddByType(entry, type, regionId);
             return null;
         }
 

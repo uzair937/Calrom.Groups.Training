@@ -38,7 +38,7 @@ namespace CustomRegionEditor.Database
             _customRegionGroupList = new List<CustomRegionGroupModel>();
         }
 
-        public void Add(CustomRegionGroupModel entity)
+        public void AddOrUpdate(CustomRegionGroupModel entity)
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
@@ -69,7 +69,7 @@ namespace CustomRegionEditor.Database
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                _customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().Where(s => s.Abbreviation.Contains(searchTerm) || s.Name.Contains(searchTerm)).ToList();
+                _customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().Where(s => s.custom_region_name.Contains(searchTerm) || s.custom_region_description.Contains(searchTerm)).ToList();
             }
             return _customRegionGroupList;
         }
@@ -92,6 +92,43 @@ namespace CustomRegionEditor.Database
                 customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(id);
             }
             Delete(customRegionGroupModel);
+        }
+
+        public void DeleteEntry(string entryId, string regionId)
+        {
+            var customRegionGroupModel = new CustomRegionGroupModel();
+            var customRegionEntryModel = new CustomRegionEntryModel();
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(regionId);
+                customRegionEntryModel = dbSession.Get<CustomRegionEntryModel>(entryId);
+                customRegionGroupModel.CustomRegionEntries.Remove(customRegionEntryModel);
+            }
+            AddOrUpdate(customRegionGroupModel);
+        }
+
+        public void AddByType(string entry, string type, string regionId)
+        {
+            var customRegionGroupModel = new CustomRegionGroupModel();
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(regionId);
+            }
+            var customRegionEntryModel = new CustomRegionEntryModel
+            {
+                Airport = null,
+                City = null,
+                State = null,
+                Country = null,
+                Region = null,
+            };
+            if (type == "airport") customRegionEntryModel.Airport = GetAirport(entry); //needs to add a reference to the object for each
+            else if (type == "city") customRegionEntryModel.City = GetCity(entry);
+            else if (type == "state") customRegionEntryModel.State = GetState(entry);
+            else if (type == "country") customRegionEntryModel.Country = GetCountry(entry);
+            else if (type == "region") customRegionEntryModel.Region = GetRegion(entry);
+
+            AddOrUpdate(customRegionGroupModel);
         }
     }
 }

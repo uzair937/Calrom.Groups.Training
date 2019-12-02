@@ -80,7 +80,6 @@ function entryDelete(e) {
     }
 }
 
-
 function onAdd(e) {
     var container = $(".airport-text-box");
     var url = $(".table-header").attr("data-addurl");
