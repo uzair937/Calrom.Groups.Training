@@ -6,7 +6,7 @@
     <table>
         @if (Model.ValidResults)
         {
-            <tr>
+            <tr class="table-header" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-editurl="@Url.Action("EditRegion", "Home")">
                 <th>ID</th>
                 <th>Name</th>
                 <th>Abbv</th>

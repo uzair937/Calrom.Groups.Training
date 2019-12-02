@@ -18,43 +18,38 @@ function onSearch(e) {
             }
         });
     }
-}
+} //Return a new _SearchRegionModel
 
 function onEdit(e) {
-    var url = $(".search-container").attr("data-searchurl");
-    var searchTerm = document.getElementsByClassName("search-text-box")[0].value;
+    var url = $(".table-header").attr("data-editurl");
+    var regionId = this.parentNode.firstChild.innerHTML;
 
     if (searchUser) {
         $.ajax({
             type: "POST",
-            url: url + "?searchTerm=" + searchTerm,
+            url: url + "?regionId=" + regionId,
             success: function (data, status, xhr) {
                 if (data) {
-                    $(".search-results-container").replaceWith(data);
-                    addSearchListeners();
+                    $(".content-container").replaceWith(data);
+                    addEditListeners();
                 }
             }
         });
     }
-}
+} //Return a new _Content Model
 
 function onDelete(e) {
-    var url = $(".search-container").attr("data-searchurl");
-    var searchTerm = document.getElementsByClassName("search-text-box")[0].value;
+    var url = $(".table-header").attr("data-deleteurl");
+    var regionId = this.parentNode.firstChild.innerHTML;
 
     if (searchUser) {
         $.ajax({
             type: "POST",
-            url: url + "?searchTerm=" + searchTerm,
-            success: function (data, status, xhr) {
-                if (data) {
-                    $(".search-results-container").replaceWith(data);
-                    addSearchListeners();
-                }
-            }
+            url: url + "?regionId=" + regionId,
+            success: onSearch,
         });
     }
-}
+} //Calls onSearch on finish
 
 function addMainListeners() {
     var searchButton = window.document.getElementsByClassName("search-button")[0];
