@@ -17,6 +17,6 @@ namespace CustomRegionEditor.Database.Models
         public virtual string gma_email_address { get; set; }
         public virtual bool is_gma_allowed { get; set; }
         public virtual bool is_group_checkin_allowed { get; set; }
-        public virtual string lto_id { get; set; }
+        public virtual Guid lto_id { get; set; }
     }
 }

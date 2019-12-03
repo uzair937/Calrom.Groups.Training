@@ -16,9 +16,9 @@ namespace CustomRegionEditor.Database.Maps
             Id(i => i.crg_id).GeneratedBy.Guid();
             Map(i => i.custom_region_name);
             Map(i => i.custom_region_description);
-            HasOne(i => i.stm);
-            Map(i => i.rsm_id);
-            Map(i => i.display_order);
+            References(i => i.stm).Column("stm_id").Cascade.All();
+            Map(i => i.rsm_id).Nullable();
+            Map(i => i.display_order).Nullable();
             Map(i => i.row_version);
             HasMany(i => i.CustomRegionEntries).Cascade.All();
         }
