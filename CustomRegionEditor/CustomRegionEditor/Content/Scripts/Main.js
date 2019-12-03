@@ -100,7 +100,8 @@ function onAdd(e) {
     var container = $(".airport-text-box");
     var url = $(".table-header").attr("data-addurl");
     var regionId = $(".table-header").attr("regionId");
-    var value, type = "";
+    var value = "";
+    var type = "";
     if (container.value !== "") {
         type = "airport";
         value = container.value;
@@ -126,11 +127,11 @@ function onAdd(e) {
         value = container.value;
     }
     if (value !== "") {
-        addRegion(url, value, type, regionId);
+        addRegionEntry(url, value, type, regionId);
     }
 } //Calls onSearch on finish to refresh list
 
-function addRegion(url, value, type) {
+function addRegionEntry(url, value, type) {
     $.ajax({
         type: "POST",
         url: url + "?entry=" + value + "&type=" + type + "&regionId=" + regionId,

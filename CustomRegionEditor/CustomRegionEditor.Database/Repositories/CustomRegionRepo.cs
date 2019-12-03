@@ -201,8 +201,8 @@ namespace CustomRegionEditor.Database
             using (var dbSession = NHibernateHelper.OpenSession())
             {
                 var customRegion = dbSession.Get<CustomRegionGroupModel>(regionId);
-                customRegion.custom_region_name = name;
-                customRegion.custom_region_description = description;
+                if (name != "" & name != null) customRegion.custom_region_name = name;
+                if (description != "" & description != null) customRegion.custom_region_description = description;
                 AddOrUpdate(customRegion);
             }
         }

@@ -37,10 +37,14 @@ namespace CustomRegionEditor.Controllers
             var contentViewModel = new ContentViewModel
             {
                 EditViewModel = new EditViewModel() { IsEditing = false },
-                SearchViewModel = new SearchViewModel() { IsSearching = true }
+                SearchViewModel = new SearchViewModel() { IsSearching = true, ValidResults = false }
             };
             var SearchResults = CustomRegionRepo.GetSearchResults(searchTerm);
-            contentViewModel.SearchViewModel.SearchResults = ViewModelConverter.GetView(SearchResults);
+            if (SearchResults.Count > 0)
+            {
+                contentViewModel.SearchViewModel.ValidResults = true;
+                contentViewModel.SearchViewModel.SearchResults = ViewModelConverter.GetView(SearchResults);
+            }
 
             return PartialView("_Content", contentViewModel);
         }
