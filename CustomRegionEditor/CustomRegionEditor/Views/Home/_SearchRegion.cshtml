@@ -11,7 +11,7 @@
                 <tr class="table-header" data-deleteurl="@Url.Action("DeleteRegionGroup", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")">
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Abbv</th>
+                    <th>Entries</th>
                     <th>Edit</th>
                     <th>Delete</th>
                 </tr>
@@ -20,7 +20,7 @@
                     <tr class="search-result">
                         <td>@result.ID</td>
                         <td>@result.Name</td>
-                        <td>@result.Abbreviation</td>
+                        <td>@result.CustomRegions.Count</td>
                         <td><input type="button" value="Edit" class="edit-button" /></td>
                         <td><input type="button" value="Delete" class="delete-button" /></td>
                     </tr>

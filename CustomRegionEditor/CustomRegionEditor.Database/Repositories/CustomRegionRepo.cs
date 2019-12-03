@@ -33,6 +33,17 @@ namespace CustomRegionEditor.Database
 
         private List<CustomRegionGroupModel> _customRegionGroupList;
 
+        private CustomRegionEntryModel LoadEntities(CustomRegionEntryModel oldModel)            //FIX LAZY LOADING ERROR
+        {
+            var newModel = oldModel;
+            newModel.apt = oldModel.apt;
+            newModel.cnt = oldModel.cnt;
+            newModel.reg = oldModel.reg;
+            newModel.sta = oldModel.sta;
+            newModel.cty = oldModel.cty;
+            return newModel;
+        }
+
         public CustomRegionRepo()
         {
             _customRegionGroupList = new List<CustomRegionGroupModel>();
