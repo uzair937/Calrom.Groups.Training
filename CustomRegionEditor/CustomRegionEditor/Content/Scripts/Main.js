@@ -30,7 +30,23 @@ function onEdit(e) {
             success: function (data, status, xhr) {
                 if (data) {
                     $(".content-container").replaceWith(data);      //replaces all content/ search and edit
-                    addEditListeners();                 
+                    addEditListeners();
+                }
+            }
+        });
+    }
+}
+
+function onRegionAdd(e) {
+    var url = $(".add-button-container").attr("data-newregionurl");
+    if (url) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            success: function (data, status, xhr) {
+                if (data) {
+                    $(".content-container").replaceWith(data);      //replaces all content/ search and edit
+                    addEditListeners();
                 }
             }
         });
@@ -83,6 +99,7 @@ function entryDelete(e) {
 function onAdd(e) {
     var container = $(".airport-text-box");
     var url = $(".table-header").attr("data-addurl");
+    var regionId = $(".table-header").attr("regionId");
     var value, type = "";
     if (container.value !== "") {
         type = "airport";
@@ -109,23 +126,39 @@ function onAdd(e) {
         value = container.value;
     }
     if (value !== "") {
-        addRegion(url, value, type);
+        addRegion(url, value, type, regionId);
     }
 } //Calls onSearch on finish to refresh list
 
 function addRegion(url, value, type) {
     $.ajax({
         type: "POST",
-        url: url + "?entry=" + value + "&type=" + type,
+        url: url + "?entry=" + value + "&type=" + type + "&regionId=" + regionId,
         success: onSearch,
+    });
+}
+
+function saveChanges() {
+    var newName = window.document.getElementsByClassName("model-name")[0].value;
+    var newDescription = window.document.getElementsByClassName("model-description")[0].value;
+    var regionId = window.document.getElementsByClassName("model-id")[0].innerHTML;
+    var url = $(".info-table-header").attr("data-savechangesurl");
+    $.ajax({
+        type: "POST",
+        url: url + "?name=" + newName + "&description=" + newDescription + "&regionId=" + regionId,
+        success: refreshEdit,
     });
 }
 
 function addMainListeners() {
     var searchButton = window.document.getElementsByClassName("search-button")[0];
+    var addRegionButton = window.document.getElementsByClassName("add-region-button")[0];
 
     if (searchButton !== undefined && searchButton !== null) {
         searchButton.addEventListener("click", onSearch);
+    }
+    if (addRegionButton !== undefined && addRegionButton !== null) {
+        addRegionButton.addEventListener("click", onRegionAdd);
     }
 }
 
@@ -140,10 +173,14 @@ function addSearchListeners() {
 function addEditListeners() {
     var deleteButtons = window.document.getElementsByClassName("delete-button");
     var addButton = window.document.getElementsByClassName("add-button")[0];
+    var saveButton = window.document.getElementsByClassName("save-changes-button")[0];
 
     deleteButtons.forEach(deleteEntryListeners);
     if (addButton !== undefined && addButton !== null) {
         addButton.addEventListener("click", addRegion);
+    }
+    if (saveButton !== undefined && saveButton !== null) {
+        saveButton.addEventListener("click", saveChanges);
     }
 }
 
@@ -163,4 +200,4 @@ function editButtonListeners(item) {
     if (item !== undefined && item !== null) {
         item.addEventListener("click", onEdit);
     }
-}
+} //add save changes button

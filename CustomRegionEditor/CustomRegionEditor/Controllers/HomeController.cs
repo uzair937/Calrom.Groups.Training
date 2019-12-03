@@ -65,6 +65,28 @@ namespace CustomRegionEditor.Controllers
             CustomRegionRepo.AddByType(entry, type, regionId);
             return null;
         }
+        
+        [HttpPost]
+        public ActionResult SaveChanges(string name, string description, string regionId)
+        {
+            CustomRegionRepo.ChangeDetails(name, description, regionId);
+            return null;
+        }
+        
+        [HttpPost]
+        public ActionResult NewCustomRegion()
+        {
+            var newRegion = CustomRegionRepo.AddNewRegion();
+            var contentViewModel = new ContentViewModel
+            {
+                EditViewModel = new EditViewModel() { IsEditing = true },
+                SearchViewModel = new SearchViewModel() { IsSearching = false }
+            };
+            contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(newRegion);
+            contentViewModel.EditViewModel.CustomRegionGroupViewModel.CustomRegions = new List<CustomRegionViewModel>();
+
+            return PartialView("_Content", contentViewModel);
+        }
 
         [HttpPost]
         public ActionResult EditRegionGroup(string regionId)

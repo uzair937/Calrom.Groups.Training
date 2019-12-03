@@ -180,5 +180,31 @@ namespace CustomRegionEditor.Database
             }
             return regionModel;
         }
+
+        public CustomRegionGroupModel AddNewRegion()
+        {
+            var customRegionGroupModel = new CustomRegionGroupModel
+            {
+                CustomRegionEntries = new List<CustomRegionEntryModel>(),
+                custom_region_name = "Set Name",
+                custom_region_description = "Set Description",
+            };
+            AddOrUpdate(customRegionGroupModel);
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                return dbSession.Query<CustomRegionGroupModel>().FirstOrDefault(a => a.custom_region_name == "Set Name");
+            }
+        }
+
+        public void ChangeDetails(string name, string description, string regionId)
+        {
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                var customRegion = dbSession.Get<CustomRegionGroupModel>(regionId);
+                customRegion.custom_region_name = name;
+                customRegion.custom_region_description = description;
+                AddOrUpdate(customRegion);
+            }
+        }
     }
 }

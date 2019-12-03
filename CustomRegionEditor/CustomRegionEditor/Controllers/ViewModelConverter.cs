@@ -25,8 +25,6 @@ namespace CustomRegionEditor.ViewModels
             }
         }
 
-        public static CustomRegionRepo CustomRegionRepo { get { return CustomRegionRepo.GetInstance; } }
-
         public CustomRegionGroupViewModel GetView(CustomRegionGroupModel customRegionGroupViewModel)
         {
             return AutoMapperConfiguration.GetInstance<CustomRegionGroupViewModel>(customRegionGroupViewModel);
