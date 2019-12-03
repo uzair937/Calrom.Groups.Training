@@ -6,5 +6,7 @@
     <div class="sidebar-container">
         @Html.Partial("_Sidebar", Model.SidebarViewModel)
     </div>
-    @Html.Partial("_Content", Model.ContentViewModel)
+    <div class="content-container">
+        @Html.Partial("_Content", Model.ContentViewModel)
+    </div>
 </div>
