@@ -17,7 +17,7 @@ namespace CustomRegionEditor.Database.Maps
             Map(i => i.city_name);
             References(i => i.cnt).Column("cnt_id").Cascade.All();
             Map(i => i.row_version);
-            HasOne(i => i.sta).Cascade.All();
+            References(i => i.sta).Column("sta_id").Cascade.All();
             Map(i => i.timezone);
             Map(i => i.utc_offset);
             Map(i => i.lto_id);

@@ -15,11 +15,11 @@ namespace CustomRegionEditor.Database.Maps
             Table("dbo.ISA_CRE_custom_region_entry");
             Id(i => i.cre_id).GeneratedBy.Guid();
             References(i => i.crg).Column("crg_id").Cascade.All();
-            References(i => i.Region).Column("reg_id").Cascade.All();
-            References(i => i.Country).Column("cnt_id").Cascade.All();
-            References(i => i.State).Column("sta_id").Cascade.All();
-            References(i => i.City).Column("cty_id").Cascade.All();
-            References(i => i.Airport).Column("apt_id").Cascade.All();
+            References(i => i.reg).Column("reg_id").Cascade.All();
+            References(i => i.cnt).Column("cnt_id").Cascade.All();
+            References(i => i.sta).Column("sta_id").Cascade.All();
+            References(i => i.cty).Column("cty_id").Cascade.All();
+            References(i => i.apt).Column("apt_id").Cascade.All();
             Map(i => i.row_version);
         }
     }

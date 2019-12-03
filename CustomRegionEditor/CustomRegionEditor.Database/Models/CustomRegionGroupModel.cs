@@ -15,6 +15,6 @@ namespace CustomRegionEditor.Database.Models
         public virtual string rsm_id { get; set; }
         public virtual int display_order { get; set; }
         public virtual int row_version { get; set; }
-        public virtual List<CustomRegionEntryModel> CustomRegionEntries { get; set; }
+        public virtual IList<CustomRegionEntryModel> CustomRegionEntries { get; set; }
     }
 }

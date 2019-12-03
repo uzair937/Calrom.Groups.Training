@@ -117,36 +117,36 @@ namespace CustomRegionEditor.Database
             }
             var customRegionEntryModel = new CustomRegionEntryModel
             {
-                Airport = null,
-                City = null,
-                State = null,
-                Country = null,
-                Region = null,
+                apt = null,
+                cty = null,
+                sta = null,
+                cnt = null,
+                reg = null,
             };
             if (type == "airport")
             {
-                customRegionEntryModel.Airport = GetAirport(entry); //needs to add a reference to the object for each
-                if (customRegionEntryModel.Airport != null) validEntry = true;
+                customRegionEntryModel.apt = GetAirport(entry); //needs to add a reference to the object for each
+                if (customRegionEntryModel.apt != null) validEntry = true;
             }
             else if (type == "city")
             {
-                customRegionEntryModel.City = GetCity(entry);
-                if (customRegionEntryModel.City != null) validEntry = true;
+                customRegionEntryModel.cty = GetCity(entry);
+                if (customRegionEntryModel.cty != null) validEntry = true;
             }
             else if (type == "state")
             {
-                customRegionEntryModel.State = GetState(entry);
-                if (customRegionEntryModel.State != null) validEntry = true;
+                customRegionEntryModel.sta = GetState(entry);
+                if (customRegionEntryModel.sta != null) validEntry = true;
             }
             else if (type == "country")
             {
-                customRegionEntryModel.Country = GetCountry(entry);
-                if (customRegionEntryModel.Country != null) validEntry = true;
+                customRegionEntryModel.cnt = GetCountry(entry);
+                if (customRegionEntryModel.cnt != null) validEntry = true;
             }
             else if (type == "region")
             {
-                customRegionEntryModel.Region = GetRegion(entry);
-                if (customRegionEntryModel.Region != null) validEntry = true;
+                customRegionEntryModel.reg = GetRegion(entry);
+                if (customRegionEntryModel.reg != null) validEntry = true;
             }
 
             if (validEntry) AddOrUpdate(customRegionGroupModel);
