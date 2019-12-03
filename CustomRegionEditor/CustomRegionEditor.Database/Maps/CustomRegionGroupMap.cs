@@ -12,10 +12,11 @@ namespace CustomRegionEditor.Database.Maps
     {
         public CustomRegionGroupMap()
         {
-            Id(i => i.crg_id);
+            Table("dbo.REF_ACM_custom_region");
+            Id(i => i.crg_id).GeneratedBy.Guid();
             Map(i => i.custom_region_name);
             Map(i => i.custom_region_description);
-            Map(i => i.stm_id);
+            HasOne(i => i.stm);
             Map(i => i.rsm_id);
             Map(i => i.display_order);
             Map(i => i.row_version);

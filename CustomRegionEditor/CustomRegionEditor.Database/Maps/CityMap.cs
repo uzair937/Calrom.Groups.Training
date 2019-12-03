@@ -12,11 +12,12 @@ namespace CustomRegionEditor.Database.Maps
     {
         public CityMap()
         {
-            Id(i => i.cty_id);
+            Table("dbo.REF_ACM_city");
+            Id(i => i.cty_id).GeneratedBy.Guid();
             Map(i => i.city_name);
-            References(i => i.cnt_id).Cascade.All();
+            References(i => i.cnt).Column("cnt_id").Cascade.All();
             Map(i => i.row_version);
-            References(i => i.sta_id).Cascade.All();
+            HasOne(i => i.sta).Cascade.All();
             Map(i => i.timezone);
             Map(i => i.utc_offset);
             References(i => i.lto_id).Cascade.All();

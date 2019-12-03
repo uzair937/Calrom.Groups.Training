@@ -12,9 +12,10 @@ namespace CustomRegionEditor.Database.Maps
     {
         public AirportMap()
         {
-            Id(i => i.apt_id);
+            Table("dbo.REF_ACM_airport");
+            Id(i => i.apt_id).GeneratedBy.Guid();
             Map(i => i.airport_name);
-            References(i => i.cty_id).Cascade.All();
+            References(i => i.cty).Column("apt_id").Cascade.All();
             Map(i => i.is_main_airport);
             Map(i => i.is_gateway_airport);
             Map(i => i.row_version);
