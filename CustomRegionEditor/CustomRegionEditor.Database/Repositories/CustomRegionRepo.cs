@@ -72,7 +72,7 @@ namespace CustomRegionEditor.Database
                 _customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().Where(s => s.custom_region_name.Contains(searchTerm) || s.custom_region_description.Contains(searchTerm)).ToList();
             }
             return _customRegionGroupList;
-        }
+        } //looks for any matches containing the search term
 
         public CustomRegionGroupModel FindById(string id)
         {
@@ -105,10 +105,11 @@ namespace CustomRegionEditor.Database
                 customRegionGroupModel.CustomRegionEntries.Remove(customRegionEntryModel);
             }
             AddOrUpdate(customRegionGroupModel);
-        }
+        } 
 
         public void AddByType(string entry, string type, string regionId)
         {
+            var validEntry = false;
             var customRegionGroupModel = new CustomRegionGroupModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
@@ -122,14 +123,34 @@ namespace CustomRegionEditor.Database
                 Country = null,
                 Region = null,
             };
-            if (type == "airport") customRegionEntryModel.Airport = GetAirport(entry); //needs to add a reference to the object for each
-            else if (type == "city") customRegionEntryModel.City = GetCity(entry);
-            else if (type == "state") customRegionEntryModel.State = GetState(entry);
-            else if (type == "country") customRegionEntryModel.Country = GetCountry(entry);
-            else if (type == "region") customRegionEntryModel.Region = GetRegion(entry);
+            if (type == "airport")
+            {
+                customRegionEntryModel.Airport = GetAirport(entry); //needs to add a reference to the object for each
+                if (customRegionEntryModel.Airport != null) validEntry = true;
+            }
+            else if (type == "city")
+            {
+                customRegionEntryModel.City = GetCity(entry);
+                if (customRegionEntryModel.City != null) validEntry = true;
+            }
+            else if (type == "state")
+            {
+                customRegionEntryModel.State = GetState(entry);
+                if (customRegionEntryModel.State != null) validEntry = true;
+            }
+            else if (type == "country")
+            {
+                customRegionEntryModel.Country = GetCountry(entry);
+                if (customRegionEntryModel.Country != null) validEntry = true;
+            }
+            else if (type == "region")
+            {
+                customRegionEntryModel.Region = GetRegion(entry);
+                if (customRegionEntryModel.Region != null) validEntry = true;
+            }
 
-            AddOrUpdate(customRegionGroupModel);
-        }
+            if (validEntry) AddOrUpdate(customRegionGroupModel);
+        } //adds a new entry to a group
 
         public AirportModel GetAirport(string entry)
         {
@@ -139,7 +160,7 @@ namespace CustomRegionEditor.Database
                 airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.airport_name == (entry));
             }
             return airportModel;
-        }
+        } //searches for a matching airport
 
         public CityModel GetCity(string entry)
         {
@@ -149,7 +170,7 @@ namespace CustomRegionEditor.Database
                 cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.city_name == (entry));
             }
             return cityModel;
-        }
+        } //searches for a matching city
 
         public StateModel GetState(string entry)
         {
@@ -159,7 +180,7 @@ namespace CustomRegionEditor.Database
                 stateModel = dbSession.Query<StateModel>().FirstOrDefault(a => a.state_name == (entry));
             }
             return stateModel;
-        }
+        } //searches for a matching state
 
         public CountryModel GetCountry(string entry)
         {
@@ -169,7 +190,7 @@ namespace CustomRegionEditor.Database
                 countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.country_name == (entry));
             }
             return countryModel;
-        }
+        } //searches for a matching country
 
         public RegionModel GetRegion(string entry)
         {
@@ -179,7 +200,7 @@ namespace CustomRegionEditor.Database
                 regionModel = dbSession.Query<RegionModel>().FirstOrDefault(a => a.region_name == (entry));
             }
             return regionModel;
-        }
+        } //searches for a matching region
 
         public CustomRegionGroupModel AddNewRegion()
         {
@@ -194,7 +215,7 @@ namespace CustomRegionEditor.Database
             {
                 return dbSession.Query<CustomRegionGroupModel>().FirstOrDefault(a => a.custom_region_name == "Set Name");
             }
-        }
+        } //Generates a new empty region
 
         public void ChangeDetails(string name, string description, string regionId)
         {
@@ -205,6 +226,6 @@ namespace CustomRegionEditor.Database
                 if (description != "" & description != null) customRegion.custom_region_description = description;
                 AddOrUpdate(customRegion);
             }
-        }
+        } //updates region group details
     }
 }
