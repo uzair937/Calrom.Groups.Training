@@ -15,7 +15,7 @@ namespace CustomRegionEditor.Database.Maps
             Id(i => i.reg_id);
             Map(i => i.region_name);
             Map(i => i.row_version);
-            Map(i => i.lto_id);
+            References(i => i.lto_id).Cascade.All();
         }
     }
 }

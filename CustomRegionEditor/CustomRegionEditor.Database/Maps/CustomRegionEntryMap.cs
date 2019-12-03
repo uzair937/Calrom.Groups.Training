@@ -14,11 +14,11 @@ namespace CustomRegionEditor.Database.Maps
         {
             Id(i => i.cre_id);
             References(i => i.crg_id).Cascade.All();
-            HasOne(i => i.Region);
-            HasOne(i => i.Country);
-            HasOne(i => i.State);
-            HasOne(i => i.City);
-            HasOne(i => i.Airport);
+            References(i => i.Region).Cascade.All();
+            References(i => i.Country).Cascade.All();
+            References(i => i.State).Cascade.All();
+            References(i => i.City).Cascade.All();
+            References(i => i.Airport).Cascade.All();
             Map(i => i.row_version);
         }
     }

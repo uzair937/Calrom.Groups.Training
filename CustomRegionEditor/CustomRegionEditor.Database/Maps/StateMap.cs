@@ -13,11 +13,11 @@ namespace CustomRegionEditor.Database.Maps
         public StateMap()
         {
             Id(i => i.sta_id);
-            Map(i => i.cnt_id);
+            References(i => i.cnt_id).Cascade.All();
             Map(i => i.state_name);
             Map(i => i.display_order);
             Map(i => i.row_version);
-            Map(i => i.lto_id);
+            References(i => i.lto_id).Cascade.All();
         }
     }
 }

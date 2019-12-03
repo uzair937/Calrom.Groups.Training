@@ -13,8 +13,8 @@ namespace CustomRegionEditor.Database.Maps
         public AirportCityMappingMap()
         {
             Id(i => i.acm_id);
-            Map(i => i.apt_id);
-            Map(i => i.mapped_cty_id);
+            References(i => i.apt_id).Cascade.All();
+            References(i => i.mapped_cty_id).Cascade.All();
             Map(i => i.live_to_date);
             Map(i => i.row_version);
         }
