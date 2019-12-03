@@ -13,10 +13,10 @@ namespace CustomRegionEditor.Database.Maps
         public RegionMap()
         {
             Table("dbo.REF_ACM_region");
-            Id(i => i.reg_id).GeneratedBy.Guid();
+            Id(i => i.reg_id);
             Map(i => i.region_name);
             Map(i => i.row_version);
-            References(i => i.lto_id).Cascade.All();
+            Map(i => i.lto_id);
         }
     }
 }

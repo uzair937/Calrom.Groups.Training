@@ -8,7 +8,7 @@ namespace CustomRegionEditor.Database.Models
 {
     public class AirportModel
     {
-        public virtual Guid apt_id { get; set; }
+        public virtual string apt_id { get; set; }
         public virtual string airport_name { get; set; }
         public virtual CityModel cty { get; set; }
         public virtual bool is_main_airport { get; set; }
@@ -17,6 +17,6 @@ namespace CustomRegionEditor.Database.Models
         public virtual string gma_email_address { get; set; }
         public virtual bool is_gma_allowed { get; set; }
         public virtual bool is_group_checkin_allowed { get; set; }
-        public virtual Guid lto_id { get; set; }
+        public virtual string lto_id { get; set; }
     }
 }

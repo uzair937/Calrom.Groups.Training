@@ -14,7 +14,7 @@ namespace CustomRegionEditor.Database.Maps
         {
             Table("dbo.REF_ACM_custom_region_entry");
             Id(i => i.cre_id).GeneratedBy.Guid();
-            HasOne(i => i.crg_id).Cascade.All();
+            References(i => i.crg).Column("crg_id").Cascade.All();
             References(i => i.Region).Column("reg_id").Cascade.All();
             References(i => i.Country).Column("cnt_id").Cascade.All();
             References(i => i.State).Column("sta_id").Cascade.All();

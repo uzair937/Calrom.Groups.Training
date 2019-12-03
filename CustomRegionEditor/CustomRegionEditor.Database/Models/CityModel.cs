@@ -8,7 +8,7 @@ namespace CustomRegionEditor.Database.Models
 {
     public class CityModel
     {
-        public virtual Guid cty_id { get; set; }
+        public virtual string cty_id { get; set; }
         public virtual string city_name { get; set; }
         public virtual CountryModel cnt { get; set; }
         public virtual int row_version { get; set; }

@@ -8,7 +8,7 @@ namespace CustomRegionEditor.Database.Models
 {
     public class SystemModel
     {
-        public virtual Guid stm_id { get; set; }
+        public virtual string stm_id { get; set; }
         public virtual string internal_system_name { get; set; }
         public virtual string external_system_name { get; set; }
         public virtual string system_description { get; set; }

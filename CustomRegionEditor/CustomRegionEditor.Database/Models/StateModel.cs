@@ -8,7 +8,7 @@ namespace CustomRegionEditor.Database.Models
 {
     public class StateModel
     {
-        public virtual Guid sta_id { get; set; }
+        public virtual string sta_id { get; set; }
         public virtual CountryModel cnt { get; set; }
         public virtual string state_name { get; set; }
         public virtual int display_order { get; set; }
