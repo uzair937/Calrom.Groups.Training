@@ -20,7 +20,7 @@ namespace CustomRegionEditor.Database.Maps
             Map(i => i.row_version);
             Map(i => i.old_gds_id);
             Map(i => i.display_order);
-            Map(i => i.lto_id);
+            References(i => i.lto_id).Cascade.All();
 
         }
     }

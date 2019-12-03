@@ -12,10 +12,11 @@ namespace CustomRegionEditor.Database.Maps
     {
         public AirportCityMappingMap()
         {
-            Id(i => i.acm_id);
-            References(i => i.apt_id).Cascade.All();
-            References(i => i.mapped_cty_id).Cascade.All();
-            Map(i => i.live_to_date);
+            Table("dbo.REF_ACM_airport_city_mapping");
+            Id(i => i.acm_id).GeneratedBy.Guid();
+            References(i => i.apt).Column("apt_id").Cascade.All();
+            References(i => i.mapped_cty).Cascade.All();
+            Map(i => i.live_to_date).Column("live_to_date");
             Map(i => i.row_version);
         }
     }

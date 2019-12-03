@@ -16,7 +16,7 @@ namespace CustomRegionEditor.Database.Maps
             Map(i => i.country_name);
             Map(i => i.iso_code);
             Map(i => i.iso_number);
-            Map(i => i.reg_id);
+            References(i => i.reg_id).Cascade.All();
             Map(i => i.row_version);
             Map(i => i.dialing_code);
             References(i => i.lto_id).Cascade.All();
