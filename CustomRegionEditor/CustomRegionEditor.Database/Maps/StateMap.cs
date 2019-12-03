@@ -12,8 +12,9 @@ namespace CustomRegionEditor.Database.Maps
     {
         public StateMap()
         {
-            Id(i => i.sta_id);
-            References(i => i.cnt_id).Cascade.All();
+            Table("dbo.REF_ACM_state");
+            Id(i => i.sta_id).GeneratedBy.Guid();
+            HasOne(i => i.cnt).Cascade.All();
             Map(i => i.state_name);
             Map(i => i.display_order);
             Map(i => i.row_version);

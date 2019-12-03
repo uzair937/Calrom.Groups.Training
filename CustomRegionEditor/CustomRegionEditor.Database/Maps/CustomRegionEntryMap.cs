@@ -12,13 +12,14 @@ namespace CustomRegionEditor.Database.Maps
     {
         public CustomRegionEntryMap()
         {
-            Id(i => i.cre_id);
-            References(i => i.crg_id).Cascade.All();
-            References(i => i.Region).Cascade.All();
-            References(i => i.Country).Cascade.All();
-            References(i => i.State).Cascade.All();
-            References(i => i.City).Cascade.All();
-            References(i => i.Airport).Cascade.All();
+            Table("dbo.REF_ACM_custom_region_entry");
+            Id(i => i.cre_id).GeneratedBy.Guid();
+            HasOne(i => i.crg_id).Cascade.All();
+            References(i => i.Region).Column("reg_id").Cascade.All();
+            References(i => i.Country).Column("cnt_id").Cascade.All();
+            References(i => i.State).Column("sta_id").Cascade.All();
+            References(i => i.City).Column("cty_id").Cascade.All();
+            References(i => i.Airport).Column("apt_id").Cascade.All();
             Map(i => i.row_version);
         }
     }
