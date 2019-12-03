@@ -1,7 +1,7 @@
 ﻿@using CustomRegionEditor.ViewModels
 @model EditViewModel
 
-<div class="edit_container">
+<div class="edit_container flex-column">
     @if (Model.IsEditing)
     {
         <div class="region-info-container">
@@ -23,37 +23,39 @@
             </table>
         </div>
 
-        <table>
-            <tr class="table-header" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")" regionid="@Model.CustomRegionGroupViewModel.ID">
-                <th>ID</th>
-                <th>Region</th>
-                <th>Country</th>
-                <th>State</th>
-                <th>City</th>
-                <th>Airport</th>
-                <th>Remove</th>
-            </tr>
-            @foreach (var region in Model.CustomRegionGroupViewModel.CustomRegions)
-            {
-                <tr class="single-region-entry">
-                    <td>@region.ID</td>
-                    <td>@region.Region</td>
-                    <td>@region.Country</td>
-                    <td>@region.State</td>
-                    <td>@region.City</td>
-                    <td>@region.Airport</td>
-                    <td><input type="button" value="Delete" class="delete-button" /></td>
+        <div class="edit-info-container">
+            <table class="table-header" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")" regionid="@Model.CustomRegionGroupViewModel.ID">
+                <tr>
+                    <th>ID</th>
+                    <th>Region</th>
+                    <th>Country</th>
+                    <th>State</th>
+                    <th>City</th>
+                    <th>Airport</th>
+                    <th>Remove</th>
                 </tr>
-            }
-            <tr class="add-region-row">
-                <td>Enter One</td>
-                <td><input type="text" placeholder="Region" class="region-text-box" /></td>
-                <td><input type="text" placeholder="Country" class="country-text-box" /></td>
-                <td><input type="text" placeholder="State" class="state-text-box" /></td>
-                <td><input type="text" placeholder="City" class="city-text-box" /></td>
-                <td><input type="text" placeholder="Airport" class="airport-text-box" /></td>
-                <td><input type="button" value="Add" class="add-button" /></td>
-            </tr>
-        </table>
+                @foreach (var region in Model.CustomRegionGroupViewModel.CustomRegions)
+                {
+                    <tr class="single-region-entry">
+                        <td>@region.ID</td>
+                        <td>@region.Region</td>
+                        <td>@region.Country</td>
+                        <td>@region.State</td>
+                        <td>@region.City</td>
+                        <td>@region.Airport</td>
+                        <td><input type="button" value="Delete" class="delete-button" /></td>
+                    </tr>
+                }
+                <tr class="add-region-row">
+                    <td>Enter One</td>
+                    <td><input type="text" placeholder="Region" class="region-text-box" /></td>
+                    <td><input type="text" placeholder="Country" class="country-text-box" /></td>
+                    <td><input type="text" placeholder="State" class="state-text-box" /></td>
+                    <td><input type="text" placeholder="City" class="city-text-box" /></td>
+                    <td><input type="text" placeholder="Airport" class="airport-text-box" /></td>
+                    <td><input type="button" value="Add" class="add-button" /></td>
+                </tr>
+            </table>
+        </div>
     }
 </div>

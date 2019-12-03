@@ -18,7 +18,7 @@ function onSearch(e) {
             }
         });
     }
-}
+} //searches for region group name matches
 
 function onEdit(e) {
     var url = $(".table-header").attr("data-editurl");
@@ -35,7 +35,7 @@ function onEdit(e) {
             }
         });
     }
-}
+}   //runs when the user clicks on the edit button, opens the group, shows entries
 
 function onRegionAdd(e) {
     var url = $(".add-button-container").attr("data-newregionurl");
@@ -51,7 +51,7 @@ function onRegionAdd(e) {
             }
         });
     }
-}
+} //adds a new region to the db and opens the edit tab
 
 function onDelete(e) {
     var url = $(".table-header").attr("data-deleteurl");
@@ -81,7 +81,7 @@ function refreshEdit(e) {
             }
         });
     }
-}
+} //refreshes the edit tab using the in-html stored region ID
 
 function entryDelete(e) {
     var url = $(".table-header").attr("data-deleteentryurl");
@@ -94,13 +94,14 @@ function entryDelete(e) {
             success: refreshEdit,
         });
     }
-}
+} //removes an entry from the group region
 
 function onAdd(e) {
     var container = $(".airport-text-box");
     var url = $(".table-header").attr("data-addurl");
     var regionId = $(".table-header").attr("regionId");
-    var value, type = "";
+    var value = "";
+    var type = "";
     if (container.value !== "") {
         type = "airport";
         value = container.value;
@@ -126,17 +127,17 @@ function onAdd(e) {
         value = container.value;
     }
     if (value !== "") {
-        addRegion(url, value, type, regionId);
+        addRegionEntry(url, value, type, regionId);
     }
-} //Calls onSearch on finish to refresh list
+} //picks largest entry type, calls onSearch on finish to refresh list
 
-function addRegion(url, value, type) {
+function addRegionEntry(url, value, type) {
     $.ajax({
         type: "POST",
         url: url + "?entry=" + value + "&type=" + type + "&regionId=" + regionId,
         success: onSearch,
     });
-}
+} //runs the ajax to add an entry
 
 function saveChanges() {
     var newName = window.document.getElementsByClassName("model-name")[0].value;
@@ -148,7 +149,7 @@ function saveChanges() {
         url: url + "?name=" + newName + "&description=" + newDescription + "&regionId=" + regionId,
         success: refreshEdit,
     });
-}
+}   //saves new name and description for region
 
 function addMainListeners() {
     var searchButton = window.document.getElementsByClassName("search-button")[0];
@@ -160,7 +161,7 @@ function addMainListeners() {
     if (addRegionButton !== undefined && addRegionButton !== null) {
         addRegionButton.addEventListener("click", onRegionAdd);
     }
-}
+} //adds sidebar always-on listeners
 
 function addSearchListeners() {
     var editButtons = window.document.getElementsByClassName("edit-button");
@@ -168,7 +169,7 @@ function addSearchListeners() {
 
     editButtons.forEach(editButtonListeners);
     deleteButtons.forEach(deleteButtonListeners);
-}
+}   //adds listeners to the buttons in the search view
 
 function addEditListeners() {
     var deleteButtons = window.document.getElementsByClassName("delete-button");
@@ -182,22 +183,22 @@ function addEditListeners() {
     if (saveButton !== undefined && saveButton !== null) {
         saveButton.addEventListener("click", saveChanges);
     }
-}
+}   //adds listeners to the add/save/delete buttons in edit view
 
 function deleteEntryListeners(item) {
     if (item !== undefined && item !== null) {
         item.addEventListener("click", entryDelete);
     }
-}
+} //adds listeners
 
 function deleteButtonListeners(item) {
     if (item !== undefined && item !== null) {
         item.addEventListener("click", onDelete);
     }
-}
+} //adds listeners
 
 function editButtonListeners(item) {
     if (item !== undefined && item !== null) {
         item.addEventListener("click", onEdit);
     }
-} //add save changes button
+} //adds listeners
