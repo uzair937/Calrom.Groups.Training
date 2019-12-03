@@ -12,7 +12,7 @@ namespace CustomRegionEditor.Database.Maps
     {
         public AirportMap()
         {
-            Table("dbo.REF_ACM_airport");
+            Table("dbo.REF_APT_airport");
             Id(i => i.apt_id);
             Map(i => i.airport_name);
             References(i => i.cty).Column("cty_id").Cascade.All();

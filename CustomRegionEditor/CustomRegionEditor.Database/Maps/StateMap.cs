@@ -12,7 +12,7 @@ namespace CustomRegionEditor.Database.Maps
     {
         public StateMap()
         {
-            Table("dbo.REF_ACM_state");
+            Table("dbo.REF_STA_state");
             Id(i => i.sta_id);
             References(i => i.cnt).Column("cnt_id").Cascade.All();
             Map(i => i.state_name);

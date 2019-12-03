@@ -12,7 +12,7 @@ namespace CustomRegionEditor.Database.Maps
     {
         public SystemMap()
         {
-            Table("dbo.REF_ACM_system");
+            Table("dbo.REF_STM_system");
             Id(i => i.stm_id);
             Map(i => i.internal_system_name);
             Map(i => i.external_system_name);

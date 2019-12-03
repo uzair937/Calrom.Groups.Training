@@ -12,7 +12,7 @@ namespace CustomRegionEditor.Database.Maps
     {
         public GlobalDistributionSystemMap()
         {
-            Table("dbo.REF_ACM_global_distribution_system");
+            Table("dbo.REF_GDS_global_distribution_system");
             Id(i => i.gds_id).GeneratedBy.Guid();
             Map(i => i.internal_gds_name);
             Map(i => i.external_gds_name);

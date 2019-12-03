@@ -12,7 +12,7 @@ namespace CustomRegionEditor.Database.Maps
     {
         public CustomRegionGroupMap()
         {
-            Table("dbo.REF_ACM_custom_region");
+            Table("dbo.ISA_CRG_custom_region");
             Id(i => i.crg_id).GeneratedBy.Guid();
             Map(i => i.custom_region_name);
             Map(i => i.custom_region_description);

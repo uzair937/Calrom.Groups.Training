@@ -12,7 +12,7 @@ namespace CustomRegionEditor.Database.Maps
     {
         public CustomRegionEntryMap()
         {
-            Table("dbo.REF_ACM_custom_region_entry");
+            Table("dbo.ISA_CRE_custom_region_entry");
             Id(i => i.cre_id).GeneratedBy.Guid();
             References(i => i.crg).Column("crg_id").Cascade.All();
             References(i => i.Region).Column("reg_id").Cascade.All();

@@ -12,7 +12,7 @@ namespace CustomRegionEditor.Database.Maps
     {
         public CountryMap()
         {
-            Table("dbo.REF_ACM_country");
+            Table("dbo.REF_CNT_country");
             Id(i => i.cnt_id);
             Map(i => i.country_name);
             Map(i => i.iso_code);

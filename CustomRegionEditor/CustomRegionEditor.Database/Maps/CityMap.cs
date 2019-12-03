@@ -12,7 +12,7 @@ namespace CustomRegionEditor.Database.Maps
     {
         public CityMap()
         {
-            Table("dbo.REF_ACM_city");
+            Table("dbo.REF_CTY_city");
             Id(i => i.cty_id);
             Map(i => i.city_name);
             References(i => i.cnt).Column("cnt_id").Cascade.All();
