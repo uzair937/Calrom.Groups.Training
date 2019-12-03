@@ -19,7 +19,7 @@ namespace CustomRegionEditor.Database.Maps
             Map(i => i.reg_id);
             Map(i => i.row_version);
             Map(i => i.dialing_code);
-            Map(i => i.lto_id);
+            References(i => i.lto_id).Cascade.All();
         }
     }
 }

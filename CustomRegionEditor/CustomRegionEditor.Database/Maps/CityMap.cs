@@ -14,12 +14,12 @@ namespace CustomRegionEditor.Database.Maps
         {
             Id(i => i.cty_id);
             Map(i => i.city_name);
-            Map(i => i.cnt_id);
+            References(i => i.cnt_id).Cascade.All();
             Map(i => i.row_version);
-            Map(i => i.sta_id);
+            References(i => i.sta_id).Cascade.All();
             Map(i => i.timezone);
             Map(i => i.utc_offset);
-            Map(i => i.lto_id);
+            References(i => i.lto_id).Cascade.All();
         }
     }
 }
