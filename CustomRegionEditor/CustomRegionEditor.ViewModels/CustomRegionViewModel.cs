@@ -5,8 +5,6 @@ namespace CustomRegionEditor.ViewModels
     public class CustomRegionViewModel
     {
         public string ID { get; set; }
-        public string Name { get; set; }
-        public string Abbreviation { get; set; }
         public RegionViewModel Region { get; set; }
         public CountryViewModel Country { get; set; }
         public StateViewModel State { get; set; }

@@ -44,8 +44,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StateProfile.cs" />
+    <Compile Include="RegionProfile.cs" />
+    <Compile Include="CountryProfile.cs" />
+    <Compile Include="CityProfile.cs" />
     <Compile Include="AutoMapperConfiguration.cs" />
-    <Compile Include="CustomRegionProfile.cs" />
+    <Compile Include="AirportProfile.cs" />
+    <Compile Include="CustomRegionEntryProfile.cs" />
+    <Compile Include="CustomGroupRegionProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

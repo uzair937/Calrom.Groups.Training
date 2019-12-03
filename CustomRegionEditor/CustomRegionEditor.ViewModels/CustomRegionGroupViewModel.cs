@@ -7,7 +7,6 @@ namespace CustomRegionEditor.ViewModels
         public string ID { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Abbreviation { get; set; }
         public List<CustomRegionViewModel> CustomRegions { get; set; }
     }
 }

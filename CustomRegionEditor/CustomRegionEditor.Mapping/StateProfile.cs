@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.EntityMapper
 {
-    public class CustomRegionProfile : Profile
+    public class StateProfile : Profile
     {
         public override string ProfileName => base.ProfileName;
-        public CustomRegionProfile()
+        public StateProfile()
         {
-            CreateMap<CustomRegionGroupModel, CustomRegionViewModel>();
+            CreateMap<StateModel, StateViewModel>()
+                .ForMember(c => c.ID, m => m.MapFrom(s => s.sta_id))
+                .ForMember(c => c.Name, m => m.MapFrom(s => s.state_name));
         }
     }
 }
