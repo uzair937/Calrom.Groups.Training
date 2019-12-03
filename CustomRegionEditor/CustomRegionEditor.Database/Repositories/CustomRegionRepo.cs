@@ -136,7 +136,7 @@ namespace CustomRegionEditor.Database
             var airportModel = new AirportModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.airport_name.Contains(entry));
+                airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.airport_name == (entry));
             }
             return airportModel;
         }
@@ -146,7 +146,7 @@ namespace CustomRegionEditor.Database
             var cityModel = new CityModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.city_name.Contains(entry));
+                cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.city_name == (entry));
             }
             return cityModel;
         }
@@ -156,7 +156,7 @@ namespace CustomRegionEditor.Database
             var stateModel = new StateModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                stateModel = dbSession.Query<StateModel>().FirstOrDefault(a => a.state_name.Contains(entry));
+                stateModel = dbSession.Query<StateModel>().FirstOrDefault(a => a.state_name == (entry));
             }
             return stateModel;
         }
@@ -166,7 +166,7 @@ namespace CustomRegionEditor.Database
             var countryModel = new CountryModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.country_name.Contains(entry));
+                countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.country_name == (entry));
             }
             return countryModel;
         }
@@ -176,7 +176,7 @@ namespace CustomRegionEditor.Database
             var regionModel = new RegionModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                regionModel = dbSession.Query<RegionModel>().FirstOrDefault(a => a.region_name.Contains(entry));
+                regionModel = dbSession.Query<RegionModel>().FirstOrDefault(a => a.region_name == (entry));
             }
             return regionModel;
         }
