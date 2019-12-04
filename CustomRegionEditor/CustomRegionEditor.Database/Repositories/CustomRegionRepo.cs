@@ -1,4 +1,5 @@
 ﻿using CustomRegionEditor.Database.Models;
+using CustomRegionEditor.Database.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace CustomRegionEditor.Database
     public class CustomRegionRepo : IRepository<CustomRegionGroupModel>
     {
         private static CustomRegionRepo Instance = null;
+
+        private static LazyLoader Loader = null;
 
         private static readonly object Padlock = new object();
 
@@ -23,6 +26,7 @@ namespace CustomRegionEditor.Database
                     {
                         if (Instance == null)
                         {
+                            Loader = new LazyLoader();
                             Instance = new CustomRegionRepo();
                         }
                     }
@@ -32,17 +36,6 @@ namespace CustomRegionEditor.Database
         }
 
         private List<CustomRegionGroupModel> _customRegionGroupList;
-
-        private CustomRegionEntryModel LoadEntities(CustomRegionEntryModel oldModel)            //FIX LAZY LOADING ERROR
-        {
-            var newModel = oldModel;
-            newModel.apt = oldModel.apt;
-            newModel.cnt = oldModel.cnt;
-            newModel.reg = oldModel.reg;
-            newModel.sta = oldModel.sta;
-            newModel.cty = oldModel.cty;
-            return newModel;
-        }
 
         public CustomRegionRepo()
         {
@@ -80,7 +73,7 @@ namespace CustomRegionEditor.Database
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                _customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().Where(s => s.custom_region_name.Contains(searchTerm) || s.custom_region_description.Contains(searchTerm)).ToList();
+                _customRegionGroupList = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => s.custom_region_name.Contains(searchTerm) || s.custom_region_description.Contains(searchTerm)).ToList());
             }
             return _customRegionGroupList;
         } //looks for any matches containing the search term
@@ -90,7 +83,7 @@ namespace CustomRegionEditor.Database
             var customRegionGroupModel = new CustomRegionGroupModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(id);
+                customRegionGroupModel = Loader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(id));
             }
             return customRegionGroupModel;
         }
@@ -124,7 +117,7 @@ namespace CustomRegionEditor.Database
             var customRegionGroupModel = new CustomRegionGroupModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(regionId);
+                customRegionGroupModel = Loader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(regionId));
             }
             var customRegionEntryModel = new CustomRegionEntryModel
             {
@@ -224,7 +217,7 @@ namespace CustomRegionEditor.Database
             AddOrUpdate(customRegionGroupModel);
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                return dbSession.Query<CustomRegionGroupModel>().FirstOrDefault(a => a.custom_region_name == "Set Name");
+                return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().FirstOrDefault(a => a.custom_region_name == "Set Name"));
             }
         } //Generates a new empty region
 

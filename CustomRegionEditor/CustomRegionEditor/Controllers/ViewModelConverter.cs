@@ -54,11 +54,14 @@ namespace CustomRegionEditor.ViewModels
         public CustomRegionGroupViewModel GetView(CustomRegionGroupModel customRegionGroupViewModel)
         {
             var newView = AutoMapperConfiguration.GetInstance<CustomRegionGroupViewModel>(customRegionGroupViewModel);
-            foreach (var cre in customRegionGroupViewModel.CustomRegionEntries)
+            newView.CustomRegions = new List<CustomRegionViewModel>();
+            if (customRegionGroupViewModel.CustomRegionEntries != null)
             {
-                newView.CustomRegions.Add(GetView(cre));
+                foreach (var cre in customRegionGroupViewModel.CustomRegionEntries)
+                {
+                    newView.CustomRegions.Add(GetView(cre));
+                }
             }
-
             return newView;
         }
 

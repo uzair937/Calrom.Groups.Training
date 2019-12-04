@@ -12,7 +12,7 @@ function onSearch(e) {
             url: url + "?searchTerm=" + searchTerm,
             success: function (data, status, xhr) {
                 if (data) {
-                    $(".content-container").replaceWith(data);
+                    $(".content-container").html(data);
                     addSearchListeners();
                 }
             }
@@ -29,7 +29,7 @@ function onEdit(e) {
             url: url + "?regionId=" + regionId,
             success: function (data, status, xhr) {
                 if (data) {
-                    $(".content-container").replaceWith(data);      //replaces all content/ search and edit
+                    $(".content-container").html(data);      //replaces all content/ search and edit
                     addEditListeners();
                 }
             }
@@ -45,7 +45,7 @@ function onRegionAdd(e) {
             url: url,
             success: function (data, status, xhr) {
                 if (data) {
-                    $(".content-container").replaceWith(data);      //replaces all content/ search and edit
+                    $(".content-container").html(data);      //replaces all content/ search and edit
                     addEditListeners();
                 }
             }
@@ -96,7 +96,7 @@ function entryDelete(e) {
     }
 } //removes an entry from the group region
 
-function onAdd(e) {
+function addRegion(e) {
     var container = $(".airport-text-box");
     var url = $(".table-header").attr("data-addurl");
     var regionId = $(".table-header").attr("regionId");
@@ -167,8 +167,12 @@ function addSearchListeners() {
     var editButtons = window.document.getElementsByClassName("edit-button");
     var deleteButtons = window.document.getElementsByClassName("delete-button");
 
-    editButtons.forEach(editButtonListeners);
-    deleteButtons.forEach(deleteButtonListeners);
+    for (var i = 0, len = editButtons.length; i < len; i++) {
+        editButtonListeners(editButtons[i]);
+    }
+    for (var i = 0, len = deleteButtons.length; i < len; i++) {
+        deleteButtonListeners(deleteButtons[i]);
+    }
 }   //adds listeners to the buttons in the search view
 
 function addEditListeners() {
@@ -176,7 +180,9 @@ function addEditListeners() {
     var addButton = window.document.getElementsByClassName("add-button")[0];
     var saveButton = window.document.getElementsByClassName("save-changes-button")[0];
 
-    deleteButtons.forEach(deleteEntryListeners);
+    for (var i = 0, len = deleteButtons.length; i < len; i++) {
+        deleteEntryListeners(deleteButtons[i]);
+    }
     if (addButton !== undefined && addButton !== null) {
         addButton.addEventListener("click", addRegion);
     }
