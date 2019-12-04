@@ -7,6 +7,13 @@ body {
     background-position: center center;
 }
 
+th,
+td {
+    text-align: center;
+    padding-left: 0.7em;
+    padding-right: 0.7em;
+}
+
 .new-entry-input {
     max-width: 5em;
 }
@@ -31,36 +38,36 @@ body {
 
 .sidebar-container {
     max-width: 30%;
-    min-height: 40em;
+    height: 50em;
     border-radius: 25px;
     margin-right: 2em;
     background-color: cornflowerblue;
     border: 3px solid black;
 }
 
-.search-container {
-    background-color: cornflowerblue;
-}
-
 .add-button-container {
     margin-bottom: 1em;
+    display: flex;
+    justify-content: flex-end;
     width: 100%;
 }
 
 
 .content-container {
     padding: 2em;
+    height: 50em;
+    overflow-y: auto;
     width: 60em;
     background-color: cornflowerblue;
     border: 3px solid black;
     border-radius: 25px;
 }
 
-.search-results-container {
-    height: 100%;
-    overflow-y: auto;
+.search-result,
+.single-region-entry,
+.add-region-row {
+    border-top: 3px inset black;
 }
-
 
 .edit-container {
     height: 100%;

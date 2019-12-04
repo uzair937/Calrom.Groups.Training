@@ -3,6 +3,7 @@ using CustomRegionEditor.EntityMapper;
 using CustomRegionEditor.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace CustomRegionEditor.Controllers
@@ -22,12 +23,27 @@ namespace CustomRegionEditor.Controllers
             return layoutViewModel;
         }
 
+        private void SetupAutoCompleteList()
+        {
+            Airports = CustomRegionRepo.GetNames("airport");
+            Cities = CustomRegionRepo.GetNames("city");
+            States = CustomRegionRepo.GetNames("state");
+            Countries = CustomRegionRepo.GetNames("country");
+            Regions = CustomRegionRepo.GetNames("region");
+        }
+
+        private static List<string> Airports = null;
+        private static List<string> Cities = null;
+        private static List<string> States = null;
+        private static List<string> Countries = null;
+        private static List<string> Regions = null;
         private static ViewModelConverter ViewModelConverter { get { return ViewModelConverter.GetInstance; } }
         private static CustomRegionRepo CustomRegionRepo { get { return CustomRegionRepo.GetInstance; } }
 
         public ActionResult Index()
         {
             var layoutViewModel = SetupLayoutModel();
+            SetupAutoCompleteList();
             return View(layoutViewModel);
         }
 
@@ -50,7 +66,7 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteRegion(string regionId)
+        public ActionResult DeleteRegionGroup(string regionId)
         {
             CustomRegionRepo.DeleteById(regionId);
             return null;
@@ -104,6 +120,11 @@ namespace CustomRegionEditor.Controllers
             contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion);
 
             return PartialView("_Content", contentViewModel);
+        }
+
+        public ActionResult GetCountries(string term)
+        {
+            return Json(Countries.Where(c => c.StartsWith(term)), JsonRequestBehavior.AllowGet);
         }
     }
 }

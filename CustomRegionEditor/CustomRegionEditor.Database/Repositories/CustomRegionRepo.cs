@@ -60,6 +60,15 @@ namespace CustomRegionEditor.Database
             }
         }
 
+        public void Delete(CustomRegionEntryModel entity)
+        {
+            using (var dbSession = NHibernateHelper.OpenSession())
+            {
+                dbSession.Delete(entity);
+                dbSession.Flush();
+            }
+        }
+
         public List<CustomRegionGroupModel> List()
         {
             using (var dbSession = NHibernateHelper.OpenSession())
@@ -93,7 +102,7 @@ namespace CustomRegionEditor.Database
             var customRegionGroupModel = new CustomRegionGroupModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(id);
+                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id));
             }
             Delete(customRegionGroupModel);
         }
@@ -104,12 +113,10 @@ namespace CustomRegionEditor.Database
             var customRegionEntryModel = new CustomRegionEntryModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
                 customRegionEntryModel = dbSession.Get<CustomRegionEntryModel>(Guid.Parse(entryId));
-                customRegionGroupModel.CustomRegionEntries.Remove(customRegionEntryModel);
             }
-            AddOrUpdate(customRegionGroupModel);
-        } 
+            Delete(customRegionEntryModel);
+        }
 
         public void AddByType(string entry, string type, string regionId)
         {
@@ -237,5 +244,47 @@ namespace CustomRegionEditor.Database
             }
             AddOrUpdate(customRegion);
         } //updates region group details
-    }
+
+        public List<string> GetNames(string type)
+        {
+            var names = new List<string>();
+            switch (type)
+            {
+                case "airport":
+                    using (var dbSession = NHibernateHelper.OpenSession())
+                    {
+                        names = dbSession.Query<AirportModel>().Select(a => a.airport_name).ToList();
+                    }
+                    return names;
+                case "city":
+                    using (var dbSession = NHibernateHelper.OpenSession())
+                    {
+                        names = dbSession.Query<CityModel>().Select(a => a.city_name).ToList();
+                    }
+                    return names;
+                case "state":
+                    using (var dbSession = NHibernateHelper.OpenSession())
+                    {
+                        names = dbSession.Query<StateModel>().Select(a => a.state_name).ToList();
+                    }
+                    return names;
+                case "country":
+                    using (var dbSession = NHibernateHelper.OpenSession())
+                    {
+                        names = dbSession.Query<CountryModel>().Select(a => a.country_name).ToList();
+                    }
+                    return names;
+                case "region":
+                    using (var dbSession = NHibernateHelper.OpenSession())
+                    {
+                        names = dbSession.Query<RegionModel>().Select(a => a.region_name).ToList();
+                    }
+                    return names;
+                default:
+                    break;
+            }
+            return null;
+        }
+    } //searches for a matching airport
 }
+

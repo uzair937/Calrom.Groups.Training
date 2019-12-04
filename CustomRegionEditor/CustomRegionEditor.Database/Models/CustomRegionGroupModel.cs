@@ -16,5 +16,10 @@ namespace CustomRegionEditor.Database.Models
         public virtual int display_order { get; set; }
         public virtual int row_version { get; set; }
         public virtual IList<CustomRegionEntryModel> CustomRegionEntries { get; set; }
+
+        public virtual void RemoveEntry(CustomRegionEntryModel customRegionEntryModel)
+        {
+            CustomRegionEntries.Remove(customRegionEntryModel);
+        }
     }
 }

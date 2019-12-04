@@ -20,7 +20,7 @@ namespace CustomRegionEditor.Database.Maps
             Map(i => i.rsm_id).Nullable();
             Map(i => i.display_order).Nullable();
             Map(i => i.row_version);
-            HasMany(i => i.CustomRegionEntries).Cascade.All();
+            HasMany(i => i.CustomRegionEntries).Cascade.All().Inverse();
         }
     }
 }

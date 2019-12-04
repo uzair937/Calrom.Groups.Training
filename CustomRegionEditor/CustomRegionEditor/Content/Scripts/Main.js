@@ -55,7 +55,7 @@ function onRegionAdd(e) {
 
 function onDelete(e) {
     var url = $(".table-header").attr("data-deleteurl");
-    var regionId = this.parentNode.firstChild.innerHTML;
+    var regionId = $(this).parent().parent().attr("searchId");
 
     if (regionId) {
         $.ajax({
@@ -75,7 +75,7 @@ function refreshEdit(e) {
             url: url + "?regionId=" + regionId,
             success: function (data, status, xhr) {
                 if (data) {
-                    $(".content-container").replaceWith(data);      //replaces all content/ search and edit
+                    $(".content-container").html(data);      //replaces all content/ search and edit
                     addEditListeners();
                 }
             }
@@ -86,7 +86,7 @@ function refreshEdit(e) {
 function entryDelete(e) {
     var url = $(".table-header").attr("data-deleteentryurl");
     var regionId = $(".table-header").attr("regionId");
-    var entryId = this.parentNode.firstChild.innerHTML;
+    var entryId = $(".single-region-entry").attr("entryId");
     if (entryId) {
         $.ajax({
             type: "POST",
@@ -189,6 +189,8 @@ function addEditListeners() {
     if (saveButton !== undefined && saveButton !== null) {
         saveButton.addEventListener("click", saveChanges);
     }
+
+    addAutoComplete();
 }   //adds listeners to the add/save/delete buttons in edit view
 
 function deleteEntryListeners(item) {
@@ -208,3 +210,21 @@ function editButtonListeners(item) {
         item.addEventListener("click", onEdit);
     }
 } //adds listeners
+
+function addAutoComplete() {
+    $('.region-text-box').autocomplete({
+        source: '/home/GetRegions'
+    });
+    $('.country-text-box').autocomplete({
+        source: '/home/GetCountries'
+    });
+    $('.state-text-box').autocomplete({
+        source: '/home/GetStates'
+    });
+    $('.city-text-box').autocomplete({
+        source: '/home/GetCities'
+    });
+    $('.airport-text-box').autocomplete({
+        source: '/home/GetAirports'
+    });
+} //sets up autocomplete
