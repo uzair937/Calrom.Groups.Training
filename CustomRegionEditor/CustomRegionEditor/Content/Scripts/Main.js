@@ -212,19 +212,19 @@ function editButtonListeners(item) {
 } //adds listeners
 
 function addAutoComplete() {
-    $('.region-text-box').autocomplete({
-        source: '/home/GetRegions'
+    $(".region-text-box").autocomplete({
+        source: "/home/GetRegions"
     });
-    $('.country-text-box').autocomplete({
-        source: '/home/GetCountries'
+    $(".country-text-box").autocomplete({
+        source: "/home/GetCountries"
     });
-    $('.state-text-box').autocomplete({
-        source: '/home/GetStates'
+    $(".state-text-box").autocomplete({
+        source: "/home/GetStates"
     });
-    $('.city-text-box').autocomplete({
-        source: '/home/GetCities'
+    $(".city-text-box").autocomplete({
+        source: "/home/GetCities"
     });
-    $('.airport-text-box').autocomplete({
-        source: '/home/GetAirports'
+    $(".airport-text-box").autocomplete({
+        source: "/home/GetAirports"
     });
 } //sets up autocomplete

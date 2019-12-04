@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Database
 {
-    public class CustomRegionRepo : IRepository<CustomRegionGroupModel>
+    public class CustomRegionGroupRepo : IRepository<CustomRegionGroupModel>
     {
-        private static CustomRegionRepo Instance = null;
+        private static CustomRegionGroupRepo Instance = null;
 
         private static LazyLoader Loader = null;
 
         private static readonly object Padlock = new object();
 
-        public static CustomRegionRepo GetInstance
+        public static CustomRegionGroupRepo GetInstance
         {
             get
             {
@@ -27,7 +27,7 @@ namespace CustomRegionEditor.Database
                         if (Instance == null)
                         {
                             Loader = new LazyLoader();
-                            Instance = new CustomRegionRepo();
+                            Instance = new CustomRegionGroupRepo();
                         }
                     }
                 }
@@ -37,7 +37,7 @@ namespace CustomRegionEditor.Database
 
         private List<CustomRegionGroupModel> _customRegionGroupList;
 
-        public CustomRegionRepo()
+        public CustomRegionGroupRepo()
         {
             _customRegionGroupList = new List<CustomRegionGroupModel>();
         }

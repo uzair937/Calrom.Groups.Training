@@ -38,7 +38,7 @@ namespace CustomRegionEditor.Controllers
         private static List<string> Countries = null;
         private static List<string> Regions = null;
         private static ViewModelConverter ViewModelConverter { get { return ViewModelConverter.GetInstance; } }
-        private static CustomRegionRepo CustomRegionRepo { get { return CustomRegionRepo.GetInstance; } }
+        private static CustomRegionGroupRepo CustomRegionRepo { get { return CustomRegionGroupRepo.GetInstance; } }
 
         public ActionResult Index()
         {
@@ -125,6 +125,26 @@ namespace CustomRegionEditor.Controllers
         public ActionResult GetCountries(string term)
         {
             return Json(Countries.Where(c => c.StartsWith(term)), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetRegions(string term)
+        {
+            return Json(Regions.Where(c => c.StartsWith(term)), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetStates(string term)
+        {
+            return Json(States.Where(c => c.StartsWith(term)), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetCities(string term)
+        {
+            return Json(Cities.Where(c => c.StartsWith(term)), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetAirports(string term)
+        {
+            return Json(Airports.Where(c => c.StartsWith(term)), JsonRequestBehavior.AllowGet);
         }
     }
 }
