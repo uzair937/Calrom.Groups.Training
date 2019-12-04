@@ -1,12 +1,12 @@
 ﻿@using CustomRegionEditor.ViewModels
 @model EditViewModel
 
-<div class="edit_container flex-column">
+<div class="edit-container flex-column">
     @if (Model.IsEditing)
     {
         <div class="region-info-container">
             <table>
-                <tr class="info-table-header">
+                <tr>
                     <th>ID</th>
                     <th>Name</th>
                     <th>Description</th>
@@ -38,11 +38,11 @@
                 {
                     <tr class="single-region-entry">
                         <td>@region.ID</td>
-                        <td>@region.Region</td>
-                        <td>@region.Country</td>
-                        <td>@region.State</td>
-                        <td>@region.City</td>
-                        <td>@region.Airport</td>
+                        <td>@region.Region.Name</td>
+                        <td>@region.Country.Name</td>
+                        <td>@region.State.Name</td>
+                        <td>@region.City.Name</td>
+                        <td>@region.Airport.Name</td>
                         <td><input type="button" value="Delete" class="delete-button" /></td>
                     </tr>
                 }

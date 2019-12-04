@@ -83,7 +83,7 @@ namespace CustomRegionEditor.Database
             var customRegionGroupModel = new CustomRegionGroupModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                customRegionGroupModel = Loader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(id));
+                customRegionGroupModel = Loader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id)));
             }
             return customRegionGroupModel;
         }
@@ -104,8 +104,8 @@ namespace CustomRegionEditor.Database
             var customRegionEntryModel = new CustomRegionEntryModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(regionId);
-                customRegionEntryModel = dbSession.Get<CustomRegionEntryModel>(entryId);
+                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
+                customRegionEntryModel = dbSession.Get<CustomRegionEntryModel>(Guid.Parse(entryId));
                 customRegionGroupModel.CustomRegionEntries.Remove(customRegionEntryModel);
             }
             AddOrUpdate(customRegionGroupModel);
@@ -115,10 +115,6 @@ namespace CustomRegionEditor.Database
         {
             var validEntry = false;
             var customRegionGroupModel = new CustomRegionGroupModel();
-            using (var dbSession = NHibernateHelper.OpenSession())
-            {
-                customRegionGroupModel = Loader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(regionId));
-            }
             var customRegionEntryModel = new CustomRegionEntryModel
             {
                 apt = null,
@@ -126,34 +122,43 @@ namespace CustomRegionEditor.Database
                 sta = null,
                 cnt = null,
                 reg = null,
+                row_version = 1
             };
-            if (type == "airport")
+            using (var dbSession = NHibernateHelper.OpenSession())
             {
-                customRegionEntryModel.apt = GetAirport(entry); //needs to add a reference to the object for each
-                if (customRegionEntryModel.apt != null) validEntry = true;
+                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
+                customRegionEntryModel.crg = customRegionGroupModel;
+                if (type == "airport")
+                {
+                    customRegionEntryModel.apt = GetAirport(entry); //needs to add a reference to the object for each
+                    if (customRegionEntryModel.apt != null) validEntry = true;
+                }
+                else if (type == "city")
+                {
+                    customRegionEntryModel.cty = GetCity(entry);
+                    if (customRegionEntryModel.cty != null) validEntry = true;
+                }
+                else if (type == "state")
+                {
+                    customRegionEntryModel.sta = GetState(entry);
+                    if (customRegionEntryModel.sta != null) validEntry = true;
+                }
+                else if (type == "country")
+                {
+                    customRegionEntryModel.cnt = GetCountry(entry);
+                    if (customRegionEntryModel.cnt != null) validEntry = true;
+                }
+                else if (type == "region")
+                {
+                    customRegionEntryModel.reg = GetRegion(entry);
+                    if (customRegionEntryModel.reg != null) validEntry = true;
+                }
+                if (validEntry) customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
             }
-            else if (type == "city")
+            if (validEntry)
             {
-                customRegionEntryModel.cty = GetCity(entry);
-                if (customRegionEntryModel.cty != null) validEntry = true;
+                AddOrUpdate(customRegionGroupModel);
             }
-            else if (type == "state")
-            {
-                customRegionEntryModel.sta = GetState(entry);
-                if (customRegionEntryModel.sta != null) validEntry = true;
-            }
-            else if (type == "country")
-            {
-                customRegionEntryModel.cnt = GetCountry(entry);
-                if (customRegionEntryModel.cnt != null) validEntry = true;
-            }
-            else if (type == "region")
-            {
-                customRegionEntryModel.reg = GetRegion(entry);
-                if (customRegionEntryModel.reg != null) validEntry = true;
-            }
-
-            if (validEntry) AddOrUpdate(customRegionGroupModel);
         } //adds a new entry to a group
 
         public AirportModel GetAirport(string entry)
@@ -223,13 +228,14 @@ namespace CustomRegionEditor.Database
 
         public void ChangeDetails(string name, string description, string regionId)
         {
+            var customRegion = new CustomRegionGroupModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                var customRegion = dbSession.Get<CustomRegionGroupModel>(regionId);
+                customRegion = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
                 if (name != "" & name != null) customRegion.custom_region_name = name;
                 if (description != "" & description != null) customRegion.custom_region_description = description;
-                AddOrUpdate(customRegion);
             }
+            AddOrUpdate(customRegion);
         } //updates region group details
     }
 }

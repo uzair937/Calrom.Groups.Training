@@ -22,7 +22,7 @@ function onSearch(e) {
 
 function onEdit(e) {
     var url = $(".table-header").attr("data-editurl");
-    var regionId = this.parentNode.firstChild.innerHTML;
+    var regionId = $(this).parent().parent().attr("searchId");
     if (regionId) {
         $.ajax({
             type: "POST",
@@ -96,46 +96,46 @@ function entryDelete(e) {
     }
 } //removes an entry from the group region
 
-function addRegion(e) {
+function addEntry(e) {
     var container = $(".airport-text-box");
     var url = $(".table-header").attr("data-addurl");
     var regionId = $(".table-header").attr("regionId");
     var value = "";
     var type = "";
-    if (container.value !== "") {
+    if (container.val() !== "" && container.val() !== undefined) {
         type = "airport";
-        value = container.value;
+        value = container.val();
     }
-    container = container.prev();
-    if (container.value !== "") {
+    container = $(".city-text-box");
+    if (container.val() !== "" && container.val() !== undefined) {
         type = "city";
-        value = container.value;
+        value = container.val();
     }
-    container = container.prev();
-    if (container.value !== "") {
+    container = $(".state-text-box");
+    if (container.val() !== "" && container.val() !== undefined) {
         type = "state";
-        value = container.value;
+        value = container.val();
     }
-    container = container.prev();
-    if (container.value !== "") {
+    container = $(".country-text-box");
+    if (container.val() !== "" && container.val() !== undefined) {
         type = "country";
-        value = container.value;
+        value = container.val();
     }
-    container = container.prev();
-    if (container.value !== "") {
+    container = $(".region-text-box");
+    if (container.val() !== "" && container.val() !== undefined) {
         type = "region";
-        value = container.value;
+        value = container.val();
     }
-    if (value !== "") {
+    if (value !== "" && value !== undefined) {
         addRegionEntry(url, value, type, regionId);
     }
 } //picks largest entry type, calls onSearch on finish to refresh list
 
-function addRegionEntry(url, value, type) {
+function addRegionEntry(url, value, type, regionId) {
     $.ajax({
         type: "POST",
         url: url + "?entry=" + value + "&type=" + type + "&regionId=" + regionId,
-        success: onSearch,
+        success: refreshEdit,
     });
 } //runs the ajax to add an entry
 
@@ -184,7 +184,7 @@ function addEditListeners() {
         deleteEntryListeners(deleteButtons[i]);
     }
     if (addButton !== undefined && addButton !== null) {
-        addButton.addEventListener("click", addRegion);
+        addButton.addEventListener("click", addEntry);
     }
     if (saveButton !== undefined && saveButton !== null) {
         saveButton.addEventListener("click", saveChanges);

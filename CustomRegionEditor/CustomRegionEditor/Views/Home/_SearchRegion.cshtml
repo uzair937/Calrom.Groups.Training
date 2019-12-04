@@ -17,7 +17,7 @@
                 </tr>
                 foreach (var result in Model.SearchResults)
                 {
-                    <tr class="search-result">
+                    <tr class="search-result" searchId = "@result.ID">
                         <td>@result.ID</td>
                         <td>@result.Name</td>
                         <td>@result.CustomRegions.Count</td>
