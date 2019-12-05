@@ -153,15 +153,25 @@ function saveChanges() {
 
 function addMainListeners() {
     var searchButton = window.document.getElementsByClassName("search-button")[0];
+    var searchBox = document.getElementsByClassName("search-text-box")[0];
     var addRegionButton = window.document.getElementsByClassName("add-region-button")[0];
 
     if (searchButton !== undefined && searchButton !== null) {
         searchButton.addEventListener("click", onSearch);
     }
+    if (searchBox !== undefined && searchBox !== null) {
+        searchBox.addEventListener("keyup", onSearchKey);
+    }
     if (addRegionButton !== undefined && addRegionButton !== null) {
         addRegionButton.addEventListener("click", onRegionAdd);
     }
 } //adds sidebar always-on listeners
+
+function onSearchKey(e) {
+    if (e.keyCode === 13) {
+        onSearch();
+    }
+}
 
 function addSearchListeners() {
     var editButtons = window.document.getElementsByClassName("edit-button");

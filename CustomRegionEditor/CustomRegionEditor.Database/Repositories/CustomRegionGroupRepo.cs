@@ -82,10 +82,15 @@ namespace CustomRegionEditor.Database
         {
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                _customRegionGroupList = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => s.custom_region_name.Contains(searchTerm) || s.custom_region_description.Contains(searchTerm)).ToList());
+                var startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => s.custom_region_name.StartsWith(searchTerm)).ToList());
+
+                var contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => (!s.custom_region_name.StartsWith(searchTerm) 
+                                                                                                  && (s.custom_region_name.Contains(searchTerm) 
+                                                                                                  || s.custom_region_description.Contains(searchTerm)))).ToList());
+                _customRegionGroupList = startsWith.Concat(contains).ToList();
             }
             return _customRegionGroupList;
-        } //looks for any matches containing the search term
+        } //looks for any matches containing the search term, orders them by relevance 
 
         public CustomRegionGroupModel FindById(string id)
         {
