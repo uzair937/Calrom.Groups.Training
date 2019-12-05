@@ -7,6 +7,41 @@ body {
     background-position: center center;
 }
 
+.autocomplete-container {
+    position: absolute;
+    background-color: white;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 8em;
+    text-wrap: normal;
+    min-width: 6em;
+    width: auto;
+}
+
+.single-suggestion {
+    background-color: white;
+    font-size: 12px;
+}
+
+    .single-suggestion > td {
+        text-transform: capitalize;
+        text-align: left;
+        margin: 0;
+        padding: 0;
+    }
+
+    .single-suggestion:hover {
+        background-color: cornflowerblue;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+
+.flex-auto {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 th,
 td {
     text-align: center;
@@ -15,7 +50,8 @@ td {
 }
 
 .new-entry-input {
-    max-width: 5em;
+    max-width: 6em;
+    text-transform: capitalize;
 }
 
 .flex-row {
@@ -29,7 +65,18 @@ td {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100%;
+}
+
+
+
+.flex-body {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    padding-top: 7%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .layout-body-content {
@@ -37,6 +84,8 @@ td {
 }
 
 .sidebar-container {
+    display: flex;
+    justify-content: center;
     max-width: 30%;
     height: 50em;
     border-radius: 25px;

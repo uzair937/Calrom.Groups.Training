@@ -212,6 +212,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="packages.config" />
+    <Content Include="Views\Home\_AutoComplete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CustomRegionEditor.Database\CustomRegionEditor.Database.csproj">

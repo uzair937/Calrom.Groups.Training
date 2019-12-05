@@ -1,0 +1,9 @@
+﻿@using CustomRegionEditor.ViewModels
+@model AutoCompleteViewModel
+
+<table class="autocomplete-container flex-auto">
+    @foreach (var auto in Model.Suggestions)
+    {
+        <tr class="single-suggestion"><td>@auto</td></tr>
+    }
+</table>

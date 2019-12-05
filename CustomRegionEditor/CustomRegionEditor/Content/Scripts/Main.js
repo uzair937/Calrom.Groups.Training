@@ -86,7 +86,7 @@ function refreshEdit(e) {
 function entryDelete(e) {
     var url = $(".table-header").attr("data-deleteentryurl");
     var regionId = $(".table-header").attr("regionId");
-    var entryId = $(".single-region-entry").attr("entryId");
+    var entryId = $(this).parent().parent().attr("entryId");
     if (entryId) {
         $.ajax({
             type: "POST",
@@ -179,6 +179,11 @@ function addEditListeners() {
     var deleteButtons = window.document.getElementsByClassName("delete-button");
     var addButton = window.document.getElementsByClassName("add-button")[0];
     var saveButton = window.document.getElementsByClassName("save-changes-button")[0];
+    var regionBox = document.getElementsByName("region-box")[0];
+    var countryBox = document.getElementsByName("country-box")[0];
+    var stateBox = document.getElementsByName("state-box")[0];
+    var cityBox = document.getElementsByName("city-box")[0];
+    var airportBox = document.getElementsByName("airport-box")[0];
 
     for (var i = 0, len = deleteButtons.length; i < len; i++) {
         deleteEntryListeners(deleteButtons[i]);
@@ -190,7 +195,21 @@ function addEditListeners() {
         saveButton.addEventListener("click", saveChanges);
     }
 
-    addAutoComplete();
+    if (regionBox !== undefined && regionBox !== null) {
+        regionBox.addEventListener("input", onTextChange);
+    }
+    if (countryBox !== undefined && countryBox !== null) {
+        countryBox.addEventListener("input", onTextChange);
+    }
+    if (stateBox !== undefined && stateBox !== null) {
+        stateBox.addEventListener("input", onTextChange);
+    }
+    if (cityBox !== undefined && cityBox !== null) {
+        cityBox.addEventListener("input", onTextChange);
+    }
+    if (airportBox !== undefined && airportBox !== null) {
+        airportBox.addEventListener("input", onTextChange);
+    }
 }   //adds listeners to the add/save/delete buttons in edit view
 
 function deleteEntryListeners(item) {
@@ -211,20 +230,46 @@ function editButtonListeners(item) {
     }
 } //adds listeners
 
-function addAutoComplete() {
-    $(".region-text-box").autocomplete({
-        source: "/home/GetRegions"
-    });
-    $(".country-text-box").autocomplete({
-        source: "/home/GetCountries"
-    });
-    $(".state-text-box").autocomplete({
-        source: "/home/GetStates"
-    });
-    $(".city-text-box").autocomplete({
-        source: "/home/GetCities"
-    });
-    $(".airport-text-box").autocomplete({
-        source: "/home/GetAirports"
-    });
+function onTextChange() {
+    var url = $(".add-region-row").attr("data-autourl");
+    var type = $(this).attr("autotype");
+    var text = $(this).val();
+    var currentNode = this;
+    if (type) {
+        $.ajax({
+            type: "POST",
+            url: url + "?type=" + type + "&text=" + text,
+            success: function (data, status, xhr) {
+                if (data) {
+                    $(currentNode).next().html(data);
+                    addAutoCompleteListeners();
+                }
+            }
+        });
+    }
 } //sets up autocomplete
+
+function addAutoCompleteListeners() {
+    var autoText = window.document.getElementsByClassName("single-suggestion");
+    var focusTextBox = $(autoText[0]).parent().parent().parent().prev().get(0);
+    for (var x = 0; x < autoText.length; x++) {
+        if (autoText[x] !== undefined && autoText[x] !== null) {
+            autoText[x].addEventListener("click", onTextSelect);
+        }
+    }
+    document.addEventListener("click", removeAutoTab);
+}
+
+function onTextSelect() {
+    var textBox = $(this).parent().parent().parent().prev();
+    textBox.val(this.firstChild.innerHTML);
+    removeAutoTab();
+}
+
+function removeAutoTab() {
+    var autoTab = window.document.getElementsByClassName("autocomplete-container flex-auto");
+
+    for (var x = 0; x < autoTab.length; x++) {
+        autoTab[x].innerHTML = "";
+    }
+}

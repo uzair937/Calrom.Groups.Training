@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AirportViewModel.cs" />
+    <Compile Include="AutoCompleteViewModel.cs" />
     <Compile Include="ContentViewModel.cs" />
     <Compile Include="CityViewModel.cs" />
     <Compile Include="CustomRegionGroupViewModel.cs" />

@@ -253,31 +253,31 @@ namespace CustomRegionEditor.Database
                 case "airport":
                     using (var dbSession = NHibernateHelper.OpenSession())
                     {
-                        names = dbSession.Query<AirportModel>().Select(a => a.airport_name).ToList();
+                        names = dbSession.Query<AirportModel>().Select(a => a.airport_name.ToUpper()).ToList();
                     }
                     return names;
                 case "city":
                     using (var dbSession = NHibernateHelper.OpenSession())
                     {
-                        names = dbSession.Query<CityModel>().Select(a => a.city_name).ToList();
+                        names = dbSession.Query<CityModel>().Select(a => a.city_name.ToUpper()).ToList();
                     }
                     return names;
                 case "state":
                     using (var dbSession = NHibernateHelper.OpenSession())
                     {
-                        names = dbSession.Query<StateModel>().Select(a => a.state_name).ToList();
+                        names = dbSession.Query<StateModel>().Select(a => a.state_name.ToUpper()).ToList();
                     }
                     return names;
                 case "country":
                     using (var dbSession = NHibernateHelper.OpenSession())
                     {
-                        names = dbSession.Query<CountryModel>().Select(a => a.country_name).ToList();
+                        names = dbSession.Query<CountryModel>().Select(a => a.country_name.ToUpper()).ToList();
                     }
                     return names;
                 case "region":
                     using (var dbSession = NHibernateHelper.OpenSession())
                     {
-                        names = dbSession.Query<RegionModel>().Select(a => a.region_name).ToList();
+                        names = dbSession.Query<RegionModel>().Select(a => a.region_name.ToUpper()).ToList();
                     }
                     return names;
                 default:

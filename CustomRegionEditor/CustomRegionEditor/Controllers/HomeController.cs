@@ -25,11 +25,12 @@ namespace CustomRegionEditor.Controllers
 
         private void SetupAutoCompleteList()
         {
-            Airports = CustomRegionRepo.GetNames("airport");
-            Cities = CustomRegionRepo.GetNames("city");
-            States = CustomRegionRepo.GetNames("state");
-            Countries = CustomRegionRepo.GetNames("country");
-            Regions = CustomRegionRepo.GetNames("region");
+            Airports = CustomRegionRepo.GetNames("airport").Distinct().ToList();
+            Cities = CustomRegionRepo.GetNames("city").Distinct().ToList();
+            States = CustomRegionRepo.GetNames("state").Distinct().ToList();
+            Countries = CustomRegionRepo.GetNames("country").Distinct().ToList();
+            Regions = CustomRegionRepo.GetNames("region").Distinct().ToList();
+
         }
 
         private static List<string> Airports = null;
@@ -121,30 +122,60 @@ namespace CustomRegionEditor.Controllers
 
             return PartialView("_Content", contentViewModel);
         }
-
-        public ActionResult GetCountries(string term)
+        
+        [HttpPost]
+        public ActionResult AutoComplete(string type, string text)
         {
-            return Json(Countries.Where(c => c.StartsWith(term)), JsonRequestBehavior.AllowGet);
+            var autoCompleteViewModel = new AutoCompleteViewModel();
+            autoCompleteViewModel.Suggestions = new List<string>();
+            text = text.ToUpper();
+            if (text != "" && text != null && text != " ")
+            {
+                switch (type)
+                {
+                    case "region":
+                        autoCompleteViewModel.Suggestions = GetRegions(text);
+                        break;
+                    case "country":
+                        autoCompleteViewModel.Suggestions = GetCountries(text);
+                        break;
+                    case "state":
+                        autoCompleteViewModel.Suggestions = GetStates(text);
+                        break;
+                    case "city":
+                        autoCompleteViewModel.Suggestions = GetCities(text);
+                        break;
+                    case "airport":
+                        autoCompleteViewModel.Suggestions = GetAirports(text);
+                        break;
+                }
+            }
+            return PartialView("_AutoComplete", autoCompleteViewModel);
         }
 
-        public ActionResult GetRegions(string term)
+        public List<string> GetCountries(string term)
         {
-            return Json(Regions.Where(c => c.StartsWith(term)), JsonRequestBehavior.AllowGet);
+            return Countries.Where(c => c.StartsWith(term)).ToList();
         }
 
-        public ActionResult GetStates(string term)
+        public List<string> GetRegions(string term)
         {
-            return Json(States.Where(c => c.StartsWith(term)), JsonRequestBehavior.AllowGet);
+            return Regions.Where(c => c.StartsWith(term)).ToList();
         }
 
-        public ActionResult GetCities(string term)
+        public List<string> GetStates(string term)
         {
-            return Json(Cities.Where(c => c.StartsWith(term)), JsonRequestBehavior.AllowGet);
+            return States.Where(c => c.StartsWith(term)).ToList();
         }
 
-        public ActionResult GetAirports(string term)
+        public List<string> GetCities(string term)
         {
-            return Json(Airports.Where(c => c.StartsWith(term)), JsonRequestBehavior.AllowGet);
+            return Cities.Where(c => c.StartsWith(term)).ToList();
+        }
+
+        public List<string> GetAirports(string term)
+        {
+            return Airports.Where(c => c.StartsWith(term)).ToList();
         }
     }
 }
