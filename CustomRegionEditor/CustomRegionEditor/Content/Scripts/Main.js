@@ -54,6 +54,15 @@ function onRegionAdd(e) {
 } //adds a new region to the db and opens the edit tab
 
 function onDelete(e) {
+    $(this).css("color", "red");
+    if (this !== undefined && this !== null) {
+        this.addEventListener("click", onConfirmDelete);
+        document.addEventListener("click", clearDelete);
+    }
+}
+
+function onConfirmDelete(e) {
+    e.stopPropagation();
     var url = $(".table-header").attr("data-deleteurl");
     var regionId = $(this).parent().parent().attr("searchId");
 
@@ -84,6 +93,22 @@ function refreshEdit(e) {
 } //refreshes the edit tab using the in-html stored region ID
 
 function entryDelete(e) {
+    $(this).css("color", "red");
+    if (this !== undefined && this !== null) {
+        this.addEventListener("click", entryConfirmDelete);
+        document.addEventListener("click", clearDelete);
+    }
+}
+
+function clearDelete() {
+    var deleteButtons = window.document.getElementsByClassName("delete-button");
+    for (var x = 0; x < deleteButtons.length; x++) {
+        $(deleteButtons[x]).css("color", "black");
+    }
+}
+
+function entryConfirmDelete(e) {
+    e.stopPropagation();
     var url = $(".table-header").attr("data-deleteentryurl");
     var regionId = $(".table-header").attr("regionId");
     var entryId = $(this).parent().parent().attr("entryId");

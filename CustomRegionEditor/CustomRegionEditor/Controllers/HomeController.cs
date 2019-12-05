@@ -118,6 +118,7 @@ namespace CustomRegionEditor.Controllers
                 SearchViewModel = new SearchViewModel() { IsSearching = false }
             };
             var FoundRegion = CustomRegionRepo.FindById(regionId);
+            FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.apt?.apt_id).ThenBy(a => a.cty?.city_name).ThenBy(a => a.sta?.state_name).ThenBy(a => a.cnt?.country_name).ThenBy(a => a.reg?.region_name).ToList();
             contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion);
 
             return PartialView("_Content", contentViewModel);
