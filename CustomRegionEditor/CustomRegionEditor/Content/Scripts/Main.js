@@ -54,6 +54,7 @@ function onRegionAdd(e) {
 } //adds a new region to the db and opens the edit tab
 
 function onDelete(e) {
+    e.stopPropagation();
     $(this).css("color", "red");
     if (this !== undefined && this !== null) {
         this.addEventListener("click", onConfirmDelete);
@@ -93,6 +94,7 @@ function refreshEdit(e) {
 } //refreshes the edit tab using the in-html stored region ID
 
 function entryDelete(e) {
+    e.stopPropagation();
     $(this).css("color", "red");
     if (this !== undefined && this !== null) {
         this.addEventListener("click", entryConfirmDelete);
@@ -103,6 +105,8 @@ function entryDelete(e) {
 function clearDelete() {
     var deleteButtons = window.document.getElementsByClassName("delete-button");
     for (var x = 0; x < deleteButtons.length; x++) {
+        deleteButtons[x].removeEventListener("click", onConfirmDelete);
+        deleteButtons[x].removeEventListener("click", entryConfirmDelete);
         $(deleteButtons[x]).css("color", "black");
     }
 }
