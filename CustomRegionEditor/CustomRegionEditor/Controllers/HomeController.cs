@@ -57,7 +57,16 @@ namespace CustomRegionEditor.Controllers
                 EditViewModel = new EditViewModel() { IsEditing = false },
                 SearchViewModel = new SearchViewModel() { IsSearching = true, ValidResults = false }
             };
-            var SearchResults = CustomRegionRepo.GetSearchResults(searchTerm, filter);
+            List<CustomRegionGroupModel> SearchResults = new List<CustomRegionGroupModel>();
+
+            if (filter.Contains("Filter"))
+            {
+                SearchResults = CustomRegionRepo.GetFilteredResults(searchTerm, filter);
+            } 
+            else
+            {
+                SearchResults = CustomRegionRepo.GetSearchResults(searchTerm, filter);
+            }
             if (SearchResults.Count > 0)
             {
                 contentViewModel.SearchViewModel.ValidResults = true;

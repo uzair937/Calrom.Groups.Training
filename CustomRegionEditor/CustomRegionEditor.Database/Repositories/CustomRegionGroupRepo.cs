@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentNHibernate.Utils;
 
 namespace CustomRegionEditor.Database
 {
@@ -84,19 +85,19 @@ namespace CustomRegionEditor.Database
             {
                 var startsWith = new List<CustomRegionGroupModel>();
                 var contains = new List<CustomRegionGroupModel>();
-                if (searchTerm == "-All")
+                if (searchTerm.Equals("-All", StringComparison.OrdinalIgnoreCase))
                 {
                     return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
                 }
-                else if (searchTerm == "-Small")
+                if (searchTerm.Equals("-Small", StringComparison.OrdinalIgnoreCase))
                 {
                     return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(a => a.CustomRegionEntries.Count < 25).ToList());
                 }
-                else if (searchTerm == "-Large")
+                if (searchTerm.Equals("-Large", StringComparison.OrdinalIgnoreCase))
                 {
                     return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(a => a.CustomRegionEntries.Count >= 25).ToList());
                 }
-                else if (searchTerm == "-Rand")
+                if (searchTerm.Equals("-Rand", StringComparison.OrdinalIgnoreCase))
                 {
                     var returnModels = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
                     var rand = new Random();
@@ -195,30 +196,30 @@ namespace CustomRegionEditor.Database
             {
                 customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
                 customRegionEntryModel.crg = customRegionGroupModel;
-                if (type == "airport")
+                switch (type) //changed from if elses to a switch cus cleaner
                 {
-                    customRegionEntryModel.apt = GetAirport(entry); //needs to add a reference to the object for each
-                    if (customRegionEntryModel.apt != null) validEntry = true;
-                }
-                else if (type == "city")
-                {
-                    customRegionEntryModel.cty = GetCity(entry);
-                    if (customRegionEntryModel.cty != null) validEntry = true;
-                }
-                else if (type == "state")
-                {
-                    customRegionEntryModel.sta = GetState(entry);
-                    if (customRegionEntryModel.sta != null) validEntry = true;
-                }
-                else if (type == "country")
-                {
-                    customRegionEntryModel.cnt = GetCountry(entry);
-                    if (customRegionEntryModel.cnt != null) validEntry = true;
-                }
-                else if (type == "region")
-                {
-                    customRegionEntryModel.reg = GetRegion(entry);
-                    if (customRegionEntryModel.reg != null) validEntry = true;
+                    case "airport":
+                        customRegionEntryModel.apt = GetAirport(entry); //needs to add a reference to the object for each
+                        if (customRegionEntryModel.apt != null) validEntry = true;
+                        break;
+                    case "city":
+                        customRegionEntryModel.cty = GetCity(entry);
+                        if (customRegionEntryModel.cty != null) validEntry = true;
+                        break;
+                    case "state":
+                        customRegionEntryModel.sta = GetState(entry);
+                        if (customRegionEntryModel.sta != null) validEntry = true;
+                        break;
+                    case "country":
+                        customRegionEntryModel.cnt = GetCountry(entry);
+                        if (customRegionEntryModel.cnt != null) validEntry = true;
+                        break;
+                    case "region":
+                        customRegionEntryModel.reg = GetRegion(entry);
+                        if (customRegionEntryModel.reg != null) validEntry = true;
+                        break;
+                    default:
+                        break;
                 }
                 if (validEntry) customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
             }
@@ -349,7 +350,46 @@ namespace CustomRegionEditor.Database
                     break;
             }
             return null;
-        }
-    } //searches for a matching airport
-}
+        }//searches for a matching airport
 
+        public List<CustomRegionGroupModel> GetFilteredResults(string countryName, string filter)
+        {
+            var model = new List<CustomRegionGroupModel>();
+            switch (filter)
+            {
+                case "stateFilter":
+                    using (var dbSession = NHibernateHelper.OpenSession())
+                    {
+                        var states = dbSession.Query<StateModel>();
+                        foreach (var state in states)
+                        {
+                            if (state.cnt.country_name == countryName)
+                            {
+                                model = dbSession.Query<CustomRegionGroupModel>().Where(c => c.CustomRegionEntries.Select(a => a.sta.state_name).Contains(state.state_name)).ToList();
+                            }
+                        }
+                    }
+                    _customRegionGroupList = model.ToList();
+
+                    break;
+                case "cityFilter":
+                    using (var dbSession = NHibernateHelper.OpenSession())
+                    {
+                        var cities = dbSession.Query<CityModel>();
+                        foreach (var city in cities)
+                        {
+                            if (city.cnt.country_name == countryName)
+                            {
+                                model = dbSession.Query<CustomRegionGroupModel>().Where(c => c.CustomRegionEntries.Select(a => a.cty.city_name).Contains(city.city_name)).ToList();
+                            }
+                        }
+                    }
+                    _customRegionGroupList = model.ToList();
+                    break;
+                default:
+                    break;
+            }
+            return _customRegionGroupList;
+        }
+    }
+}
