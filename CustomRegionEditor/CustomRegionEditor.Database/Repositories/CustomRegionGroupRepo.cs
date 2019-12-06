@@ -2,6 +2,7 @@
 using CustomRegionEditor.Database.Repositories;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,7 @@ namespace CustomRegionEditor.Database
                         }
                     }
                 }
+
                 return Instance;
             }
         }
@@ -76,6 +78,7 @@ namespace CustomRegionEditor.Database
             {
                 _customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().ToList();
             }
+
             return _customRegionGroupList;
         }
 
@@ -89,64 +92,160 @@ namespace CustomRegionEditor.Database
                 {
                     return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
                 }
+
                 if (searchTerm.Equals("-Small", StringComparison.OrdinalIgnoreCase))
                 {
-                    return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(a => a.CustomRegionEntries.Count < 25).ToList());
+                    return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                        .Where(a => a.CustomRegionEntries.Count < 25).ToList());
                 }
+
                 if (searchTerm.Equals("-Large", StringComparison.OrdinalIgnoreCase))
                 {
-                    return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(a => a.CustomRegionEntries.Count >= 25).ToList());
+                    return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                        .Where(a => a.CustomRegionEntries.Count >= 25).ToList());
                 }
+
                 if (searchTerm.Equals("-Rand", StringComparison.OrdinalIgnoreCase))
                 {
                     var returnModels = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
                     var rand = new Random();
                     return new List<CustomRegionGroupModel> { returnModels.ElementAt(rand.Next(returnModels.Count)) };
                 }
+
                 switch (filter)
                 {
                     case ("none"):
-                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => s.custom_region_name.StartsWith(searchTerm)).ToList());
+                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                            .Where(s => s.custom_region_name.StartsWith(searchTerm)).ToList());
 
-                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => !s.custom_region_name.StartsWith(searchTerm)
-                                                                                                          && (s.custom_region_name.Contains(searchTerm)
-                                                                                                          || s.custom_region_description.Contains(searchTerm))).ToList());
+                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                            !s.custom_region_name.StartsWith(searchTerm)
+                            && (s.custom_region_name.Contains(searchTerm)
+                                || s.custom_region_description.Contains(searchTerm))).ToList());
                         break;
                     case ("airport"):
-                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => s.CustomRegionEntries.Select(a => a.apt.airport_name).Any(w => w.StartsWith(searchTerm))).ToList());
+                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                s.CustomRegionEntries.Select(a => a.apt.airport_name)
+                                    .Any(w => w.StartsWith(searchTerm)))
+                            .ToList());
 
-                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => !s.CustomRegionEntries.Select(a => a.apt.airport_name).Any(w => w.StartsWith(searchTerm))
-                                                                                                          && s.CustomRegionEntries.Select(a => a.apt.airport_name).Any(w => w.Contains(searchTerm))).ToList());
+                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                !s.CustomRegionEntries.Select(a => a.apt.airport_name)
+                                    .Any(w => w.StartsWith(searchTerm))
+                                && s.CustomRegionEntries.Select(a => a.apt.airport_name)
+                                    .Any(w => w.Contains(searchTerm)))
+                            .ToList());
                         break;
                     case ("city"):
-                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.StartsWith(searchTerm))).ToList());
+                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.StartsWith(searchTerm)))
+                            .ToList());
 
-                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => !s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.StartsWith(searchTerm))
-                                                                                                          && s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.Contains(searchTerm))).ToList());
+                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                !s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.StartsWith(searchTerm))
+                                && s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.Contains(searchTerm)))
+                            .ToList());
                         break;
                     case ("state"):
-                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.StartsWith(searchTerm))).ToList());
+                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.StartsWith(searchTerm)))
+                            .ToList());
 
-                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => !s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.StartsWith(searchTerm))
-                                                                                                          && s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.Contains(searchTerm))).ToList());
+                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                !s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.StartsWith(searchTerm))
+                                && s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.Contains(searchTerm)))
+                            .ToList());
                         break;
                     case ("country"):
-                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => s.CustomRegionEntries.Select(a => a.cnt.country_name).Any(w => w.StartsWith(searchTerm))).ToList());
+                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                s.CustomRegionEntries.Select(a => a.cnt.country_name)
+                                    .Any(w => w.StartsWith(searchTerm)))
+                            .ToList());
 
-                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => !s.CustomRegionEntries.Select(a => a.cnt.country_name).Any(w => w.StartsWith(searchTerm))
-                                                                                                          && s.CustomRegionEntries.Select(a => a.cnt.country_name).Any(w => w.Contains(searchTerm))).ToList());
+                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                !s.CustomRegionEntries.Select(a => a.cnt.country_name)
+                                    .Any(w => w.StartsWith(searchTerm))
+                                && s.CustomRegionEntries.Select(a => a.cnt.country_name)
+                                    .Any(w => w.Contains(searchTerm)))
+                            .ToList());
                         break;
                     case ("region"):
-                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => s.CustomRegionEntries.Select(a => a.reg.region_name).Any(w => w.StartsWith(searchTerm))).ToList());
+                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                s.CustomRegionEntries.Select(a => a.reg.region_name).Any(w => w.StartsWith(searchTerm)))
+                            .ToList());
 
-                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s => !s.CustomRegionEntries.Select(a => a.reg.region_name).Any(w => w.StartsWith(searchTerm))
-                                                                                                          && s.CustomRegionEntries.Select(a => a.reg.region_name).Any(w => w.Contains(searchTerm))).ToList());
+                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                !s.CustomRegionEntries.Select(a => a.reg.region_name).Any(w => w.StartsWith(searchTerm))
+                                && s.CustomRegionEntries.Select(a => a.reg.region_name)
+                                    .Any(w => w.Contains(searchTerm)))
+                            .ToList());
                         break;
                 }
+
                 _customRegionGroupList = startsWith.Concat(contains).ToList();
             }
+
             return _customRegionGroupList;
         } //looks for any matches containing the search term, orders them by relevance 
+
+        public List<CustomRegionGroupModel> GetFilteredResults(string countryName, string filter)
+        {
+            var model = new List<CustomRegionGroupModel>();
+            var crg = new CustomRegionGroupModel()
+            {
+                CustomRegionEntries = new List<CustomRegionEntryModel>()
+            };
+            switch (filter)
+            {
+                case "stateFilter":
+                    using (var dbSession = NHibernateHelper.OpenSession())
+                    {
+                        var cities = dbSession.Query<CityModel>().Where(c => c.cnt.country_name == countryName);
+                        var states = dbSession.Query<StateModel>().Where(s => s.cnt.country_name == countryName);
+                        var airports = new List<AirportModel>();
+                        foreach (CityModel city in cities)
+                        {
+                            airports.Concat(dbSession.Query<AirportModel>().Where(c => c.cty.city_name == city.city_name).ToList());
+                            crg.CustomRegionEntries.Add(new CustomRegionEntryModel()
+                            {
+                                cty = city
+                            });
+                        }
+
+                        foreach (StateModel state in states)
+                        {
+                            crg.CustomRegionEntries.Add(new CustomRegionEntryModel()
+                            {
+                                sta = state
+                            });
+                        }
+
+                        foreach (AirportModel airport in airports)
+                        {
+                            crg.CustomRegionEntries.Add(new CustomRegionEntryModel()
+                            {
+                                apt = airport
+                            });
+                        }
+                        model.Add(crg);
+                    }
+                    ggggg 
+                    _customRegionGroupList = model.ToList();
+                    break;
+                case "cityFilter":
+                    using (var dbSession = NHibernateHelper.OpenSession())
+                    {
+                        //
+                    }
+
+                    _customRegionGroupList = model.ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            return _customRegionGroupList;
+        }
 
         public CustomRegionGroupModel FindById(string id)
         {
@@ -352,27 +451,4 @@ namespace CustomRegionEditor.Database
             return null;
         }
     } //searches for a matching airport
-}
-
-                    break;
-                case "cityFilter":
-                    using (var dbSession = NHibernateHelper.OpenSession())
-                    {
-                        var cities = dbSession.Query<CityModel>();
-                        foreach (var city in cities)
-                        {
-                            if (city.cnt.country_name == countryName)
-                            {
-                                model = dbSession.Query<CustomRegionGroupModel>().Where(c => c.CustomRegionEntries.Select(a => a.cty.city_name).Contains(city.city_name)).ToList();
-                            }
-                        }
-                    }
-                    _customRegionGroupList = model.ToList();
-                    break;
-                default:
-                    break;
-            }
-            return _customRegionGroupList;
-        }
-    }
 }

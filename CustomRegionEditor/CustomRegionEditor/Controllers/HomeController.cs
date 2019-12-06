@@ -52,12 +52,20 @@ namespace CustomRegionEditor.Controllers
         [HttpPost]
         public ActionResult Search(string searchTerm, string filter)
         {
+            var SearchResults = new List<CustomRegionGroupModel>();
             var contentViewModel = new ContentViewModel
             {
                 EditViewModel = new EditViewModel() { IsEditing = false },
                 SearchViewModel = new SearchViewModel() { IsSearching = true, ValidResults = false }
             };
-            var SearchResults = CustomRegionRepo.GetSearchResults(searchTerm, filter);
+            if (filter.Contains("Filter"))
+            {
+                SearchResults = CustomRegionRepo.GetFilteredResults(searchTerm, filter);
+            }
+            else
+            {
+                SearchResults = CustomRegionRepo.GetSearchResults(searchTerm, filter);
+            }
             if (SearchResults.Count > 0)
             {
                 contentViewModel.SearchViewModel.ValidResults = true;

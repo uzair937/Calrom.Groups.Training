@@ -21,6 +21,12 @@ function onSearch(e) {
     if ($(".by-region").is(':checked')) {
         filter = "region";
     }
+    if ($(".state-filter").is(':checked')) {
+        filter = "stateFilter";
+    }
+    if ($(".city-filter").is(':checked')) {
+        filter = "cityFilter";
+    }
     if (searchTerm) {
         $.ajax({
             type: "POST",
