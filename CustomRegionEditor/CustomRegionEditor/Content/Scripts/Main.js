@@ -6,7 +6,6 @@ function onSearch(e) {
     var url = $(".search-container").attr("data-searchurl");
     var searchTerm = document.getElementsByClassName("search-text-box")[0].value;
     var filter = "none";
-
     if ($(".by-airport").is(':checked')) {
         filter = "airport";
     }
@@ -170,6 +169,9 @@ function addEntry(e) {
     if (container.val() !== "" && container.val() !== undefined) {
         type = "region";
         value = container.val();
+    }
+    if (value === "UK, IRELAND &amp; C.i") {
+        value = "GBR";
     }
     if (value !== "" && value !== undefined) {
         addRegionEntry(url, value, type, regionId);

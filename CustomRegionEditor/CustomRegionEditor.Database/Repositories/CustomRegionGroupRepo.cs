@@ -234,6 +234,7 @@ namespace CustomRegionEditor.Database
             using (var dbSession = NHibernateHelper.OpenSession())
             {
                 airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.airport_name == (entry));
+                if (airportModel == null) airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.apt_id == (entry));
             }
             return airportModel;
         } //searches for a matching airport
@@ -244,6 +245,7 @@ namespace CustomRegionEditor.Database
             using (var dbSession = NHibernateHelper.OpenSession())
             {
                 cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.city_name == (entry));
+                if (cityModel == null) cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.cty_id == (entry));
             }
             return cityModel;
         } //searches for a matching city
@@ -254,6 +256,7 @@ namespace CustomRegionEditor.Database
             using (var dbSession = NHibernateHelper.OpenSession())
             {
                 stateModel = dbSession.Query<StateModel>().FirstOrDefault(a => a.state_name == (entry));
+                if (stateModel == null) stateModel = dbSession.Query<StateModel>().FirstOrDefault(a => a.sta_id == (entry));
             }
             return stateModel;
         } //searches for a matching state
@@ -264,6 +267,7 @@ namespace CustomRegionEditor.Database
             using (var dbSession = NHibernateHelper.OpenSession())
             {
                 countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.country_name == (entry));
+                if (countryModel == null) countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.cnt_id == (entry));
             }
             return countryModel;
         } //searches for a matching country
@@ -274,6 +278,7 @@ namespace CustomRegionEditor.Database
             using (var dbSession = NHibernateHelper.OpenSession())
             {
                 regionModel = dbSession.Query<RegionModel>().FirstOrDefault(a => a.region_name == (entry));
+                if (regionModel == null) regionModel = dbSession.Query<RegionModel>().FirstOrDefault(a => a.reg_id == (entry));
             }
             return regionModel;
         } //searches for a matching region
