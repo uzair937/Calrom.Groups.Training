@@ -129,12 +129,11 @@ function clearDelete() {
 function entryConfirmDelete(e) {
     e.stopPropagation();
     var url = $(".table-header").attr("data-deleteentryurl");
-    var regionId = $(".table-header").attr("regionId");
     var entryId = $(this).parent().parent().attr("entryId");
     if (entryId) {
         $.ajax({
             type: "POST",
-            url: url + "?entryId=" + entryId + "&regionId=" + regionId,
+            url: url + "?entryId=" + entryId,
             success: refreshEdit,
         });
     }
@@ -170,7 +169,7 @@ function addEntry(e) {
         type = "region";
         value = container.val();
     }
-    if (value === "UK, IRELAND &amp; C.i") {
+    if (value === "UK, IRELAND &amp; C.I" || value === "UK, IRELAND") {
         value = "GBR";
     }
     if (value !== "" && value !== undefined) {
