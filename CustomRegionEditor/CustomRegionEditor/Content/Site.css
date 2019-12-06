@@ -126,3 +126,15 @@ td {
 .edit-container {
     height: 100%;
 }
+
+.search-filters-container {
+    width: 100%;
+    padding-left: 5%;
+    align-items: flex-start;
+}
+
+.command-container {
+    width: 100%;
+    padding-left: 5%;
+    align-items: flex-start;
+}
