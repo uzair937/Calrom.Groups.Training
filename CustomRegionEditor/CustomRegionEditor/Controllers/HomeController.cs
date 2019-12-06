@@ -1,4 +1,5 @@
 ﻿using CustomRegionEditor.Database;
+using CustomRegionEditor.Database.Models;
 using CustomRegionEditor.EntityMapper;
 using CustomRegionEditor.ViewModels;
 using System;
@@ -17,7 +18,7 @@ namespace CustomRegionEditor.Controllers
                 ContentViewModel = new ContentViewModel(),
                 SidebarViewModel = new SidebarViewModel()
             };
-            layoutViewModel.ContentViewModel.EditViewModel = new EditViewModel() { IsEditing = false } ;
+            layoutViewModel.ContentViewModel.EditViewModel = new EditViewModel() { IsEditing = false };
             layoutViewModel.ContentViewModel.SearchViewModel = new SearchViewModel() { IsSearching = false };
 
             return layoutViewModel;
@@ -49,14 +50,14 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult Search(string searchTerm)
+        public ActionResult Search(string searchTerm, string filter)
         {
             var contentViewModel = new ContentViewModel
             {
                 EditViewModel = new EditViewModel() { IsEditing = false },
                 SearchViewModel = new SearchViewModel() { IsSearching = true, ValidResults = false }
             };
-            var SearchResults = CustomRegionRepo.GetSearchResults(searchTerm);
+            var SearchResults = CustomRegionRepo.GetSearchResults(searchTerm, filter);
             if (SearchResults.Count > 0)
             {
                 contentViewModel.SearchViewModel.ValidResults = true;
@@ -86,14 +87,14 @@ namespace CustomRegionEditor.Controllers
             CustomRegionRepo.AddByType(entry, type, regionId);
             return null;
         }
-        
+
         [HttpPost]
         public ActionResult SaveChanges(string name, string description, string regionId)
         {
             CustomRegionRepo.ChangeDetails(name, description, regionId);
             return null;
         }
-        
+
         [HttpPost]
         public ActionResult NewCustomRegion()
         {
@@ -123,7 +124,7 @@ namespace CustomRegionEditor.Controllers
 
             return PartialView("_Content", contentViewModel);
         }
-        
+
         [HttpPost]
         public ActionResult AutoComplete(string type, string text)
         {

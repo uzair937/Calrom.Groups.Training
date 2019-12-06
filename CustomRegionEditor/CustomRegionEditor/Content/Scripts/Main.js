@@ -5,11 +5,27 @@
 function onSearch(e) {
     var url = $(".search-container").attr("data-searchurl");
     var searchTerm = document.getElementsByClassName("search-text-box")[0].value;
+    var filter = "none";
 
+    if ($(".by-airport").is(':checked')) {
+        filter = "airport";
+    }
+    if ($(".by-city").is(':checked')) {
+        filter = "city";
+    }
+    if ($(".by-state").is(':checked')) {
+        filter = "state";
+    }
+    if ($(".by-country").is(':checked')) {
+        filter = "country";
+    }
+    if ($(".by-region").is(':checked')) {
+        filter = "region";
+    }
     if (searchTerm) {
         $.ajax({
             type: "POST",
-            url: url + "?searchTerm=" + searchTerm,
+            url: url + "?searchTerm=" + searchTerm + "&filter=" + filter,
             success: function (data, status, xhr) {
                 if (data) {
                     $(".content-container").html(data);
