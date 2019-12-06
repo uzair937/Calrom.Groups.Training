@@ -75,9 +75,9 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteEntry(string entryId)
+        public ActionResult DeleteEntry(string entryId, string regionId)
         {
-            CustomRegionRepo.DeleteEntry(entryId);
+            CustomRegionRepo.DeleteEntry(entryId, regionId);
             return null;
         }
 
