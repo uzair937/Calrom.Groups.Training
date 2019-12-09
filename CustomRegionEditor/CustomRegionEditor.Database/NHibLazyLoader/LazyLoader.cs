@@ -1,13 +1,14 @@
-﻿using CustomRegionEditor.Database.Models;
+﻿using CustomRegionEditor.Database.Interfaces;
+using CustomRegionEditor.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CustomRegionEditor.Database.Repositories
+namespace CustomRegionEditor.Database.NHibLazyLoader
 {
-    public class LazyLoader
+    public class LazyLoader : ILazyLoader
     {
         public CustomRegionEntryModel LoadEntities(CustomRegionEntryModel oldModel)            //FIX LAZY LOADING ERROR
         {

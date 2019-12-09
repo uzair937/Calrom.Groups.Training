@@ -1,30 +1,18 @@
 ﻿using CustomRegionEditor.Database;
 using CustomRegionEditor.Database.Models;
 using CustomRegionEditor.EntityMapper;
+using CustomRegionEditor.ViewModels;
+using CustomRegionEditor.Web.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CustomRegionEditor.ViewModels
+namespace CustomRegionEditor.Web.Converters
 {
-    public class ViewModelConverter
+    public class ViewModelConverter : IViewModelConverter
     {
-        private static ViewModelConverter viewModelConverter = null;
-
-        public static ViewModelConverter GetInstance
-        {
-            get
-            {
-                if (viewModelConverter == null)
-                {
-                    viewModelConverter = new ViewModelConverter();
-                }
-                return viewModelConverter;
-            }
-        }
-
         public CustomRegionViewModel GetView(CustomRegionEntryModel customRegionEntryModel)
         {
             var newView = AutoMapperConfiguration.GetInstance<CustomRegionViewModel>(customRegionEntryModel);

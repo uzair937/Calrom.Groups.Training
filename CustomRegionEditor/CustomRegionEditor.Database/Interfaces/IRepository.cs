@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace CustomRegionEditor.Database
+namespace CustomRegionEditor.Database.Interfaces
 {
     public interface IRepository<T>
     {

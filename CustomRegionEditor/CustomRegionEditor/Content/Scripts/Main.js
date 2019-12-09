@@ -176,7 +176,7 @@ function addEntry(e) {
         type = "region";
         value = container.val();
     }
-    if (value === "UK, IRELAND &amp; C.i") {
+    if (value === "UK, IRELAND &amp; C.I" || value === "UK, IRELAND ") {
         value = "GBR";
     }
     if (value !== "" && value !== undefined) {

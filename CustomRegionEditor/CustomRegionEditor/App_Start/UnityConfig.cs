@@ -1,6 +1,10 @@
 using CustomRegionEditor.Database;
+using CustomRegionEditor.Database.Interfaces;
 using CustomRegionEditor.Database.Models;
+using CustomRegionEditor.Database.NHibLazyLoader;
 using CustomRegionEditor.Database.Repositories;
+using CustomRegionEditor.Web.Converters;
+using CustomRegionEditor.Web.Interfaces;
 using System.Web.Mvc;
 using Unity;
 using Unity.Mvc5;
@@ -18,8 +22,13 @@ namespace CustomRegionEditor.Web
 
             // e.g. container.RegisterType<ITestService, TestService>();
 
-            container.RegisterType<LazyLoader, LazyLoader>();
+            container.RegisterType<ILazyLoader, LazyLoader>();
+
             container.RegisterType<ICustomRegionGroupRepository, CustomRegionGroupRepo>();
+            
+            container.RegisterType<IViewModelConverter, ViewModelConverter>();
+            
+            container.RegisterSingleton<INHibernateHelper, NHibernateHelper>();
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

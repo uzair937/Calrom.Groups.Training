@@ -3,30 +3,35 @@ using FluentNHibernate.Cfg.Db;
 using NHibernate;
 using NHibernate.Tool.hbm2ddl;
 using NHibernate.Caches.SysCache2;
+using CustomRegionEditor.Database.Interfaces;
 
 namespace CustomRegionEditor.Database.Models
 {
-    public class NHibernateHelper
+    public class NHibernateHelper : INHibernateHelper
     {
-        private static ISessionFactory sessionFactory = null;
-        public static ISessionFactory SessionFactory
+
+        private ISessionFactory sessionFactory = null;
+        public ISessionFactory SessionFactory
         {
             get
             {
-                if (sessionFactory == null)
-                {
-                    InitialiseSession();
-                }
                 return sessionFactory;
             }
         }
+        public NHibernateHelper()
+        {
+            if (sessionFactory == null)
+            {
+                sessionFactory = this.InitialiseSession();
+            }
+        }
 
-        public static ISession OpenSession()
+        public ISession OpenSession()
         {
             return SessionFactory.OpenSession();
         }
 
-        public static ISessionFactory InitialiseSession()
+        public ISessionFactory InitialiseSession()
         {
             string dbConnection = @"Data Source = (LocalDB)\MSSQLLocalDB; Initial Catalog = CalromGroupsDev; Integrated Security = True";
 

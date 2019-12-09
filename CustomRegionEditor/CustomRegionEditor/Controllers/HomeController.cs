@@ -1,7 +1,10 @@
 ﻿using CustomRegionEditor.Database;
+using CustomRegionEditor.Database.Interfaces;
 using CustomRegionEditor.Database.Models;
 using CustomRegionEditor.EntityMapper;
 using CustomRegionEditor.ViewModels;
+using CustomRegionEditor.Web.Converters;
+using CustomRegionEditor.Web.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +14,10 @@ namespace CustomRegionEditor.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(ICustomRegionGroupRepository customRegionGroupRepository)
+        public HomeController(ICustomRegionGroupRepository customRegionGroupRepository, IViewModelConverter iViewModelConverter)
         {
             this.CustomRegionGroupRepository = customRegionGroupRepository;
+            this.IViewModelConverter = iViewModelConverter;
         }
 
         private LayoutViewModel SetupLayoutModel()
@@ -44,7 +48,7 @@ namespace CustomRegionEditor.Controllers
         private static List<string> States = null;
         private static List<string> Countries = null;
         private static List<string> Regions = null;
-        private static ViewModelConverter ViewModelConverter { get { return ViewModelConverter.GetInstance; } }
+        private IViewModelConverter IViewModelConverter = null;
 
         public ICustomRegionGroupRepository CustomRegionGroupRepository { get; private set; }
 
@@ -75,7 +79,7 @@ namespace CustomRegionEditor.Controllers
             if (SearchResults.Count > 0)
             {
                 contentViewModel.SearchViewModel.ValidResults = true;
-                contentViewModel.SearchViewModel.SearchResults = ViewModelConverter.GetView(SearchResults);
+                contentViewModel.SearchViewModel.SearchResults = IViewModelConverter.GetView(SearchResults);
             }
 
             return PartialView("_Content", contentViewModel);
@@ -118,7 +122,7 @@ namespace CustomRegionEditor.Controllers
                 EditViewModel = new EditViewModel() { IsEditing = true },
                 SearchViewModel = new SearchViewModel() { IsSearching = false }
             };
-            contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(newRegion);
+            contentViewModel.EditViewModel.CustomRegionGroupViewModel = IViewModelConverter.GetView(newRegion);
             contentViewModel.EditViewModel.CustomRegionGroupViewModel.CustomRegions = new List<CustomRegionViewModel>();
 
             return PartialView("_Content", contentViewModel);
@@ -134,7 +138,7 @@ namespace CustomRegionEditor.Controllers
             };
             var FoundRegion = this.CustomRegionGroupRepository.FindById(regionId);
             FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.apt?.apt_id).ThenBy(a => a.cty?.city_name).ThenBy(a => a.sta?.state_name).ThenBy(a => a.cnt?.country_name).ThenBy(a => a.reg?.region_name).ToList();
-            contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion);
+            contentViewModel.EditViewModel.CustomRegionGroupViewModel = IViewModelConverter.GetView(FoundRegion);
 
             return PartialView("_Content", contentViewModel);
         }
