@@ -21,6 +21,12 @@ function onSearch(e) {
     if ($(".by-region").is(':checked')) {
         filter = "region";
     }
+    if ($(".state-filter").is(':checked')) {
+        filter = "stateFilter";
+    }
+    if ($(".city-filter").is(':checked')) {
+        filter = "cityFilter";
+    }
     if (searchTerm) {
         $.ajax({
             type: "POST",
@@ -129,11 +135,12 @@ function clearDelete() {
 function entryConfirmDelete(e) {
     e.stopPropagation();
     var url = $(".table-header").attr("data-deleteentryurl");
+    var regionId = $(".table-header").attr("regionId");
     var entryId = $(this).parent().parent().attr("entryId");
     if (entryId) {
         $.ajax({
             type: "POST",
-            url: url + "?entryId=" + entryId,
+            url: url + "?entryId=" + entryId + "&regionId=" + regionId,
             success: refreshEdit,
         });
     }
@@ -169,7 +176,7 @@ function addEntry(e) {
         type = "region";
         value = container.val();
     }
-    if (value === "UK, IRELAND &amp; C.I" || value === "UK, IRELAND") {
+    if (value === "UK, IRELAND &amp; C.i") {
         value = "GBR";
     }
     if (value !== "" && value !== undefined) {
