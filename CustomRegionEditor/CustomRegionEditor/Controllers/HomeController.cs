@@ -11,6 +11,11 @@ namespace CustomRegionEditor.Controllers
 {
     public class HomeController : Controller
     {
+        public HomeController(ICustomRegionGroupRepository customRegionGroupRepository)
+        {
+            this.CustomRegionGroupRepository = customRegionGroupRepository;
+        }
+
         private LayoutViewModel SetupLayoutModel()
         {
             var layoutViewModel = new LayoutViewModel
@@ -26,11 +31,11 @@ namespace CustomRegionEditor.Controllers
 
         private void SetupAutoCompleteList()
         {
-            Airports = CustomRegionRepo.GetNames("airport").Distinct().ToList();
-            Cities = CustomRegionRepo.GetNames("city").Distinct().ToList();
-            States = CustomRegionRepo.GetNames("state").Distinct().ToList();
-            Countries = CustomRegionRepo.GetNames("country").Distinct().ToList();
-            Regions = CustomRegionRepo.GetNames("region").Distinct().ToList();
+            Airports = this.CustomRegionGroupRepository.GetNames("airport").Distinct().ToList();
+            Cities = this.CustomRegionGroupRepository.GetNames("city").Distinct().ToList();
+            States = this.CustomRegionGroupRepository.GetNames("state").Distinct().ToList();
+            Countries = this.CustomRegionGroupRepository.GetNames("country").Distinct().ToList();
+            Regions = this.CustomRegionGroupRepository.GetNames("region").Distinct().ToList();
 
         }
 
@@ -40,7 +45,8 @@ namespace CustomRegionEditor.Controllers
         private static List<string> Countries = null;
         private static List<string> Regions = null;
         private static ViewModelConverter ViewModelConverter { get { return ViewModelConverter.GetInstance; } }
-        private static CustomRegionGroupRepo CustomRegionRepo { get { return CustomRegionGroupRepo.GetInstance; } }
+
+        public ICustomRegionGroupRepository CustomRegionGroupRepository { get; private set; }
 
         public ActionResult Index()
         {
@@ -60,11 +66,11 @@ namespace CustomRegionEditor.Controllers
             };
             if (filter.Contains("Filter"))
             {
-                SearchResults = CustomRegionRepo.GetFilteredResults(searchTerm, filter);
+                SearchResults = this.CustomRegionGroupRepository.GetFilteredResults(searchTerm, filter);
             }
             else
             {
-                SearchResults = CustomRegionRepo.GetSearchResults(searchTerm, filter);
+                SearchResults = this.CustomRegionGroupRepository.GetSearchResults(searchTerm, filter);
             }
             if (SearchResults.Count > 0)
             {
@@ -78,35 +84,35 @@ namespace CustomRegionEditor.Controllers
         [HttpPost]
         public ActionResult DeleteRegionGroup(string regionId)
         {
-            CustomRegionRepo.DeleteById(regionId);
+            this.CustomRegionGroupRepository.DeleteById(regionId);
             return null;
         }
 
         [HttpPost]
         public ActionResult DeleteEntry(string entryId, string regionId)
         {
-            CustomRegionRepo.DeleteEntry(entryId, regionId);
+            this.CustomRegionGroupRepository.DeleteEntry(entryId, regionId);
             return null;
         }
 
         [HttpPost]
         public ActionResult AddRegion(string entry, string type, string regionId)
         {
-            CustomRegionRepo.AddByType(entry, type, regionId);
+            this.CustomRegionGroupRepository.AddByType(entry, type, regionId);
             return null;
         }
 
         [HttpPost]
         public ActionResult SaveChanges(string name, string description, string regionId)
         {
-            CustomRegionRepo.ChangeDetails(name, description, regionId);
+            this.CustomRegionGroupRepository.ChangeDetails(name, description, regionId);
             return null;
         }
 
         [HttpPost]
         public ActionResult NewCustomRegion()
         {
-            var newRegion = CustomRegionRepo.AddNewRegion();
+            var newRegion = this.CustomRegionGroupRepository.AddNewRegion();
             var contentViewModel = new ContentViewModel
             {
                 EditViewModel = new EditViewModel() { IsEditing = true },
@@ -126,7 +132,7 @@ namespace CustomRegionEditor.Controllers
                 EditViewModel = new EditViewModel() { IsEditing = true },
                 SearchViewModel = new SearchViewModel() { IsSearching = false }
             };
-            var FoundRegion = CustomRegionRepo.FindById(regionId);
+            var FoundRegion = this.CustomRegionGroupRepository.FindById(regionId);
             FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.apt?.apt_id).ThenBy(a => a.cty?.city_name).ThenBy(a => a.sta?.state_name).ThenBy(a => a.cnt?.country_name).ThenBy(a => a.reg?.region_name).ToList();
             contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion);
 

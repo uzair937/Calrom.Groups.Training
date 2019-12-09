@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ICustomRegionGroupRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Maps\SystemMap.cs" />
     <Compile Include="Maps\GlobalDistributionSystemMap.cs" />

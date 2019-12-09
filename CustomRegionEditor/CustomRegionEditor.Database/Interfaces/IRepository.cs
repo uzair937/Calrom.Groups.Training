@@ -2,7 +2,7 @@
 
 namespace CustomRegionEditor.Database
 {
-    interface IRepository<T>
+    public interface IRepository<T>
     {
         void AddOrUpdate(T entity);
         void Delete(T entity);

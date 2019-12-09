@@ -10,33 +10,18 @@ using FluentNHibernate.Utils;
 
 namespace CustomRegionEditor.Database
 {
-    public class CustomRegionGroupRepo : IRepository<CustomRegionGroupModel>
+    public class CustomRegionGroupRepo : ICustomRegionGroupRepository
     {
-        private static CustomRegionGroupRepo Instance = null;
+        public CustomRegionGroupRepo(LazyLoader lazyLoader)
+        {
+            this.LazyLoader = lazyLoader;
+        }
 
-        private static LazyLoader Loader = null;
+        private static CustomRegionGroupRepo Instance = null;
 
         private static readonly object Padlock = new object();
 
-        public static CustomRegionGroupRepo GetInstance
-        {
-            get
-            {
-                if (Instance == null)
-                {
-                    lock (Padlock)
-                    {
-                        if (Instance == null)
-                        {
-                            Loader = new LazyLoader();
-                            Instance = new CustomRegionGroupRepo();
-                        }
-                    }
-                }
-
-                return Instance;
-            }
-        }
+        public LazyLoader LazyLoader { get; }
 
         private List<CustomRegionGroupModel> _customRegionGroupList;
 
@@ -102,24 +87,24 @@ namespace CustomRegionEditor.Database
                 var contains = new List<CustomRegionGroupModel>();
                 if (searchTerm.Equals("-All", StringComparison.OrdinalIgnoreCase))
                 {
-                    return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
+                    return this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
                 }
 
                 if (searchTerm.Equals("-Small", StringComparison.OrdinalIgnoreCase))
                 {
-                    return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                    return this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
                         .Where(a => a.CustomRegionEntries.Count < 25).ToList());
                 }
 
                 if (searchTerm.Equals("-Large", StringComparison.OrdinalIgnoreCase))
                 {
-                    return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                    return this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
                         .Where(a => a.CustomRegionEntries.Count >= 25).ToList());
                 }
 
                 if (searchTerm.Equals("-Rand", StringComparison.OrdinalIgnoreCase))
                 {
-                    var returnModels = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
+                    var returnModels = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
                     var rand = new Random();
                     return new List<CustomRegionGroupModel> { returnModels.ElementAt(rand.Next(returnModels.Count)) };
                 }
@@ -127,21 +112,21 @@ namespace CustomRegionEditor.Database
                 switch (filter)
                 {
                     case ("none"):
-                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
                             .Where(s => s.custom_region_name.StartsWith(searchTerm)).ToList());
 
-                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                             !s.custom_region_name.StartsWith(searchTerm)
                             && (s.custom_region_name.Contains(searchTerm)
                                 || s.custom_region_description.Contains(searchTerm))).ToList());
                         break;
                     case ("airport"):
-                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.apt.airport_name)
                                     .Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.apt.airport_name)
                                     .Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.apt.airport_name)
@@ -149,32 +134,32 @@ namespace CustomRegionEditor.Database
                             .ToList());
                         break;
                     case ("city"):
-                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.Contains(searchTerm)))
                             .ToList());
                         break;
                     case ("state"):
-                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.Contains(searchTerm)))
                             .ToList());
                         break;
                     case ("country"):
-                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.cnt.country_name)
                                     .Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.cnt.country_name)
                                     .Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.cnt.country_name)
@@ -182,11 +167,11 @@ namespace CustomRegionEditor.Database
                             .ToList());
                         break;
                     case ("region"):
-                        startsWith = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.reg.region_name).Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.reg.region_name).Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.reg.region_name)
                                     .Any(w => w.Contains(searchTerm)))
@@ -265,7 +250,7 @@ namespace CustomRegionEditor.Database
             var customRegionGroupModel = new CustomRegionGroupModel();
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                customRegionGroupModel = Loader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id)));
+                customRegionGroupModel = this.LazyLoader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id)));
             }
             return customRegionGroupModel;
         }
@@ -502,7 +487,7 @@ namespace CustomRegionEditor.Database
             AddOrUpdate(customRegionGroupModel);
             using (var dbSession = NHibernateHelper.OpenSession())
             {
-                return Loader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().FirstOrDefault(a => a.custom_region_name == "Set Name"));
+                return this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().FirstOrDefault(a => a.custom_region_name == "Set Name"));
             }
         } //Generates a new empty region
 
