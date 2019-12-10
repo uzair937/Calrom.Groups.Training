@@ -16,7 +16,7 @@ namespace CustomRegionEditor.Database.Repositories
     {
         public CustomRegionGroupRepo(ILazyLoader lazyLoader, ISessionManager sessionManager, ICustomRegionEntryRepository customRegionEntryRepository)
         {
-            this.LazyLoader = lazyLoader;
+            LazyLoader = lazyLoader;
             this.SessionManager = sessionManager;
             this.CustomRegionEntryRepository = customRegionEntryRepository;
             _customRegionGroupList = new List<CustomRegionGroupModel>();
@@ -68,24 +68,24 @@ namespace CustomRegionEditor.Database.Repositories
                 var contains = new List<CustomRegionGroupModel>();
                 if (searchTerm.Equals("-All", StringComparison.OrdinalIgnoreCase))
                 {
-                    return this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
+                    return LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
                 }
 
                 if (searchTerm.Equals("-Small", StringComparison.OrdinalIgnoreCase))
                 {
-                    return this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                    return LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
                         .Where(a => a.CustomRegionEntries.Count < 25).ToList());
                 }
 
                 if (searchTerm.Equals("-Large", StringComparison.OrdinalIgnoreCase))
                 {
-                    return this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                    return LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
                         .Where(a => a.CustomRegionEntries.Count >= 25).ToList());
                 }
 
                 if (searchTerm.Equals("-Rand", StringComparison.OrdinalIgnoreCase))
                 {
-                    var returnModels = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
+                    var returnModels = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
                     var rand = new Random();
                     return new List<CustomRegionGroupModel> { returnModels.ElementAt(rand.Next(returnModels.Count)) };
                 }
@@ -93,21 +93,21 @@ namespace CustomRegionEditor.Database.Repositories
                 switch (filter)
                 {
                     case ("none"):
-                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                        startsWith = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
                             .Where(s => s.custom_region_name.StartsWith(searchTerm)).ToList());
 
-                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                             !s.custom_region_name.StartsWith(searchTerm)
                             && (s.custom_region_name.Contains(searchTerm)
                                 || s.custom_region_description.Contains(searchTerm))).ToList());
                         break;
                     case ("airport"):
-                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.apt.airport_name)
                                     .Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.apt.airport_name)
                                     .Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.apt.airport_name)
@@ -115,32 +115,32 @@ namespace CustomRegionEditor.Database.Repositories
                             .ToList());
                         break;
                     case ("city"):
-                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.Contains(searchTerm)))
                             .ToList());
                         break;
                     case ("state"):
-                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.Contains(searchTerm)))
                             .ToList());
                         break;
                     case ("country"):
-                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.cnt.country_name)
                                     .Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.cnt.country_name)
                                     .Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.cnt.country_name)
@@ -148,11 +148,11 @@ namespace CustomRegionEditor.Database.Repositories
                             .ToList());
                         break;
                     case ("region"):
-                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.reg.region_name).Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.reg.region_name).Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.reg.region_name)
                                     .Any(w => w.Contains(searchTerm)))
@@ -218,13 +218,13 @@ namespace CustomRegionEditor.Database.Repositories
             return crg;
         }
 
-        public List<CustomRegionEntryModel> GetCitySubregions(CityModel city)
+        public List<CustomRegionEntryModel> GetCitySubRegions(CityModel city)
         {
             var CustomRegionEntries = new List<CustomRegionEntryModel>();
 
             using (var dbSession = SessionManager.OpenSession())
             {
-                var airports = dbSession.Query<AirportModel>().Where(c => c.cty.city_name == city.city_name).ToList();
+                var airports = dbSession.Query<AirportModel>().Where(c => c.cty.cty_id == city.cty_id).ToList();
                 
                 foreach (var airport in airports)
                 {
@@ -237,13 +237,13 @@ namespace CustomRegionEditor.Database.Repositories
             return CustomRegionEntries;
         }
         
-        public List<CustomRegionEntryModel> GetStateSubregions(StateModel state)
+        public List<CustomRegionEntryModel> GetStateSubRegions(StateModel state)
         {
             var CustomRegionEntries = new List<CustomRegionEntryModel>();
 
             using (var dbSession = SessionManager.OpenSession())
             {
-                var cities = dbSession.Query<CityModel>().Where(c => c.sta.state_name == state.state_name).ToList();
+                var cities = dbSession.Query<CityModel>().Where(c => c.sta.sta_id == state.sta_id).ToList();
                 
                 foreach (var city in cities)
                 {
@@ -251,27 +251,26 @@ namespace CustomRegionEditor.Database.Repositories
                     {
                         cty = city
                     });
-                    CustomRegionEntries.Concat(GetCitySubregions(city));
+                    CustomRegionEntries.Concat(GetCitySubRegions(city));
                 }
             }
             return CustomRegionEntries;
         }
         
-        public List<CustomRegionEntryModel> GetCountrySubregions(CountryModel country)
+        public List<CustomRegionEntryModel> GetCountrySubRegions(CountryModel country)
         {
             var CustomRegionEntries = new List<CustomRegionEntryModel>();
 
             using (var dbSession = SessionManager.OpenSession())
             {
-                var cities = new List<CityModel>();
-                cities.Concat(dbSession.Query<CityModel>().Where(c => c.cnt.cnt_id == country.cnt_id).ToList());
+                var cities = dbSession.Query<CityModel>().Where(c => c.cnt.cnt_id == country.cnt_id).ToList();
                 foreach (var city in cities)
                 {
                     CustomRegionEntries.Add(new CustomRegionEntryModel()
                     {
                         cty = city
                     });
-                    CustomRegionEntries.Concat(GetCitySubregions(city));
+                    CustomRegionEntries.Concat(GetCitySubRegions(city));
                 }
                 var states = new List<StateModel>();
                 states.Concat(dbSession.Query<StateModel>().Where(s => s.cnt.cnt_id == country.cnt_id).ToList());
@@ -279,9 +278,9 @@ namespace CustomRegionEditor.Database.Repositories
                 {
                     CustomRegionEntries.Add(new CustomRegionEntryModel()
                     {
-                        cty = city
+                        sta = state
                     });
-                    CustomRegionEntries.Concat(GetCitySubregions(city));
+                    CustomRegionEntries.Concat(GetStateSubRegions(state));
                 }
             }
             return CustomRegionEntries;
@@ -292,7 +291,7 @@ namespace CustomRegionEditor.Database.Repositories
             var customRegionGroupModel = new CustomRegionGroupModel();
             using (var dbSession = SessionManager.OpenSession())
             {
-                customRegionGroupModel = this.LazyLoader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id)));
+                customRegionGroupModel = LazyLoader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id)));
             }
             return customRegionGroupModel;
         }
@@ -539,7 +538,7 @@ namespace CustomRegionEditor.Database.Repositories
             AddOrUpdate(customRegionGroupModel);
             using (var dbSession = SessionManager.OpenSession())
             {
-                return this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().FirstOrDefault(a => a.custom_region_name == "Set Name"));
+                return LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().FirstOrDefault(a => a.custom_region_name == "Set Name"));
             }
         } //Generates a new empty region
 

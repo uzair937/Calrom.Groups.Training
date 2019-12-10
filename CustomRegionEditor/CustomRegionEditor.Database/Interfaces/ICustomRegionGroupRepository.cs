@@ -6,7 +6,7 @@ namespace CustomRegionEditor.Database.Interfaces
     public interface ICustomRegionGroupRepository : IRepository<CustomRegionGroupModel>
     {
         List<string> GetNames(string type);
-        List<CustomRegionGroupModel> GetFilteredResults(string countryName, string filter);
+        CustomRegionGroupModel GetFilteredResults(string countryName, string filter);
         List<CustomRegionGroupModel> GetSearchResults(string searchTerm, string filter);
         void AddByType(string entry, string type, string regionId);
         void ChangeDetails(string name, string description, string regionId);

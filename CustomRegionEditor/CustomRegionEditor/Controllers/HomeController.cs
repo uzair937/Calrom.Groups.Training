@@ -48,7 +48,7 @@ namespace CustomRegionEditor.Controllers
         private static List<string> States = null;
         private static List<string> Countries = null;
         private static List<string> Regions = null;
-        private IViewModelConverter IViewModelConverter = null;
+        private readonly IViewModelConverter IViewModelConverter = null;
 
         public ICustomRegionGroupRepository CustomRegionGroupRepository { get; private set; }
         public ICustomRegionEntryRepository CustomRegionEntryRepository { get; private set; }
@@ -73,7 +73,7 @@ namespace CustomRegionEditor.Controllers
             {
                 contentViewModel = new ContentViewModel
                 {
-                    EditViewModel = new EditViewModel() { IsEditing = true, CustomRegionGroupViewModel = this.CustomRegionGroupRepository.GetFilteredResults(searchTerm, filter) },
+                    //EditViewModel = new EditViewModel() { IsEditing = true, CustomRegionGroupViewModel = this.CustomRegionGroupRepository.GetFilteredResults(searchTerm, filter) },
                     SearchViewModel = new SearchViewModel() { IsSearching = false }
                 };
             }
