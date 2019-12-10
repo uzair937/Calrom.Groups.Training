@@ -135,12 +135,11 @@ function clearDelete() {
 function entryConfirmDelete(e) {
     e.stopPropagation();
     var url = $(".table-header").attr("data-deleteentryurl");
-    var regionId = $(".table-header").attr("regionId");
     var entryId = $(this).parent().parent().attr("entryId");
     if (entryId) {
         $.ajax({
             type: "POST",
-            url: url + "?entryId=" + entryId + "&regionId=" + regionId,
+            url: url + "?entryId=" + entryId,
             success: refreshEdit,
         });
     }

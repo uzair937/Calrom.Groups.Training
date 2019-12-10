@@ -7,7 +7,7 @@ using CustomRegionEditor.Database.Interfaces;
 
 namespace CustomRegionEditor.Database.Models
 {
-    public class NHibernateHelper : INHibernateHelper
+    public class NHibernateHelper : ISessionManager
     {
 
         private ISessionFactory sessionFactory = null;

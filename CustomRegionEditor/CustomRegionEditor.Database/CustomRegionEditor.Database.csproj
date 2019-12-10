@@ -66,6 +66,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\ICustomRegionEntryRepository.cs" />
     <Compile Include="Interfaces\ICustomRegionGroupRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\ILazyLoader.cs" />
@@ -89,8 +90,9 @@
     <Compile Include="Models\StateModel.cs" />
     <Compile Include="Models\RegionModel.cs" />
     <Compile Include="Models\SystemModel.cs" />
-    <Compile Include="Interfaces\INHibernateHelper.cs" />
+    <Compile Include="Interfaces\ISessionManager.cs" />
     <Compile Include="NHibernate\NHibernateHelper.cs" />
+    <Compile Include="Repositories\CustomRegionEntryRepo.cs" />
     <Compile Include="Repositories\CustomRegionGroupRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NHibLazyLoader\LazyLoader.cs" />

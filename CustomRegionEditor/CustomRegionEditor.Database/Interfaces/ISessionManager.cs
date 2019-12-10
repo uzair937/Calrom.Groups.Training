@@ -6,7 +6,7 @@ using NHibernate.Caches.SysCache2;
 
 namespace CustomRegionEditor.Database.Interfaces
 {
-    public interface INHibernateHelper
+    public interface ISessionManager
     {
         ISessionFactory InitialiseSession();
 

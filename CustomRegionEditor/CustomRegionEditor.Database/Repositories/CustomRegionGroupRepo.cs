@@ -14,21 +14,25 @@ namespace CustomRegionEditor.Database.Repositories
 {
     public class CustomRegionGroupRepo : ICustomRegionGroupRepository
     {
-        public CustomRegionGroupRepo(ILazyLoader lazyLoader, INHibernateHelper iNHibernateHelper)
+        public CustomRegionGroupRepo(ILazyLoader lazyLoader, ISessionManager sessionManager, ICustomRegionEntryRepository customRegionEntryRepository)
         {
-            this.ILazyLoader = lazyLoader;
-            this.INHibernateHelper = iNHibernateHelper;
+            this.LazyLoader = lazyLoader;
+            this.SessionManager = sessionManager;
+            this.CustomRegionEntryRepository = customRegionEntryRepository;
             _customRegionGroupList = new List<CustomRegionGroupModel>();
         }
 
-        public INHibernateHelper INHibernateHelper { get; }
-        public ILazyLoader ILazyLoader { get; }
+        private ISessionManager SessionManager { get; }
+
+        private ILazyLoader LazyLoader { get; }
+
+        private ICustomRegionEntryRepository CustomRegionEntryRepository { get; }
 
         private List<CustomRegionGroupModel> _customRegionGroupList;
 
         public void AddOrUpdate(CustomRegionGroupModel entity)
         {
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
                 dbSession.SaveOrUpdate(entity);
                 dbSession.Flush();
@@ -39,28 +43,8 @@ namespace CustomRegionEditor.Database.Repositories
         {
             if (entity == null) return;
 
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
-                dbSession.Delete(entity);
-                dbSession.Flush();
-            }
-        }
-
-        public void Delete(List<CustomRegionEntryModel> entities)
-        {
-            foreach (var entity in entities)
-            {
-                Delete(entity);
-            }
-        }
-
-        public void Delete(CustomRegionEntryModel entity)
-        {
-            if (entity == null) return;
-
-            using (var dbSession = INHibernateHelper.OpenSession())
-            {
-                entity = dbSession.Get<CustomRegionEntryModel>(entity.cre_id);
                 dbSession.Delete(entity);
                 dbSession.Flush();
             }
@@ -68,7 +52,7 @@ namespace CustomRegionEditor.Database.Repositories
 
         public List<CustomRegionGroupModel> List()
         {
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
                 _customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().ToList();
             }
@@ -78,30 +62,30 @@ namespace CustomRegionEditor.Database.Repositories
 
         public List<CustomRegionGroupModel> GetSearchResults(string searchTerm, string filter)
         {
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
                 var startsWith = new List<CustomRegionGroupModel>();
                 var contains = new List<CustomRegionGroupModel>();
                 if (searchTerm.Equals("-All", StringComparison.OrdinalIgnoreCase))
                 {
-                    return this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
+                    return this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
                 }
 
                 if (searchTerm.Equals("-Small", StringComparison.OrdinalIgnoreCase))
                 {
-                    return this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                    return this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
                         .Where(a => a.CustomRegionEntries.Count < 25).ToList());
                 }
 
                 if (searchTerm.Equals("-Large", StringComparison.OrdinalIgnoreCase))
                 {
-                    return this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                    return this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
                         .Where(a => a.CustomRegionEntries.Count >= 25).ToList());
                 }
 
                 if (searchTerm.Equals("-Rand", StringComparison.OrdinalIgnoreCase))
                 {
-                    var returnModels = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
+                    var returnModels = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
                     var rand = new Random();
                     return new List<CustomRegionGroupModel> { returnModels.ElementAt(rand.Next(returnModels.Count)) };
                 }
@@ -109,21 +93,21 @@ namespace CustomRegionEditor.Database.Repositories
                 switch (filter)
                 {
                     case ("none"):
-                        startsWith = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
                             .Where(s => s.custom_region_name.StartsWith(searchTerm)).ToList());
 
-                        contains = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                             !s.custom_region_name.StartsWith(searchTerm)
                             && (s.custom_region_name.Contains(searchTerm)
                                 || s.custom_region_description.Contains(searchTerm))).ToList());
                         break;
                     case ("airport"):
-                        startsWith = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.apt.airport_name)
                                     .Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.apt.airport_name)
                                     .Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.apt.airport_name)
@@ -131,32 +115,32 @@ namespace CustomRegionEditor.Database.Repositories
                             .ToList());
                         break;
                     case ("city"):
-                        startsWith = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.cty.city_name).Any(w => w.Contains(searchTerm)))
                             .ToList());
                         break;
                     case ("state"):
-                        startsWith = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.sta.state_name).Any(w => w.Contains(searchTerm)))
                             .ToList());
                         break;
                     case ("country"):
-                        startsWith = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.cnt.country_name)
                                     .Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.cnt.country_name)
                                     .Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.cnt.country_name)
@@ -164,11 +148,11 @@ namespace CustomRegionEditor.Database.Repositories
                             .ToList());
                         break;
                     case ("region"):
-                        startsWith = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        startsWith = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 s.CustomRegionEntries.Select(a => a.reg.region_name).Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
-                        contains = this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                        contains = this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.reg.region_name).Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.reg.region_name)
                                     .Any(w => w.Contains(searchTerm)))
@@ -182,95 +166,145 @@ namespace CustomRegionEditor.Database.Repositories
             return _customRegionGroupList;
         } //looks for any matches containing the search term, orders them by relevance 
 
-        public List<CustomRegionGroupModel> GetFilteredResults(string countryName, string filter)
+        public CustomRegionGroupModel GetFilteredResults(string countryName, string filter)
         {
-            var model = new List<CustomRegionGroupModel>();
+
             var crg = new CustomRegionGroupModel()
             {
                 CustomRegionEntries = new List<CustomRegionEntryModel>()
             };
             switch (filter)
             {
-                case "stateFilter":
-                    using (var dbSession = INHibernateHelper.OpenSession())
-                    {
-                        var cities = dbSession.Query<CityModel>().Where(c => c.cnt.country_name == countryName);
-                        var states = dbSession.Query<StateModel>().Where(s => s.cnt.country_name == countryName);
-                        var airports = new List<AirportModel>();
-                        foreach (CityModel city in cities)
-                        {
-                            airports.Concat(dbSession.Query<AirportModel>().Where(c => c.cty.city_name == city.city_name).ToList());
-                            crg.CustomRegionEntries.Add(new CustomRegionEntryModel()
-                            {
-                                cty = city
-                            });
-                        }
-
-                        foreach (StateModel state in states)
-                        {
-                            crg.CustomRegionEntries.Add(new CustomRegionEntryModel()
-                            {
-                                sta = state
-                            });
-                        }
-
-                        foreach (AirportModel airport in airports)
-                        {
-                            crg.CustomRegionEntries.Add(new CustomRegionEntryModel()
-                            {
-                                apt = airport
-                            });
-                        }
-                        model.Add(crg);
-                    }
-                    _customRegionGroupList = model.ToList();
+                case "countryFilter":
+                    //using (var dbSession = SessionManager.OpenSession())
+                    //{
+                    //    var crg = new CustomRegionGroupModel()
+                    //    {
+                    //        CustomRegionEntries = new List<CustomRegionEntryModel>()
+                    //    };
+                    //    var cities = dbSession.Query<CityModel>().Where(c => c.cnt.country_name == countryName).ToList();
+                    //    var states = dbSession.Query<StateModel>().Where(s => s.cnt.country_name == countryName).ToList();
+                        
+                    //    foreach (CityModel city in cities)
+                    //    {
+                            
+                    //    }
+                    //    foreach (StateModel state in states)
+                    //    {
+                    //        crg.CustomRegionEntries.Add(new CustomRegionEntryModel()
+                    //        {
+                    //            sta = state
+                    //        });
+                    //    }
+                    //    foreach (AirportModel airport in airports)
+                    //    {
+                    //        crg.CustomRegionEntries.Add(new CustomRegionEntryModel()
+                    //        {
+                    //            apt = airport
+                    //        });
+                    //    }
+                    //}
                     break;
 
                 case "cityFilter":
-                    using (var dbSession = INHibernateHelper.OpenSession())
-                    {
-                        //
-                    }
+                    
 
-                    _customRegionGroupList = model.ToList();
                     break;
 
                 default:
                     break;
             }
 
-            return _customRegionGroupList;
+            return crg;
+        }
+
+        public List<CustomRegionEntryModel> GetCitySubregions(CityModel city)
+        {
+            var CustomRegionEntries = new List<CustomRegionEntryModel>();
+
+            using (var dbSession = SessionManager.OpenSession())
+            {
+                var airports = dbSession.Query<AirportModel>().Where(c => c.cty.city_name == city.city_name).ToList();
+                
+                foreach (var airport in airports)
+                {
+                    CustomRegionEntries.Add(new CustomRegionEntryModel()
+                    {
+                        apt = airport
+                    });
+                }
+            }
+            return CustomRegionEntries;
+        }
+        
+        public List<CustomRegionEntryModel> GetStateSubregions(StateModel state)
+        {
+            var CustomRegionEntries = new List<CustomRegionEntryModel>();
+
+            using (var dbSession = SessionManager.OpenSession())
+            {
+                var cities = dbSession.Query<CityModel>().Where(c => c.sta.state_name == state.state_name).ToList();
+                
+                foreach (var city in cities)
+                {
+                    CustomRegionEntries.Add(new CustomRegionEntryModel()
+                    {
+                        cty = city
+                    });
+                    CustomRegionEntries.Concat(GetCitySubregions(city));
+                }
+            }
+            return CustomRegionEntries;
+        }
+        
+        public List<CustomRegionEntryModel> GetCountrySubregions(CountryModel country)
+        {
+            var CustomRegionEntries = new List<CustomRegionEntryModel>();
+
+            using (var dbSession = SessionManager.OpenSession())
+            {
+                var cities = new List<CityModel>();
+                cities.Concat(dbSession.Query<CityModel>().Where(c => c.cnt.cnt_id == country.cnt_id).ToList());
+                foreach (var city in cities)
+                {
+                    CustomRegionEntries.Add(new CustomRegionEntryModel()
+                    {
+                        cty = city
+                    });
+                    CustomRegionEntries.Concat(GetCitySubregions(city));
+                }
+                var states = new List<StateModel>();
+                states.Concat(dbSession.Query<StateModel>().Where(s => s.cnt.cnt_id == country.cnt_id).ToList());
+                foreach (var state in states)
+                {
+                    CustomRegionEntries.Add(new CustomRegionEntryModel()
+                    {
+                        cty = city
+                    });
+                    CustomRegionEntries.Concat(GetCitySubregions(city));
+                }
+            }
+            return CustomRegionEntries;
         }
 
         public CustomRegionGroupModel FindById(string id)
         {
             var customRegionGroupModel = new CustomRegionGroupModel();
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
-                customRegionGroupModel = this.ILazyLoader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id)));
+                customRegionGroupModel = this.LazyLoader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id)));
             }
             return customRegionGroupModel;
         }
 
-        public void DeleteById(string id)
+        public void DeleteById(string entryId)
         {
             var customRegionGroupModel = new CustomRegionGroupModel();
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
-                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id));
+                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(entryId));
             }
             Delete(customRegionGroupModel);
-        }
-
-        public void DeleteEntry(string entryId, string regionId)
-        {
-            var customRegionGroupModel = new CustomRegionGroupModel();
-            var customRegionEntryModel = new CustomRegionEntryModel();
-            using (var dbSession = INHibernateHelper.OpenSession())
-            {
-                customRegionEntryModel = dbSession.Get<CustomRegionEntryModel>(Guid.Parse(entryId));
-            }
-            Delete(customRegionEntryModel);
         }
 
         public void AddByType(string entry, string type, string regionId)
@@ -279,14 +313,9 @@ namespace CustomRegionEditor.Database.Repositories
             var customRegionGroupModel = new CustomRegionGroupModel();
             var customRegionEntryModel = new CustomRegionEntryModel
             {
-                apt = null,
-                cty = null,
-                sta = null,
-                cnt = null,
-                reg = null,
                 row_version = 1
             };
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
                 customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
                 customRegionEntryModel.crg = customRegionGroupModel;
@@ -318,115 +347,120 @@ namespace CustomRegionEditor.Database.Repositories
             }
             if (validEntry)
             {
-                using (var dbSession = INHibernateHelper.OpenSession())
+                using (var dbSession = SessionManager.OpenSession())
                 {
                     customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
-                    RemoveChildRegions(customRegionGroupModel, customRegionEntryModel, type);
-                    if (type == "airport" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.apt?.airport_name == customRegionEntryModel?.apt?.airport_name) == null)
-                    {
-                        if ((!customRegionGroupModel.CustomRegionEntries.Select(c => c.cty?.city_name).Contains(customRegionEntryModel.apt?.cty?.city_name) || customRegionEntryModel.apt?.cty?.city_name == null)
-                            && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.sta?.state_name).Contains(customRegionEntryModel.apt?.cty?.sta?.state_name) || customRegionEntryModel.apt?.cty?.sta?.state_name == null)
-                            && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.cnt?.country_name).Contains(customRegionEntryModel.apt?.cty?.cnt?.country_name) || customRegionEntryModel.apt?.cty?.sta?.cnt?.country_name == null)
-                            && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.cnt?.country_name).Contains(customRegionEntryModel.apt?.cty?.sta?.cnt?.country_name) || customRegionEntryModel.apt?.cty?.sta?.cnt?.country_name == null)
-                            && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.reg?.region_name).Contains(customRegionEntryModel.apt?.cty?.sta?.cnt?.reg?.region_name) || customRegionEntryModel.apt?.cty?.sta?.cnt?.reg?.region_name == null)
-                            && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.reg?.region_name).Contains(customRegionEntryModel.apt?.cty?.cnt?.reg?.region_name) || customRegionEntryModel.apt?.cty?.cnt?.reg?.region_name == null))
-                        {
-                            customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
-                        }
-                    }
-                    if (type == "city" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.cty?.city_name == customRegionEntryModel?.cty?.city_name) == null)
-                    {
-                        if ((!customRegionGroupModel.CustomRegionEntries.Select(c => c.sta?.state_name).Contains(customRegionEntryModel.cty?.sta?.state_name) || customRegionEntryModel.cty?.sta?.state_name == null)
-                            && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.cnt?.country_name).Contains(customRegionEntryModel.cty?.cnt?.country_name) || customRegionEntryModel.cty?.cnt?.country_name == null)
-                            && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.cnt?.country_name).Contains(customRegionEntryModel.cty?.sta?.cnt?.country_name) || customRegionEntryModel.cty?.sta?.cnt?.country_name == null)
-                            && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.reg?.region_name).Contains(customRegionEntryModel.cty?.sta?.cnt?.reg?.region_name) || customRegionEntryModel.cty?.sta?.cnt?.reg?.region_name == null)
-                            && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.reg?.region_name).Contains(customRegionEntryModel.cty?.cnt?.reg?.region_name) || customRegionEntryModel.cty?.cnt?.reg?.region_name == null))
-                        {
-                            customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
-                        }
-                    }
-                    if (type == "state" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.sta?.state_name == customRegionEntryModel?.sta?.state_name) == null)
-                    {
-                        if ((!customRegionGroupModel.CustomRegionEntries.Select(c => c.cnt?.country_name).Contains(customRegionEntryModel.sta?.cnt?.country_name) || customRegionEntryModel.sta?.cnt?.country_name == null)
-                            && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.reg?.region_name).Contains(customRegionEntryModel.sta?.cnt?.reg?.region_name) || customRegionEntryModel.sta?.cnt?.reg?.region_name == null))
-                        {
-                            customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
-                        }
-                    }
-                    if (type == "country" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.cnt?.country_name == customRegionEntryModel?.cnt?.country_name) == null)
-                    {
-                        if (!customRegionGroupModel.CustomRegionEntries.Select(c => c.reg?.region_name).Contains(customRegionEntryModel.cnt?.reg?.region_name) || customRegionEntryModel.cnt?.reg?.region_name == null)
-                        {
-                            customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
-                        }
-                    }
-                    if (type == "region" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.reg?.region_name == customRegionEntryModel?.reg?.region_name) == null)
-                    {
-                        customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
-                    }
+                    RemoveSubregions(customRegionGroupModel, customRegionEntryModel, type);
+                    CheckForParents(customRegionGroupModel, type, customRegionEntryModel);
                 }
                 AddOrUpdate(customRegionGroupModel);
             }
         } //adds a new entry to a group
 
-        private void RemoveChildRegions(CustomRegionGroupModel customRegionGroupModel, CustomRegionEntryModel customRegionEntryModel, string type)
+        private void CheckForParents(CustomRegionGroupModel customRegionGroupModel, string type, CustomRegionEntryModel customRegionEntryModel)
+        {
+            if (type == "airport" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.apt?.airport_name == customRegionEntryModel?.apt?.airport_name) == null)
+            {
+                if ((!customRegionGroupModel.CustomRegionEntries.Select(c => c.cty?.city_name).Contains(customRegionEntryModel.apt?.cty?.city_name) || customRegionEntryModel.apt?.cty?.city_name == null)
+                    && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.sta?.state_name).Contains(customRegionEntryModel.apt?.cty?.sta?.state_name) || customRegionEntryModel.apt?.cty?.sta?.state_name == null)
+                    && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.cnt?.country_name).Contains(customRegionEntryModel.apt?.cty?.cnt?.country_name) || customRegionEntryModel.apt?.cty?.sta?.cnt?.country_name == null)
+                    && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.cnt?.country_name).Contains(customRegionEntryModel.apt?.cty?.sta?.cnt?.country_name) || customRegionEntryModel.apt?.cty?.sta?.cnt?.country_name == null)
+                    && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.reg?.region_name).Contains(customRegionEntryModel.apt?.cty?.sta?.cnt?.reg?.region_name) || customRegionEntryModel.apt?.cty?.sta?.cnt?.reg?.region_name == null)
+                    && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.reg?.region_name).Contains(customRegionEntryModel.apt?.cty?.cnt?.reg?.region_name) || customRegionEntryModel.apt?.cty?.cnt?.reg?.region_name == null))
+                {
+                    customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
+                }
+            }
+            if (type == "city" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.cty?.city_name == customRegionEntryModel?.cty?.city_name) == null)
+            {
+                if ((!customRegionGroupModel.CustomRegionEntries.Select(c => c.sta?.state_name).Contains(customRegionEntryModel.cty?.sta?.state_name) || customRegionEntryModel.cty?.sta?.state_name == null)
+                    && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.cnt?.country_name).Contains(customRegionEntryModel.cty?.cnt?.country_name) || customRegionEntryModel.cty?.cnt?.country_name == null)
+                    && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.cnt?.country_name).Contains(customRegionEntryModel.cty?.sta?.cnt?.country_name) || customRegionEntryModel.cty?.sta?.cnt?.country_name == null)
+                    && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.reg?.region_name).Contains(customRegionEntryModel.cty?.sta?.cnt?.reg?.region_name) || customRegionEntryModel.cty?.sta?.cnt?.reg?.region_name == null)
+                    && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.reg?.region_name).Contains(customRegionEntryModel.cty?.cnt?.reg?.region_name) || customRegionEntryModel.cty?.cnt?.reg?.region_name == null))
+                {
+                    customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
+                }
+            }
+            if (type == "state" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.sta?.state_name == customRegionEntryModel?.sta?.state_name) == null)
+            {
+                if ((!customRegionGroupModel.CustomRegionEntries.Select(c => c.cnt?.country_name).Contains(customRegionEntryModel.sta?.cnt?.country_name) || customRegionEntryModel.sta?.cnt?.country_name == null)
+                    && (!customRegionGroupModel.CustomRegionEntries.Select(c => c.reg?.region_name).Contains(customRegionEntryModel.sta?.cnt?.reg?.region_name) || customRegionEntryModel.sta?.cnt?.reg?.region_name == null))
+                {
+                    customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
+                }
+            }
+            if (type == "country" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.cnt?.country_name == customRegionEntryModel?.cnt?.country_name) == null)
+            {
+                if (!customRegionGroupModel.CustomRegionEntries.Select(c => c.reg?.region_name).Contains(customRegionEntryModel.cnt?.reg?.region_name) || customRegionEntryModel.cnt?.reg?.region_name == null)
+                {
+                    customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
+                }
+            }
+            if (type == "region" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.reg?.region_name == customRegionEntryModel?.reg?.region_name) == null)
+            {
+                customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
+            }
+        }
+
+        private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, CustomRegionEntryModel customRegionEntryModel, string type)
         {
             switch (type)
             {
                 case "airport":
                     break;
                 case "city":
-                    RemoveChildRegions(customRegionGroupModel, customRegionEntryModel.cty);
+                    RemoveSubregions(customRegionGroupModel, customRegionEntryModel.cty);
                     break;
                 case "state":
-                    RemoveChildRegions(customRegionGroupModel, customRegionEntryModel.sta);
+                    RemoveSubregions(customRegionGroupModel, customRegionEntryModel.sta);
                     break;
                 case "country":
-                    RemoveChildRegions(customRegionGroupModel, customRegionEntryModel.cnt);
+                    RemoveSubregions(customRegionGroupModel, customRegionEntryModel.cnt);
                     break;
                 case "region":
-                    RemoveChildRegions(customRegionGroupModel, customRegionEntryModel.reg);
+                    RemoveSubregions(customRegionGroupModel, customRegionEntryModel.reg);
                     break;
             }
 
         }
 
-        private void RemoveChildRegions(CustomRegionGroupModel customRegionGroupModel, CityModel cityModel)
+        private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, CityModel cityModel)
         {
-            Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.city_name == cityModel.city_name).ToList());
+            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.city_name == cityModel.city_name).ToList());
 
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.city_name == cityModel.city_name).ToList();
+            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.city_name != cityModel.city_name).ToList();
         }
 
-        private void RemoveChildRegions(CustomRegionGroupModel customRegionGroupModel, StateModel stateModel)
+        private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, StateModel stateModel)
         {
-            Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.sta?.state_name == stateModel.state_name).ToList());
-            Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.cty?.sta?.state_name == stateModel.state_name).ToList());
+            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.sta?.state_name == stateModel.state_name).ToList());
+            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.cty?.sta?.state_name == stateModel.state_name).ToList());
 
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.sta?.state_name == stateModel.state_name).ToList();
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.cty?.sta?.state_name == stateModel.state_name).ToList();
+            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.sta?.state_name != stateModel.state_name).ToList();
+            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.cty?.sta?.state_name != stateModel.state_name).ToList();
         }
 
-        private void RemoveChildRegions(CustomRegionGroupModel customRegionGroupModel, CountryModel countryModel)
+        private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, CountryModel countryModel)
         {
-            Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.sta?.cnt?.country_name == countryModel.country_name).ToList());
-            Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.cnt?.country_name == countryModel.country_name).ToList());
-            Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.cty?.cnt?.country_name == countryModel.country_name).ToList());
-            Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.sta?.cnt?.country_name == countryModel.country_name).ToList());
+            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.sta?.cnt?.country_name == countryModel.country_name).ToList());
+            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.cnt?.country_name == countryModel.country_name).ToList());
+            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.cty?.cnt?.country_name == countryModel.country_name).ToList());
+            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.sta?.cnt?.country_name == countryModel.country_name).ToList());
 
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.sta?.cnt?.country_name == countryModel.country_name).ToList();
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.cnt?.country_name == countryModel.country_name).ToList();
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.cty?.cnt?.country_name == countryModel.country_name).ToList();
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.sta?.cnt?.country_name == countryModel.country_name).ToList();
+            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.sta?.cnt?.country_name != countryModel.country_name).ToList();
+            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.cnt?.country_name != countryModel.country_name).ToList();
+            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.cty?.cnt?.country_name != countryModel.country_name).ToList();
+            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.sta?.cnt?.country_name != countryModel.country_name).ToList();
         }
 
-        private void RemoveChildRegions(CustomRegionGroupModel customRegionGroupModel, RegionModel regionModel)
+        private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, RegionModel regionModel)
         {
-            Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.sta?.cnt?.reg?.region_name == regionModel.region_name).ToList());
-            Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.cnt?.reg?.region_name == regionModel.region_name).ToList());
-            Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.cty?.cnt?.reg?.region_name == regionModel.region_name).ToList());
-            Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.sta?.cnt?.reg?.region_name == regionModel.region_name).ToList());
-            Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.cnt?.reg?.region_name == regionModel.region_name).ToList());
+            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.sta?.cnt?.reg?.region_name == regionModel.region_name).ToList());
+            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.cnt?.reg?.region_name == regionModel.region_name).ToList());
+            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.cty?.cnt?.reg?.region_name == regionModel.region_name).ToList());
+            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.sta?.cnt?.reg?.region_name == regionModel.region_name).ToList());
+            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.cnt?.reg?.region_name == regionModel.region_name).ToList());
 
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.sta?.cnt?.reg?.region_name != regionModel.region_name).ToList();
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.apt?.cty?.cnt?.reg?.region_name != regionModel.region_name).ToList();
@@ -438,11 +472,11 @@ namespace CustomRegionEditor.Database.Repositories
         public AirportModel GetAirport(string entry)
         {
             var airportModel = new AirportModel();
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
                 airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.airport_name == (entry));
                 if (airportModel == null) airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.apt_id == (entry));
-                return ILazyLoader.LoadEntities(airportModel);
+                return LazyLoader.LoadEntities(airportModel);
             }
 
         } //searches for a matching airport
@@ -450,11 +484,11 @@ namespace CustomRegionEditor.Database.Repositories
         public CityModel GetCity(string entry)
         {
             var cityModel = new CityModel();
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
                 cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.city_name == (entry));
                 if (cityModel == null) cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.cty_id == (entry));
-                return ILazyLoader.LoadEntities(cityModel);
+                return LazyLoader.LoadEntities(cityModel);
             }
 
         } //searches for a matching city
@@ -462,11 +496,11 @@ namespace CustomRegionEditor.Database.Repositories
         public StateModel GetState(string entry)
         {
             var stateModel = new StateModel();
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
                 stateModel = dbSession.Query<StateModel>().FirstOrDefault(a => a.state_name == (entry));
                 if (stateModel == null) stateModel = dbSession.Query<StateModel>().FirstOrDefault(a => a.sta_id == (entry));
-                return ILazyLoader.LoadEntities(stateModel);
+                return LazyLoader.LoadEntities(stateModel);
             }
 
         } //searches for a matching state
@@ -474,11 +508,11 @@ namespace CustomRegionEditor.Database.Repositories
         public CountryModel GetCountry(string entry)
         {
             var countryModel = new CountryModel();
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
                 countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.country_name == (entry));
                 if (countryModel == null) countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.cnt_id == (entry));
-                return ILazyLoader.LoadEntities(countryModel);
+                return LazyLoader.LoadEntities(countryModel);
             }
 
         } //searches for a matching country
@@ -486,11 +520,11 @@ namespace CustomRegionEditor.Database.Repositories
         public RegionModel GetRegion(string entry)
         {
             var regionModel = new RegionModel();
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
                 regionModel = dbSession.Query<RegionModel>().FirstOrDefault(a => a.region_name == (entry));
                 if (regionModel == null) regionModel = dbSession.Query<RegionModel>().FirstOrDefault(a => a.reg_id == (entry));
-                return ILazyLoader.LoadEntities(regionModel);
+                return LazyLoader.LoadEntities(regionModel);
             }
         } //searches for a matching region
 
@@ -503,16 +537,16 @@ namespace CustomRegionEditor.Database.Repositories
                 custom_region_description = "Set Description",
             };
             AddOrUpdate(customRegionGroupModel);
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
-                return this.ILazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().FirstOrDefault(a => a.custom_region_name == "Set Name"));
+                return this.LazyLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().FirstOrDefault(a => a.custom_region_name == "Set Name"));
             }
         } //Generates a new empty region
 
         public void ChangeDetails(string name, string description, string regionId)
         {
             var customRegion = new CustomRegionGroupModel();
-            using (var dbSession = INHibernateHelper.OpenSession())
+            using (var dbSession = SessionManager.OpenSession())
             {
                 customRegion = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
                 if (name != "" & name != null) customRegion.custom_region_name = name;
@@ -527,31 +561,31 @@ namespace CustomRegionEditor.Database.Repositories
             switch (type)
             {
                 case "airport":
-                    using (var dbSession = INHibernateHelper.OpenSession())
+                    using (var dbSession = SessionManager.OpenSession())
                     {
                         names = dbSession.Query<AirportModel>().Select(a => a.airport_name.ToUpper()).ToList();
                     }
                     return names;
                 case "city":
-                    using (var dbSession = INHibernateHelper.OpenSession())
+                    using (var dbSession = SessionManager.OpenSession())
                     {
                         names = dbSession.Query<CityModel>().Select(a => a.city_name.ToUpper()).ToList();
                     }
                     return names;
                 case "state":
-                    using (var dbSession = INHibernateHelper.OpenSession())
+                    using (var dbSession = SessionManager.OpenSession())
                     {
                         names = dbSession.Query<StateModel>().Select(a => a.state_name.ToUpper()).ToList();
                     }
                     return names;
                 case "country":
-                    using (var dbSession = INHibernateHelper.OpenSession())
+                    using (var dbSession = SessionManager.OpenSession())
                     {
                         names = dbSession.Query<CountryModel>().Select(a => a.country_name.ToUpper()).ToList();
                     }
                     return names;
                 case "region":
-                    using (var dbSession = INHibernateHelper.OpenSession())
+                    using (var dbSession = SessionManager.OpenSession())
                     {
                         names = dbSession.Query<RegionModel>().Select(a => a.region_name.ToUpper()).ToList();
                     }
@@ -561,5 +595,5 @@ namespace CustomRegionEditor.Database.Repositories
             }
             return null;
         }
-    } //searches for a matching airport
+    }
 }

@@ -14,10 +14,11 @@ namespace CustomRegionEditor.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(ICustomRegionGroupRepository customRegionGroupRepository, IViewModelConverter iViewModelConverter)
+        public HomeController(ICustomRegionGroupRepository customRegionGroupRepository, ICustomRegionEntryRepository customRegionEntryRepository, IViewModelConverter iViewModelConverter)
         {
             this.CustomRegionGroupRepository = customRegionGroupRepository;
             this.IViewModelConverter = iViewModelConverter;
+            this.CustomRegionEntryRepository = customRegionEntryRepository;
         }
 
         private LayoutViewModel SetupLayoutModel()
@@ -40,7 +41,6 @@ namespace CustomRegionEditor.Controllers
             States = this.CustomRegionGroupRepository.GetNames("state").Distinct().ToList();
             Countries = this.CustomRegionGroupRepository.GetNames("country").Distinct().ToList();
             Regions = this.CustomRegionGroupRepository.GetNames("region").Distinct().ToList();
-
         }
 
         private static List<string> Airports = null;
@@ -51,6 +51,7 @@ namespace CustomRegionEditor.Controllers
         private IViewModelConverter IViewModelConverter = null;
 
         public ICustomRegionGroupRepository CustomRegionGroupRepository { get; private set; }
+        public ICustomRegionEntryRepository CustomRegionEntryRepository { get; private set; }
 
         public ActionResult Index()
         {
@@ -70,11 +71,20 @@ namespace CustomRegionEditor.Controllers
             };
             if (filter.Contains("Filter"))
             {
-                SearchResults = this.CustomRegionGroupRepository.GetFilteredResults(searchTerm, filter);
+                contentViewModel = new ContentViewModel
+                {
+                    EditViewModel = new EditViewModel() { IsEditing = true, CustomRegionGroupViewModel = this.CustomRegionGroupRepository.GetFilteredResults(searchTerm, filter) },
+                    SearchViewModel = new SearchViewModel() { IsSearching = false }
+                };
             }
             else
             {
                 SearchResults = this.CustomRegionGroupRepository.GetSearchResults(searchTerm, filter);
+                contentViewModel = new ContentViewModel
+                {
+                    EditViewModel = new EditViewModel() { IsEditing = false },
+                    SearchViewModel = new SearchViewModel() { IsSearching = true, ValidResults = false }
+                };
             }
             if (SearchResults.Count > 0)
             {
@@ -93,9 +103,9 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult DeleteEntry(string entryId, string regionId)
+        public ActionResult DeleteEntry(string entryId)
         {
-            this.CustomRegionGroupRepository.DeleteEntry(entryId, regionId);
+            this.CustomRegionEntryRepository.DeleteById(entryId);
             return null;
         }
 

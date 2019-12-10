@@ -25,10 +25,12 @@ namespace CustomRegionEditor.Web
             container.RegisterType<ILazyLoader, LazyLoader>();
 
             container.RegisterType<ICustomRegionGroupRepository, CustomRegionGroupRepo>();
+
+            container.RegisterType<ICustomRegionEntryRepository, CustomRegionEntryRepo>();
             
             container.RegisterType<IViewModelConverter, ViewModelConverter>();
             
-            container.RegisterSingleton<INHibernateHelper, NHibernateHelper>();
+            container.RegisterSingleton<ISessionManager, NHibernateHelper>();
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
