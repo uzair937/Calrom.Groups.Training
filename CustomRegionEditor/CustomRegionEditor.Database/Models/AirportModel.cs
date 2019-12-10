@@ -8,15 +8,15 @@ namespace CustomRegionEditor.Database.Models
 {
     public class AirportModel
     {
-        public virtual string apt_id { get; set; }
-        public virtual string airport_name { get; set; }
-        public virtual CityModel cty { get; set; }
-        public virtual bool is_main_airport { get; set; }
-        public virtual bool is_gateway_airport { get; set; }
-        public virtual int row_version { get; set; }
-        public virtual string gma_email_address { get; set; }
-        public virtual bool is_gma_allowed { get; set; }
-        public virtual bool is_group_checkin_allowed { get; set; }
-        public virtual Guid lto_id { get; set; }
+        public virtual string AirportId { get; set; }
+        public virtual string AirportName { get; set; }
+        public virtual CityModel City { get; set; }
+        public virtual bool IsMainAirport { get; set; }
+        public virtual bool IsGatewayAirport { get; set; }
+        public virtual int RowVersion { get; set; }
+        public virtual string GmaEmailAddress { get; set; }
+        public virtual bool IsGmaAllowed { get; set; }
+        public virtual bool IsGroupCheckinAllowed { get; set; }
+        public virtual Guid LtoId { get; set; }
     }
 }

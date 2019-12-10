@@ -13,10 +13,10 @@ namespace CustomRegionEditor.Database.Maps
         public RegionMap()
         {
             Table("dbo.REF_REG_region");
-            Id(i => i.reg_id);
-            Map(i => i.region_name);
-            Map(i => i.row_version);
-            Map(i => i.lto_id);
+            Id(i => i.RegionId);
+            Map(i => i.RegionName);
+            Map(i => i.RowVersion);
+            Map(i => i.LtoId);
         }
     }
 }

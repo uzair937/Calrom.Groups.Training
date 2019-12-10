@@ -8,13 +8,13 @@ namespace CustomRegionEditor.Database.Models
 {
     public class CityModel
     {
-        public virtual string cty_id { get; set; }
-        public virtual string city_name { get; set; }
-        public virtual CountryModel cnt { get; set; }
-        public virtual int row_version { get; set; }
-        public virtual StateModel sta { get; set; }
-        public virtual string timezone { get; set; }
-        public virtual int utc_offset { get; set; }
-        public virtual Guid lto_id { get; set; }
+        public virtual string CityId { get; set; }
+        public virtual string CityName { get; set; }
+        public virtual CountryModel Country { get; set; }
+        public virtual int RowVersion { get; set; }
+        public virtual StateModel State { get; set; }
+        public virtual string TimeZone { get; set; }
+        public virtual int UtcOffset { get; set; }
+        public virtual Guid LtoId { get; set; }
     }
 }

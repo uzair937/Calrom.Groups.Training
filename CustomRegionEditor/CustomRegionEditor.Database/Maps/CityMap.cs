@@ -13,14 +13,14 @@ namespace CustomRegionEditor.Database.Maps
         public CityMap()
         {
             Table("dbo.REF_CTY_city");
-            Id(i => i.cty_id);
-            Map(i => i.city_name);
-            References(i => i.cnt).Column("cnt_id").Cascade.All();
-            Map(i => i.row_version);
-            References(i => i.sta).Column("sta_id").Cascade.All();
-            Map(i => i.timezone);
-            Map(i => i.utc_offset);
-            Map(i => i.lto_id);
+            Id(i => i.CityId);
+            Map(i => i.CityName);
+            References(i => i.Country).Column("CountryId").Cascade.All();
+            Map(i => i.RowVersion);
+            References(i => i.State).Column("StateId").Cascade.All();
+            Map(i => i.TimeZone);
+            Map(i => i.UtcOffset);
+            Map(i => i.LtoId);
         }
     }
 }

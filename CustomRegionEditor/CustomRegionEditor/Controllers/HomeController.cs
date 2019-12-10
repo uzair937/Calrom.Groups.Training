@@ -147,7 +147,7 @@ namespace CustomRegionEditor.Controllers
                 SearchViewModel = new SearchViewModel() { IsSearching = false }
             };
             var FoundRegion = this.CustomRegionGroupRepository.FindById(regionId);
-            FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.apt?.apt_id).ThenBy(a => a.cty?.city_name).ThenBy(a => a.sta?.state_name).ThenBy(a => a.cnt?.country_name).ThenBy(a => a.reg?.region_name).ToList();
+            FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId).ThenBy(a => a.City?.CityName).ThenBy(a => a.State?.StateName).ThenBy(a => a.Country?.CountryName).ThenBy(a => a.Region?.RegionName).ToList();
             contentViewModel.EditViewModel.CustomRegionGroupViewModel = IViewModelConverter.GetView(FoundRegion);
 
             return PartialView("_Content", contentViewModel);
@@ -181,6 +181,32 @@ namespace CustomRegionEditor.Controllers
                 }
             }
             return PartialView("_AutoComplete", autoCompleteViewModel);
+        }
+
+        public CustomRegionGroupModel GetFilteredResults(string countryName, string filter)
+        {
+
+            var crg = new CustomRegionGroupModel()
+            {
+                CustomRegionEntries = new List<CustomRegionEntryModel>()
+            };
+            switch (filter)
+            {
+                case "countryFilter":
+
+                    crg.CustomRegionEntries = CustomRegionGroupRepository.GetCountrySubRegions(CustomRegionGroupRepository.GetCountry(countryName));
+                    break;
+
+                case "cityFilter":
+                    crg.CustomRegionEntries = GetCitySubRegions(GetCity(countryName));
+
+                    break;
+
+                default:
+                    break;
+            }
+
+            return crg;
         }
 
         public List<string> GetCountries(string term)

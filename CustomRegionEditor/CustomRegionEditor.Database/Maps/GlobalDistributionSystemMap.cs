@@ -13,15 +13,15 @@ namespace CustomRegionEditor.Database.Maps
         public GlobalDistributionSystemMap()
         {
             Table("dbo.REF_GDS_global_distribution_system");
-            Id(i => i.gds_id).GeneratedBy.Guid();
-            Map(i => i.internal_gds_name);
-            Map(i => i.external_gds_name);
-            Map(i => i.gds_description);
-            Map(i => i.gds_code);
-            Map(i => i.row_version);
-            Map(i => i.old_gds_id);
-            Map(i => i.display_order);
-            Map(i => i.lto_id);
+            Id(i => i.GdsId).GeneratedBy.Guid();
+            Map(i => i.InternalGdsName);
+            Map(i => i.ExternalGdsName);
+            Map(i => i.GdsDescription);
+            Map(i => i.GdsCode);
+            Map(i => i.RowVersion);
+            Map(i => i.OldGdsId);
+            Map(i => i.DisplayOrder);
+            Map(i => i.LtoId);
 
         }
     }

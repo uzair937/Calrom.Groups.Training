@@ -13,11 +13,11 @@ namespace CustomRegionEditor.Database.Maps
         public AirportCityMappingMap()
         {
             Table("dbo.REF_ACM_airport_city_mapping");
-            Id(i => i.acm_id).GeneratedBy.Guid();
-            References(i => i.apt).Column("apt_id").Cascade.All();
-            References(i => i.mapped_cty).Column("mapped_cty_id").Cascade.All();
-            Map(i => i.live_to_date);
-            Map(i => i.row_version);
+            Id(i => i.AcmId).GeneratedBy.Guid();
+            References(i => i.Airport).Column("AirportId").Cascade.All();
+            References(i => i.MappedCity).Column("mapped_cty_id").Cascade.All();
+            Map(i => i.LiveToDate);
+            Map(i => i.RowVersion);
         }
     }
 }

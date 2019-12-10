@@ -14,16 +14,16 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
         {
             var newModel = new CustomRegionEntryModel
             {
-                cre_id = oldModel.cre_id,
-                row_version = oldModel.row_version,
-                crg = oldModel.crg
+                CreId = oldModel.CreId,
+                RowVersion = oldModel.RowVersion,
+                CustomRegionGroup = oldModel.CustomRegionGroup
             };
             if (oldModel == null) return newModel;
-            newModel.apt = LoadEntities(oldModel.apt);
-            newModel.cnt = LoadEntities(oldModel.cnt);
-            newModel.reg = LoadEntities(oldModel.reg);
-            newModel.sta = LoadEntities(oldModel.sta);
-            newModel.cty = LoadEntities(oldModel.cty);
+            newModel.Airport = LoadEntities(oldModel.Airport);
+            newModel.Country = LoadEntities(oldModel.Country);
+            newModel.Region = LoadEntities(oldModel.Region);
+            newModel.State = LoadEntities(oldModel.State);
+            newModel.City = LoadEntities(oldModel.City);
             return newModel;
         }
         public List<CustomRegionEntryModel> LoadEntities(List<CustomRegionEntryModel> oldModel)            //FIX LAZY LOADING ERROR
@@ -39,14 +39,14 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
         public CustomRegionGroupModel LoadEntities(CustomRegionGroupModel oldModel)            //FIX LAZY LOADING ERROR
         {
             var newModel = new CustomRegionGroupModel { 
-                crg_id = oldModel.crg_id,
+                CrgId = oldModel.CrgId,
                 CustomRegionEntries = new List<CustomRegionEntryModel>(),
-                custom_region_name = oldModel.custom_region_name,
-                custom_region_description = oldModel.custom_region_description,
-                stm = oldModel.stm, //LOADER
-                rsm_id = oldModel.rsm_id,
-                display_order = oldModel.display_order,
-                row_version = oldModel.row_version
+                CustomRegionName = oldModel.CustomRegionName,
+                CustomRegionDescription = oldModel.CustomRegionDescription,
+                System = oldModel.System, //LOADER
+                RsmId = oldModel.RsmId,
+                DisplayOrder = oldModel.DisplayOrder,
+                RowVersion = oldModel.RowVersion
             };
             if (oldModel == null) return newModel;
             if (oldModel.CustomRegionEntries != null)
@@ -74,16 +74,16 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
             if (oldModel == null) return null;
             var newModel = new AirportModel
             {
-                apt_id = oldModel.apt_id,
-                airport_name = oldModel.airport_name,
-                cty = LoadEntities(oldModel.cty),
-                row_version = oldModel.row_version,
-                is_main_airport = oldModel.is_main_airport,
-                is_gateway_airport = oldModel.is_gateway_airport,
-                gma_email_address = oldModel.gma_email_address,
-                is_gma_allowed = oldModel.is_gma_allowed,
-                is_group_checkin_allowed = oldModel.is_group_checkin_allowed,
-                lto_id = oldModel.lto_id
+                AirportId = oldModel.AirportId,
+                AirportName = oldModel.AirportName,
+                City = LoadEntities(oldModel.City),
+                RowVersion = oldModel.RowVersion,
+                IsMainAirport = oldModel.IsMainAirport,
+                IsGatewayAirport = oldModel.IsGatewayAirport,
+                GmaEmailAddress = oldModel.GmaEmailAddress,
+                IsGmaAllowed = oldModel.IsGmaAllowed,
+                IsGroupCheckinAllowed = oldModel.IsGroupCheckinAllowed,
+                LtoId = oldModel.LtoId
             };
             return newModel;
         }
@@ -92,14 +92,14 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
             
             if (oldModel == null) return null;
             var newModel = new CityModel {
-                cty_id = oldModel.cty_id,
-                city_name = oldModel.city_name,
-                cnt = LoadEntities(oldModel.cnt),
-                row_version = oldModel.row_version,
-                sta = LoadEntities(oldModel.sta),
-                timezone = oldModel.timezone,
-                utc_offset = oldModel.utc_offset,
-                lto_id = oldModel.lto_id
+                CityId = oldModel.CityId,
+                CityName = oldModel.CityName,
+                Country = LoadEntities(oldModel.Country),
+                RowVersion = oldModel.RowVersion,
+                State = LoadEntities(oldModel.State),
+                TimeZone = oldModel.TimeZone,
+                UtcOffset = oldModel.UtcOffset,
+                LtoId = oldModel.LtoId
             };
             return newModel;
         }
@@ -108,12 +108,12 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
             if (oldModel == null) return null;
             var newModel = new StateModel
             {
-                sta_id = oldModel.sta_id,
-                state_name = oldModel.state_name,
-                cnt = LoadEntities(oldModel.cnt),
-                row_version = oldModel.row_version,
-                display_order = oldModel.display_order,
-                lto_id = oldModel.lto_id
+                StateId = oldModel.StateId,
+                StateName = oldModel.StateName,
+                Country = LoadEntities(oldModel.Country),
+                RowVersion = oldModel.RowVersion,
+                DisplayOrder = oldModel.DisplayOrder,
+                LtoId = oldModel.LtoId
             };
             return newModel;
         }
@@ -122,14 +122,14 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
             if (oldModel == null) return null;
             var newModel = new CountryModel
             {
-                cnt_id = oldModel.cnt_id,
-                country_name = oldModel.country_name,
-                reg = LoadEntities(oldModel.reg),
-                iso_code = oldModel.iso_code,
-                iso_number = oldModel.iso_number,
-                row_version = oldModel.row_version,
-                dialing_code = oldModel.dialing_code,
-                lto_id = oldModel.lto_id
+                CountryId = oldModel.CountryId,
+                CountryName = oldModel.CountryName,
+                Region = LoadEntities(oldModel.Region),
+                IsoCode = oldModel.IsoCode,
+                IsoNumber = oldModel.IsoNumber,
+                RowVersion = oldModel.RowVersion,
+                DialingCode = oldModel.DialingCode,
+                LtoId = oldModel.LtoId
             };
             return newModel;
         }
@@ -138,10 +138,10 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
             if (oldModel == null) return null;
             var newModel = new RegionModel
             {
-                reg_id = oldModel.reg_id,
-                region_name = oldModel.region_name,
-                row_version = oldModel.row_version,
-                lto_id = oldModel.lto_id
+                RegionId = oldModel.RegionId,
+                RegionName = oldModel.RegionName,
+                RowVersion = oldModel.RowVersion,
+                LtoId = oldModel.LtoId
             };
             return newModel;
         }
@@ -151,13 +151,13 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
             if (oldModel == null) return null;
             var newModel = new SystemModel
             {
-                stm_id = oldModel.stm_id,
-                internal_system_name = oldModel.internal_system_name,
-                external_system_name = oldModel.external_system_name,
-                system_description = oldModel.system_description,
-                row_version = oldModel.row_version,
-                comp_id = oldModel.comp_id,
-                lto_id = oldModel.lto_id
+                SystemId = oldModel.SystemId,
+                InternalSystemName = oldModel.InternalSystemName,
+                ExternalSystemName = oldModel.ExternalSystemName,
+                SystemDescription = oldModel.SystemDescription,
+                RowVersion = oldModel.RowVersion,
+                CompId = oldModel.CompId,
+                LtoId = oldModel.LtoId
             };
             return newModel;
         }

@@ -13,14 +13,14 @@ namespace CustomRegionEditor.Database.Maps
         public CustomRegionEntryMap()
         {
             Table("dbo.ISA_CRE_custom_region_entry");
-            Id(i => i.cre_id).GeneratedBy.Guid();
-            References(i => i.crg).Column("crg_id");
-            References(i => i.reg).Column("reg_id");
-            References(i => i.cnt).Column("cnt_id");
-            References(i => i.sta).Column("sta_id");
-            References(i => i.cty).Column("cty_id");
-            References(i => i.apt).Column("apt_id");
-            Map(i => i.row_version);
+            Id(i => i.CreId).GeneratedBy.Guid();
+            References(i => i.CustomRegionGroup).Column("CrgId");
+            References(i => i.Region).Column("RegionId");
+            References(i => i.Country).Column("CountryId");
+            References(i => i.State).Column("StateId");
+            References(i => i.City).Column("CityId");
+            References(i => i.Airport).Column("AirportId");
+            Map(i => i.RowVersion);
         }
     }
 }

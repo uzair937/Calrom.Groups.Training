@@ -8,12 +8,12 @@ namespace CustomRegionEditor.Database.Models
 {
     public class SystemModel
     {
-        public virtual string stm_id { get; set; }
-        public virtual string internal_system_name { get; set; }
-        public virtual string external_system_name { get; set; }
-        public virtual string system_description { get; set; }
-        public virtual int row_version { get; set; }
-        public virtual int comp_id { get; set; }
-        public virtual Guid lto_id { get; set; }
+        public virtual string SystemId { get; set; }
+        public virtual string InternalSystemName { get; set; }
+        public virtual string ExternalSystemName { get; set; }
+        public virtual string SystemDescription { get; set; }
+        public virtual int RowVersion { get; set; }
+        public virtual int CompId { get; set; }
+        public virtual Guid LtoId { get; set; }
     }
 }

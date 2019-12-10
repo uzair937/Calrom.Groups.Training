@@ -13,14 +13,14 @@ namespace CustomRegionEditor.Database.Maps
         public CountryMap()
         {
             Table("dbo.REF_CNT_country");
-            Id(i => i.cnt_id);
-            Map(i => i.country_name);
-            Map(i => i.iso_code);
-            Map(i => i.iso_number);
-            References(i => i.reg).Column("reg_id").Cascade.All();
-            Map(i => i.row_version);
-            Map(i => i.dialing_code);
-            Map(i => i.lto_id);
+            Id(i => i.CountryId);
+            Map(i => i.CountryName);
+            Map(i => i.IsoCode);
+            Map(i => i.IsoNumber);
+            References(i => i.Region).Column("RegionId").Cascade.All();
+            Map(i => i.RowVersion);
+            Map(i => i.DialingCode);
+            Map(i => i.LtoId);
         }
     }
 }

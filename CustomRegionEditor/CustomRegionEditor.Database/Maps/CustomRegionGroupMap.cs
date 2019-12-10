@@ -13,13 +13,13 @@ namespace CustomRegionEditor.Database.Maps
         public CustomRegionGroupMap()
         {
             Table("dbo.ISA_CRG_custom_region");
-            Id(i => i.crg_id).GeneratedBy.Guid();
-            Map(i => i.custom_region_name);
-            Map(i => i.custom_region_description);
-            References(i => i.stm).Column("stm_id").Cascade.All();
-            Map(i => i.rsm_id).Nullable();
-            Map(i => i.display_order).Nullable();
-            Map(i => i.row_version);
+            Id(i => i.CrgId).GeneratedBy.Guid();
+            Map(i => i.CustomRegionName);
+            Map(i => i.CustomRegionDescription);
+            References(i => i.System).Column("SystemId").Cascade.All();
+            Map(i => i.RsmId).Nullable();
+            Map(i => i.DisplayOrder).Nullable();
+            Map(i => i.RowVersion);
             HasMany(i => i.CustomRegionEntries).Cascade.All().Inverse();
         }
     }

@@ -4,7 +4,7 @@
 <div class="edit-container flex-column">
     @if (Model.IsEditing)
     {
-        <div class="region-info-container">
+        <div class="Regionion-info-container">
             <table>
                 <tr>
                     <th>Region ID</th>
@@ -24,7 +24,7 @@
         </div>
 
         <div class="edit-info-container">
-            <table class="table-header" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")" regionid="@Model.CustomRegionGroupViewModel.ID">
+            <table class="table-header" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")" Regionionid="@Model.CustomRegionGroupViewModel.ID">
                 <tr>
                     <th>Entry ID</th>
                     <th>Region</th>
@@ -48,9 +48,9 @@
                 }
                 <tr class="add-region-row" data-autourl="@Url.Action("AutoComplete", "Home")">
                     <td>Enter One</td>
-                    <td><input type="text" placeholder="Region" class="region-text-box new-entry-input" name="region-box" autotype="region"/><div class="region-autocomplete" ></div></td>
+                    <td><input type="text" placeholder="Region" class="Regionion-text-box new-entry-input" name="Regionion-box" autotype="Regionion"/><div class="Regionion-autocomplete" ></div></td>
                     <td><input type="text" placeholder="Country" class="country-text-box new-entry-input" name="country-box" autotype="country"/><div class="country-autocomplete" ></div></td>
-                    <td><input type="text" placeholder="State" class="state-text-box new-entry-input" name="state-box" autotype="state"/><div class="state-autocomplete" ></div></td>
+                    <td><input type="text" placeholder="State" class="Statete-text-box new-entry-input" name="Statete-box" autotype="Statete"/><div class="Statete-autocomplete" ></div></td>
                     <td><input type="text" placeholder="City" class="city-text-box new-entry-input" name="city-box" autotype="city"/><div class="city-autocomplete" ></div></td>
                     <td><input type="text" placeholder="Airport" class="airport-text-box new-entry-input" name="airport-box" autotype="airport"/><div class="airport-autocomplete"></div></td>
                     <td><input type="button" value="Add" class="add-button" /></td>

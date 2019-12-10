@@ -13,12 +13,12 @@ namespace CustomRegionEditor.Database.Maps
         public StateMap()
         {
             Table("dbo.REF_STA_state");
-            Id(i => i.sta_id);
-            References(i => i.cnt).Column("cnt_id").Cascade.All();
-            Map(i => i.state_name);
-            Map(i => i.display_order);
-            Map(i => i.row_version);
-            Map(i => i.lto_id);
+            Id(i => i.StateId);
+            References(i => i.Country).Column("CountryId").Cascade.All();
+            Map(i => i.StateName);
+            Map(i => i.DisplayOrder);
+            Map(i => i.RowVersion);
+            Map(i => i.LtoId);
         }
     }
 }

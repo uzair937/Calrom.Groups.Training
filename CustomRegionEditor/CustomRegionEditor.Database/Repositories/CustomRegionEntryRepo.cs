@@ -50,7 +50,7 @@ namespace CustomRegionEditor.Database.Repositories
 
             using (var dbSession = INHibernateHelper.OpenSession())
             {
-                entity = dbSession.Get<CustomRegionEntryModel>(entity.cre_id);
+                entity = dbSession.Get<CustomRegionEntryModel>(entity.CreId);
                 dbSession.Delete(entity);
                 dbSession.Flush();
             }

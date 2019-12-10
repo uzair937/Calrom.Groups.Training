@@ -8,10 +8,10 @@ namespace CustomRegionEditor.Database.Models
 {
     public class AirportCityMappingModel
     {
-        public virtual Guid acm_id { get; set; }
-        public virtual AirportModel apt { get; set; }
-        public virtual CityModel mapped_cty { get; set; }
-        public virtual DateTime live_to_date { get; set; }
-        public virtual int row_version { get; set; }
+        public virtual Guid AcmId { get; set; }
+        public virtual AirportModel Airport { get; set; }
+        public virtual CityModel MappedCity { get; set; }
+        public virtual DateTime LiveToDate { get; set; }
+        public virtual int RowVersion { get; set; }
     }
 }

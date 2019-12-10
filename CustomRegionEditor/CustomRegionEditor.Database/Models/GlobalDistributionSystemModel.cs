@@ -8,14 +8,14 @@ namespace CustomRegionEditor.Database.Models
 {
     public class GlobalDistributionSystemModel
     {
-        public virtual Guid gds_id { get; set; }
-        public virtual string internal_gds_name { get; set; }
-        public virtual string external_gds_name { get; set; }
-        public virtual string gds_description { get; set; }
-        public virtual string gds_code { get; set; }
-        public virtual int row_version { get; set; }
-        public virtual string old_gds_id { get; set; }
-        public virtual int display_order { get; set; }
-        public virtual Guid lto_id { get; set; }
+        public virtual Guid GdsId { get; set; }
+        public virtual string InternalGdsName { get; set; }
+        public virtual string ExternalGdsName { get; set; }
+        public virtual string GdsDescription { get; set; }
+        public virtual string GdsCode { get; set; }
+        public virtual int RowVersion { get; set; }
+        public virtual string OldGdsId { get; set; }
+        public virtual int DisplayOrder { get; set; }
+        public virtual Guid LtoId { get; set; }
     }
 }
