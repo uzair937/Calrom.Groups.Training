@@ -21,6 +21,12 @@ function onSearch(e) {
     if ($(".by-region").is(':checked')) {
         filter = "region";
     }
+    if ($(".region-filter").is(':checked')) {
+        filter = "regionFilter";
+    }
+    if ($(".country-filter").is(':checked')) {
+        filter = "countryFilter";
+    }
     if ($(".state-filter").is(':checked')) {
         filter = "stateFilter";
     }
@@ -199,7 +205,12 @@ function saveChanges() {
     $.ajax({
         type: "POST",
         url: url + "?name=" + newName + "&description=" + newDescription + "&regionId=" + regionId,
-        success: refreshEdit,
+        success: function (data, status, xhr) {
+            if (data) {
+                $(".content-container").html(data);      //replaces all content/ search and edit
+                addEditListeners();
+            }
+        }
     });
 }   //saves new name and description for region
 
@@ -313,7 +324,6 @@ function onTextChange() {
 
 function addAutoCompleteListeners() {
     var autoText = window.document.getElementsByClassName("single-suggestion");
-    var focusTextBox = $(autoText[0]).parent().parent().parent().prev().get(0);
     for (var x = 0; x < autoText.length; x++) {
         if (autoText[x] !== undefined && autoText[x] !== null) {
             autoText[x].addEventListener("click", onTextSelect);

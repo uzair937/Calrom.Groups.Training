@@ -13,16 +13,16 @@ namespace CustomRegionEditor.Database.Maps
         public AirportMap()
         {
             Table("dbo.REF_APT_airport");
-            Id(i => i.AirportId);
-            Map(i => i.AirportName);
-            References(i => i.City).Column("CityId").Cascade.All();
-            Map(i => i.IsMainAirport);
-            Map(i => i.IsGatewayAirport);
-            Map(i => i.RowVersion);
-            Map(i => i.GmaEmailAddress);
-            Map(i => i.IsGmaAllowed);
-            Map(i => i.IsGroupCheckinAllowed);
-            Map(i => i.LtoId);
+            Id(i => i.AirportId).Column("apt_id");
+            Map(i => i.AirportName).Column("airport_name");
+            References(i => i.City).Column("cty_id").Cascade.All();
+            Map(i => i.IsMainAirport).Column("is_main_airport");
+            Map(i => i.IsGatewayAirport).Column("is_gateway_airport");
+            Map(i => i.RowVersion).Column("row_version");
+            Map(i => i.GmaEmailAddress).Column("gma_email_address");
+            Map(i => i.IsGmaAllowed).Column("is_gma_allowed");
+            Map(i => i.IsGroupCheckinAllowed).Column("is_group_checkin_allowed");
+            Map(i => i.LtoId).Column("lto_id");
         }
     }
 }

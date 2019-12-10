@@ -8,7 +8,7 @@ namespace CustomRegionEditor.Database.Models
 {
     public class CustomRegionEntryModel
     {
-        public virtual Guid CreId { get; set; }
+        public virtual Guid Id { get; set; }
         public virtual CustomRegionGroupModel CustomRegionGroup { get; set; }
         public virtual RegionModel Region { get; set; }
         public virtual CountryModel Country { get; set; }

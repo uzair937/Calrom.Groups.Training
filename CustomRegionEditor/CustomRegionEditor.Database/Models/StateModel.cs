@@ -14,5 +14,6 @@ namespace CustomRegionEditor.Database.Models
         public virtual int DisplayOrder { get; set; }
         public virtual int RowVersion { get; set; }
         public virtual Guid LtoId { get; set; }
+        public virtual IList<CityModel> Cities { get; set; }
     }
 }

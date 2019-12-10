@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Database.Interfaces
 {
-    public interface ILazyLoader
+    public interface IEagerLoader
     {
         CustomRegionEntryModel LoadEntities(CustomRegionEntryModel oldModel);
 

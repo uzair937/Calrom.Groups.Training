@@ -8,9 +8,9 @@ namespace CustomRegionEditor.Database.Models
 {
     public class CustomRegionGroupModel
     {
-        public virtual Guid CrgId { get; set; }
-        public virtual string CustomRegionName { get; set; }
-        public virtual string CustomRegionDescription { get; set; }
+        public virtual Guid Id { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string Description { get; set; }
         public virtual SystemModel System { get; set; }
         public virtual string RsmId { get; set; }
         public virtual int DisplayOrder { get; set; }

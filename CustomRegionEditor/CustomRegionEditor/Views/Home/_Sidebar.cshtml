@@ -7,8 +7,8 @@
         <div>-Large</div>
         <div>-Rand</div>
     </div>
-    <div class="add-button-container" data-newRegionionurl="@Url.Action("NewCustomRegion", "Home")">
-        <input type="button" value="Add Region" class="add-Regionion-button" />
+    <div class="add-button-container" data-newregionurl="@Url.Action("NewCustomRegion", "Home")">
+        <input type="button" value="Add Region" class="add-region-button" />
     </div>
 
     <div class="search-box-container">
@@ -20,31 +20,39 @@
             <h2>Filters</h2>
         </div>
         <div class="flex-row">
-            <h4 class="filter-heading">By Region:</h4>
-            <input type="radio" name="filter" class="by-Regionion" />
+            <h4 class="filter-heading">Group By Region:</h4>
+            <input type="radio" name="filter" class="by-region" />
         </div>
         <div class="flex-row">
-            <h4 class="filter-heading">By Country:</h4>
+            <h4 class="filter-heading">Group By Country:</h4>
             <input type="radio" name="filter" class="by-country" />
         </div>
         <div class="flex-row">
-            <h4 class="filter-heading">By State:</h4>
-            <input type="radio" name="filter" class="by-Statete" />
+            <h4 class="filter-heading">Group By State:</h4>
+            <input type="radio" name="filter" class="by-state" />
         </div>
         <div class="flex-row">
-            <h4 class="filter-heading">By City:</h4>
+            <h4 class="filter-heading">Group By City:</h4>
             <input type="radio" name="filter" class="by-city" />
         </div>
         <div class="flex-row">
-            <h4 class="filter-heading">By Airport:</h4>
+            <h4 class="filter-heading">Group By Airport:</h4>
             <input type="radio" name="filter" class="by-airport" />
-        </div>        
+        </div>
         <div class="flex-row">
-            <h4 class="filter-heading">Filtered By State:</h4>
-            <input type="radio" name="filter" class="Statete-filter" />
-        </div>        
+            <h4 class="filter-heading">Search for Region:</h4>
+            <input type="radio" name="filter" class="region-filter" />
+        </div>
         <div class="flex-row">
-            <h4 class="filter-heading">Filtered By City:</h4>
+            <h4 class="filter-heading">Search for Country:</h4>
+            <input type="radio" name="filter" class="country-filter" />
+        </div>
+        <div class="flex-row">
+            <h4 class="filter-heading">Search for State:</h4>
+            <input type="radio" name="filter" class="state-filter" />
+        </div>
+        <div class="flex-row">
+            <h4 class="filter-heading">Search for City:</h4>
             <input type="radio" name="filter" class="city-filter" />
         </div>
     </div>

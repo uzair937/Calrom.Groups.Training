@@ -14,8 +14,8 @@ namespace CustomRegionEditor.EntityMapper
         public override string ProfileName => base.ProfileName;
         public CustomRegionEntryProfile()
         {
-            CreateMap<CustomRegionEntryModel, CustomRegionViewModel>()
-                .ForMember(c => c.ID, m => m.MapFrom(s => s.CreId))
+            CreateMap<CustomRegionEntryModel, CustomRegionEntryViewModel>()
+                .ForMember(c => c.ID, m => m.MapFrom(s => s.Id))
                 .ForMember(c => c.Region, m => m.Ignore())
                 .ForMember(c => c.Country, m => m.Ignore())
                 .ForMember(c => c.State, m => m.Ignore())

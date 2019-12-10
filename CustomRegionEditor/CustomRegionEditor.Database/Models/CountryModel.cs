@@ -16,5 +16,8 @@ namespace CustomRegionEditor.Database.Models
         public virtual int RowVersion { get; set; }
         public virtual string DialingCode { get; set; }
         public virtual Guid LtoId { get; set; }
+
+        public virtual IList<CityModel> Cities { get; set; }
+        public virtual IList<StateModel> States { get; set; }
     }
 }

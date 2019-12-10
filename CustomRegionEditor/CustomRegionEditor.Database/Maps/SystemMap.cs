@@ -13,13 +13,13 @@ namespace CustomRegionEditor.Database.Maps
         public SystemMap()
         {
             Table("dbo.REF_STM_system");
-            Id(i => i.SystemId);
-            Map(i => i.InternalSystemName);
-            Map(i => i.ExternalSystemName);
-            Map(i => i.SystemDescription);
-            Map(i => i.RowVersion);
-            Map(i => i.CompId);
-            Map(i => i.LtoId);
+            Id(i => i.SystemId).Column("stm_id");
+            Map(i => i.InternalSystemName).Column("internal_system_name");
+            Map(i => i.ExternalSystemName).Column("external_system_name");
+            Map(i => i.SystemDescription).Column("system_description");
+            Map(i => i.RowVersion).Column("row_version");
+            Map(i => i.CompId).Column("comp_id");
+            Map(i => i.LtoId).Column("lto_id");
         }
     }
 }

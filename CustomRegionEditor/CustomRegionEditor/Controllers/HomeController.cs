@@ -14,10 +14,15 @@ namespace CustomRegionEditor.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(ICustomRegionGroupRepository customRegionGroupRepository, ICustomRegionEntryRepository customRegionEntryRepository, IViewModelConverter iViewModelConverter)
+        public HomeController(ICustomRegionGroupRepository customRegionGroupRepository, ICustomRegionEntryRepository customRegionEntryRepository, IViewModelConverter ViewModelConverter, ISubRegionRepo<AirportModel> airportRepo, ISubRegionRepo<CityModel> cityRepo, ISubRegionRepo<StateModel> stateRepo, ISubRegionRepo<CountryModel> countryRepo, ISubRegionRepo<RegionModel> regionRepo)
         {
+            this.AirportRepo = airportRepo;
+            this.StateRepo = stateRepo;
+            this.CityRepo = cityRepo;
+            this.CountryRepo = countryRepo;
+            this.RegionRepo = regionRepo;
             this.CustomRegionGroupRepository = customRegionGroupRepository;
-            this.IViewModelConverter = iViewModelConverter;
+            this.ViewModelConverter = ViewModelConverter;
             this.CustomRegionEntryRepository = customRegionEntryRepository;
         }
 
@@ -43,12 +48,18 @@ namespace CustomRegionEditor.Controllers
             Regions = this.CustomRegionGroupRepository.GetNames("region").Distinct().ToList();
         }
 
+        private ISubRegionRepo<AirportModel> AirportRepo { get; }
+        private ISubRegionRepo<CityModel> CityRepo { get; }
+        private ISubRegionRepo<StateModel> StateRepo { get; }
+        private ISubRegionRepo<CountryModel> CountryRepo { get; }
+        private ISubRegionRepo<RegionModel> RegionRepo { get; }
+
         private static List<string> Airports = null;
         private static List<string> Cities = null;
         private static List<string> States = null;
         private static List<string> Countries = null;
         private static List<string> Regions = null;
-        private readonly IViewModelConverter IViewModelConverter = null;
+        private readonly IViewModelConverter ViewModelConverter = null;
 
         public ICustomRegionGroupRepository CustomRegionGroupRepository { get; private set; }
         public ICustomRegionEntryRepository CustomRegionEntryRepository { get; private set; }
@@ -64,18 +75,15 @@ namespace CustomRegionEditor.Controllers
         public ActionResult Search(string searchTerm, string filter)
         {
             var SearchResults = new List<CustomRegionGroupModel>();
-            var contentViewModel = new ContentViewModel
-            {
-                EditViewModel = new EditViewModel() { IsEditing = false },
-                SearchViewModel = new SearchViewModel() { IsSearching = true, ValidResults = false }
-            };
+            var contentViewModel = new ContentViewModel();
             if (filter.Contains("Filter"))
             {
                 contentViewModel = new ContentViewModel
                 {
-                    //EditViewModel = new EditViewModel() { IsEditing = true, CustomRegionGroupViewModel = this.CustomRegionGroupRepository.GetFilteredResults(searchTerm, filter) },
-                    SearchViewModel = new SearchViewModel() { IsSearching = false }
+                    EditViewModel = new EditViewModel() { IsEditing = true, IsViewing = true, ExistingRegion = true },
+                    SearchViewModel = new SearchViewModel() { IsSearching = false, ValidResults = false }
                 };
+                contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(GetSubRegions(searchTerm, filter));
             }
             else
             {
@@ -89,7 +97,7 @@ namespace CustomRegionEditor.Controllers
             if (SearchResults.Count > 0)
             {
                 contentViewModel.SearchViewModel.ValidResults = true;
-                contentViewModel.SearchViewModel.SearchResults = IViewModelConverter.GetView(SearchResults);
+                contentViewModel.SearchViewModel.SearchResults = ViewModelConverter.GetView(SearchResults);
             }
 
             return PartialView("_Content", contentViewModel);
@@ -119,21 +127,41 @@ namespace CustomRegionEditor.Controllers
         [HttpPost]
         public ActionResult SaveChanges(string name, string description, string regionId)
         {
-            this.CustomRegionGroupRepository.ChangeDetails(name, description, regionId);
-            return null;
+            if (regionId == null || regionId == "")
+            {
+                regionId = this.CustomRegionGroupRepository.AddNewRegion(name, description).Id.ToString();
+            }
+            else
+            {
+                this.CustomRegionGroupRepository.ChangeDetails(name, description, regionId);
+            }
+            var contentViewModel = new ContentViewModel
+            {
+                EditViewModel = new EditViewModel() { IsEditing = true, ExistingRegion = true },
+                SearchViewModel = new SearchViewModel() { IsSearching = false }
+            };
+            var FoundRegion = this.CustomRegionGroupRepository.FindById(regionId);
+            FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId).ThenBy(a => a.City?.CityName).ThenBy(a => a.State?.StateName).ThenBy(a => a.Country?.CountryName).ThenBy(a => a.Region?.RegionName).ToList();
+            contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion);
+            return PartialView("_Content", contentViewModel);
         }
 
         [HttpPost]
         public ActionResult NewCustomRegion()
         {
-            var newRegion = this.CustomRegionGroupRepository.AddNewRegion();
+            var customRegionGroupViewModel = new CustomRegionGroupViewModel
+            {
+                Name = "Set Name",
+                Description = "Set Description",
+                CustomRegions = new List<CustomRegionEntryViewModel>()
+            };
+
             var contentViewModel = new ContentViewModel
             {
-                EditViewModel = new EditViewModel() { IsEditing = true },
+                EditViewModel = new EditViewModel() { IsEditing = true, ExistingRegion = false },
                 SearchViewModel = new SearchViewModel() { IsSearching = false }
             };
-            contentViewModel.EditViewModel.CustomRegionGroupViewModel = IViewModelConverter.GetView(newRegion);
-            contentViewModel.EditViewModel.CustomRegionGroupViewModel.CustomRegions = new List<CustomRegionViewModel>();
+            contentViewModel.EditViewModel.CustomRegionGroupViewModel = customRegionGroupViewModel;
 
             return PartialView("_Content", contentViewModel);
         }
@@ -143,12 +171,12 @@ namespace CustomRegionEditor.Controllers
         {
             var contentViewModel = new ContentViewModel
             {
-                EditViewModel = new EditViewModel() { IsEditing = true },
+                EditViewModel = new EditViewModel() { IsEditing = true, ExistingRegion = true },
                 SearchViewModel = new SearchViewModel() { IsSearching = false }
             };
             var FoundRegion = this.CustomRegionGroupRepository.FindById(regionId);
             FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId).ThenBy(a => a.City?.CityName).ThenBy(a => a.State?.StateName).ThenBy(a => a.Country?.CountryName).ThenBy(a => a.Region?.RegionName).ToList();
-            contentViewModel.EditViewModel.CustomRegionGroupViewModel = IViewModelConverter.GetView(FoundRegion);
+            contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion);
 
             return PartialView("_Content", contentViewModel);
         }
@@ -183,30 +211,39 @@ namespace CustomRegionEditor.Controllers
             return PartialView("_AutoComplete", autoCompleteViewModel);
         }
 
-        public CustomRegionGroupModel GetFilteredResults(string countryName, string filter)
+        public CustomRegionGroupModel GetSubRegions(string searchTerm, string filter)
         {
-
-            var crg = new CustomRegionGroupModel()
+            var customRegionGroupModel = new CustomRegionGroupModel()
             {
                 CustomRegionEntries = new List<CustomRegionEntryModel>()
             };
             switch (filter)
             {
-                case "countryFilter":
+                case "regionFilter":
+                    var region = RegionRepo.FindByName(searchTerm);
+                    customRegionGroupModel.CustomRegionEntries = RegionRepo.GetSubRegions(region);
+                    break;
 
-                    crg.CustomRegionEntries = CustomRegionGroupRepository.GetCountrySubRegions(CustomRegionGroupRepository.GetCountry(countryName));
+                case "countryFilter":
+                    var country = CountryRepo.FindByName(searchTerm);
+                    customRegionGroupModel.CustomRegionEntries = CountryRepo.GetSubRegions(country);
+                    break;
+
+                case "stateFilter":
+                    var state = StateRepo.FindByName(searchTerm);
+                    customRegionGroupModel.CustomRegionEntries = StateRepo.GetSubRegions(state);
                     break;
 
                 case "cityFilter":
-                    crg.CustomRegionEntries = GetCitySubRegions(GetCity(countryName));
-
+                    var city = CityRepo.FindByName(searchTerm);
+                    customRegionGroupModel.CustomRegionEntries = CityRepo.GetSubRegions(city);
                     break;
 
                 default:
                     break;
             }
 
-            return crg;
+            return customRegionGroupModel;
         }
 
         public List<string> GetCountries(string term)

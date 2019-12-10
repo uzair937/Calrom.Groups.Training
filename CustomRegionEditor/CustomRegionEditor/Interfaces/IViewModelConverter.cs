@@ -12,7 +12,7 @@ namespace CustomRegionEditor.Web.Interfaces
 {
     public interface IViewModelConverter
     {
-        CustomRegionViewModel GetView(CustomRegionEntryModel customRegionEntryModel);
+        CustomRegionEntryViewModel GetView(CustomRegionEntryModel customRegionEntryModel);
 
         CustomRegionGroupViewModel GetView(CustomRegionGroupModel customRegionGroupViewModel);
 

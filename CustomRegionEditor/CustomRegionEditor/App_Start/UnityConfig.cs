@@ -22,7 +22,7 @@ namespace CustomRegionEditor.Web
 
             // e.g. container.RegisterType<ITestService, TestService>();
 
-            container.RegisterType<ILazyLoader, LazyLoader>();
+            container.RegisterType<IEagerLoader, EagerLoader>();
 
             container.RegisterType<ICustomRegionGroupRepository, CustomRegionGroupRepo>();
 
@@ -31,6 +31,16 @@ namespace CustomRegionEditor.Web
             container.RegisterType<IViewModelConverter, ViewModelConverter>();
             
             container.RegisterSingleton<ISessionManager, NHibernateHelper>();
+
+            container.RegisterSingleton<ISubRegionRepo<RegionModel>, RegionRepo>();
+
+            container.RegisterSingleton<ISubRegionRepo<CountryModel>, CountryRepo>();
+            
+            container.RegisterSingleton<ISubRegionRepo<StateModel>, StateRepo>();
+
+            container.RegisterSingleton<ISubRegionRepo<CityModel>,  CityRepo>();
+
+            container.RegisterSingleton<ISubRegionRepo<AirportModel>, AirportRepo>();
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

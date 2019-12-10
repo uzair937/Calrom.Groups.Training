@@ -13,10 +13,12 @@ namespace CustomRegionEditor.Database.Maps
         public RegionMap()
         {
             Table("dbo.REF_REG_region");
-            Id(i => i.RegionId);
-            Map(i => i.RegionName);
-            Map(i => i.RowVersion);
-            Map(i => i.LtoId);
+            Id(i => i.RegionId).Column("reg_id");
+            Map(i => i.RegionName).Column("region_name");
+            Map(i => i.RowVersion).Column("row_version");
+            Map(i => i.LtoId).Column("lto_id");
+
+            HasMany(i => i.Countries).Cascade.All().Inverse();
         }
     }
 }

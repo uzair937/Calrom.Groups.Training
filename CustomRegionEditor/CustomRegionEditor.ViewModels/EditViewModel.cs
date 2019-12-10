@@ -9,6 +9,10 @@ namespace CustomRegionEditor.ViewModels
     {
         public bool IsEditing { get; set; }
 
+        public bool IsViewing { get; set; }
+
+        public bool ExistingRegion { get; set; }
+
         public CustomRegionGroupViewModel CustomRegionGroupViewModel { get; set; }
     }
 }

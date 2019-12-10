@@ -12,5 +12,7 @@ namespace CustomRegionEditor.Database.Models
         public virtual string RegionName { get; set; }
         public virtual int RowVersion { get; set; }
         public virtual Guid LtoId { get; set; }
+
+        public virtual IList<CountryModel> Countries { get; set; }
     }
 }

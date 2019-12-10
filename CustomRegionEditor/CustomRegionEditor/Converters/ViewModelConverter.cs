@@ -13,9 +13,9 @@ namespace CustomRegionEditor.Web.Converters
 {
     public class ViewModelConverter : IViewModelConverter
     {
-        public CustomRegionViewModel GetView(CustomRegionEntryModel customRegionEntryModel)
+        public CustomRegionEntryViewModel GetView(CustomRegionEntryModel customRegionEntryModel)
         {
-            var newView = AutoMapperConfiguration.GetInstance<CustomRegionViewModel>(customRegionEntryModel);
+            var newView = AutoMapperConfiguration.GetInstance<CustomRegionEntryViewModel>(customRegionEntryModel);
             if (customRegionEntryModel.Region != null)
             {
                 newView.Region = AutoMapperConfiguration.GetInstance<RegionViewModel>(customRegionEntryModel.Region);
@@ -62,7 +62,7 @@ namespace CustomRegionEditor.Web.Converters
         public CustomRegionGroupViewModel GetView(CustomRegionGroupModel customRegionGroupViewModel)
         {
             var newView = AutoMapperConfiguration.GetInstance<CustomRegionGroupViewModel>(customRegionGroupViewModel);
-            newView.CustomRegions = new List<CustomRegionViewModel>();
+            newView.CustomRegions = new List<CustomRegionEntryViewModel>();
             if (customRegionGroupViewModel.CustomRegionEntries != null)
             {
                 foreach (var cre in customRegionGroupViewModel.CustomRegionEntries)

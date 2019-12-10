@@ -15,9 +15,9 @@ namespace CustomRegionEditor.EntityMapper
         public CustomRegionGroupProfile()
         {
             CreateMap<CustomRegionGroupModel, CustomRegionGroupViewModel>()
-                .ForMember(c => c.ID, m => m.MapFrom(s => s.CrgId))
-                .ForMember(c => c.Name, m => m.MapFrom(s => s.CustomRegionName))
-                .ForMember(c => c.Description, m => m.MapFrom(s => s.CustomRegionDescription))
+                .ForMember(c => c.ID, m => m.MapFrom(s => s.Id))
+                .ForMember(c => c.Name, m => m.MapFrom(s => s.Name))
+                .ForMember(c => c.Description, m => m.MapFrom(s => s.Description))
                 .ForMember(c => c.CustomRegions, m => m.Ignore());
         }
     }

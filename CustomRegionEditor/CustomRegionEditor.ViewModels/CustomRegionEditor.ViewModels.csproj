@@ -46,7 +46,7 @@
     <Compile Include="ContentViewModel.cs" />
     <Compile Include="CityViewModel.cs" />
     <Compile Include="CustomRegionGroupViewModel.cs" />
-    <Compile Include="CustomRegionViewModel.cs" />
+    <Compile Include="CustomRegionEntryViewModel.cs" />
     <Compile Include="LayoutViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CountryViewModel.cs" />

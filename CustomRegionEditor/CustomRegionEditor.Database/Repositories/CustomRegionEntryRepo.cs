@@ -14,16 +14,16 @@ namespace CustomRegionEditor.Database.Repositories
 {
     public class CustomRegionEntryRepo : ICustomRegionEntryRepository
     {
-        public CustomRegionEntryRepo(ILazyLoader lazyLoader, ISessionManager iNHibernateHelper)
+        public CustomRegionEntryRepo(IEagerLoader eagerLoader, ISessionManager iNHibernateHelper)
         {
-            this.ILazyLoader = lazyLoader;
+            this.IEagerLoader = eagerLoader;
             this.INHibernateHelper = iNHibernateHelper;
             _customRegionEntryList = new List<CustomRegionEntryModel>();
         }
 
         public ISessionManager INHibernateHelper { get; }
 
-        public ILazyLoader ILazyLoader { get; }
+        public IEagerLoader IEagerLoader { get; }
 
         private List<CustomRegionEntryModel> _customRegionEntryList;
 
@@ -50,7 +50,7 @@ namespace CustomRegionEditor.Database.Repositories
 
             using (var dbSession = INHibernateHelper.OpenSession())
             {
-                entity = dbSession.Get<CustomRegionEntryModel>(entity.CreId);
+                entity = dbSession.Get<CustomRegionEntryModel>(entity.Id);
                 dbSession.Delete(entity);
                 dbSession.Flush();
             }
@@ -81,7 +81,7 @@ namespace CustomRegionEditor.Database.Repositories
             using (var dbSession = INHibernateHelper.OpenSession())
             {
                 var customRegionEntryModel = dbSession.Get<CustomRegionEntryModel>(Guid.Parse(entryId));
-                return ILazyLoader.LoadEntities(customRegionEntryModel);
+                return IEagerLoader.LoadEntities(customRegionEntryModel);
             }
         }
     }

@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Database.NHibLazyLoader
 {
-    public class LazyLoader : ILazyLoader
+    public class EagerLoader : IEagerLoader
     {
         public CustomRegionEntryModel LoadEntities(CustomRegionEntryModel oldModel)            //FIX LAZY LOADING ERROR
         {
             var newModel = new CustomRegionEntryModel
             {
-                CreId = oldModel.CreId,
+                Id = oldModel.Id,
                 RowVersion = oldModel.RowVersion,
                 CustomRegionGroup = oldModel.CustomRegionGroup
             };
@@ -39,10 +39,10 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
         public CustomRegionGroupModel LoadEntities(CustomRegionGroupModel oldModel)            //FIX LAZY LOADING ERROR
         {
             var newModel = new CustomRegionGroupModel { 
-                CrgId = oldModel.CrgId,
+                Id = oldModel.Id,
                 CustomRegionEntries = new List<CustomRegionEntryModel>(),
-                CustomRegionName = oldModel.CustomRegionName,
-                CustomRegionDescription = oldModel.CustomRegionDescription,
+                Name = oldModel.Name,
+                Description = oldModel.Description,
                 System = oldModel.System, //LOADER
                 RsmId = oldModel.RsmId,
                 DisplayOrder = oldModel.DisplayOrder,
@@ -99,7 +99,8 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
                 State = LoadEntities(oldModel.State),
                 TimeZone = oldModel.TimeZone,
                 UtcOffset = oldModel.UtcOffset,
-                LtoId = oldModel.LtoId
+                LtoId = oldModel.LtoId,
+                Airports = oldModel.Airports
             };
             return newModel;
         }
@@ -113,7 +114,8 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
                 Country = LoadEntities(oldModel.Country),
                 RowVersion = oldModel.RowVersion,
                 DisplayOrder = oldModel.DisplayOrder,
-                LtoId = oldModel.LtoId
+                LtoId = oldModel.LtoId,
+                Cities = oldModel.Cities
             };
             return newModel;
         }
@@ -129,10 +131,13 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
                 IsoNumber = oldModel.IsoNumber,
                 RowVersion = oldModel.RowVersion,
                 DialingCode = oldModel.DialingCode,
-                LtoId = oldModel.LtoId
+                LtoId = oldModel.LtoId,
+                Cities = oldModel.Cities,
+                States = oldModel.States
             };
             return newModel;
         }
+
         public RegionModel LoadEntities(RegionModel oldModel)            //FIX LAZY LOADING ERROR
         {
             if (oldModel == null) return null;
@@ -141,7 +146,8 @@ namespace CustomRegionEditor.Database.NHibLazyLoader
                 RegionId = oldModel.RegionId,
                 RegionName = oldModel.RegionName,
                 RowVersion = oldModel.RowVersion,
-                LtoId = oldModel.LtoId
+                LtoId = oldModel.LtoId,
+                Countries = oldModel.Countries
             };
             return newModel;
         }

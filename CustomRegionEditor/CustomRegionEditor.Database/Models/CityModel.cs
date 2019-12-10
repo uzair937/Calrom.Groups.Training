@@ -16,5 +16,7 @@ namespace CustomRegionEditor.Database.Models
         public virtual string TimeZone { get; set; }
         public virtual int UtcOffset { get; set; }
         public virtual Guid LtoId { get; set; }
+
+        public virtual IList<AirportModel> Airports { get; set; }
     }
 }
