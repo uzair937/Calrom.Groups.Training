@@ -14,9 +14,8 @@ namespace CustomRegionEditor.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(ICustomRegionGroupRepository customRegionGroupRepository, ICustomRegionEntryRepository customRegionEntryRepository, IViewModelConverter ViewModelConverter, ISubRegionRepo<AirportModel> airportRepo, ISubRegionRepo<CityModel> cityRepo, ISubRegionRepo<StateModel> stateRepo, ISubRegionRepo<CountryModel> countryRepo, ISubRegionRepo<RegionModel> regionRepo)
+        public HomeController(ICustomRegionGroupRepository customRegionGroupRepository, ICustomRegionEntryRepository customRegionEntryRepository, IViewModelConverter ViewModelConverter, ISubRegionRepo<CityModel> cityRepo, ISubRegionRepo<StateModel> stateRepo, ISubRegionRepo<CountryModel> countryRepo, ISubRegionRepo<RegionModel> regionRepo)
         {
-            this.AirportRepo = airportRepo;
             this.StateRepo = stateRepo;
             this.CityRepo = cityRepo;
             this.CountryRepo = countryRepo;
@@ -24,7 +23,21 @@ namespace CustomRegionEditor.Controllers
             this.CustomRegionGroupRepository = customRegionGroupRepository;
             this.ViewModelConverter = ViewModelConverter;
             this.CustomRegionEntryRepository = customRegionEntryRepository;
+            SetupAutoCompleteList();
         }
+
+
+        private ISubRegionRepo<CityModel> CityRepo { get; }
+        private ISubRegionRepo<StateModel> StateRepo { get; }
+        private ISubRegionRepo<CountryModel> CountryRepo { get; }
+        private ISubRegionRepo<RegionModel> RegionRepo { get; }
+
+        private List<string> Airports = null;
+        private List<string> Cities = null;
+        private List<string> States = null;
+        private List<string> Countries = null;
+        private List<string> Regions = null;
+        private readonly IViewModelConverter ViewModelConverter = null;
 
         private LayoutViewModel SetupLayoutModel()
         {
@@ -35,6 +48,7 @@ namespace CustomRegionEditor.Controllers
             };
             layoutViewModel.ContentViewModel.EditViewModel = new EditViewModel() { IsEditing = false };
             layoutViewModel.ContentViewModel.SearchViewModel = new SearchViewModel() { IsSearching = false };
+            layoutViewModel.ContentViewModel.SubRegionViewModel = new SubRegionViewModel() { IsViewing = false };
 
             return layoutViewModel;
         }
@@ -48,28 +62,8 @@ namespace CustomRegionEditor.Controllers
             Regions = this.CustomRegionGroupRepository.GetNames("region").Distinct().ToList();
         }
 
-        private ISubRegionRepo<AirportModel> AirportRepo { get; }
-        private ISubRegionRepo<CityModel> CityRepo { get; }
-        private ISubRegionRepo<StateModel> StateRepo { get; }
-        private ISubRegionRepo<CountryModel> CountryRepo { get; }
-        private ISubRegionRepo<RegionModel> RegionRepo { get; }
-
-        private static List<string> Airports = null;
-        private static List<string> Cities = null;
-        private static List<string> States = null;
-        private static List<string> Countries = null;
-        private static List<string> Regions = null;
-        private readonly IViewModelConverter ViewModelConverter = null;
-
         public ICustomRegionGroupRepository CustomRegionGroupRepository { get; private set; }
         public ICustomRegionEntryRepository CustomRegionEntryRepository { get; private set; }
-
-        public ActionResult Index()
-        {
-            var layoutViewModel = SetupLayoutModel();
-            SetupAutoCompleteList();
-            return View(layoutViewModel);
-        }
 
         [HttpPost]
         public ActionResult Search(string searchTerm, string filter)
@@ -80,12 +74,15 @@ namespace CustomRegionEditor.Controllers
             {
                 contentViewModel = new ContentViewModel
                 {
+                    SubRegionViewModel = new SubRegionViewModel()
+                    {
+                        IsViewing = true,
+                        CustomRegionGroupViewModel = ViewModelConverter.GetView(GetSubRegions(searchTerm, filter))
+                    },
                     EditViewModel = new EditViewModel()
                     {
-                        IsEditing = true,
-                        IsViewing = true,
-                        ExistingRegion = true,
-                        CustomRegionGroupViewModel = ViewModelConverter.GetView(GetSubRegions(searchTerm, filter))
+                        IsEditing = false,
+                        ExistingRegion = false,
                     },
                     SearchViewModel = new SearchViewModel()
                     {
@@ -99,6 +96,10 @@ namespace CustomRegionEditor.Controllers
                 SearchResults = this.CustomRegionGroupRepository.GetSearchResults(searchTerm, filter);
                 contentViewModel = new ContentViewModel
                 {
+                    SubRegionViewModel = new SubRegionViewModel()
+                    {
+                        IsViewing = false,
+                    },
                     EditViewModel = new EditViewModel()
                     {
                         IsEditing = false
@@ -160,6 +161,10 @@ namespace CustomRegionEditor.Controllers
                                                                             .ThenBy(a => a.Region?.RegionName).ToList();
             var contentViewModel = new ContentViewModel
             {
+                SubRegionViewModel = new SubRegionViewModel()
+                {
+                    IsViewing = false,
+                },
                 EditViewModel = new EditViewModel()
                 {
                     IsEditing = true,
@@ -179,13 +184,17 @@ namespace CustomRegionEditor.Controllers
         {
             var customRegionGroupViewModel = new CustomRegionGroupViewModel
             {
-                Name = "Set Name",
-                Description = "Set Description",
+                Name = "",
+                Description = "",
                 CustomRegions = new List<CustomRegionEntryViewModel>()
             };
 
             var contentViewModel = new ContentViewModel
             {
+                SubRegionViewModel = new SubRegionViewModel()
+                {
+                    IsViewing = false,
+                },
                 EditViewModel = new EditViewModel()
                 {
                     IsEditing = true,
@@ -206,8 +215,20 @@ namespace CustomRegionEditor.Controllers
         {
             var contentViewModel = new ContentViewModel
             {
-                EditViewModel = new EditViewModel() { IsEditing = false, ExistingRegion = false },
-                SearchViewModel = new SearchViewModel() { IsSearching = true, ValidResults = false }
+                SubRegionViewModel = new SubRegionViewModel()
+                {
+                    IsViewing = false,
+                },
+                EditViewModel = new EditViewModel()
+                {
+                    IsEditing = false,
+                    ExistingRegion = false
+                },
+                SearchViewModel = new SearchViewModel()
+                {
+                    IsSearching = true,
+                    ValidResults = false
+                }
             };
             if (regionId == "" || regionId == null)
             {
@@ -240,8 +261,10 @@ namespace CustomRegionEditor.Controllers
         [HttpPost]
         public ActionResult AutoComplete(string type, string text)
         {
-            var autoCompleteViewModel = new AutoCompleteViewModel();
-            autoCompleteViewModel.Suggestions = new List<string>();
+            var autoCompleteViewModel = new AutoCompleteViewModel
+            {
+                Suggestions = new List<string>()
+            };
             text = text.ToUpper();
             if (text != "" && text != null && text != " ")
             {
@@ -326,5 +349,13 @@ namespace CustomRegionEditor.Controllers
         {
             return Airports.Where(c => c.StartsWith(term)).ToList();
         }
+
+        public ActionResult Index()
+        {
+            var layoutViewModel = SetupLayoutModel();
+
+            return View(layoutViewModel);
+        }
+
     }
 }

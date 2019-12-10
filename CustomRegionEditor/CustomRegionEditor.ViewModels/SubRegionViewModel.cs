@@ -5,11 +5,9 @@ using System.Web;
 
 namespace CustomRegionEditor.ViewModels
 {
-    public class EditViewModel
+    public class SubRegionViewModel
     {
-        public bool IsEditing { get; set; }
-
-        public bool ExistingRegion { get; set; }
+        public bool IsViewing { get; set; }
 
         public CustomRegionGroupViewModel CustomRegionGroupViewModel { get; set; }
     }

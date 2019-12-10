@@ -8,6 +8,9 @@ namespace CustomRegionEditor.ViewModels
     public class ContentViewModel
     {
         public SearchViewModel SearchViewModel { get; set; }
+
         public EditViewModel EditViewModel { get; set; }
+
+        public SubRegionViewModel SubRegionViewModel { get; set; }
     }
 }

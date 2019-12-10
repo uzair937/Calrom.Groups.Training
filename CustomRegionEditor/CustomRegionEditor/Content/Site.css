@@ -120,7 +120,7 @@ td {
 .search-result,
 .single-region-entry,
 .add-region-row {
-    border-top: 3px inset black;
+    border-top: 2px inset black;
 }
 
 .edit-container {
