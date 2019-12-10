@@ -80,18 +80,34 @@ namespace CustomRegionEditor.Controllers
             {
                 contentViewModel = new ContentViewModel
                 {
-                    EditViewModel = new EditViewModel() { IsEditing = true, IsViewing = true, ExistingRegion = true },
-                    SearchViewModel = new SearchViewModel() { IsSearching = false, ValidResults = false }
+                    EditViewModel = new EditViewModel()
+                    {
+                        IsEditing = true,
+                        IsViewing = true,
+                        ExistingRegion = true,
+                        CustomRegionGroupViewModel = ViewModelConverter.GetView(GetSubRegions(searchTerm, filter))
+                    },
+                    SearchViewModel = new SearchViewModel()
+                    {
+                        IsSearching = false,
+                        ValidResults = false
+                    }
                 };
-                contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(GetSubRegions(searchTerm, filter));
             }
             else
             {
                 SearchResults = this.CustomRegionGroupRepository.GetSearchResults(searchTerm, filter);
                 contentViewModel = new ContentViewModel
                 {
-                    EditViewModel = new EditViewModel() { IsEditing = false },
-                    SearchViewModel = new SearchViewModel() { IsSearching = true, ValidResults = false }
+                    EditViewModel = new EditViewModel()
+                    {
+                        IsEditing = false
+                    },
+                    SearchViewModel = new SearchViewModel()
+                    {
+                        IsSearching = true,
+                        ValidResults = false
+                    }
                 };
             }
             if (SearchResults.Count > 0)
@@ -135,14 +151,26 @@ namespace CustomRegionEditor.Controllers
             {
                 this.CustomRegionGroupRepository.ChangeDetails(name, description, regionId);
             }
+
+            var FoundRegion = this.CustomRegionGroupRepository.FindById(regionId);
+            FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId)
+                                                                            .ThenBy(a => a.City?.CityName)
+                                                                            .ThenBy(a => a.State?.StateName)
+                                                                            .ThenBy(a => a.Country?.CountryName)
+                                                                            .ThenBy(a => a.Region?.RegionName).ToList();
             var contentViewModel = new ContentViewModel
             {
-                EditViewModel = new EditViewModel() { IsEditing = true, ExistingRegion = true },
-                SearchViewModel = new SearchViewModel() { IsSearching = false }
+                EditViewModel = new EditViewModel()
+                {
+                    IsEditing = true,
+                    ExistingRegion = true,
+                    CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion)
+                },
+                SearchViewModel = new SearchViewModel()
+                {
+                    IsSearching = false
+                }
             };
-            var FoundRegion = this.CustomRegionGroupRepository.FindById(regionId);
-            FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId).ThenBy(a => a.City?.CityName).ThenBy(a => a.State?.StateName).ThenBy(a => a.Country?.CountryName).ThenBy(a => a.Region?.RegionName).ToList();
-            contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion);
             return PartialView("_Content", contentViewModel);
         }
 
@@ -158,10 +186,17 @@ namespace CustomRegionEditor.Controllers
 
             var contentViewModel = new ContentViewModel
             {
-                EditViewModel = new EditViewModel() { IsEditing = true, ExistingRegion = false },
-                SearchViewModel = new SearchViewModel() { IsSearching = false }
+                EditViewModel = new EditViewModel()
+                {
+                    IsEditing = true,
+                    ExistingRegion = false,
+                    CustomRegionGroupViewModel = customRegionGroupViewModel
+                },
+                SearchViewModel = new SearchViewModel()
+                {
+                    IsSearching = false
+                }
             };
-            contentViewModel.EditViewModel.CustomRegionGroupViewModel = customRegionGroupViewModel;
 
             return PartialView("_Content", contentViewModel);
         }
@@ -171,14 +206,35 @@ namespace CustomRegionEditor.Controllers
         {
             var contentViewModel = new ContentViewModel
             {
-                EditViewModel = new EditViewModel() { IsEditing = true, ExistingRegion = true },
-                SearchViewModel = new SearchViewModel() { IsSearching = false }
+                EditViewModel = new EditViewModel() { IsEditing = false, ExistingRegion = false },
+                SearchViewModel = new SearchViewModel() { IsSearching = true, ValidResults = false }
             };
-            var FoundRegion = this.CustomRegionGroupRepository.FindById(regionId);
-            FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId).ThenBy(a => a.City?.CityName).ThenBy(a => a.State?.StateName).ThenBy(a => a.Country?.CountryName).ThenBy(a => a.Region?.RegionName).ToList();
-            contentViewModel.EditViewModel.CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion);
+            if (regionId == "" || regionId == null)
+            {
+                return PartialView("_Content", contentViewModel);
+            }
 
+            var FoundRegion = this.CustomRegionGroupRepository.FindById(regionId);
+            FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId)
+                                                                            .ThenBy(a => a.City?.CityName)
+                                                                            .ThenBy(a => a.State?.StateName)
+                                                                            .ThenBy(a => a.Country?.CountryName)
+                                                                            .ThenBy(a => a.Region?.RegionName).ToList();
+            contentViewModel = new ContentViewModel
+            {
+                EditViewModel = new EditViewModel()
+                {
+                    IsEditing = true,
+                    ExistingRegion = true,
+                    CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion)
+                },
+                SearchViewModel = new SearchViewModel()
+                {
+                    IsSearching = false
+                }
+            };
             return PartialView("_Content", contentViewModel);
+
         }
 
         [HttpPost]
