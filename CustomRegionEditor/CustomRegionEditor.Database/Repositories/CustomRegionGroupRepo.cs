@@ -101,7 +101,7 @@ namespace CustomRegionEditor.Database.Repositories
 
                 switch (filter)
                 {
-                    case ("none"):
+                    default:
                         startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
                             .Where(s => s.Name.StartsWith(searchTerm)).ToList());
 

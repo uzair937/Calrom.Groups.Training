@@ -15,11 +15,11 @@ namespace CustomRegionEditor.Database.Models
 
         private ISession session = null;
 
-        public NHibernateSessionManager(ISessionFactoryManager nHibernateSessionFactoryManager)
+        public NHibernateSessionManager(ISessionFactoryManager sessionFactoryManager)
         {
             if (sessionFactory == null)
             {
-                sessionFactory = nHibernateSessionFactoryManager.GetSessionFactory();
+                sessionFactory = sessionFactoryManager.GetSessionFactory();
             }
         }
 
