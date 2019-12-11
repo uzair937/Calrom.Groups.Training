@@ -365,9 +365,11 @@ namespace CustomRegionEditor.Database.Repositories
                 Name = name,
                 Description = description,
             };
-            AddOrUpdate(customRegionGroupModel);
+            //AddOrUpdate(customRegionGroupModel);
             using (var dbSession = SessionManager.OpenSession())
             {
+                dbSession.SaveOrUpdate(customRegionGroupModel);
+                dbSession.Flush();
                 return EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().FirstOrDefault(a => a.Name == name && a.Description == description));
             }
         } //Generates a new empty region
@@ -378,49 +380,45 @@ namespace CustomRegionEditor.Database.Repositories
             using (var dbSession = SessionManager.OpenSession())
             {
                 customRegion = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
-                if (name != "" & name != null) customRegion.Name = name;
-                if (description != "" & description != null) customRegion.Description = description;
+                if (name != "" && name != null)
+                {
+                    customRegion.Name = name;
+                }
+                if (description != "" && description != null)
+                {
+                    customRegion.Description = description;
+                }
+                dbSession.SaveOrUpdate(customRegion);
+                dbSession.Flush();
             }
-            AddOrUpdate(customRegion);
+            //AddOrUpdate(customRegion);
         } //updates region group details
 
         public List<string> GetNames(string type)
         {
             var names = new List<string>();
-            switch (type)
+            using (var dbSession = SessionManager.OpenSession())
             {
-                case "airport":
-                    using (var dbSession = SessionManager.OpenSession())
-                    {
+                switch (type)
+                {
+                    case "airport":
                         names = dbSession.Query<AirportModel>().Select(a => a.AirportName.ToUpper()).ToList();
-                    }
-                    return names;
-                case "city":
-                    using (var dbSession = SessionManager.OpenSession())
-                    {
+                        return names;
+                    case "city":
                         names = dbSession.Query<CityModel>().Select(a => a.CityName.ToUpper()).ToList();
-                    }
-                    return names;
-                case "state":
-                    using (var dbSession = SessionManager.OpenSession())
-                    {
+                        return names;
+                    case "state":
                         names = dbSession.Query<StateModel>().Select(a => a.StateName.ToUpper()).ToList();
-                    }
-                    return names;
-                case "country":
-                    using (var dbSession = SessionManager.OpenSession())
-                    {
+                        return names;
+                    case "country":
                         names = dbSession.Query<CountryModel>().Select(a => a.CountryName.ToUpper()).ToList();
-                    }
-                    return names;
-                case "region":
-                    using (var dbSession = SessionManager.OpenSession())
-                    {
+                        return names;
+                    case "region":
                         names = dbSession.Query<RegionModel>().Select(a => a.RegionName.ToUpper()).ToList();
-                    }
-                    return names;
-                default:
-                    break;
+                        return names;
+                    default:
+                        break;
+                }
             }
             return null;
         }

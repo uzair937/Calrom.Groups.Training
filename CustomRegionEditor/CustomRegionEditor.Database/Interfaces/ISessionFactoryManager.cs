@@ -7,8 +7,10 @@ using System;
 
 namespace CustomRegionEditor.Database.Interfaces
 {
-    public interface ISessionManager : IDisposable
+    public interface ISessionFactoryManager
     {
-        ISession OpenSession();
+        ISessionFactory GetSessionFactory();
+
+        ISessionFactory InitialiseSession();
     }
 }

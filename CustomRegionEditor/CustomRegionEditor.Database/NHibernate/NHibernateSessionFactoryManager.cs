@@ -4,31 +4,26 @@ using NHibernate;
 using NHibernate.Tool.hbm2ddl;
 using NHibernate.Caches.SysCache2;
 using CustomRegionEditor.Database.Interfaces;
+using System;
 
 namespace CustomRegionEditor.Database.Models
 {
-    public class NHibernateHelper : ISessionManager
+    public class NHibernateSessionFactoryManager : ISessionFactoryManager
     {
 
         private ISessionFactory sessionFactory = null;
-        public ISessionFactory SessionFactory
+
+        public ISessionFactory GetSessionFactory()
         {
-            get
-            {
-                return sessionFactory;
-            }
+            return sessionFactory;
         }
-        public NHibernateHelper()
+
+        public NHibernateSessionFactoryManager()
         {
             if (sessionFactory == null)
             {
                 sessionFactory = this.InitialiseSession();
             }
-        }
-
-        public ISession OpenSession()
-        {
-            return SessionFactory.OpenSession();
         }
 
         public ISessionFactory InitialiseSession()

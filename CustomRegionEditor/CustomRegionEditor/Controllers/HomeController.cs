@@ -243,6 +243,10 @@ namespace CustomRegionEditor.Controllers
                                                                             .ThenBy(a => a.Region?.RegionName).ToList();
             contentViewModel = new ContentViewModel
             {
+                SubRegionViewModel = new SubRegionViewModel()
+                {
+                    IsViewing = false,
+                },
                 EditViewModel = new EditViewModel()
                 {
                     IsEditing = true,

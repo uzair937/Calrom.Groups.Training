@@ -30,7 +30,9 @@ namespace CustomRegionEditor.Web
             
             container.RegisterType<IViewModelConverter, ViewModelConverter>();
             
-            container.RegisterSingleton<ISessionManager, NHibernateHelper>();
+            container.RegisterType<ISessionManager, NHibernateSessionManager>();
+
+            container.RegisterSingleton<ISessionFactoryManager, NHibernateSessionFactoryManager>();
 
             container.RegisterSingleton<ISubRegionRepo<RegionModel>, RegionRepo>();
 
