@@ -114,5 +114,46 @@ namespace CustomRegionEditor.Test.Repositories
             mockEagerLoader.Verify(m => m.LoadEntities(resultsFound), Times.Once, "Should be empty");
             mockEagerLoader.Verify(m => m.LoadEntities(new List<CustomRegionGroupModel>()), Times.Once, "Should be empty");
         }
+
+        [Test]
+        public void Given_UnfilteredSearch_Then_GetSearchResults_Should_ReturnResults() 
+        {
+            // Arrange
+            const string searchTerm = "-All";
+            var customRegionEntryModel = new CustomRegionEntryModel();
+            var customRegionGroupModel = new CustomRegionGroupModel()
+            {
+                CustomRegionEntries = new List<CustomRegionEntryModel>() {customRegionEntryModel}
+            };
+            var models = new List<CustomRegionGroupModel> { customRegionGroupModel };
+            
+            var mockSession = new Mock<ISession>();
+            mockSession.Setup(m => m.Query<CustomRegionGroupModel>()).Returns(models.AsQueryable());
+
+            var mockSessionManager = new Mock<ISessionManager>();
+            mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
+
+            var mockEagerLoader = new Mock<IEagerLoader>(MockBehavior.Strict);
+            mockEagerLoader.Setup(m => m.LoadEntities(It.IsAny<List<CustomRegionGroupModel>>())).Returns(models);
+
+            var mockEntryRepository = new Mock<ICustomRegionEntryRepository>();
+            var mockAirportRepo = new Mock<ISubRegionRepo<AirportModel>>();
+            var mockCityRepo = new Mock<ISubRegionRepo<CityModel>>();
+            var mockCountryRepo = new Mock<ISubRegionRepo<CountryModel>>();
+            var mockRegionRepo = new Mock<ISubRegionRepo<RegionModel>>();
+            var mockStateRepo = new Mock<ISubRegionRepo<StateModel>>();
+
+            var customRegionGroupRepo = new CustomRegionGroupRepo(mockEagerLoader.Object, mockSessionManager.Object,
+                mockEntryRepository.Object, mockAirportRepo.Object, mockCityRepo.Object, mockStateRepo.Object,
+                mockCountryRepo.Object, mockRegionRepo.Object);
+            // Act
+            var resultsFound = customRegionGroupRepo.GetSearchResults(searchTerm, null);
+
+            // Assert
+            Assert.IsNotNull(resultsFound, "Results should have been received. Cannot be empty.");
+            mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession once");
+            mockSession.Verify(m => m.Query<CustomRegionGroupModel>(), Times.Once, "Cannot query more than once");
+            mockEagerLoader.Verify(m => m.LoadEntities(resultsFound), Times.Once, "Should be populated");
+        }
     }
 }
