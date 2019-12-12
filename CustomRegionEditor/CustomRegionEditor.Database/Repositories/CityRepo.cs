@@ -26,7 +26,10 @@ namespace CustomRegionEditor.Database.Repositories
             using (var dbSession = SessionManager.OpenSession())
             {
                 cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.CityName == (entry));
-                if (cityModel == null) cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.CityId == (entry));
+                if (cityModel == null)
+                {
+                    cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.CityId == (entry));
+                }
                 return LazyLoader.LoadEntities(cityModel);
             }
 

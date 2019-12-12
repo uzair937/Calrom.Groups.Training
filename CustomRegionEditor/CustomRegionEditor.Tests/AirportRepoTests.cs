@@ -41,7 +41,7 @@ namespace CustomRegionEditor.Test.Repositories
             Assert.IsNotNull(airportFound, "We should have received an airport, but instead received null.");
             Assert.AreEqual(airportName, airportFound.AirportName, "The found airport name should match");
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession Once");
-            mockSession.Verify(m => m.Query<AirportModel>(), Times.Exactly(2), "Should have queried the airports twice");
+            mockSession.Verify(m => m.Query<AirportModel>(), Times.Once, "Should have queried the airports twice");
             mockEagerLoader.Verify(m => m.LoadEntities(airportModel), Times.Once, "Should have called load entities with the provided airport");
         }
 
