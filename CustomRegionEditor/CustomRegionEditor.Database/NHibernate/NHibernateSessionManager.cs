@@ -34,7 +34,7 @@ namespace CustomRegionEditor.Database.Models
 
         public void Dispose()
         {
-            if (session != null || session.IsOpen)
+            if (session != null && session.IsOpen)
             {
                 session.Dispose();
             }

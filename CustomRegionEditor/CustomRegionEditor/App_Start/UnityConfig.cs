@@ -3,10 +3,12 @@ using CustomRegionEditor.Database.Interfaces;
 using CustomRegionEditor.Database.Models;
 using CustomRegionEditor.Database.NHibLazyLoader;
 using CustomRegionEditor.Database.Repositories;
+using CustomRegionEditor.Web.App_Start.UnityExtensions;
 using CustomRegionEditor.Web.Converters;
 using CustomRegionEditor.Web.Interfaces;
 using System.Web.Mvc;
 using Unity;
+using Unity.Lifetime;
 using Unity.Mvc5;
 
 namespace CustomRegionEditor.Web
@@ -30,7 +32,7 @@ namespace CustomRegionEditor.Web
             
             container.RegisterType<IViewModelConverter, ViewModelConverter>();
             
-            container.RegisterType<ISessionManager, NHibernateSessionManager>();
+            container.RegisterType<ISessionManager, NHibernateSessionManager>(new ContainerControlledLifetimeManager());
 
             container.RegisterSingleton<ISessionFactoryManager, NHibernateSessionFactoryManager>();
 

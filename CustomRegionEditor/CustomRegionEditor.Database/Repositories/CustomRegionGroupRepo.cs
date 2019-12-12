@@ -232,16 +232,14 @@ namespace CustomRegionEditor.Database.Repositories
                     default:
                         break; //replace switch with a new view model and send all data across (three params too much)
                 }
-            }
-            if (validEntry)
-            {
-                using (var dbSession = SessionManager.OpenSession())
+
+                if (validEntry)
                 {
                     customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
                     RemoveSubregions(customRegionGroupModel, customRegionEntryModel, type);
                     CheckForParents(customRegionGroupModel, type, customRegionEntryModel);
+                    AddOrUpdate(customRegionGroupModel);
                 }
-                AddOrUpdate(customRegionGroupModel);
             }
         } //adds a new entry to a group
 
