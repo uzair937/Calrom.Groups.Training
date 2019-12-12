@@ -1,7 +1,7 @@
 using CustomRegionEditor.Database;
 using CustomRegionEditor.Database.Interfaces;
 using CustomRegionEditor.Database.Models;
-using CustomRegionEditor.Database.NHibLazyLoader;
+using CustomRegionEditor.Database.NHibernate;
 using CustomRegionEditor.Database.Repositories;
 using CustomRegionEditor.Web.App_Start.UnityExtensions;
 using CustomRegionEditor.Web.Converters;

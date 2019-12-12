@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CustomRegionEditor.Database.NHibLazyLoader
+namespace CustomRegionEditor.Database.NHibernate
 {
     public class EagerLoader : IEagerLoader
     {

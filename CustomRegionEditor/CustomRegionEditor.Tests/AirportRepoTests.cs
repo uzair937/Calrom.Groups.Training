@@ -1,6 +1,6 @@
 ﻿using CustomRegionEditor.Database.Interfaces;
 using CustomRegionEditor.Database.Models;
-using CustomRegionEditor.Database.NHibLazyLoader;
+using CustomRegionEditor.Database.NHibernate;
 using CustomRegionEditor.Database.Repositories;
 using Moq;
 using NHibernate;
@@ -18,7 +18,7 @@ namespace CustomRegionEditor.Test.Repositories
         [Test]
         public void Given_AnExistingAirportName_Then_FindAirportByName_Should_ReturnExistingAirport() {
             // Arrange
-            const string airportName = "William Booth";
+            const string airportName = "Lahore";
             var airportModel = new AirportModel { AirportName = airportName };
             var airportModels = new List<AirportModel> { airportModel };
             
@@ -27,6 +27,7 @@ namespace CustomRegionEditor.Test.Repositories
 
             var mockSessionManager = new Mock<ISessionManager>();
             mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
+
 
             var mockEagerLoader = new Mock<IEagerLoader>();
             mockEagerLoader.Setup(m => m.LoadEntities(airportModel)).Returns(airportModel);

@@ -103,7 +103,7 @@
     <Compile Include="Repositories\CustomRegionEntryRepo.cs" />
     <Compile Include="Repositories\CustomRegionGroupRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NHibLazyLoader\EagerLoader.cs" />
+    <Compile Include="NHibernate\EagerLoader.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
