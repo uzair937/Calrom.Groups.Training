@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentNHibernate.Utils;
-using CustomRegionEditor.Database.NHibLazyLoader;
+using CustomRegionEditor.Database.NHibernate;
 using CustomRegionEditor.Database.Interfaces;
 
 namespace CustomRegionEditor.Database.Repositories
