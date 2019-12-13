@@ -16,7 +16,7 @@ namespace CustomRegionEditor.Test.Repositories
     public class CustomRegionGroupRepoTests
     {
         [Test]
-        public void Given_AValidSearch_Then_GetSearchResults_Should_ReturnCustomRegionGroupList() 
+        public void Given_AValidSearch_Then_GetSearchResults_Should_ReturnCustomRegionGroupList()
         {
             // Arrange
             const string stateName = "Texas";
@@ -28,10 +28,10 @@ namespace CustomRegionEditor.Test.Repositories
             };
             var customRegionGroupModel = new CustomRegionGroupModel()
             {
-                CustomRegionEntries = new List<CustomRegionEntryModel>() {customRegionEntryModel}
+                CustomRegionEntries = new List<CustomRegionEntryModel>() { customRegionEntryModel }
             };
             var models = new List<CustomRegionGroupModel> { customRegionGroupModel };
-            
+
             var mockSession = new Mock<ISession>();
             mockSession.Setup(m => m.Query<CustomRegionGroupModel>()).Returns(models.AsQueryable());
 
@@ -67,7 +67,7 @@ namespace CustomRegionEditor.Test.Repositories
         }
 
         [Test]
-        public void Given_InvalidSearch_Then_GetSearchResults_Should_ReturnEmptyLists() 
+        public void Given_InvalidSearch_Then_GetSearchResults_Should_ReturnEmptyLists()
         {
             // Arrange
             const string stateName = "Blank";
@@ -79,10 +79,10 @@ namespace CustomRegionEditor.Test.Repositories
             };
             var customRegionGroupModel = new CustomRegionGroupModel()
             {
-                CustomRegionEntries = new List<CustomRegionEntryModel>() {customRegionEntryModel}
+                CustomRegionEntries = new List<CustomRegionEntryModel>() { customRegionEntryModel }
             };
             var models = new List<CustomRegionGroupModel> { customRegionGroupModel };
-            
+
             var mockSession = new Mock<ISession>();
             mockSession.Setup(m => m.Query<CustomRegionGroupModel>()).Returns(models.AsQueryable());
 
@@ -116,17 +116,17 @@ namespace CustomRegionEditor.Test.Repositories
         }
 
         [Test]
-        public void Given_UnfilteredSearch_Then_GetSearchResults_Should_ReturnResults() 
+        public void Given_UnfilteredSearch_Then_GetSearchResults_Should_ReturnResults()
         {
             // Arrange
             const string searchTerm = "-All";
             var customRegionEntryModel = new CustomRegionEntryModel();
             var customRegionGroupModel = new CustomRegionGroupModel()
             {
-                CustomRegionEntries = new List<CustomRegionEntryModel>() {customRegionEntryModel}
+                CustomRegionEntries = new List<CustomRegionEntryModel>() { customRegionEntryModel }
             };
             var models = new List<CustomRegionGroupModel> { customRegionGroupModel };
-            
+
             var mockSession = new Mock<ISession>();
             mockSession.Setup(m => m.Query<CustomRegionGroupModel>()).Returns(models.AsQueryable());
 
@@ -154,6 +154,43 @@ namespace CustomRegionEditor.Test.Repositories
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession once");
             mockSession.Verify(m => m.Query<CustomRegionGroupModel>(), Times.Once, "Cannot query more than once");
             mockEagerLoader.Verify(m => m.LoadEntities(resultsFound), Times.Once, "Should be populated");
+        }
+
+
+        [Test]
+        public void Given_GroupEntity_Then_AddOrUpdate_Should_OpenASessionAndSave()
+        {
+            // Arrange
+            var mockSessionManager = new Mock<ISessionManager>();
+            var mockEagerLoader = new Mock<IEagerLoader>();
+            var mockEntryRepository = new Mock<ICustomRegionEntryRepository>();
+            var mockAirportRepo = new Mock<ISubRegionRepo<AirportModel>>();
+            var mockCityRepo = new Mock<ISubRegionRepo<CityModel>>();
+            var mockCountryRepo = new Mock<ISubRegionRepo<CountryModel>>();
+            var mockRegionRepo = new Mock<ISubRegionRepo<RegionModel>>();
+            var mockStateRepo = new Mock<ISubRegionRepo<StateModel>>();
+
+            var customRegionGroupRepo = new CustomRegionGroupRepo(mockEagerLoader.Object, mockSessionManager.Object,
+                mockEntryRepository.Object, mockAirportRepo.Object, mockCityRepo.Object, mockStateRepo.Object,
+                mockCountryRepo.Object, mockRegionRepo.Object);
+
+            var mockSession = new Mock<ISession>();
+            mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
+
+            var customRegionEntryModel = new CustomRegionEntryModel();
+            var customRegionGroupModel = new CustomRegionGroupModel()
+            {
+                CustomRegionEntries = new List<CustomRegionEntryModel>() { customRegionEntryModel }
+            };
+
+            //Act
+            customRegionGroupRepo.AddOrUpdate(customRegionGroupModel);
+
+            //Assert
+
+            mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession once");
+            mockSession.Verify(m => m.SaveOrUpdate(customRegionGroupModel), Times.Once, "Should only save or update once");
+            mockSession.Verify(m => m.Flush(), Times.Once, "Should flush");
         }
     }
 }
