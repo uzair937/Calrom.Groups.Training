@@ -108,10 +108,10 @@ namespace CustomRegionEditor.Test.Repositories
             var mockEagerLoader = new Mock<IEagerLoader>();
             mockEagerLoader.Setup(m => m.LoadEntities(stateModel)).Returns(stateModel);
 
-            var regionRepo = new StateRepo(mockEagerLoader.Object, mockSessionManager.Object, mockCountryRepo.Object);
+            var stateRepo = new StateRepo(mockEagerLoader.Object, mockSessionManager.Object, mockCountryRepo.Object);
 
             // Act
-            var entriesFound = regionRepo.GetSubRegions(stateModel);
+            var entriesFound = stateRepo.GetSubRegions(stateModel);
 
             var idealResult = new List<CustomRegionEntryModel>()
             {
