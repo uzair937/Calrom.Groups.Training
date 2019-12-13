@@ -192,5 +192,79 @@ namespace CustomRegionEditor.Test.Repositories
             mockSession.Verify(m => m.SaveOrUpdate(customRegionGroupModel), Times.Once, "Should only save or update once");
             mockSession.Verify(m => m.Flush(), Times.Once, "Should flush");
         }
+        
+        [Test]
+        public void Given_GroupEntity_Then_Delete_Should_OpenASessionAndDelete()
+        {
+            // Arrange
+            var mockSessionManager = new Mock<ISessionManager>();
+            var mockEagerLoader = new Mock<IEagerLoader>();
+            var mockEntryRepository = new Mock<ICustomRegionEntryRepository>();
+            var mockAirportRepo = new Mock<ISubRegionRepo<AirportModel>>();
+            var mockCityRepo = new Mock<ISubRegionRepo<CityModel>>();
+            var mockCountryRepo = new Mock<ISubRegionRepo<CountryModel>>();
+            var mockRegionRepo = new Mock<ISubRegionRepo<RegionModel>>();
+            var mockStateRepo = new Mock<ISubRegionRepo<StateModel>>();
+
+            var customRegionGroupRepo = new CustomRegionGroupRepo(mockEagerLoader.Object, mockSessionManager.Object,
+                mockEntryRepository.Object, mockAirportRepo.Object, mockCityRepo.Object, mockStateRepo.Object,
+                mockCountryRepo.Object, mockRegionRepo.Object);
+
+            var mockSession = new Mock<ISession>();
+            mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
+
+            var customRegionEntryModel = new CustomRegionEntryModel();
+            var customRegionGroupModel = new CustomRegionGroupModel()
+            {
+                CustomRegionEntries = new List<CustomRegionEntryModel>() { customRegionEntryModel }
+            };
+
+            //Act
+            customRegionGroupRepo.Delete(customRegionGroupModel);
+
+            //Assert
+
+            mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession once");
+            mockSession.Verify(m => m.Delete(customRegionGroupModel), Times.Once, "Should only save or update once");
+            mockSession.Verify(m => m.Flush(), Times.Once, "Should flush");
+        }
+        
+        [Test]
+        public void Given_ListCalled_Then_List_Should_ReturnAListOfGroupRegions()
+        {
+            // Arrange
+            var mockSessionManager = new Mock<ISessionManager>();
+            var mockEagerLoader = new Mock<IEagerLoader>();
+            var mockEntryRepository = new Mock<ICustomRegionEntryRepository>();
+            var mockAirportRepo = new Mock<ISubRegionRepo<AirportModel>>();
+            var mockCityRepo = new Mock<ISubRegionRepo<CityModel>>();
+            var mockCountryRepo = new Mock<ISubRegionRepo<CountryModel>>();
+            var mockRegionRepo = new Mock<ISubRegionRepo<RegionModel>>();
+            var mockStateRepo = new Mock<ISubRegionRepo<StateModel>>();
+
+            var customRegionGroupRepo = new CustomRegionGroupRepo(mockEagerLoader.Object, mockSessionManager.Object,
+                mockEntryRepository.Object, mockAirportRepo.Object, mockCityRepo.Object, mockStateRepo.Object,
+                mockCountryRepo.Object, mockRegionRepo.Object);
+
+            var mockSession = new Mock<ISession>();
+            mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
+
+            var customRegionEntryModel = new CustomRegionEntryModel();
+            var customRegionGroupModel = new CustomRegionGroupModel()
+            {
+                CustomRegionEntries = new List<CustomRegionEntryModel>() { customRegionEntryModel }
+            };
+            var regionList = new List<CustomRegionGroupModel>() { customRegionGroupModel };
+
+            mockSession.Setup(m => m.Query<CustomRegionGroupModel>()).Returns(regionList.AsQueryable());
+            //Act
+            customRegionGroupRepo.Delete(customRegionGroupModel);
+
+            //Assert
+
+            mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession once");
+            mockSession.Verify(m => m.Delete(customRegionGroupModel), Times.Once, "Should only save or update once");
+            mockSession.Verify(m => m.Flush(), Times.Once, "Should flush");
+        }
     }
 }
