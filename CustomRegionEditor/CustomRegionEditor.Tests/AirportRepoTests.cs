@@ -73,5 +73,24 @@ namespace CustomRegionEditor.Test.Repositories
             mockSession.Verify(m => m.Query<AirportModel>(), Times.Exactly(2), "Should have queried the airports twice");
             mockEagerLoader.Verify(m => m.LoadEntities((AirportModel)null), Times.Once, "Should have called load entities with null");
         }
+        
+        [Test]
+        public void Given_AnAirportModel_When_GettingSubRegions_Should_ThrowNotImplemented()
+        {
+            // Arrange
+            const string airportName = "William Booth";
+            var airportModel = new AirportModel { AirportName = airportName };
+
+            var mockSessionManager = new Mock<ISessionManager>();
+            var mockEagerLoader = new Mock<IEagerLoader>(MockBehavior.Strict);
+
+            var airportRepo = new AirportRepo(mockEagerLoader.Object, mockSessionManager.Object);
+
+            // Act
+            //var subregionsFound = airportRepo.GetSubRegions(airportModel);
+
+            // Assert
+            Assert.Throws<NotImplementedException>(() => airportRepo.GetSubRegions(airportModel), "Should throw an exception");
+        }
     }
 }
