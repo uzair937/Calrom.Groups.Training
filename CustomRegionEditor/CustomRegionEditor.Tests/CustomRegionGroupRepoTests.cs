@@ -266,5 +266,89 @@ namespace CustomRegionEditor.Test.Repositories
             mockSession.Verify(m => m.Delete(customRegionGroupModel), Times.Once, "Should only save or update once");
             mockSession.Verify(m => m.Flush(), Times.Once, "Should flush");
         }
+        
+        [Test]
+        public void Given_Guid_Then_FindByID_Should_ReturnAGroupRegion()
+        {
+            // Arrange
+            var mockSessionManager = new Mock<ISessionManager>();
+            var mockEagerLoader = new Mock<IEagerLoader>();
+            var mockEntryRepository = new Mock<ICustomRegionEntryRepository>();
+            var mockAirportRepo = new Mock<ISubRegionRepo<AirportModel>>();
+            var mockCityRepo = new Mock<ISubRegionRepo<CityModel>>();
+            var mockCountryRepo = new Mock<ISubRegionRepo<CountryModel>>();
+            var mockRegionRepo = new Mock<ISubRegionRepo<RegionModel>>();
+            var mockStateRepo = new Mock<ISubRegionRepo<StateModel>>();
+            var genId = new Guid();
+
+            var customRegionGroupRepo = new CustomRegionGroupRepo(mockEagerLoader.Object, mockSessionManager.Object,
+                mockEntryRepository.Object, mockAirportRepo.Object, mockCityRepo.Object, mockStateRepo.Object,
+                mockCountryRepo.Object, mockRegionRepo.Object);
+
+            var mockSession = new Mock<ISession>();
+            mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
+
+            var customRegionEntryModel = new CustomRegionEntryModel();
+            var customRegionGroupModel = new CustomRegionGroupModel()
+            {
+                CustomRegionEntries = new List<CustomRegionEntryModel>() { customRegionEntryModel }
+            };
+
+            mockSession.Setup(m => m.Get<CustomRegionGroupModel>(genId)).Returns(customRegionGroupModel);
+            mockEagerLoader.Setup(m => m.LoadEntities(customRegionGroupModel)).Returns(customRegionGroupModel);
+            
+            
+            //Act
+            var returnResult = customRegionGroupRepo.FindById(genId.ToString());
+
+            //Assert
+
+            Assert.AreEqual(customRegionGroupModel, returnResult);
+            Assert.IsNotNull(returnResult);
+            mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession once");
+            mockSession.Verify(m => m.Get<CustomRegionGroupModel>(genId), Times.Once, "Should  get a group model");
+            mockEagerLoader.Verify(m => m.LoadEntities(customRegionGroupModel), Times.Once, "Should return self");
+        }
+        
+        [Test]
+        public void Given_Guid_Then_DeleteByID_Should_OpenGetAndDelete()
+        {
+            // Arrange
+            var mockSessionManager = new Mock<ISessionManager>();
+            var mockEagerLoader = new Mock<IEagerLoader>();
+            var mockEntryRepository = new Mock<ICustomRegionEntryRepository>();
+            var mockGroupRepository = new Mock<ICustomRegionGroupRepository>();
+            var mockAirportRepo = new Mock<ISubRegionRepo<AirportModel>>();
+            var mockCityRepo = new Mock<ISubRegionRepo<CityModel>>();
+            var mockCountryRepo = new Mock<ISubRegionRepo<CountryModel>>();
+            var mockRegionRepo = new Mock<ISubRegionRepo<RegionModel>>();
+            var mockStateRepo = new Mock<ISubRegionRepo<StateModel>>();
+            var genId = new Guid();
+
+            var customRegionGroupRepo = new CustomRegionGroupRepo(mockEagerLoader.Object, mockSessionManager.Object,
+                mockEntryRepository.Object, mockAirportRepo.Object, mockCityRepo.Object, mockStateRepo.Object,
+                mockCountryRepo.Object, mockRegionRepo.Object);
+
+            var mockSession = new Mock<ISession>();
+            mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
+
+            var customRegionEntryModel = new CustomRegionEntryModel();
+            var customRegionGroupModel = new CustomRegionGroupModel()
+            {
+                CustomRegionEntries = new List<CustomRegionEntryModel>() { customRegionEntryModel }
+            };
+
+            mockSession.Setup(m => m.Get<CustomRegionGroupModel>(genId)).Returns(customRegionGroupModel);
+            
+            //Act
+            customRegionGroupRepo.DeleteById(genId.ToString());
+
+            //Assert
+
+            mockSessionManager.Verify(m => m.OpenSession(), Times.Exactly(2), "Session opened to get and to delete.");
+            mockSession.Verify(m => m.Get<CustomRegionGroupModel>(genId), Times.Once, "Should  get a populated group model.");
+            mockSession.Verify(m => m.Delete(customRegionGroupModel), Times.Once, "Session delete should run once.");
+            mockSession.Verify(m => m.Flush(), Times.Once, "Should flush");
+        }
     }
 }
