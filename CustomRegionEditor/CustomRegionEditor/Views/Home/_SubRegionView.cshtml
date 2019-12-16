@@ -4,7 +4,9 @@
 <div class="subregion-container flex-column">
     @if (Model.IsViewing)
     {
-        <table class="table-header">
+    <table class="table">
+        
+        <thead class="thead-dark">
             <tr>
                 <th>Region</th>
                 <th>Country</th>
@@ -12,16 +14,19 @@
                 <th>City</th>
                 <th>Airport</th>
             </tr>
-            @foreach (var entry in Model.CustomRegionGroupViewModel.CustomRegions)
-            {
-                <tr class="single-region-entry">
-                    <td>@entry.Region.Name</td>
-                    <td>@entry.Country.Name</td>
-                    <td>@entry.State.Name</td>
-                    <td>@entry.City.Name</td>
-                    <td>@entry.Airport.Name</td>
-                </tr>
-            }
-        </table>
+    </thead>
+        <tbody>
+        @foreach (var entry in Model.CustomRegionGroupViewModel.CustomRegions)
+        {
+            <tr class="single-region-entry">
+                <td>@entry.Region.Name</td>
+                <td>@entry.Country.Name</td>
+                <td>@entry.State.Name</td>
+                <td>@entry.City.Name</td>
+                <td>@entry.Airport.Name</td>
+            </tr>
+        }
+        </tbody>
+    </table>
     }
 </div>
