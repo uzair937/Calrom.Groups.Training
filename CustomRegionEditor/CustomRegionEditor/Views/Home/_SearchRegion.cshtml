@@ -5,25 +5,29 @@
 <div class="search-results-container flex-column">
     @if (Model.IsSearching)
     {
-        <table>
+        <table class="table">
             @if (Model.ValidResults)
             {
-                <tr class="table-header" data-deleteurl="@Url.Action("DeleteRegionGroup", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")">
-                    <th>Region ID</th>
-                    <th>Name</th>
-                    <th>Entries</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
+                <thead class="thead-dark">
+                    <tr class="table-header" data-deleteurl="@Url.Action("DeleteRegionGroup", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")">
+                        <th scope="col">Region ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Entries</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
                 foreach (var result in Model.SearchResults)
                 {
-                    <tr class="search-result" searchId = "@result.ID">
-                        <td>@result.ID</td>
-                        <td>@result.Name</td>
-                        <td>@result.CustomRegions.Count</td>
-                        <td><input type="button" value="Edit" class="edit-button" /></td>
-                        <td><input type="button" value="Delete" class="delete-button" /></td>
-                    </tr>
+                    <tbody>
+                        <tr class="search-result" searchId="@result.ID">
+                            <td>@result.ID</td>
+                            <td>@result.Name</td>
+                            <td>@result.CustomRegions.Count</td>
+                            <td><input type="button" value="Edit" class="edit-button btn btn-dark" /></td>
+                            <td><input type="button" value="Delete" class="delete-button btn btn-dark" /></td>
+                        </tr>
+                    </tbody>
                 }
             }
             @if (!Model.ValidResults)
