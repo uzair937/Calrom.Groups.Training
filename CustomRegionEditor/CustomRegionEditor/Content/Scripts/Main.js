@@ -50,7 +50,7 @@ function onSearch(e) {
 
 function onEdit(e) {
     var url = $(".table-header").attr("data-editurl");
-    var regionId = $(this).attr("searchId");
+    var regionId = $(this).parent().parent().attr("searchid");
     if (regionId) {
         $.ajax({
             type: "POST",
@@ -93,7 +93,7 @@ function onDelete(e) {
 function onConfirmDelete(e) {
     e.stopPropagation();
     var url = $(".table-header").attr("data-deleteurl");
-    var regionId = $(this).prev().attr("searchId");
+    var regionId = $(this).parent().parent().attr("searchid");
 
     if (regionId) {
         $.ajax({

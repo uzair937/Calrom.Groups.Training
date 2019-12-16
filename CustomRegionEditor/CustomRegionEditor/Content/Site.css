@@ -110,7 +110,7 @@ td {
     display: flex;
     padding: 5px;
     justify-content: center;
-    max-width: 30%;
+    width: 25%;
     height: 50em;
     border-radius: 25px;
     margin-right: 2em;
@@ -186,4 +186,8 @@ td {
 ::-webkit-scrollbar-thumb {
     background: black;
     border-radius: 10px;
+}
+
+.search-text-box {
+    min-width: 200px !important;
 }
