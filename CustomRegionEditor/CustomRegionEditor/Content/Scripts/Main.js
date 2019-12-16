@@ -1,7 +1,7 @@
 ﻿window.onload = function () {
     addMainListeners();
 
-    $('#helper-tooltip').tooltip('show');
+    $('#helper-tooltip').tooltip();
 }
 
 function onSearch(e) {
