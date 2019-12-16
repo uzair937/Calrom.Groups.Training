@@ -8,56 +8,59 @@
         <div>-Rand</div>
     </div>
     <div class="add-button-container" data-newregionurl="@Url.Action("NewCustomRegion", "Home")">
-        <input type="button" class="btn btn-dark add-region-button" value="Add Region" />
+        <input type="button" value="Add Region" class="add-region-button btn btn-light" />
     </div>
 
     <div class="search-box-container">
         @Html.Partial("_SearchBox")
     </div>
 
-    <div class="search-filters-container">
-        <div class="flex-row">
-            <h2>Filters</h2>
-        </div>
-        <div class="flex-row">
-            <h4 class="filter-heading">No Filters:</h4>
-            <input type="radio" name="filter" checked="checked"/>
-        </div>
-        <div class="flex-row">
-            <h4 class="filter-heading">Group By Region:</h4>
-            <input type="radio" name="filter" class="by-region" />
-        </div>
-        <div class="flex-row">
-            <h4 class="filter-heading">Group By Country:</h4>
-            <input type="radio" name="filter" class="by-country" />
-        </div>
-        <div class="flex-row">
-            <h4 class="filter-heading">Group By State:</h4>
-            <input type="radio" name="filter" class="by-state" />
-        </div>
-        <div class="flex-row">
-            <h4 class="filter-heading">Group By City:</h4>
-            <input type="radio" name="filter" class="by-city" />
-        </div>
-        <div class="flex-row">
-            <h4 class="filter-heading">Group By Airport:</h4>
-            <input type="radio" name="filter" class="by-airport" />
-        </div>
-        <div class="flex-row">
-            <h4 class="filter-heading">Search for Region:</h4>
-            <input type="radio" name="filter" class="region-filter" />
-        </div>
-        <div class="flex-row">
-            <h4 class="filter-heading">Search for Country:</h4>
-            <input type="radio" name="filter" class="country-filter" />
-        </div>
-        <div class="flex-row">
-            <h4 class="filter-heading">Search for State:</h4>
-            <input type="radio" name="filter" class="state-filter" />
-        </div>
-        <div class="flex-row">
-            <h4 class="filter-heading">Search for City:</h4>
-            <input type="radio" name="filter" class="city-filter" />
+    <div class="dropdown">
+        <button class="btn btn-light mt-2 dropdown-toggle" id="filterDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Filters
+        </button>
+
+        <div class="search-filters-container dropdown-menu" aria-labelledby="filterDropdownMenuButton">
+            <div class="dropdown-row m-0">
+                <h4 class="filter-heading">No Filters:</h4>
+                <input type="radio" name="filter" checked="checked" />
+            </div>
+            <div class="dropdown-row m-0">
+                <h4 class="filter-heading">Group By Region:</h4>
+                <input type="radio" name="filter" class="by-region" />
+            </div>
+            <div class="dropdown-row m-0">
+                <h4 class="filter-heading">Group By Country:</h4>
+                <input type="radio" name="filter" class="by-country" />
+            </div>
+            <div class="dropdown-row m-0">
+                <h4 class="filter-heading">Group By State:</h4>
+                <input type="radio" name="filter" class="by-state" />
+            </div>
+            <div class="dropdown-row m-0">
+                <h4 class="filter-heading">Group By City:</h4>
+                <input type="radio" name="filter" class="by-city" />
+            </div>
+            <div class="dropdown-row m-0">
+                <h4 class="filter-heading">Group By Airport:</h4>
+                <input type="radio" name="filter" class="by-airport" />
+            </div>
+            <div class="dropdown-row m-0">
+                <h4 class="filter-heading">Search for Region:</h4>
+                <input type="radio" name="filter" class="region-filter" />
+            </div>
+            <div class="dropdown-row m-0">
+                <h4 class="filter-heading">Search for Country:</h4>
+                <input type="radio" name="filter" class="country-filter" />
+            </div>
+            <div class="dropdown-row m-0">
+                <h4 class="filter-heading">Search for State:</h4>
+                <input type="radio" name="filter" class="state-filter" />
+            </div>
+            <div class="dropdown-row m-0">
+                <h4 class="filter-heading">Search for City:</h4>
+                <input type="radio" name="filter" class="city-filter" />
+            </div>
         </div>
     </div>
 </div>
