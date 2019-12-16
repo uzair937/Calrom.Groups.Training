@@ -63,7 +63,8 @@ namespace CustomRegionEditor.Controllers
                     SubRegionViewModel = new SubRegionViewModel()
                     {
                         IsViewing = true,
-                        CustomRegionGroupViewModel = ViewModelConverter.GetView(GetSubRegions(searchTerm, filter))
+                        CustomRegionGroupViewModel = ViewModelConverter.GetView(GetSubRegions(searchTerm, filter)),
+                        InvalidSearchTerm = searchTerm
                     },
                 };
             }
@@ -81,6 +82,7 @@ namespace CustomRegionEditor.Controllers
             }
             if (SearchResults.Count > 0)
             {
+                contentViewModel.SubRegionViewModel.ValidResults = true;
                 contentViewModel.SearchViewModel.ValidResults = true;
                 contentViewModel.SearchViewModel.SearchResults = ViewModelConverter.GetView(SearchResults);
             }

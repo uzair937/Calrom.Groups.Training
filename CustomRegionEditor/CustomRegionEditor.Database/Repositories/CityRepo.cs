@@ -38,7 +38,7 @@ namespace CustomRegionEditor.Database.Repositories
         public List<CustomRegionEntryModel> GetSubRegions(CityModel city)
         {
             var CustomRegionEntries = new List<CustomRegionEntryModel>();
-
+            if (city == null) return CustomRegionEntries;
             using (var dbSession = SessionManager.OpenSession())
             {
                 var airports = dbSession.Query<AirportModel>().Where(c => c.City.CityId == city.CityId).ToList();
