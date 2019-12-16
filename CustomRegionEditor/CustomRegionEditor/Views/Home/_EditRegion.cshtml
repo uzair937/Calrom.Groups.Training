@@ -1,67 +1,73 @@
 ﻿@using CustomRegionEditor.ViewModels
 @model EditViewModel
 
-<div class="edit-container flex-column">
-    @if (Model.IsEditing)
-    {
-        <div class="Region-info-container">
-            <table>
-                <tr>
-                    <th>Region ID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Regions</th>
-                    <th>Save Changes</th>
-                </tr>
-                <tr class="info-table-header" data-savechangesurl="@Url.Action("SaveChanges", "Home")">
-                    <td class="model-id">@Model.CustomRegionGroupViewModel.ID</td>
-                    <td><input class="model-name" type="text" placeholder="Set Name" value="@Model.CustomRegionGroupViewModel.Name" /></td>
-                    <td><input class="model-description" type="text" placeholder="Set Description" value="@Model.CustomRegionGroupViewModel.Description" /></td>
-                    <td>@Model.CustomRegionGroupViewModel.CustomRegions.Count</td>
-                    <td><input type="button" value="Save" class="save-changes-button" /></td>
-                </tr>
-            </table>
-        </div>
-
-        if (Model.ExistingRegion)
+<div class="container">
+    <tr class="edit-container flex-column">
+        @if (Model.IsEditing)
         {
-            <div class="edit-info-container">
-                <table class="table-header" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")" RegionId="@Model.CustomRegionGroupViewModel.ID">
+            <table class="table" data-savechangesurl="@Url.Action("SaveChanges", "Home")">
+                <thead class="thead-dark">
+                <th scope="col">
+                    Name
+                </th>
+                <th scope="col">
+                    Description
+                </th>
+                <th scope="col">
+                    Regions
+                </th>
+                <th scope="col">
+                    Save Changes
+                </th>
+                </thead>
+                <tbody>
                     <tr>
-                        <th>Entry ID</th>
-                        <th>Region</th>
-                        <th>Country</th>
-                        <th>State</th>
-                        <th>City</th>
-                        <th>Airport</th>
-                        <th>Remove</th>
+                        <td><input class="model-name form-control" type="text" placeholder="Set Name" value="@Model.CustomRegionGroupViewModel.Name" /></td>
+                        <td><input class="model-description form-control" type="text" placeholder="Set Description" value="@Model.CustomRegionGroupViewModel.Description" /></td>
+                        <td>@Model.CustomRegionGroupViewModel.CustomRegions.Count</td>
+                        <td><input type="button" value="Save" class="save-changes-button btn btn-dark" /></td>
                     </tr>
-                    @foreach (var entry in Model.CustomRegionGroupViewModel.CustomRegions)
-                    {
-                        <tr class="single-region-entry" entryId="@entry.ID">
-                            <td>@entry.ID</td>
-                            <td>@entry.Region.Name</td>
-                            <td>@entry.Country.Name</td>
-                            <td>@entry.State.Name</td>
-                            <td>@entry.City.Name</td>
-                            <td>@entry.Airport.Name</td>
-
-                            <td><input type="button" value="Delete" class="delete-button" /></td>
-
-                        </tr>
-                    }
-                    <tr class="add-region-row" data-autourl="@Url.Action("AutoComplete", "Home")">
-                        <td>Enter One</td>
-                        <td><input type="text" placeholder="Region" class="region-text-box new-entry-input" name="region-box" autotype="region" /><div class="region-autocomplete"></div></td>
-                        <td><input type="text" placeholder="Country" class="country-text-box new-entry-input" name="country-box" autotype="country" /><div class="country-autocomplete"></div></td>
-                        <td><input type="text" placeholder="State" class="state-text-box new-entry-input" name="state-box" autotype="state" /><div class="state-autocomplete"></div></td>
-                        <td><input type="text" placeholder="City" class="city-text-box new-entry-input" name="city-box" autotype="city" /><div class="city-autocomplete"></div></td>
-                        <td><input type="text" placeholder="Airport" class="airport-text-box new-entry-input" name="airport-box" autotype="airport" /><div class="airport-autocomplete"></div></td>
-                        <td><input type="button" value="Add" class="add-button" /></td>
-                    </tr>
-
-                </table>
-            </div>
+                </tbody>
+            </table>
+            if (Model.ExistingRegion)
+            {
+                <div class="edit-info-container">
+                    <table class="table" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")" RegionId="@Model.CustomRegionGroupViewModel.ID">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Region</th>
+                                <th scope="col">Country</th>
+                                <th scope="col">State</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Airport</th>
+                                <th scope="col">Remove</th>
+                            </tr>
+                        </thead>
+                        @foreach (var entry in Model.CustomRegionGroupViewModel.CustomRegions)
+                        {
+                            <tbody>
+                                <tr class="single-region-entry" entryId="@entry.ID">
+                                    <td>@entry.Region.Name</td>
+                                    <td>@entry.Country.Name</td>
+                                    <td>@entry.State.Name</td>
+                                    <td>@entry.City.Name</td>
+                                    <td>@entry.Airport.Name</td>
+                                    <td><input type="button" value="Delete" class="delete-button btn btn-dark" /></td>
+                                </tr>
+                            </tbody>
+                        }
+                        <tfoot>
+                            <tr class="add-region-row" data-autourl="@Url.Action("AutoComplete", "Home")">
+                                <td><input type="text" placeholder="Region" class="region-text-box new-entry-input form-control" name="region-box" autotype="region" /><div class="region-autocomplete"></div></td>
+                                <td><input type="text" placeholder="Country" class="country-text-box new-entry-input form-control" name="country-box" autotype="country" /><div class="country-autocomplete"></div></td>
+                                <td><input type="text" placeholder="State" class="state-text-box new-entry-input form-control" name="state-box" autotype="state" /><div class="state-autocomplete"></div></td>
+                                <td><input type="text" placeholder="City" class="city-text-box new-entry-input form-control" name="city-box" autotype="city" /><div class="city-autocomplete"></div></td>
+                                <td><input type="text" placeholder="Airport" class="airport-text-box new-entry-input form-control" name="airport-box" autotype="airport" /><div class="airport-autocomplete"></div></td>
+                                <td><input type="button" value="Add" class="add-button btn btn-dark" /></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            }
         }
-    }
 </div>
