@@ -2,23 +2,17 @@
 @model EditViewModel
 
 <div class="container">
-    <tr class="edit-container flex-column">
+    <div class="edit-container flex-column">
         @if (Model.IsEditing)
         {
             <table class="table" data-savechangesurl="@Url.Action("SaveChanges", "Home")">
                 <thead class="thead-dark">
-                <th scope="col">
-                    Name
-                </th>
-                <th scope="col">
-                    Description
-                </th>
-                <th scope="col">
-                    Regions
-                </th>
-                <th scope="col">
-                    Save Changes
-                </th>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Regions</th>
+                        <th scope="col">Save Changes</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr>
@@ -70,4 +64,5 @@
                 </div>
             }
         }
+    </div>
 </div>
