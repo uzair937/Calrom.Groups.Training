@@ -3,7 +3,7 @@ body {
     width: 100%;
     height: 100%;
     /*background-image: url(images/earth.jpg);*/
-    background-color: black;
+    background-color: #2F2F2F;
     background-size: cover;
     background-position: center center;
 }
