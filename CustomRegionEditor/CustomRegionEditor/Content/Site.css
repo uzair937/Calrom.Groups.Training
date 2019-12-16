@@ -60,15 +60,20 @@ td {
 
 .flex-row {
     display: flex;
-    flex-direction: row;
+    flex-flow: row nowrap;
     width: auto;
+    align-items: center;
+}
+
+.dropdown-row {
+    display: flex;
+    flex-flow: row nowrap;
     align-items: center;
 }
 
 .flex-column {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
@@ -128,10 +133,16 @@ td {
 }
 
 .search-filters-container {
-    width: 100%;
+    width: 16em;
     padding-left: 5%;
     align-items: flex-start;
 }
+
+#filterDropdownMenuButton {
+    font-size: 1.5em;
+    width: 10.67em;
+}
+
 
 .command-container {
     width: 100%;
