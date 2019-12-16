@@ -71,6 +71,7 @@ td {
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+    justify-content: flex-end;
 }
 
 .flex-column {
@@ -79,13 +80,18 @@ td {
     align-items: center;
 }
 
-
+.flex-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10rem !important;
+}
 
 .flex-body {
     height: 100%;
     width: 100%;
     display: flex;
-    padding-top: 7%;
+    padding-top: 5%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -108,10 +114,13 @@ td {
 }
 
 .add-button-container {
-    margin-bottom: 1em;
     display: flex;
-    justify-content: flex-end;
-    width: 100%;
+    justify-content: center;
+}
+
+.add-region-button {
+    width: 10.67em;
+    font-size: 1.5em;
 }
 
 
@@ -138,9 +147,8 @@ td {
 
 .search-filters-container {
     width: 16em;
-    padding-left: 5%;
-    align-items: flex-start;
-    font:0.8em;
+    padding-right: 5%;
+    align-items: flex-end;
     color: #fff;
     background-color: #1d2124;
     border-color: #171a1d;
@@ -151,7 +159,6 @@ td {
     width: 10.67em;
 
 }
-
 
 .command-container {
     width: 100%;
