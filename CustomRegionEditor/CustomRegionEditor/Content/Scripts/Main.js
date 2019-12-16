@@ -7,31 +7,31 @@ function onSearch(e) {
     var url = $(".search-container").attr("data-searchurl");
     var searchTerm = document.getElementsByClassName("search-text-box")[0].value;
     var filter = "none";
-    if ($(".by-airport").is(':checked')) {
+    if ($(".search-filters-container").val() === "contains-airport") {
         filter = "airport";
     }
-    if ($(".by-city").is(':checked')) {
+    if ($(".search-filters-container").val() === "contains-city") {
         filter = "city";
     }
-    if ($(".by-state").is(':checked')) {
+    if ($(".search-filters-container").val() === "contains-state") {
         filter = "state";
     }
-    if ($(".by-country").is(':checked')) {
+    if ($(".search-filters-container").val() === "contains-country") {
         filter = "country";
     }
-    if ($(".by-region").is(':checked')) {
+    if ($(".search-filters-container").val() === "contains-region") {
         filter = "region";
     }
-    if ($(".region-filter").is(':checked')) {
+    if ($(".search-filters-container").val() === "for-airport") {
         filter = "regionFilter";
     }
-    if ($(".country-filter").is(':checked')) {
+    if ($(".search-filters-container").val() === "for-country") {
         filter = "countryFilter";
     }
-    if ($(".state-filter").is(':checked')) {
+    if ($(".search-filters-container").val() === "for-state") {
         filter = "stateFilter";
     }
-    if ($(".city-filter").is(':checked')) {
+    if ($(".search-filters-container").val() === "for-city") {
         filter = "cityFilter";
     }
     if (searchTerm) {

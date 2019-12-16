@@ -111,7 +111,7 @@ namespace CustomRegionEditor.Controllers
         [HttpPost]
         public ActionResult SaveChanges(string name, string description, string regionId)
         {
-            if (regionId == null || regionId == "")
+            if (regionId == null || regionId == "" || regionId == "undefined")
             {
                 regionId = this.CustomRegionGroupRepository.AddNewRegion(name, description).Id.ToString();
             }

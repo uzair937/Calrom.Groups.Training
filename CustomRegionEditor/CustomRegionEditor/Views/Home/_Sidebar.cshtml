@@ -1,6 +1,6 @@
 ﻿
 <div class="flex-sidebar">
-    <img src="~/Content/Images/calrom-edgy-logo.png" class="rounded home-logo"/>
+    <img src="~/Content/Images/calrom-edgy-logo.png" class="rounded home-logo" />
     <div class="search-box-container">
         @Html.Partial("_SearchBox")
     </div>
@@ -9,52 +9,33 @@
             Add Region
         </button>
     </div>
-    <div class="dropdown mt-2">
-        <button class="btn btn-dark dropdown-toggle" id="filterDropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Filters
-        </button>
+    <select class="dropdown mt-2 btn btn-dark search-filters-container">
 
-        <div class="search-filters-container dropdown-menu" aria-labelledby="filterDropdownMenuButton">
-            <div class="dropdown-row m-0">
-                <h4 class="filter-heading">No Filter:</h4>
-                <input type="radio" name="filter" checked="checked" />
-            </div>
-            <div class="dropdown-row m-0">
-                <h4 class="filter-heading">Containing Region:</h4>
-                <input type="radio" name="filter" class="by-region" />
-            </div>
-            <div class="dropdown-row m-0">
-                <h4 class="filter-heading">Containing Country:</h4>
-                <input type="radio" name="filter" class="by-country" />
-            </div>
-            <div class="dropdown-row m-0">
-                <h4 class="filter-heading">Containing State:</h4>
-                <input type="radio" name="filter" class="by-state" />
-            </div>
-            <div class="dropdown-row m-0">
-                <h4 class="filter-heading">Containing City:</h4>
-                <input type="radio" name="filter" class="by-city" />
-            </div>
-            <div class="dropdown-row m-0">
-                <h4 class="filter-heading">Containing Airport:</h4>
-                <input type="radio" name="filter" class="by-airport" />
-            </div>
-            <div class="dropdown-row m-0">
-                <h4 class="filter-heading">View Region:</h4>
-                <input type="radio" name="filter" class="region-filter" />
-            </div>
-            <div class="dropdown-row m-0">
-                <h4 class="filter-heading">View Country:</h4>
-                <input type="radio" name="filter" class="country-filter" />
-            </div>
-            <div class="dropdown-row m-0">
-                <h4 class="filter-heading">View State:</h4>
-                <input type="radio" name="filter" class="state-filter" />
-            </div>
-            <div class="dropdown-row m-0">
-                <h4 class="filter-heading">View City:</h4>
-                <input type="radio" name="filter" class="city-filter" />
-            </div>
-        </div>
-    </div>
+        <option class="filter-heading">No Filter</option>
+
+        <optgroup label="Groups Containing">
+
+            <option class="filter-heading" value="contains-region">Region</option>
+
+            <option class="filter-heading" value="contains-country" >Country</option>
+
+            <option class="filter-heading" value="contains-state">State</option>
+
+            <option class="filter-heading" value="contains-city">City</option>
+
+            <option class="filter-heading" value="contains-airport">Airport</option>
+
+        </optgroup>
+
+        <optgroup label="View Subregions">
+
+            <option class="filter-heading" value="for-airport">Region</option>
+
+            <option class="filter-heading" value="for-country">Country</option>
+
+            <option class="filter-heading" value="for-state">State</option>
+
+            <option class="filter-heading" value="for-city">City</option>
+        </optgroup>
+    </select>
 </div>
