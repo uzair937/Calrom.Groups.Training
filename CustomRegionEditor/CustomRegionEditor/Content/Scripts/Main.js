@@ -136,7 +136,7 @@ function clearDelete() {
     for (var x = 0; x < deleteButtons.length; x++) {
         deleteButtons[x].removeEventListener("click", onConfirmDelete);
         deleteButtons[x].removeEventListener("click", entryConfirmDelete);
-        $(deleteButtons[x]).css("color", "black");
+        $(deleteButtons[x]).css("color", "white");
     }
 }
 
