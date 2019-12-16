@@ -59,7 +59,7 @@ namespace CustomRegionEditor.Test.Repositories
 
             // Assert
             Assert.IsNotNull(resultsFound, "Results should have been received. Instead null was received.");
-            //Assert.AreEqual(cityName, cityFound.CityName, "The found city name should match");
+            Assert.AreEqual(stateName, resultsFound[0].CustomRegionEntries[0].State.StateName, "The found city name should match");
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession Once");
             mockSession.Verify(m => m.Query<CustomRegionGroupModel>(), Times.Exactly(2), "Should have queried the models twice");
             mockEagerLoader.Verify(m => m.LoadEntities(models), Times.Once, "Should have called load entities with the provided city");

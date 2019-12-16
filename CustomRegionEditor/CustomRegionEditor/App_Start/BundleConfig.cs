@@ -20,12 +20,14 @@ namespace CustomRegionEditor
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/Scripts/bootstrap*"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
+                      "~/Content/bootstrap*",
+                      "~/Content/popper*",
                       "~/Content/site.css"));
-            bundles.Add(new ScriptBundle("~/Content/home/scripts").Include("~/Content/Scripts/Main.js"));
+            bundles.Add(new ScriptBundle("~/Content/home/scripts").Include(
+                      "~/Content/Scripts/Main.js"));
         }
     }
 }
