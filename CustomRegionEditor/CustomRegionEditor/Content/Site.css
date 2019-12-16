@@ -55,8 +55,13 @@ td {
     padding-right: 0.7em;
 }
 
+.home-logo {
+    width: 10em;
+    margin-bottom: 2em;
+}
+
+
 .new-entry-input {
-    max-width: 6em;
     text-transform: capitalize;
 }
 
@@ -84,7 +89,7 @@ td {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 10rem !important;
+    margin-top: 3rem !important;
 }
 
 .flex-body {
@@ -123,7 +128,6 @@ td {
     font-size: 1.5em;
 }
 
-
 .content-container {
     padding: 5px;
     padding: 2em;
@@ -152,16 +156,33 @@ td {
     color: #fff;
     background-color: #1d2124;
     border-color: #171a1d;
+    border-radius: 10px;
 }
 
 #filterDropdownMenuButton {
     font-size: 1.5em;
     width: 10.67em;
-
 }
 
 .command-container {
     width: 100%;
     padding-left: 5%;
     align-items: flex-start;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: black;
+    border-radius: 10px;
 }

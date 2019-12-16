@@ -5,7 +5,8 @@
     <div class="edit-container flex-column">
         @if (Model.IsEditing)
         {
-            <table class="table" data-savechangesurl="@Url.Action("SaveChanges", "Home")">
+            <div class="model-id" modelId="@Model.CustomRegionGroupViewModel.ID" />
+            <table class="info-table-header table" data-savechangesurl="@Url.Action("SaveChanges", "Home")">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Name</th>
@@ -26,7 +27,7 @@
             if (Model.ExistingRegion)
             {
                 <div class="edit-info-container">
-                    <table class="table" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")" RegionId="@Model.CustomRegionGroupViewModel.ID">
+                    <table class="table-header table" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Region</th>
@@ -46,7 +47,9 @@
                                     <td>@entry.State.Name</td>
                                     <td>@entry.City.Name</td>
                                     <td>@entry.Airport.Name</td>
-                                    <td><input type="button" value="Delete" class="delete-button btn btn-dark" /></td>
+                                    <td>
+                                        <input type="button" value="Delete" class="delete-button btn btn-dark" />
+                                    </td>
                                 </tr>
                             </tbody>
                         }

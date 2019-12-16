@@ -14,5 +14,7 @@ namespace CustomRegionEditor.ViewModels
         public string SearchTerm { get; set; }
 
         public bool ValidResults { get; set; }
+
+        public string InvalidSearchTerm { get; set; }
     }
 }

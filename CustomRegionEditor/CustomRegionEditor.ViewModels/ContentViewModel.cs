@@ -12,5 +12,12 @@ namespace CustomRegionEditor.ViewModels
         public EditViewModel EditViewModel { get; set; }
 
         public SubRegionViewModel SubRegionViewModel { get; set; }
+
+        public ContentViewModel()
+        {
+            SearchViewModel = new SearchViewModel();
+            EditViewModel = new EditViewModel();
+            SubRegionViewModel = new SubRegionViewModel();
+        }
     }
 }

@@ -39,20 +39,6 @@ namespace CustomRegionEditor.Controllers
         private List<string> Regions = null;
         private readonly IViewModelConverter ViewModelConverter = null;
 
-        private LayoutViewModel SetupLayoutModel()
-        {
-            var layoutViewModel = new LayoutViewModel
-            {
-                ContentViewModel = new ContentViewModel(),
-                SidebarViewModel = new SidebarViewModel()
-            };
-            layoutViewModel.ContentViewModel.EditViewModel = new EditViewModel() { IsEditing = false };
-            layoutViewModel.ContentViewModel.SearchViewModel = new SearchViewModel() { IsSearching = false };
-            layoutViewModel.ContentViewModel.SubRegionViewModel = new SubRegionViewModel() { IsViewing = false };
-
-            return layoutViewModel;
-        }
-
         private void SetupAutoCompleteList()
         {
             Airports = this.CustomRegionGroupRepository.GetNames("airport").Distinct().ToList();
@@ -79,16 +65,6 @@ namespace CustomRegionEditor.Controllers
                         IsViewing = true,
                         CustomRegionGroupViewModel = ViewModelConverter.GetView(GetSubRegions(searchTerm, filter))
                     },
-                    EditViewModel = new EditViewModel()
-                    {
-                        IsEditing = false,
-                        ExistingRegion = false,
-                    },
-                    SearchViewModel = new SearchViewModel()
-                    {
-                        IsSearching = false,
-                        ValidResults = false
-                    }
                 };
             }
             else
@@ -96,18 +72,10 @@ namespace CustomRegionEditor.Controllers
                 SearchResults = this.CustomRegionGroupRepository.GetSearchResults(searchTerm, filter);
                 contentViewModel = new ContentViewModel
                 {
-                    SubRegionViewModel = new SubRegionViewModel()
-                    {
-                        IsViewing = false,
-                    },
-                    EditViewModel = new EditViewModel()
-                    {
-                        IsEditing = false
-                    },
                     SearchViewModel = new SearchViewModel()
                     {
                         IsSearching = true,
-                        ValidResults = false
+                        InvalidSearchTerm = searchTerm
                     }
                 };
             }
@@ -116,7 +84,6 @@ namespace CustomRegionEditor.Controllers
                 contentViewModel.SearchViewModel.ValidResults = true;
                 contentViewModel.SearchViewModel.SearchResults = ViewModelConverter.GetView(SearchResults);
             }
-
             return PartialView("_Content", contentViewModel);
         }
 
@@ -161,20 +128,12 @@ namespace CustomRegionEditor.Controllers
                                                                             .ThenBy(a => a.Region?.RegionName).ToList();
             var contentViewModel = new ContentViewModel
             {
-                SubRegionViewModel = new SubRegionViewModel()
-                {
-                    IsViewing = false,
-                },
                 EditViewModel = new EditViewModel()
                 {
                     IsEditing = true,
                     ExistingRegion = true,
                     CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion)
                 },
-                SearchViewModel = new SearchViewModel()
-                {
-                    IsSearching = false
-                }
             };
             return PartialView("_Content", contentViewModel);
         }
@@ -188,25 +147,14 @@ namespace CustomRegionEditor.Controllers
                 Description = "",
                 CustomRegions = new List<CustomRegionEntryViewModel>()
             };
-
             var contentViewModel = new ContentViewModel
             {
-                SubRegionViewModel = new SubRegionViewModel()
-                {
-                    IsViewing = false,
-                },
                 EditViewModel = new EditViewModel()
                 {
                     IsEditing = true,
-                    ExistingRegion = false,
                     CustomRegionGroupViewModel = customRegionGroupViewModel
                 },
-                SearchViewModel = new SearchViewModel()
-                {
-                    IsSearching = false
-                }
             };
-
             return PartialView("_Content", contentViewModel);
         }
 
@@ -215,19 +163,9 @@ namespace CustomRegionEditor.Controllers
         {
             var contentViewModel = new ContentViewModel
             {
-                SubRegionViewModel = new SubRegionViewModel()
-                {
-                    IsViewing = false,
-                },
-                EditViewModel = new EditViewModel()
-                {
-                    IsEditing = false,
-                    ExistingRegion = false
-                },
                 SearchViewModel = new SearchViewModel()
                 {
                     IsSearching = true,
-                    ValidResults = false
                 }
             };
             if (regionId == "" || regionId == null)
@@ -243,32 +181,20 @@ namespace CustomRegionEditor.Controllers
                                                                             .ThenBy(a => a.Region?.RegionName).ToList();
             contentViewModel = new ContentViewModel
             {
-                SubRegionViewModel = new SubRegionViewModel()
-                {
-                    IsViewing = false,
-                },
                 EditViewModel = new EditViewModel()
                 {
                     IsEditing = true,
                     ExistingRegion = true,
                     CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion)
                 },
-                SearchViewModel = new SearchViewModel()
-                {
-                    IsSearching = false
-                }
             };
             return PartialView("_Content", contentViewModel);
-
         }
 
         [HttpPost]
         public ActionResult AutoComplete(string type, string text)
         {
-            var autoCompleteViewModel = new AutoCompleteViewModel
-            {
-                Suggestions = new List<string>()
-            };
+            var autoCompleteViewModel = new AutoCompleteViewModel();
             text = text.ToUpper();
             if (text != "" && text != null && text != " ")
             {
@@ -325,7 +251,6 @@ namespace CustomRegionEditor.Controllers
                 default:
                     break;
             }
-
             return customRegionGroupModel;
         }
 
@@ -356,10 +281,9 @@ namespace CustomRegionEditor.Controllers
 
         public ActionResult Index()
         {
-            var layoutViewModel = SetupLayoutModel();
+            var layoutViewModel = new LayoutViewModel();
 
             return View(layoutViewModel);
         }
-
     }
 }

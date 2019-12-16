@@ -32,7 +32,7 @@ namespace CustomRegionEditor.Web
             
             container.RegisterType<IViewModelConverter, ViewModelConverter>();
             
-            container.RegisterType<ISessionManager, NHibernateSessionManager>(new ContainerControlledLifetimeManager());
+            container.RegisterType<ISessionManager, NHibernateSessionManager>();
 
             container.RegisterSingleton<ISessionFactoryManager, NHibernateSessionFactoryManager>();
 

@@ -1,6 +1,5 @@
 ﻿window.onload = function () {
     addMainListeners();
-
     $('#helper-tooltip').tooltip();
 }
 
@@ -51,7 +50,7 @@ function onSearch(e) {
 
 function onEdit(e) {
     var url = $(".table-header").attr("data-editurl");
-    var regionId = $(this).parent().parent().attr("searchId");
+    var regionId = $(this).attr("searchId");
     if (regionId) {
         $.ajax({
             type: "POST",
@@ -94,7 +93,7 @@ function onDelete(e) {
 function onConfirmDelete(e) {
     e.stopPropagation();
     var url = $(".table-header").attr("data-deleteurl");
-    var regionId = $(this).parent().parent().attr("searchId");
+    var regionId = $(this).prev().attr("searchId");
 
     if (regionId) {
         $.ajax({
@@ -107,7 +106,7 @@ function onConfirmDelete(e) {
 
 function refreshEdit(e) {
     var url = $(".table-header").attr("data-editurl");
-    var regionId = $(".table-header").attr("regionId");
+    var regionId = $(".model-id").attr("modelId");
     if (regionId) {
         $.ajax({
             type: "POST",
@@ -156,7 +155,7 @@ function entryConfirmDelete(e) {
 function addEntry(e) {
     var container = $(".airport-text-box");
     var url = $(".table-header").attr("data-addurl");
-    var regionId = $(".table-header").attr("regionId");
+    var regionId = $(".model-id").attr("modelId");
     var value = "";
     var type = "";
     if (container.val() !== "" && container.val() !== undefined) {
@@ -202,7 +201,7 @@ function addRegionEntry(url, value, type, regionId) {
 function saveChanges() {
     var newName = window.document.getElementsByClassName("model-name")[0].value;
     var newDescription = window.document.getElementsByClassName("model-description")[0].value;
-    var regionId = window.document.getElementsByClassName("model-id")[0].innerHTML;
+    var regionId = $(".model-id").attr("modelId");
     var url = $(".info-table-header").attr("data-savechangesurl");
     $.ajax({
         type: "POST",
