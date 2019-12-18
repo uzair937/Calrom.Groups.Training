@@ -22,7 +22,7 @@ function onSearch(e) {
     if ($(".search-filters-container").val() === "contains-region") {
         filter = "region";
     }
-    if ($(".search-filters-container").val() === "for-airport") {
+    if ($(".search-filters-container").val() === "for-region") {
         filter = "regionFilter";
     }
     if ($(".search-filters-container").val() === "for-country") {

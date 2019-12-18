@@ -55,18 +55,21 @@ namespace CustomRegionEditor.Controllers
         public ActionResult Search(string searchTerm, string filter)
         {
             var SearchResults = new List<CustomRegionGroupModel>();
+            bool ValidSearch = false;
             var contentViewModel = new ContentViewModel();
             if (filter.Contains("Filter"))
             {
+                var SubSearchResults = ViewModelConverter.GetView(GetSubRegions(searchTerm, filter));
                 contentViewModel = new ContentViewModel
                 {
                     SubRegionViewModel = new SubRegionViewModel()
                     {
                         IsViewing = true,
-                        CustomRegionGroupViewModel = ViewModelConverter.GetView(GetSubRegions(searchTerm, filter)),
+                        CustomRegionGroupViewModel = SubSearchResults,
                         InvalidSearchTerm = searchTerm
                     },
                 };
+                if (SubSearchResults.CustomRegions.Count > 0) ValidSearch = true;
             }
             else
             {
@@ -79,14 +82,16 @@ namespace CustomRegionEditor.Controllers
                         InvalidSearchTerm = searchTerm
                     }
                 };
+                if (SearchResults.Count > 0) ValidSearch = true;
             }
-            if (SearchResults.Count > 0)
+            if (ValidSearch)
             {
                 contentViewModel.SubRegionViewModel.ValidResults = true;
                 contentViewModel.SearchViewModel.ValidResults = true;
                 contentViewModel.SearchViewModel.SearchResults = ViewModelConverter.GetView(SearchResults);
             }
             return PartialView("_Content", contentViewModel);
+
         }
 
         [HttpPost]
