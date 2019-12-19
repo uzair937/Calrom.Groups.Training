@@ -26,7 +26,6 @@ namespace CustomRegionEditor.Controllers
             SetupAutoCompleteList();
         }
 
-
         private ISubRegionRepo<CityModel> CityRepo { get; }
         private ISubRegionRepo<StateModel> StateRepo { get; }
         private ISubRegionRepo<CountryModel> CountryRepo { get; }
