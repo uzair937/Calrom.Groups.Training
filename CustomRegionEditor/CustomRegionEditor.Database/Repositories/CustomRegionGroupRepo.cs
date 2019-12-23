@@ -169,6 +169,7 @@ namespace CustomRegionEditor.Database.Repositories
                         break;
                 }
 
+
                 _customRegionGroupList = startsWith.Concat(contains).ToList();
             }
 
