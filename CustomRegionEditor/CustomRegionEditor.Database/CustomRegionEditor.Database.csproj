@@ -93,6 +93,7 @@
     <Compile Include="Models\RegionModel.cs" />
     <Compile Include="Models\SystemModel.cs" />
     <Compile Include="Interfaces\ISessionManager.cs" />
+    <Compile Include="NHibernate\FakeLoader.cs" />
     <Compile Include="NHibernate\NHibernateSessionFactoryManager.cs" />
     <Compile Include="NHibernate\NHibernateSessionManager.cs" />
     <Compile Include="Repositories\RegionRepo.cs" />

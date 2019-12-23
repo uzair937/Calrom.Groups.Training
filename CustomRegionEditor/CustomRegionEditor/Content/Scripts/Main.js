@@ -111,6 +111,7 @@ function refreshEdit(e) {
         $.ajax({
             type: "POST",
             url: url + "?regionId=" + regionId,
+
             success: function (data, status, xhr) {
                 if (data) {
                     $(".content-container").html(data);      //replaces all content/ search and edit
