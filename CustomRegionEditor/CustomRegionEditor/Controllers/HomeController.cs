@@ -262,27 +262,27 @@ namespace CustomRegionEditor.Controllers
 
         public List<string> GetCountries(string term)
         {
-            return Countries.Where(c => c.StartsWith(term)).ToList();
+            return Countries.Where(c => c.Contains(term)).ToList();
         }
 
         public List<string> GetRegions(string term)
         {
-            return Regions.Where(c => c.StartsWith(term)).ToList();
+            return Regions.Where(c => c.Contains(term)).ToList();
         }
 
         public List<string> GetStates(string term)
         {
-            return States.Where(c => c.StartsWith(term)).ToList();
+            return States.Where(c => c.Contains(term)).ToList();
         }
 
         public List<string> GetCities(string term)
         {
-            return Cities.Where(c => c.StartsWith(term)).ToList();
+            return Cities.Where(c => c.Contains(term)).ToList();
         }
 
         public List<string> GetAirports(string term)
         {
-            return Airports.Where(c => c.StartsWith(term)).ToList();
+            return Airports.Where(c => c.Contains(term)).ToList();
         }
 
         public ActionResult Index()
