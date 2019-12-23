@@ -199,13 +199,13 @@ function addRegionEntry(url, value, type, regionId) {
 } //runs the ajax to add an entry
 
 function saveChanges() {
-    var newName = window.document.getElementsByClassName("model-name")[0].value;
-    var newDescription = window.document.getElementsByClassName("model-description")[0].value;
+    var newName = $(".model-name").val();
+    var newDescription = $(".model-description").val();
     var regionId = $(".model-id").attr("modelId");
     var url = $(".info-table-header").attr("data-savechangesurl");
     $.ajax({
         type: "POST",
-        url: url + "?name=" + newName + "&description=" + newDescription + "&regionId=" + regionId,
+        url: url + "?name=" + newName + "&description=" + newDescription + "&regionId=" + regionId ,
         success: function (data, status, xhr) {
             if (data) {
                 $(".content-container").html(data);      //replaces all content/ search and edit

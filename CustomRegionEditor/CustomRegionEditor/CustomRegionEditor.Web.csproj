@@ -299,8 +299,8 @@
     <Content Include="Views\Home\_Content.cshtml" />
     <Content Include="SysCache2.config" />
     <Content Include="Views\Home\_SearchBox.cshtml" />
-    <Content Include="Views\Home\_EditRegion.cshtml" />
     <Content Include="Views\Home\_SearchRegion.cshtml" />
+    <Content Include="Views\Home\_EditRegion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

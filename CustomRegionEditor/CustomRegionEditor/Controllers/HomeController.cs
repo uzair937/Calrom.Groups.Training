@@ -145,7 +145,7 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult NewCustomRegion()
+        public ActionResult EditRegion()
         {
             var customRegionGroupViewModel = new CustomRegionGroupViewModel
             {
@@ -165,21 +165,11 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditRegionGroup(string regionId)
+        public ActionResult EditRegionGroup()
         {
-            var contentViewModel = new ContentViewModel
-            {
-                SearchViewModel = new SearchViewModel()
-                {
-                    IsSearching = true,
-                }
-            };
-            if (regionId == "" || regionId == null)
-            {
-                return PartialView("_Content", contentViewModel);
-            }
+            var contentViewModel = new ContentViewModel();
 
-            var FoundRegion = this.CustomRegionGroupRepository.FindById(regionId);
+            var FoundRegion = this.CustomRegionGroupRepository.GetCustomRegionGroupModel();
             FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId)
                                                                             .ThenBy(a => a.City?.CityName)
                                                                             .ThenBy(a => a.State?.StateName)
@@ -190,11 +180,17 @@ namespace CustomRegionEditor.Controllers
                 EditViewModel = new EditViewModel()
                 {
                     IsEditing = true,
-                    ExistingRegion = true,
                     CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion)
                 },
             };
             return PartialView("_Content", contentViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult AddValue(string entry, string type, string regionId)
+        {
+            this.CustomRegionGroupRepository.AddToList(entry, type, regionId);
+            return null;
         }
 
         [HttpPost]

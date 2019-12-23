@@ -14,7 +14,10 @@ namespace CustomRegionEditor.Database.Repositories
 {
     public class CustomRegionGroupRepo : ICustomRegionGroupRepository
     {
-        public CustomRegionGroupRepo(IEagerLoader eagerLoader, ISessionManager sessionManager, ICustomRegionEntryRepository customRegionEntryRepository, ISubRegionRepo<AirportModel> airportRepo, ISubRegionRepo<CityModel> cityRepo, ISubRegionRepo<StateModel> stateRepo, ISubRegionRepo<CountryModel> countryRepo, ISubRegionRepo<RegionModel> regionRepo)
+        public CustomRegionGroupRepo(IEagerLoader eagerLoader, ISessionManager sessionManager,
+            ICustomRegionEntryRepository customRegionEntryRepository, ISubRegionRepo<AirportModel> airportRepo,
+            ISubRegionRepo<CityModel> cityRepo, ISubRegionRepo<StateModel> stateRepo,
+            ISubRegionRepo<CountryModel> countryRepo, ISubRegionRepo<RegionModel> regionRepo)
         {
             this.AirportRepo = airportRepo;
             this.StateRepo = stateRepo;
@@ -38,6 +41,7 @@ namespace CustomRegionEditor.Database.Repositories
         private ICustomRegionEntryRepository CustomRegionEntryRepository { get; }
 
         private List<CustomRegionGroupModel> _customRegionGroupList;
+        public CustomRegionGroupModel CustomRegionGroupModel { get; set; }
 
         public void AddOrUpdate(CustomRegionGroupModel entity)
         {
@@ -140,7 +144,8 @@ namespace CustomRegionEditor.Database.Repositories
 
                         contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
                                 !s.CustomRegionEntries.Select(a => a.State.StateName).Any(w => w.StartsWith(searchTerm))
-                                && s.CustomRegionEntries.Select(a => a.State.StateName).Any(w => w.Contains(searchTerm)))
+                                && s.CustomRegionEntries.Select(a => a.State.StateName)
+                                    .Any(w => w.Contains(searchTerm)))
                             .ToList());
                         break;
                     case ("country"):
@@ -158,11 +163,13 @@ namespace CustomRegionEditor.Database.Repositories
                         break;
                     case ("region"):
                         startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                                s.CustomRegionEntries.Select(a => a.Region.RegionName).Any(w => w.StartsWith(searchTerm)))
+                                s.CustomRegionEntries.Select(a => a.Region.RegionName)
+                                    .Any(w => w.StartsWith(searchTerm)))
                             .ToList());
 
                         contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                                !s.CustomRegionEntries.Select(a => a.Region.RegionName).Any(w => w.StartsWith(searchTerm))
+                                !s.CustomRegionEntries.Select(a => a.Region.RegionName)
+                                    .Any(w => w.StartsWith(searchTerm))
                                 && s.CustomRegionEntries.Select(a => a.Region.RegionName)
                                     .Any(w => w.Contains(searchTerm)))
                             .ToList());
@@ -180,8 +187,10 @@ namespace CustomRegionEditor.Database.Repositories
             var customRegionGroupModel = new CustomRegionGroupModel();
             using (var dbSession = SessionManager.OpenSession())
             {
-                customRegionGroupModel = EagerLoader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id)));
+                customRegionGroupModel =
+                    EagerLoader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id)));
             }
+
             return customRegionGroupModel;
         }
 
@@ -192,56 +201,55 @@ namespace CustomRegionEditor.Database.Repositories
             {
                 customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(entryId));
             }
+
             Delete(customRegionGroupModel);
         }
 
         public void AddByType(string entry, string type, string regionId)
         {
             var validEntry = false;
-            var customRegionGroupModel = new CustomRegionGroupModel();
+            CustomRegionGroupModel = new CustomRegionGroupModel();
+            CustomRegionGroupModel.CustomRegionEntries = new List<CustomRegionEntryModel>();
             var customRegionEntryModel = new CustomRegionEntryModel
             {
                 RowVersion = 1
             };
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
-                customRegionEntryModel.CustomRegionGroup = customRegionGroupModel;
-                switch (type) //changed from if elses to a switch cus cleaner
-                {
-                    case "airport":
-                        customRegionEntryModel.Airport = this.AirportRepo.FindByName(entry); //needs to add a reference to the object for each
-                        if (customRegionEntryModel.Airport != null) validEntry = true;
-                        break;
-                    case "city":
-                        customRegionEntryModel.City = this.CityRepo.FindByName(entry);
-                        if (customRegionEntryModel.City != null) validEntry = true;
-                        break;
-                    case "state":
-                        customRegionEntryModel.State = this.StateRepo.FindByName(entry);
-                        if (customRegionEntryModel.State != null) validEntry = true;
-                        break;
-                    case "country":
-                        customRegionEntryModel.Country = this.CountryRepo.FindByName(entry);
-                        if (customRegionEntryModel.Country != null) validEntry = true;
-                        break;
-                    case "region":
-                        customRegionEntryModel.Region = this.RegionRepo.FindByName(entry);
-                        if (customRegionEntryModel.Region != null) validEntry = true;
-                        break;
-                    default:
-                        break; //replace switch with a new view model and send all data across (three params too much)
-                }
 
-                if (validEntry)
-                {
-                    customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
-                    RemoveSubregions(customRegionGroupModel, customRegionEntryModel, type);
-                    CheckForParents(customRegionGroupModel, type, customRegionEntryModel);
-                    AddOrUpdate(customRegionGroupModel);
-                }
+            customRegionEntryModel.CustomRegionGroup = CustomRegionGroupModel;
+            switch (type) //changed from if elses to a switch cus cleaner
+            {
+                case "airport":
+                    customRegionEntryModel.Airport =
+                        this.AirportRepo.FindByName(entry); //needs to add a reference to the object for each
+                    if (customRegionEntryModel.Airport != null) validEntry = true;
+                    break;
+                case "city":
+                    customRegionEntryModel.City = this.CityRepo.FindByName(entry);
+                    if (customRegionEntryModel.City != null) validEntry = true;
+                    break;
+                case "state":
+                    customRegionEntryModel.State = this.StateRepo.FindByName(entry);
+                    if (customRegionEntryModel.State != null) validEntry = true;
+                    break;
+                case "country":
+                    customRegionEntryModel.Country = this.CountryRepo.FindByName(entry);
+                    if (customRegionEntryModel.Country != null) validEntry = true;
+                    break;
+                case "region":
+                    customRegionEntryModel.Region = this.RegionRepo.FindByName(entry);
+                    if (customRegionEntryModel.Region != null) validEntry = true;
+                    break;
+                default:
+                    break; //replace switch with a new view model and send all data across (three params too much)
             }
-        } //adds a new entry to a group
+
+            if (validEntry)
+            {
+                CustomRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
+                RemoveSubregions(CustomRegionGroupModel, customRegionEntryModel, type);
+                CheckForParents(CustomRegionGroupModel, type, customRegionEntryModel);
+            }
+        }
 
         private void CheckForParents(CustomRegionGroupModel customRegionGroupModel, string type, CustomRegionEntryModel customRegionEntryModel)
         {
@@ -419,6 +427,11 @@ namespace CustomRegionEditor.Database.Repositories
                 }
             }
             return null;
+        }
+
+        public CustomRegionGroupModel GetCustomRegionGroupModel()
+        {
+            return CustomRegionGroupModel;
         }
     }
 }

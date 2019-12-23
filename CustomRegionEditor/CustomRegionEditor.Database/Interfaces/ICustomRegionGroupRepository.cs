@@ -10,5 +10,6 @@ namespace CustomRegionEditor.Database.Interfaces
         void AddByType(string entry, string type, string regionId);
         void ChangeDetails(string name, string description, string regionId);
         CustomRegionGroupModel AddNewRegion(string name, string description);
+        CustomRegionGroupModel GetCustomRegionGroupModel();
     }
 }
