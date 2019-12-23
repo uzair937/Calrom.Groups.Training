@@ -47,6 +47,11 @@
     <Compile Include="CityViewModel.cs" />
     <Compile Include="CustomRegionGroupViewModel.cs" />
     <Compile Include="CustomRegionEntryViewModel.cs" />
+    <Compile Include="IdViewModel.cs" />
+    <Compile Include="AutoCompleteFormViewModel .cs" />
+    <Compile Include="SaveFormViewModel.cs" />
+    <Compile Include="RegionFormViewModel.cs" />
+    <Compile Include="SearchBoxViewModel.cs" />
     <Compile Include="SubRegionViewModel.cs" />
     <Compile Include="LayoutViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,7 +1,30 @@
 ﻿window.onload = function () {
     addMainListeners();
     $('#helper-tooltip').tooltip();
+    loadAll();
 }
+
+function loadAll(e) {
+    var url = $(".search-container").attr("data-searchurl");
+    var searchTerm = "-all";
+    var filter = "none";
+
+    var searchForm = new SearchModel(filter, searchTerm);
+    if (searchForm) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            contentType: "application/json",
+            data: JSON.stringify(searchForm),
+            success: function (data) {
+                if (data) {
+                    $(".content-container").html(data);
+                    addSearchListeners();
+                }
+            },
+        });
+    }
+} //searches for region group name matches
 
 function onSearch(e) {
     var url = $(".search-container").attr("data-searchurl");
@@ -34,28 +57,69 @@ function onSearch(e) {
     if ($(".search-filters-container").val() === "for-city") {
         filter = "cityFilter";
     }
-    if (searchTerm) {
+    var searchForm = new SearchModel(filter, searchTerm);
+    if (searchTerm !== "" ) {
         $.ajax({
             type: "POST",
-            url: url + "?searchTerm=" + searchTerm + "&filter=" + filter,
-            success: function (data, status, xhr) {
+            url: url,
+            contentType: "application/json",
+            data: JSON.stringify(searchForm),
+            success: function (data) {
                 if (data) {
                     $(".content-container").html(data);
                     addSearchListeners();
                 }
-            }
+            },
         });
     }
+    else {
+        loadAll();
+    }
 } //searches for region group name matches
+
+function SearchModel(filter, searchText) {
+    var self = this;
+    self.Filter = filter;
+    self.Text = searchText;
+}
+
+function NewRegionEntry(value, type, regionId) {
+    var self = this;
+    self.Id = regionId;
+    self.Entry = value;
+    self.Type = type;
+}
+
+function IdForm(id) {
+    var self = this;
+    self.Id = id;
+}
+
+function SaveForm(name, description, id) {
+    var self = this;
+    self.Id = id;
+    self.Name = name;
+    self.Description = description;
+}
+
+function AutoCompleteForm(type, text) {
+    var self = this;
+    self.Type = type;
+    self.Text = text;
+}
 
 function onEdit(e) {
     var url = $(".table-header").attr("data-editurl");
     var regionId = $(this).parent().parent().attr("searchid");
+
+    var idForm = new IdForm(regionId);
     if (regionId) {
         $.ajax({
             type: "POST",
-            url: url + "?regionId=" + regionId,
-            success: function (data, status, xhr) {
+            url: url,
+            contentType: "application/json",
+            data: JSON.stringify(idForm),
+            success: function (data) {
                 if (data) {
                     $(".content-container").html(data);      //replaces all content/ search and edit
                     addEditListeners();
@@ -94,11 +158,14 @@ function onConfirmDelete(e) {
     e.stopPropagation();
     var url = $(".table-header").attr("data-deleteurl");
     var regionId = $(this).parent().parent().attr("searchid");
+    var idForm = new IdForm(regionId);
 
-    if (regionId) {
+    if (idForm) {
         $.ajax({
             type: "POST",
-            url: url + "?regionId=" + regionId,
+            url: url,
+            data: JSON.stringify(idForm),
+            contentType: "application/json",
             success: onSearch,
         });
     }
@@ -107,12 +174,15 @@ function onConfirmDelete(e) {
 function refreshEdit(e) {
     var url = $(".table-header").attr("data-editurl");
     var regionId = $(".model-id").attr("modelId");
-    if (regionId) {
+    var idForm = new IdForm(regionId);
+
+    if (idForm) {
         $.ajax({
             type: "POST",
-            url: url + "?regionId=" + regionId,
-
-            success: function (data, status, xhr) {
+            url: url,
+            data: JSON.stringify(idForm),
+            contentType: "application/json",
+            success: function (data) {
                 if (data) {
                     $(".content-container").html(data);      //replaces all content/ search and edit
                     addEditListeners();
@@ -144,11 +214,20 @@ function entryConfirmDelete(e) {
     e.stopPropagation();
     var url = $(".table-header").attr("data-deleteentryurl");
     var entryId = $(this).parent().parent().attr("entryId");
-    if (entryId) {
+    var idForm = new IdForm(entryId);
+
+    if (idForm) {
         $.ajax({
             type: "POST",
-            url: url + "?entryId=" + entryId,
-            success: refreshEdit,
+            url: url,
+            data: JSON.stringify(idForm),
+            contentType: "application/json",
+            success: function (data) {
+                if (data) {
+                    $(".content-container").html(data);      //replaces all content/ search and edit
+                    addEditListeners();
+                }
+            }
         });
     }
 } //removes an entry from the group region
@@ -187,27 +266,36 @@ function addEntry(e) {
         value = "GBR";
     }
     if (value !== "" && value !== undefined) {
-        addRegionEntry(url, value, type, regionId);
+        var regionForm = new NewRegionEntry(value, type, regionId);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            contentType: "application/json",
+            data: JSON.stringify(regionForm),
+            success: function (data) {
+                if (data) {
+                    $(".content-container").html(data);      //replaces all content/ search and edit
+                    addEditListeners();
+                }
+            }
+        });
     }
 } //picks largest entry type, calls onSearch on finish to refresh list
 
-function addRegionEntry(url, value, type, regionId) {
-    $.ajax({
-        type: "POST",
-        url: url + "?entry=" + value + "&type=" + type + "&regionId=" + regionId,
-        success: refreshEdit,
-    });
-} //runs the ajax to add an entry
-
 function saveChanges() {
-    var newName = window.document.getElementsByClassName("model-name")[0].value;
-    var newDescription = window.document.getElementsByClassName("model-description")[0].value;
+    var name = window.document.getElementsByClassName("model-name")[0].value;
+    var description = window.document.getElementsByClassName("model-description")[0].value;
     var regionId = $(".model-id").attr("modelId");
     var url = $(".info-table-header").attr("data-savechangesurl");
+    var saveForm = new SaveForm(name, description, regionId);
+
     $.ajax({
         type: "POST",
-        url: url + "?name=" + newName + "&description=" + newDescription + "&regionId=" + regionId,
-        success: function (data, status, xhr) {
+        url: url,
+        contentType: "application/json",
+        data: JSON.stringify(saveForm),
+        success: function (data) {
             if (data) {
                 $(".content-container").html(data);      //replaces all content/ search and edit
                 addEditListeners();
@@ -310,11 +398,15 @@ function onTextChange() {
     var type = $(this).attr("autotype");
     var text = $(this).val();
     var currentNode = this;
+    var autoCompleteForm = new AutoCompleteForm(type, text);
+
     if (type) {
         $.ajax({
             type: "POST",
-            url: url + "?type=" + type + "&text=" + text,
-            success: function (data, status, xhr) {
+            url: url,
+            data: JSON.stringify(autoCompleteForm),
+            contentType: "application/json",
+            success: function (data) {
                 if (data) {
                     $(currentNode).next().html(data);
                     addAutoCompleteListeners();

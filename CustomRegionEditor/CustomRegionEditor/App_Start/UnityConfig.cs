@@ -24,7 +24,7 @@ namespace CustomRegionEditor.Web
 
             // e.g. container.RegisterType<ITestService, TestService>();
 
-            container.RegisterType<IEagerLoader, FakeLoader>();
+            container.RegisterType<IEagerLoader, EagerLoader>();
 
             container.RegisterType<ICustomRegionGroupRepository, CustomRegionGroupRepo>();
 

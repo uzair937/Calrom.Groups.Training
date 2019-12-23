@@ -51,8 +51,10 @@ namespace CustomRegionEditor.Controllers
         public ICustomRegionEntryRepository CustomRegionEntryRepository { get; private set; }
 
         [HttpPost]
-        public ActionResult Search(string searchTerm, string filter)
+        public ActionResult Search(SearchBoxViewModel searchForm)
         {
+            var searchTerm = searchForm.text;
+            var filter = searchForm.filter;
             var SearchResults = new List<CustomRegionGroupModel>();
             bool ValidSearch = false;
             var contentViewModel = new ContentViewModel();
@@ -90,33 +92,40 @@ namespace CustomRegionEditor.Controllers
                 contentViewModel.SearchViewModel.SearchResults = ViewModelConverter.GetView(SearchResults);
             }
             return PartialView("_Content", contentViewModel);
-
         }
 
         [HttpPost]
-        public ActionResult DeleteRegionGroup(string regionId)
+        public ActionResult DeleteRegionGroup(IdViewModel idForm)
         {
-            this.CustomRegionGroupRepository.DeleteById(regionId);
+            this.CustomRegionGroupRepository.DeleteById(idForm.Id);
             return null;
         }
 
         [HttpPost]
-        public ActionResult DeleteEntry(string entryId)
+        public ActionResult DeleteEntry(IdViewModel idForm)
         {
-            this.CustomRegionEntryRepository.DeleteById(entryId);
-            return null;
+            this.CustomRegionEntryRepository.DeleteById(idForm.Id);
+            return EditRegionGroup(idForm);
         }
 
         [HttpPost]
-        public ActionResult AddRegion(string entry, string type, string regionId)
+        public ActionResult AddRegion(RegionFormViewModel regionForm)
         {
+            var entry = regionForm.Entry;
+            var type = regionForm.Type;
+            var regionId = regionForm.Id;
             this.CustomRegionGroupRepository.AddByType(entry, type, regionId);
-            return null;
+            var idForm = new IdViewModel { Id = regionId };
+            return EditRegionGroup(idForm);
         }
 
         [HttpPost]
-        public ActionResult SaveChanges(string name, string description, string regionId)
+        public ActionResult SaveChanges(SaveFormViewModel saveForm)
         {
+            var name = saveForm.Name;
+            var description = saveForm.Description;
+            var regionId = saveForm.Id;
+
             if (regionId == null || regionId == "" || regionId == "undefined")
             {
                 regionId = this.CustomRegionGroupRepository.AddNewRegion(name, description).Id.ToString();
@@ -165,7 +174,7 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditRegionGroup(string regionId)
+        public ActionResult EditRegionGroup(IdViewModel idForm)
         {
             var contentViewModel = new ContentViewModel
             {
@@ -174,12 +183,12 @@ namespace CustomRegionEditor.Controllers
                     IsSearching = true,
                 }
             };
-            if (regionId == "" || regionId == null)
+            if (idForm.Id == "" || idForm.Id == null)
             {
                 return PartialView("_Content", contentViewModel);
             }
 
-            var FoundRegion = this.CustomRegionGroupRepository.FindById(regionId);
+            var FoundRegion = this.CustomRegionGroupRepository.FindById(idForm.Id);
             FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId)
                                                                             .ThenBy(a => a.City?.CityName)
                                                                             .ThenBy(a => a.State?.StateName)
@@ -198,8 +207,11 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult AutoComplete(string type, string text)
+        public ActionResult AutoComplete(AutoCompleteFormViewModel autoCompleteForm)
         {
+            var type = autoCompleteForm.Type;
+            var text = autoCompleteForm.Text;
+
             var autoCompleteViewModel = new AutoCompleteViewModel();
             text = text.ToUpper();
             if (text != "" && text != null && text != " ")
