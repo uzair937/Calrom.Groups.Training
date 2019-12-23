@@ -28,6 +28,10 @@ namespace CustomRegionEditor.Database.Repositories
             this.SessionManager = sessionManager;
             this.CustomRegionEntryRepository = customRegionEntryRepository;
             _customRegionGroupList = new List<CustomRegionGroupModel>();
+            CustomRegionGroupModel = new CustomRegionGroupModel()
+            {
+                CustomRegionEntries = new List<CustomRegionEntryModel>()
+            };
         }
 
         private ISessionManager SessionManager { get; }
@@ -41,7 +45,7 @@ namespace CustomRegionEditor.Database.Repositories
         private ICustomRegionEntryRepository CustomRegionEntryRepository { get; }
 
         private List<CustomRegionGroupModel> _customRegionGroupList;
-        public CustomRegionGroupModel CustomRegionGroupModel { get; set; }
+        public static CustomRegionGroupModel CustomRegionGroupModel { get; set; }
 
         public void AddOrUpdate(CustomRegionGroupModel entity)
         {
@@ -65,12 +69,17 @@ namespace CustomRegionEditor.Database.Repositories
 
         public List<CustomRegionGroupModel> List()
         {
+            var updatedList = new List<CustomRegionGroupModel>();
             using (var dbSession = SessionManager.OpenSession())
             {
                 _customRegionGroupList = dbSession.Query<CustomRegionGroupModel>().ToList();
-            }
 
-            return _customRegionGroupList;
+                foreach (var child in _customRegionGroupList)
+                {
+                    updatedList.Add(child);
+                }
+            }
+            return updatedList;
         }
 
         public List<CustomRegionGroupModel> GetSearchResults(string searchTerm, string filter)
@@ -205,11 +214,9 @@ namespace CustomRegionEditor.Database.Repositories
             Delete(customRegionGroupModel);
         }
 
-        public void AddByType(string entry, string type, string regionId)
+        public CustomRegionGroupModel AddByType(string entry, string type, string regionId)
         {
             var validEntry = false;
-            CustomRegionGroupModel = new CustomRegionGroupModel();
-            CustomRegionGroupModel.CustomRegionEntries = new List<CustomRegionEntryModel>();
             var customRegionEntryModel = new CustomRegionEntryModel
             {
                 RowVersion = 1
@@ -249,6 +256,8 @@ namespace CustomRegionEditor.Database.Repositories
                 RemoveSubregions(CustomRegionGroupModel, customRegionEntryModel, type);
                 CheckForParents(CustomRegionGroupModel, type, customRegionEntryModel);
             }
+
+            return CustomRegionGroupModel;
         }
 
         private void CheckForParents(CustomRegionGroupModel customRegionGroupModel, string type, CustomRegionEntryModel customRegionEntryModel)
@@ -365,19 +374,13 @@ namespace CustomRegionEditor.Database.Repositories
 
         public CustomRegionGroupModel AddNewRegion(string name, string description)
         {
-            var customRegionGroupModel = new CustomRegionGroupModel
+            if (!String.IsNullOrEmpty(name))
             {
-                CustomRegionEntries = new List<CustomRegionEntryModel>(),
-                Name = name,
-                Description = description,
-            };
-            //AddOrUpdate(customRegionGroupModel);
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                dbSession.SaveOrUpdate(customRegionGroupModel);
-                dbSession.Flush();
-                return EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().FirstOrDefault(a => a.Name == name && a.Description == description));
+                CustomRegionGroupModel.Name = name;
+                CustomRegionGroupModel.Description = description;
             }
+            AddOrUpdate(CustomRegionGroupModel);
+            return CustomRegionGroupModel;
         } //Generates a new empty region
 
         public void ChangeDetails(string name, string description, string regionId)

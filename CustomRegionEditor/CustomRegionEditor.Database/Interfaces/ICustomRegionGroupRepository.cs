@@ -7,7 +7,7 @@ namespace CustomRegionEditor.Database.Interfaces
     {
         List<string> GetNames(string type);
         List<CustomRegionGroupModel> GetSearchResults(string searchTerm, string filter);
-        void AddByType(string entry, string type, string regionId);
+        CustomRegionGroupModel AddByType(string entry, string type, string regionId);
         void ChangeDetails(string name, string description, string regionId);
         CustomRegionGroupModel AddNewRegion(string name, string description);
         CustomRegionGroupModel GetCustomRegionGroupModel();

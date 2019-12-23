@@ -194,7 +194,12 @@ function addRegionEntry(url, value, type, regionId) {
     $.ajax({
         type: "POST",
         url: url + "?entry=" + value + "&type=" + type + "&regionId=" + regionId,
-        success: refreshEdit,
+        success: function (data) {
+            if (data) {
+                $(".content-container").html(data);      //replaces all content/ search and edit
+                addEditListeners();
+            }
+        }
     });
 } //runs the ajax to add an entry
 

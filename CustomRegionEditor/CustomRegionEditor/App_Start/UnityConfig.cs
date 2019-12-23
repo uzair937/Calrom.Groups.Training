@@ -26,7 +26,7 @@ namespace CustomRegionEditor.Web
 
             container.RegisterType<IEagerLoader, EagerLoader>();
 
-            container.RegisterType<ICustomRegionGroupRepository, CustomRegionGroupRepo>();
+            container.RegisterSingleton<ICustomRegionGroupRepository, CustomRegionGroupRepo>();
 
             container.RegisterType<ICustomRegionEntryRepository, CustomRegionEntryRepo>();
             
