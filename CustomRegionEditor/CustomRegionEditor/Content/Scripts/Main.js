@@ -203,7 +203,9 @@ function addRegionEntry(url, value, type, regionId) {
     });
 } //runs the ajax to add an entry
 
-function saveChanges() {
+function saveChanges(e) {
+    e.preventDefault();
+    e.stopPropagation();
     var newName = $(".model-name").val();
     var newDescription = $(".model-description").val();
     var regionId = $(".model-id").attr("modelId");

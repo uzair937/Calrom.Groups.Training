@@ -5,7 +5,7 @@
     <div class="edit-container flex-column">
         @if (Model.IsEditing)
         {
-            <div class="model-id" modelId="@Model.CustomRegionGroupViewModel.ID" />
+            <div class="model-id" modelId="@Model.CustomRegionGroupViewModel.ID" ></div>
             <table class="info-table-header table" data-savechangesurl="@Url.Action("SaveChanges", "Home")">
                 <thead class="thead-dark">
                     <tr>
@@ -17,19 +17,19 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>@Html.TextBoxFor(m => m.CustomRegionGroupViewModel.Name, new { placeholder = "Set Name", @class = "model-name form-control" })</td>
+                        <td>@Html.TextBoxFor(m => m.CustomRegionGroupViewModel.Name, new { placeholder = "Set Name", @class = "model-name form-control", value = Model.CustomRegionGroupViewModel.Name })</td>
                         <td>@Html.TextBoxFor(m => m.CustomRegionGroupViewModel.Description, new { placeholder = "Set Description", @class = "model-description form-control" })</td>
 
                         @if (Model.CustomRegionGroupViewModel.CustomRegions.Count > 0)
                         {
-                            <td>Model.CustomRegionGroupViewModel.CustomRegions.Count.ToString()</td>
+                            <td>@Model.CustomRegionGroupViewModel.CustomRegions.Count.ToString()</td>
                         }
                         <td><input type="button" value="Save" class="save-changes-button btn btn-dark" /></td>
                     </tr>
                 </tbody>
             </table>
             <div class="edit-info-container">
-                <table class="table-header table" data-deleteurl="@Url.Action("DeleteRegionGroup", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")">
+                <table class="table-header table" data-deleteurl="@Url.Action("DeleteRegionGroup", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Region</th>
@@ -78,7 +78,7 @@
                                 @Html.TextBox("airport-box", null, new { placeholder = "Airport", @class = "airport-text-box new-entry-input form-control", autotype = "airport" })
                                 <div class="airport-autocomplete"></div>
                             </td>
-                            <td><input type="button" value="Add" class="add-button btn btn-dark"/></td>
+                            <td><input type="button" value="Add" class="add-button btn btn-dark" /></td>
                         </tr>
                     </tfoot>
                 </table>

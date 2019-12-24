@@ -252,6 +252,15 @@ namespace CustomRegionEditor.Database.Repositories
 
             if (validEntry)
             {
+                if (regionId != null)
+                {
+                    CustomRegionGroupModel.Id = Guid.Parse(regionId);
+                }
+                else
+                {
+                    CustomRegionGroupModel.Id = new Guid();
+                }
+                CustomRegionGroupModel.Name = FindById(regionId).Name;
                 CustomRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
                 RemoveSubregions(CustomRegionGroupModel, customRegionEntryModel, type);
                 CheckForParents(CustomRegionGroupModel, type, customRegionEntryModel);
@@ -378,6 +387,7 @@ namespace CustomRegionEditor.Database.Repositories
             {
                 CustomRegionGroupModel.Name = name;
                 CustomRegionGroupModel.Description = description;
+                CustomRegionGroupModel.CustomRegionEntries = CustomRegionGroupModel.CustomRegionEntries;
             }
             AddOrUpdate(CustomRegionGroupModel);
             return CustomRegionGroupModel;
@@ -385,10 +395,9 @@ namespace CustomRegionEditor.Database.Repositories
 
         public void ChangeDetails(string name, string description, string regionId)
         {
-            var customRegion = new CustomRegionGroupModel();
             using (var dbSession = SessionManager.OpenSession())
             {
-                customRegion = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
+                var customRegion = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
                 if (name != "" && name != null)
                 {
                     customRegion.Name = name;

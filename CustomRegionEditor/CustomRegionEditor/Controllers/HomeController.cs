@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using CustomRegionEditor.Database.Repositories;
 
 namespace CustomRegionEditor.Controllers
 {
@@ -110,6 +111,10 @@ namespace CustomRegionEditor.Controllers
         [HttpPost]
         public ActionResult AddRegion(string entry, string type, string regionId)
         {
+            if (regionId == null)
+            {
+                regionId = new Guid().ToString();
+            }
             var updatedCustomRegionGroupModel = this.CustomRegionGroupRepository.AddByType(entry, type, regionId);
             var contentViewModel = new ContentViewModel()
             {
@@ -122,6 +127,22 @@ namespace CustomRegionEditor.Controllers
             
             return PartialView("_Content", contentViewModel);
         }
+
+        //[HttpPost]
+        //public ActionResult AddRegion(EditViewModel editViewModel)
+        //{
+        //    var updatedCustomRegionGroupModel = this.CustomRegionGroupRepository.AddByType(entry, type, regionId);
+        //    var contentViewModel = new ContentViewModel()
+        //    {
+        //        EditViewModel = new EditViewModel()
+        //        {
+        //            CustomRegionGroupViewModel = ViewModelConverter.GetView(updatedCustomRegionGroupModel),
+        //            IsEditing = true,
+        //        }
+        //    };
+
+        //    return PartialView("_Content", contentViewModel);
+        //}
 
         [HttpPost]
         public ActionResult SaveChanges(string name, string description, string regionId)
@@ -150,6 +171,7 @@ namespace CustomRegionEditor.Controllers
                     CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion)
                 },
             };
+            CustomRegionGroupRepo.CustomRegionGroupModel.CustomRegionEntries = FoundRegion.CustomRegionEntries;
             return PartialView("_Content", contentViewModel);
         }
 
@@ -194,6 +216,7 @@ namespace CustomRegionEditor.Controllers
                 .ThenBy(a => a.State?.StateName)
                 .ThenBy(a => a.Country?.CountryName)
                 .ThenBy(a => a.Region?.RegionName).ToList();
+            CustomRegionGroupRepo.CustomRegionGroupModel.CustomRegionEntries = FoundRegion.CustomRegionEntries;
             contentViewModel = new ContentViewModel
             {
                 EditViewModel = new EditViewModel()
