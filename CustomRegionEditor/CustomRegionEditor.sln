@@ -11,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomRegionEditor.EntityMa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomRegionEditor.Database", "CustomRegionEditor.Database\CustomRegionEditor.Database.csproj", "{8265BBBC-B01A-419A-B1B0-F0EDF652BF94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomRegionEditor.Tests", "CustomRegionEditor.Tests\CustomRegionEditor.Tests.csproj", "{D52FFC95-449E-4916-98AE-830396FEDC07}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomRegionEditor.Tests", "CustomRegionEditor.Tests\CustomRegionEditor.Tests.csproj", "{D52FFC95-449E-4916-98AE-830396FEDC07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomRegionEditor.Logging", "CustomRegionEditor.Logging\CustomRegionEditor.Logging.csproj", "{49B99272-9F2A-440D-B469-754A96E60F00}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{D52FFC95-449E-4916-98AE-830396FEDC07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D52FFC95-449E-4916-98AE-830396FEDC07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D52FFC95-449E-4916-98AE-830396FEDC07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49B99272-9F2A-440D-B469-754A96E60F00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49B99272-9F2A-440D-B469-754A96E60F00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49B99272-9F2A-440D-B469-754A96E60F00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49B99272-9F2A-440D-B469-754A96E60F00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

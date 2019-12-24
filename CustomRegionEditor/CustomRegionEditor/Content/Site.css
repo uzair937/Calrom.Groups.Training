@@ -139,6 +139,14 @@ td {
     border-radius: 25px;
 }
 
+.content-model-container {
+    text-align: center;
+}
+
+.alert-container {
+    margin-bottom: 1em;
+}
+
 .search-result,
 .single-region-entry,
 .add-region-row {

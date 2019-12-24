@@ -217,6 +217,7 @@ function entryConfirmDelete(e) {
     var idForm = new IdForm(entryId);
 
     if (idForm) {
+        
         $.ajax({
             type: "POST",
             url: url,
@@ -226,6 +227,7 @@ function entryConfirmDelete(e) {
                 if (data) {
                     $(".content-container").html(data);      //replaces all content/ search and edit
                     addEditListeners();
+                    $(".alert-container").html('<th class="alert alert-warning" role="alert">Entry Deleted</th>');
                 }
             }
         });
@@ -277,6 +279,7 @@ function addEntry(e) {
                 if (data) {
                     $(".content-container").html(data);      //replaces all content/ search and edit
                     addEditListeners();
+                    $(".alert-container").html('<th class="alert alert-success" role="alert">Entry Added</th>');
                 }
             }
         });
@@ -299,6 +302,7 @@ function saveChanges() {
             if (data) {
                 $(".content-container").html(data);      //replaces all content/ search and edit
                 addEditListeners();
+                $(".alert-container").html('<th class="alert alert-success" role="alert">Changes Saved</th>');
             }
         }
     });

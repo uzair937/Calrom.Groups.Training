@@ -12,13 +12,15 @@ namespace CustomRegionEditor.Database.NHibernate
     {
         public CustomRegionEntryModel LoadEntities(CustomRegionEntryModel oldModel)            //FIX LAZY LOADING ERROR
         {
-            var newModel = new CustomRegionEntryModel
+            var newModel = new CustomRegionEntryModel();
+            if (oldModel == null) return newModel;
+            newModel = new CustomRegionEntryModel
             {
                 Id = oldModel.Id,
                 RowVersion = oldModel.RowVersion,
                 CustomRegionGroup = oldModel.CustomRegionGroup
             };
-            if (oldModel == null) return newModel;
+            
             newModel.Airport = LoadEntities(oldModel.Airport);
             newModel.Country = LoadEntities(oldModel.Country);
             newModel.Region = LoadEntities(oldModel.Region);
@@ -38,7 +40,9 @@ namespace CustomRegionEditor.Database.NHibernate
         }
         public CustomRegionGroupModel LoadEntities(CustomRegionGroupModel oldModel)            //FIX LAZY LOADING ERROR
         {
-            var newModel = new CustomRegionGroupModel { 
+            var newModel = new CustomRegionGroupModel();
+            if (oldModel == null) return newModel;
+            newModel = new CustomRegionGroupModel { 
                 Id = oldModel.Id,
                 CustomRegionEntries = new List<CustomRegionEntryModel>(),
                 Name = oldModel.Name,
@@ -48,7 +52,7 @@ namespace CustomRegionEditor.Database.NHibernate
                 DisplayOrder = oldModel.DisplayOrder,
                 RowVersion = oldModel.RowVersion
             };
-            if (oldModel == null) return newModel;
+            
             if (oldModel.CustomRegionEntries != null)
             {
                 foreach (var entry in oldModel.CustomRegionEntries)

@@ -5,6 +5,7 @@
     <div class="edit-container flex-column">
         @if (Model.IsEditing)
         {
+            <div class="alert-container"></div>
             <div class="model-id" modelId="@Model.CustomRegionGroupViewModel.ID" />
             <table class="info-table-header table" data-savechangesurl="@Url.Action("SaveChanges", "Home")">
                 <thead class="thead-dark">

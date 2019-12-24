@@ -104,7 +104,10 @@ namespace CustomRegionEditor.Controllers
         [HttpPost]
         public ActionResult DeleteEntry(IdViewModel idForm)
         {
+            var FoundEntry = this.CustomRegionEntryRepository.FindById(idForm.Id);
+            var FoundRegion = FoundEntry.CustomRegionGroup;
             this.CustomRegionEntryRepository.DeleteById(idForm.Id);
+            idForm.Id = FoundRegion.Id.ToString();
             return EditRegionGroup(idForm);
         }
 
@@ -189,6 +192,16 @@ namespace CustomRegionEditor.Controllers
             }
 
             var FoundRegion = this.CustomRegionGroupRepository.FindById(idForm.Id);
+            if (FoundRegion?.Id == Guid.Empty)
+            {
+                var FoundEntry = this.CustomRegionEntryRepository.FindById(idForm.Id);
+                FoundRegion = FoundEntry.CustomRegionGroup;
+                if (FoundRegion?.Id == Guid.Empty)
+                {
+                    return PartialView("_Content", contentViewModel);
+                }
+            }
+            
             FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId)
                                                                             .ThenBy(a => a.City?.CityName)
                                                                             .ThenBy(a => a.State?.StateName)
