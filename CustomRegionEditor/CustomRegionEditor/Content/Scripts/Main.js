@@ -33,32 +33,32 @@ function onSearch(e) {
     if ($(".search-filters-container").val() === "contains-airport") {
         filter = "airport";
     }
-    if ($(".search-filters-container").val() === "contains-city") {
+    else if ($(".search-filters-container").val() === "contains-city") {
         filter = "city";
     }
-    if ($(".search-filters-container").val() === "contains-state") {
+    else if ($(".search-filters-container").val() === "contains-state") {
         filter = "state";
     }
-    if ($(".search-filters-container").val() === "contains-country") {
+    else if ($(".search-filters-container").val() === "contains-country") {
         filter = "country";
     }
-    if ($(".search-filters-container").val() === "contains-region") {
+    else if ($(".search-filters-container").val() === "contains-region") {
         filter = "region";
     }
-    if ($(".search-filters-container").val() === "for-region") {
+    else if ($(".search-filters-container").val() === "for-region") {
         filter = "regionFilter";
     }
-    if ($(".search-filters-container").val() === "for-country") {
+    else if ($(".search-filters-container").val() === "for-country") {
         filter = "countryFilter";
     }
-    if ($(".search-filters-container").val() === "for-state") {
+    else if ($(".search-filters-container").val() === "for-state") {
         filter = "stateFilter";
     }
-    if ($(".search-filters-container").val() === "for-city") {
+    else if ($(".search-filters-container").val() === "for-city") {
         filter = "cityFilter";
     }
     var searchForm = new SearchModel(filter, searchTerm);
-    if (searchTerm !== "" ) {
+    if (searchTerm !== "") {
         $.ajax({
             type: "POST",
             url: url,
@@ -90,9 +90,12 @@ function NewRegionEntry(value, type, regionId) {
     self.Type = type;
 }
 
-function IdForm(id) {
+function IdForm(id, search) {
     var self = this;
     self.Id = id;
+    if (search) {
+        self.LastSearch = search;
+    }
 }
 
 function SaveForm(name, description, id) {
@@ -158,7 +161,40 @@ function onConfirmDelete(e) {
     e.stopPropagation();
     var url = $(".table-header").attr("data-deleteurl");
     var regionId = $(this).parent().parent().attr("searchid");
-    var idForm = new IdForm(regionId);
+    var lastSearch = document.getElementsByClassName("search-text-box")[0].value;
+    if (lastSearch === undefined || lastSearch === "" ) {
+        lastSearch = "-all";
+    }
+    var filter = "none";
+    if ($(".search-filters-container").val() === "contains-airport") {
+        filter = "airport";
+    }
+    else if ($(".search-filters-container").val() === "contains-city") {
+        filter = "city";
+    }
+    else if ($(".search-filters-container").val() === "contains-state") {
+        filter = "state";
+    }
+    else if ($(".search-filters-container").val() === "contains-country") {
+        filter = "country";
+    }
+    else if ($(".search-filters-container").val() === "contains-region") {
+        filter = "region";
+    }
+    else if ($(".search-filters-container").val() === "for-region") {
+        filter = "regionFilter";
+    }
+    else if ($(".search-filters-container").val() === "for-country") {
+        filter = "countryFilter";
+    }
+    else if ($(".search-filters-container").val() === "for-state") {
+        filter = "stateFilter";
+    }
+    else if ($(".search-filters-container").val() === "for-city") {
+        filter = "cityFilter";
+    }
+    var searchForm = new SearchModel(filter, lastSearch);
+    var idForm = new IdForm(regionId, searchForm);
 
     if (idForm) {
         $.ajax({
@@ -166,7 +202,13 @@ function onConfirmDelete(e) {
             url: url,
             data: JSON.stringify(idForm),
             contentType: "application/json",
-            success: onSearch,
+            success: function (data) {
+                if (data) {
+                    $(".content-container").html(data);
+                    addSearchListeners();
+                }
+                $(".alert-container").html('<th class="alert alert-warning" role="alert">Region Deleted</th>');
+            }
         });
     }
 } //Calls onSearch on finish to refresh list
@@ -217,7 +259,7 @@ function entryConfirmDelete(e) {
     var idForm = new IdForm(entryId);
 
     if (idForm) {
-        
+
         $.ajax({
             type: "POST",
             url: url,
@@ -279,7 +321,7 @@ function addEntry(e) {
                 if (data) {
                     $(".content-container").html(data);      //replaces all content/ search and edit
                     addEditListeners();
-                    $(".alert-container").html('<th class="alert alert-success" role="alert">Entry Added</th>');
+                    $(".alert-container").html('<th class="alert alert-success" role="alert">Entry ' + value + ' Added</th>');
                 }
             }
         });
@@ -302,7 +344,7 @@ function saveChanges() {
             if (data) {
                 $(".content-container").html(data);      //replaces all content/ search and edit
                 addEditListeners();
-                $(".alert-container").html('<th class="alert alert-success" role="alert">Changes Saved</th>');
+                $(".alert-container").html('<th class="alert alert-success" role="alert">Saved Changes</th>');
             }
         }
     });

@@ -153,8 +153,18 @@ td {
     border-top: 2px inset black;
 }
 
+.add-region-row {
+    width: 95%;
+}
+
 .edit-container {
     height: 100%;
+}
+
+.edit-info-container {
+   overflow-y: auto;
+   max-height: 500px;
+   width: 100%;
 }
 
 .search-filters-container {

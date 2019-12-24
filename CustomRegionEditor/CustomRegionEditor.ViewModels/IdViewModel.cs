@@ -9,5 +9,7 @@ namespace CustomRegionEditor.ViewModels
     public class IdViewModel
     {
         public string Id { get; set; }
+
+        public SearchBoxViewModel LastSearch { get; set; }
     }
 }

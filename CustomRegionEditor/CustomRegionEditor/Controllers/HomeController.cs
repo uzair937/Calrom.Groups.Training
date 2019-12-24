@@ -98,7 +98,7 @@ namespace CustomRegionEditor.Controllers
         public ActionResult DeleteRegionGroup(IdViewModel idForm)
         {
             this.CustomRegionGroupRepository.DeleteById(idForm.Id);
-            return null;
+            return Search(idForm.LastSearch);
         }
 
         [HttpPost]
