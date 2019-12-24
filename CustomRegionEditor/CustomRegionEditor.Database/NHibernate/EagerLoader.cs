@@ -38,6 +38,11 @@ namespace CustomRegionEditor.Database.NHibernate
         }
         public CustomRegionGroupModel LoadEntities(CustomRegionGroupModel oldModel)            //FIX LAZY LOADING ERROR
         {
+            if (oldModel == null)
+            {
+                return new CustomRegionGroupModel();
+            }
+
             var newModel = new CustomRegionGroupModel { 
                 Id = oldModel.Id,
                 CustomRegionEntries = new List<CustomRegionEntryModel>(),
@@ -48,7 +53,7 @@ namespace CustomRegionEditor.Database.NHibernate
                 DisplayOrder = oldModel.DisplayOrder,
                 RowVersion = oldModel.RowVersion
             };
-            if (oldModel == null) return newModel;
+
             if (oldModel.CustomRegionEntries != null)
             {
                 foreach (var entry in oldModel.CustomRegionEntries)

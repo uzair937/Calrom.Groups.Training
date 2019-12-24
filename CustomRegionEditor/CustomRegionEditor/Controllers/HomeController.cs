@@ -111,7 +111,7 @@ namespace CustomRegionEditor.Controllers
         [HttpPost]
         public ActionResult AddRegion(string entry, string type, string regionId)
         {
-            if (regionId == null)
+            if (regionId == null || regionId == "undefined")
             {
                 regionId = new Guid().ToString();
             }

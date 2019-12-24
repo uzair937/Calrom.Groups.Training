@@ -252,14 +252,6 @@ namespace CustomRegionEditor.Database.Repositories
 
             if (validEntry)
             {
-                if (regionId != null)
-                {
-                    CustomRegionGroupModel.Id = Guid.Parse(regionId);
-                }
-                else
-                {
-                    CustomRegionGroupModel.Id = new Guid();
-                }
                 CustomRegionGroupModel.Name = FindById(regionId).Name;
                 CustomRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
                 RemoveSubregions(CustomRegionGroupModel, customRegionEntryModel, type);
@@ -383,6 +375,10 @@ namespace CustomRegionEditor.Database.Repositories
 
         public CustomRegionGroupModel AddNewRegion(string name, string description)
         {
+            if (CustomRegionGroupModel.Id == Guid.Empty)
+            {
+                CustomRegionGroupModel.Id = new Guid();
+            }
             if (!String.IsNullOrEmpty(name))
             {
                 CustomRegionGroupModel.Name = name;
@@ -398,6 +394,16 @@ namespace CustomRegionEditor.Database.Repositories
             using (var dbSession = SessionManager.OpenSession())
             {
                 var customRegion = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
+                if (customRegion == null)
+                {
+                    customRegion = new CustomRegionGroupModel()
+                    {
+                        Name = name,
+                        Description = description,
+                        Id = new Guid(),
+                        CustomRegionEntries = new List<CustomRegionEntryModel>()
+                    };
+                }
                 if (name != "" && name != null)
                 {
                     customRegion.Name = name;
