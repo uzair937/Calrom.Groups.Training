@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="Interfaces\ICustomRegionEntryRepository.cs" />
     <Compile Include="Interfaces\ICustomRegionGroupRepository.cs" />
+    <Compile Include="Interfaces\ICustomRegionGroupTempRepo.cs" />
     <Compile Include="Interfaces\ISessionFactoryManager.cs" />
     <Compile Include="Interfaces\ISubRegionRepo.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Interfaces\ISessionManager.cs" />
     <Compile Include="NHibernate\NHibernateSessionFactoryManager.cs" />
     <Compile Include="NHibernate\NHibernateSessionManager.cs" />
+    <Compile Include="Repositories\CustomRegionGroupTempRepo.cs" />
     <Compile Include="Repositories\RegionRepo.cs" />
     <Compile Include="Repositories\CountryRepo.cs" />
     <Compile Include="Repositories\StateRepo.cs" />

@@ -17,7 +17,7 @@ namespace CustomRegionEditor.Database.Repositories
         public CustomRegionGroupRepo(IEagerLoader eagerLoader, ISessionManager sessionManager,
             ICustomRegionEntryRepository customRegionEntryRepository, ISubRegionRepo<AirportModel> airportRepo,
             ISubRegionRepo<CityModel> cityRepo, ISubRegionRepo<StateModel> stateRepo,
-            ISubRegionRepo<CountryModel> countryRepo, ISubRegionRepo<RegionModel> regionRepo)
+            ISubRegionRepo<CountryModel> countryRepo, ISubRegionRepo<RegionModel> regionRepo, ICustomRegionGroupTempRepo customRegionGroupTempRepo)
         {
             this.AirportRepo = airportRepo;
             this.StateRepo = stateRepo;
@@ -28,10 +28,7 @@ namespace CustomRegionEditor.Database.Repositories
             this.SessionManager = sessionManager;
             this.CustomRegionEntryRepository = customRegionEntryRepository;
             _customRegionGroupList = new List<CustomRegionGroupModel>();
-            CustomRegionGroupModel = new CustomRegionGroupModel()
-            {
-                CustomRegionEntries = new List<CustomRegionEntryModel>()
-            };
+            this.CustomRegionGroupTempRepo = customRegionGroupTempRepo;
         }
 
         private ISessionManager SessionManager { get; }
@@ -41,11 +38,9 @@ namespace CustomRegionEditor.Database.Repositories
         private ISubRegionRepo<StateModel> StateRepo { get; }
         private ISubRegionRepo<CountryModel> CountryRepo { get; }
         private ISubRegionRepo<RegionModel> RegionRepo { get; }
-
         private ICustomRegionEntryRepository CustomRegionEntryRepository { get; }
-
         private List<CustomRegionGroupModel> _customRegionGroupList;
-        public static CustomRegionGroupModel CustomRegionGroupModel { get; set; }
+        private ICustomRegionGroupTempRepo CustomRegionGroupTempRepo { get; }
 
         public void AddOrUpdate(CustomRegionGroupModel entity)
         {
@@ -222,13 +217,27 @@ namespace CustomRegionEditor.Database.Repositories
                 RowVersion = 1
             };
 
-            customRegionEntryModel.CustomRegionGroup = CustomRegionGroupModel;
+            var customRegionGroupModel =
+                this.CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(regionId)) ?? new CustomRegionGroupModel()
+                {
+                    CustomRegionEntries = new List<CustomRegionEntryModel>()
+                };
+
+            if (CustomRegionGroupTempRepo.List().Count > 0)
+            {
+                customRegionEntryModel.CustomRegionGroup = CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(regionId));
+            }
+
             switch (type) //changed from if elses to a switch cus cleaner
             {
                 case "airport":
                     customRegionEntryModel.Airport =
                         this.AirportRepo.FindByName(entry); //needs to add a reference to the object for each
-                    if (customRegionEntryModel.Airport != null) validEntry = true;
+                    if (customRegionEntryModel.Airport != null)
+                    {
+                        validEntry = true;
+                        
+                    }
                     break;
                 case "city":
                     customRegionEntryModel.City = this.CityRepo.FindByName(entry);
@@ -252,13 +261,14 @@ namespace CustomRegionEditor.Database.Repositories
 
             if (validEntry)
             {
-                CustomRegionGroupModel.Name = FindById(regionId).Name;
-                CustomRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
-                RemoveSubregions(CustomRegionGroupModel, customRegionEntryModel, type);
-                CheckForParents(CustomRegionGroupModel, type, customRegionEntryModel);
+                customRegionGroupModel.Name = FindById(regionId).Name;
+                customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
+                RemoveSubregions(customRegionGroupModel, customRegionEntryModel, type);
+                CheckForParents(customRegionGroupModel, type, customRegionEntryModel);
+                CustomRegionGroupTempRepo.Add(customRegionGroupModel);
             }
 
-            return CustomRegionGroupModel;
+            return customRegionGroupModel;
         }
 
         private void CheckForParents(CustomRegionGroupModel customRegionGroupModel, string type, CustomRegionEntryModel customRegionEntryModel)
@@ -375,18 +385,20 @@ namespace CustomRegionEditor.Database.Repositories
 
         public CustomRegionGroupModel AddNewRegion(string name, string description)
         {
-            if (CustomRegionGroupModel.Id == Guid.Empty)
+            var customRegionGroupModel = new CustomRegionGroupModel
             {
-                CustomRegionGroupModel.Id = new Guid();
-            }
+                Id = new Guid()
+            };
+
             if (!String.IsNullOrEmpty(name))
             {
-                CustomRegionGroupModel.Name = name;
-                CustomRegionGroupModel.Description = description;
-                CustomRegionGroupModel.CustomRegionEntries = CustomRegionGroupModel.CustomRegionEntries;
+                customRegionGroupModel.Name = name;
+                customRegionGroupModel.Description = description;
+                customRegionGroupModel.CustomRegionEntries = new List<CustomRegionEntryModel>();
+                customRegionGroupModel.CustomRegionEntries = CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Name == name).CustomRegionEntries;
             }
-            AddOrUpdate(CustomRegionGroupModel);
-            return CustomRegionGroupModel;
+            this.CustomRegionGroupTempRepo.Add(customRegionGroupModel);
+            return customRegionGroupModel;
         } //Generates a new empty region
 
         public void ChangeDetails(string name, string description, string regionId)
@@ -447,9 +459,9 @@ namespace CustomRegionEditor.Database.Repositories
             return null;
         }
 
-        public CustomRegionGroupModel GetCustomRegionGroupModel()
+        public void UpdateList(IList<CustomRegionEntryModel> list, string regionId)
         {
-            return CustomRegionGroupModel;
+            this.CustomRegionGroupTempRepo.Update(list, regionId);
         }
     }
 }

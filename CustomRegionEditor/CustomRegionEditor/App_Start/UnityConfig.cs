@@ -45,6 +45,8 @@ namespace CustomRegionEditor.Web
             container.RegisterSingleton<ISubRegionRepo<CityModel>,  CityRepo>();
 
             container.RegisterSingleton<ISubRegionRepo<AirportModel>, AirportRepo>();
+
+            container.RegisterSingleton<ICustomRegionGroupTempRepo, CustomRegionGroupTempRepo>();
             
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

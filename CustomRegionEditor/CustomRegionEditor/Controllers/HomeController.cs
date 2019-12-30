@@ -124,7 +124,7 @@ namespace CustomRegionEditor.Controllers
                     IsEditing = true,
                 }
             };
-            
+
             return PartialView("_Content", contentViewModel);
         }
 
@@ -157,11 +157,22 @@ namespace CustomRegionEditor.Controllers
             }
 
             var FoundRegion = this.CustomRegionGroupRepository.FindById(regionId);
-            FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId)
-                                                                            .ThenBy(a => a.City?.CityName)
-                                                                            .ThenBy(a => a.State?.StateName)
-                                                                            .ThenBy(a => a.Country?.CountryName)
-                                                                            .ThenBy(a => a.Region?.RegionName).ToList();
+            if (FoundRegion.CustomRegionEntries != null)
+            {
+                FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId)
+                                                                                            .ThenBy(a => a.City?.CityName)
+                                                                                            .ThenBy(a => a.State?.StateName)
+                                                                                            .ThenBy(a => a.Country?.CountryName)
+                                                                                            .ThenBy(a => a.Region?.RegionName).ToList();
+            }
+            else
+            {
+                FoundRegion = new CustomRegionGroupModel()
+                {
+                    Name = name,
+                    CustomRegionEntries = new List<CustomRegionEntryModel>()
+                };
+            }
             var contentViewModel = new ContentViewModel
             {
                 EditViewModel = new EditViewModel()
@@ -171,7 +182,7 @@ namespace CustomRegionEditor.Controllers
                     CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion)
                 },
             };
-            CustomRegionGroupRepo.CustomRegionGroupModel.CustomRegionEntries = FoundRegion.CustomRegionEntries;
+            this.CustomRegionGroupRepository.UpdateList(FoundRegion.CustomRegionEntries, regionId);
             return PartialView("_Content", contentViewModel);
         }
 
@@ -216,7 +227,7 @@ namespace CustomRegionEditor.Controllers
                 .ThenBy(a => a.State?.StateName)
                 .ThenBy(a => a.Country?.CountryName)
                 .ThenBy(a => a.Region?.RegionName).ToList();
-            CustomRegionGroupRepo.CustomRegionGroupModel.CustomRegionEntries = FoundRegion.CustomRegionEntries;
+            this.CustomRegionGroupRepository.UpdateList(FoundRegion.CustomRegionEntries, regionId);
             contentViewModel = new ContentViewModel
             {
                 EditViewModel = new EditViewModel()
