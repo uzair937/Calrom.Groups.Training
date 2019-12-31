@@ -134,7 +134,6 @@ namespace CustomRegionEditor.Controllers
             {
                 CustomRegionGroupViewModel = ViewModelConverter.GetView(updatedCustomRegionGroupModel),
                 IsEditing = true,
-                IsNew = true
             };
 
             return PartialView("_EditRegion", editViewModel);
@@ -239,6 +238,7 @@ namespace CustomRegionEditor.Controllers
                 EditViewModel = new EditViewModel()
                 {
                     IsEditing = true,
+                    IsNew = true,
                     CustomRegionGroupViewModel = customRegionGroupViewModel
                 },
             };
