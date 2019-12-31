@@ -390,7 +390,7 @@ namespace CustomRegionEditor.Database.Repositories
                 Id = new Guid()
             };
 
-            if (!String.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name))
             {
                 customRegionGroupModel.Name = name;
                 customRegionGroupModel.Description = description;

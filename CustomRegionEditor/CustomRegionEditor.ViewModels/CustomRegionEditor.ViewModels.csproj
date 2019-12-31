@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddRegionViewModel.cs" />
     <Compile Include="AirportViewModel.cs" />
     <Compile Include="AutoCompleteViewModel.cs" />
     <Compile Include="ContentViewModel.cs" />

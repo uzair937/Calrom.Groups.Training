@@ -191,19 +191,23 @@ function addEntry(e) {
 } //picks largest entry type, calls onSearch on finish to refresh list
 
 function addRegionEntry(url, value, type, regionId) {
+    var newClass = new AddRegionViewModel(value, type, regionId);
+
     $.ajax({
         type: "POST",
-        url: url + "?entry=" + value + "&type=" + type + "&regionId=" + regionId,
+        url: url,
+        data: JSON.stringify(newClass),
+
         success: function (data) {
             if (data) {
-                $(".content-container").html(data);      //replaces all content/ search and edit
+                $(".edit-info-container").html(data);      //replaces all content/ search and edit
                 addEditListeners();
             }
         }
     });
 } //runs the ajax to add an entry
 
-function saveChanges(e) {
+function saveChanges2(e) {
     e.preventDefault();
     e.stopPropagation();
     var newName = $(".model-name").val();
@@ -213,6 +217,40 @@ function saveChanges(e) {
     $.ajax({
         type: "POST",
         url: url + "?name=" + newName + "&description=" + newDescription + "&regionId=" + regionId ,
+        success: function (data, status, xhr) {
+            if (data) {
+                $(".content-container").html(data);      //replaces all content/ search and edit
+                addEditListeners();
+            }
+        }
+    });
+}   //saves new name and description for region
+
+function AddRegionViewModel(value, type, regionId) {
+    this.Entry = value;
+    this.Type = type;
+    this.RegionId = regionId;
+}
+
+function RegionViewModel(name, description, regionId) {
+    this.Name = name;
+    this.Description = description;
+    this.RegionId = regionId;
+}
+
+function saveChanges(e) {
+    debugger;
+    e.preventDefault();
+    e.stopPropagation();
+    var newName = $(".model-name").val();
+    var newDescription = $(".model-description").val();
+    var regionId = $(".model-id").attr("modelId");
+    var url = $(".info-table-header").attr("data-savechangesurl");
+    var newClass = new RegionViewModel(newName, newDescription, regionId);
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: JSON.stringify(newClass),
         success: function (data, status, xhr) {
             if (data) {
                 $(".content-container").html(data);      //replaces all content/ search and edit
