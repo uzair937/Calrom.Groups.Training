@@ -233,11 +233,7 @@ namespace CustomRegionEditor.Database.Repositories
                 case "airport":
                     customRegionEntryModel.Airport =
                         this.AirportRepo.FindByName(entry); //needs to add a reference to the object for each
-                    if (customRegionEntryModel.Airport != null)
-                    {
-                        validEntry = true;
-                        
-                    }
+                    if (customRegionEntryModel.Airport != null) validEntry = true;
                     break;
                 case "city":
                     customRegionEntryModel.City = this.CityRepo.FindByName(entry);
@@ -385,10 +381,7 @@ namespace CustomRegionEditor.Database.Repositories
 
         public CustomRegionGroupModel AddNewRegion(string name, string description)
         {
-            var customRegionGroupModel = new CustomRegionGroupModel
-            {
-                Id = new Guid()
-            };
+            var customRegionGroupModel = new CustomRegionGroupModel();
 
             if (!string.IsNullOrEmpty(name))
             {

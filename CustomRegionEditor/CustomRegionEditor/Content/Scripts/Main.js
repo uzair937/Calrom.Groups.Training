@@ -106,11 +106,15 @@ function onConfirmDelete(e) {
 
 function refreshEdit(e) {
     var url = $(".table-header").attr("data-editurl");
+    var name = $(".model-name").val();
+    var description = $(".model-description").val();
     var regionId = $(".model-id").attr("modelId");
+    var newClass = new AddRegionViewModel(name, description, regionId);
     if (regionId) {
         $.ajax({
             type: "POST",
-            url: url + "?regionId=" + regionId,
+            url: url,
+            data: JSON.stringify(newClass),
             success: function (data, status, xhr) {
                 if (data) {
                     $(".content-container").html(data);      //replaces all content/ search and edit

@@ -111,7 +111,7 @@ namespace CustomRegionEditor.Controllers
         [HttpPost]
         public ActionResult AddRegion(AddRegionViewModel addRegionViewModel)
         {
-            var updatedCustomRegionGroupModel = this.CustomRegionGroupRepository.AddByType(addRegionViewModel.Entry, addRegionViewModel.Type, addRegionViewModel.RegionId);
+            var updatedCustomRegionGroupModel = this.CustomRegionGroupRepository.AddByType(addRegionViewModel.Entry, addRegionViewModel.Type, addRegionViewModel.RegionId.ToString());
 
             var editViewModel = new EditViewModel()
             {
@@ -171,6 +171,7 @@ namespace CustomRegionEditor.Controllers
         {
             var customRegionGroupViewModel = new CustomRegionGroupViewModel
             {
+                ID = Guid.NewGuid().ToString(),
                 Name = "",
                 Description = "",
                 CustomRegions = new List<CustomRegionEntryViewModel>()
