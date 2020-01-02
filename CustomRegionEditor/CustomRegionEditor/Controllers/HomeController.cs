@@ -126,18 +126,18 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveChanges(CustomRegionGroupModel customRegionGroupModel)
+        public ActionResult SaveChanges(CustomRegionGroupViewModel customRegionGroupViewModel)
         {
-            if (string.IsNullOrEmpty(customRegionGroupModel.Id.ToString()))
+            if (string.IsNullOrEmpty(customRegionGroupViewModel.ID))
             {
-                customRegionGroupModel.Id = this.CustomRegionGroupRepository.AddNewRegion(customRegionGroupModel.Name, customRegionGroupModel.Description).Id;
+                customRegionGroupViewModel.ID = this.CustomRegionGroupRepository.AddNewRegion(customRegionGroupViewModel.Name, customRegionGroupViewModel.Description).Id.ToString();
             }
             else
             {
-                this.CustomRegionGroupRepository.ChangeDetails(customRegionGroupModel);
+                this.CustomRegionGroupRepository.ChangeDetails(customRegionGroupViewModel.Name, customRegionGroupViewModel.Description, customRegionGroupViewModel.ID);
             }
 
-            var foundRegion = this.CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == customRegionGroupModel.Id);
+            var foundRegion = this.CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(customRegionGroupViewModel.ID));
             if (foundRegion.CustomRegionEntries != null)
             {
                 foundRegion.CustomRegionEntries = foundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId)
@@ -150,8 +150,8 @@ namespace CustomRegionEditor.Controllers
             {
                 foundRegion = new CustomRegionGroupModel()
                 {
-                    Name = customRegionGroupModel.Name,
-                    Description = customRegionGroupModel.Description,
+                    Name = customRegionGroupViewModel.Name,
+                    Description = customRegionGroupViewModel.Description,
                     CustomRegionEntries = new List<CustomRegionEntryModel>()
                 };
             }
@@ -164,9 +164,9 @@ namespace CustomRegionEditor.Controllers
                     CustomRegionGroupViewModel = ViewModelConverter.GetView(foundRegion)
                 },
             };
-            this.CustomRegionGroupRepository.UpdateList(foundRegion.CustomRegionEntries, customRegionGroupModel.Id.ToString());
+            this.CustomRegionGroupRepository.UpdateList(foundRegion.CustomRegionEntries, customRegionGroupViewModel.ID);
             var endRegion = this.CustomRegionGroupTempRepo.List()
-                .FirstOrDefault(b => b.Id == customRegionGroupModel.Id);
+                .FirstOrDefault(b => b.Id == Guid.Parse(customRegionGroupViewModel.ID));
             endRegion.Id = Guid.Empty;
             this.CustomRegionGroupRepository.AddOrUpdate(endRegion);
             this.CustomRegionGroupTempRepo.DestroySession();
@@ -212,7 +212,7 @@ namespace CustomRegionEditor.Controllers
                     IsSearching = true,
                 }
             };
-
+            // LAZY LOADING ERROR IS HERE
             var foundRegion = this.CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(addRegionViewModel.RegionId));
             if (foundRegion == null)
             {
