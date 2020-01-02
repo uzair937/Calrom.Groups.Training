@@ -8,7 +8,6 @@ namespace CustomRegionEditor.ViewModels
     public class EditViewModel
     {
         public bool IsEditing { get; set; }
-        public bool IsNew { get; set; }
         public bool ExistingRegion { get; set; }
         public CustomRegionGroupViewModel CustomRegionGroupViewModel { get; set; }
     }

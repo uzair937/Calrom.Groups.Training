@@ -4,9 +4,8 @@
 
 <div class="container">
     <div class="edit-container flex-column">
-        @if (Model.IsNew)
+        @if (Model.IsEditing)
         {
-            <p>hello</p>
             <div class="model-id" modelId="@Model.CustomRegionGroupViewModel.ID"></div>
             <div id="parent">
                 <table class="info-table-header table" data-savechangesurl="@Url.Action("SaveChanges", "Home")">
@@ -18,23 +17,39 @@
                             <th scope="col">Save Changes</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>@Html.TextBoxFor(m => m.CustomRegionGroupViewModel.Name, new { placeholder = "Set Name", @class = "model-name form-control", value = Model.CustomRegionGroupViewModel.Name })</td>
-                            <td>@Html.TextBoxFor(m => m.CustomRegionGroupViewModel.Description, new { placeholder = "Set Description", @class = "model-description form-control" })</td>
+                    @if (!Model.ExistingRegion)
+                    {
+                        <tbody>
+                            <tr>
+                                <td>@Html.TextBoxFor(m => m.CustomRegionGroupViewModel.Name, new { placeholder = "Set Name", @class = "model-name form-control", value = Model.CustomRegionGroupViewModel.Name })</td>
+                                <td>@Html.TextBoxFor(m => m.CustomRegionGroupViewModel.Description, new { placeholder = "Set Description", @class = "model-description form-control" })</td>
 
-                            @if (Model.CustomRegionGroupViewModel.CustomRegions.Count > 0)
-                            {
-                                <td>@Model.CustomRegionGroupViewModel.CustomRegions.Count.ToString()</td>
-                            }
-                            <td><input type="button" value="Save" class="save-changes-button btn btn-dark" /></td>
-                        </tr>
-                    </tbody>
+                                @if (Model.CustomRegionGroupViewModel.CustomRegions.Count > 0)
+                                {
+                                    <td>@Model.CustomRegionGroupViewModel.CustomRegions.Count.ToString()</td>
+                                }
+                                <td><input type="button" value="Save" class="save-changes-button btn btn-dark" /></td>
+                            </tr>
+                        </tbody>
+                    }
+                    else if (Model.ExistingRegion)
+                    {
+                        <tbody>
+                            <tr>
+                                <td class="model-name form-control">@Model.CustomRegionGroupViewModel.Name</td>
+                                <td class="model-description form-control">@Model.CustomRegionGroupViewModel.Description</td>
+
+                                @if (Model.CustomRegionGroupViewModel.CustomRegions.Count > 0)
+                                {
+                                    <td>@Model.CustomRegionGroupViewModel.CustomRegions.Count.ToString()</td>
+                                }
+                                <td><input type="button" value="Save" class="save-changes-button btn btn-dark" /></td>
+                            </tr>
+                        </tbody>
+                    }
                 </table>
             </div>
-        }
-        @if (Model.IsEditing)
-        {
+
             <div class="edit-info-container">
                 <table class="table-header table" data-deleteurl="@Url.Action("DeleteRegionGroup", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")">
                     <thead class="thead-dark">

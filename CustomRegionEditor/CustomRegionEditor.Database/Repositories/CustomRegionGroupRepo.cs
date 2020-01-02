@@ -401,28 +401,28 @@ namespace CustomRegionEditor.Database.Repositories
             return customRegionGroupModel;
         } //Generates a new empty region
 
-        public void ChangeDetails(string name, string description, string regionId)
+        public void ChangeDetails(CustomRegionGroupModel customRegionGroupModel)
         {
             using (var dbSession = SessionManager.OpenSession())
             {
-                var customRegion = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(regionId));
+                var customRegion = dbSession.Get<CustomRegionGroupModel>(customRegionGroupModel.Id);
                 if (customRegion == null)
                 {
                     customRegion = new CustomRegionGroupModel()
                     {
-                        Name = name,
-                        Description = description,
-                        Id = new Guid(),
+                        Name = customRegionGroupModel.Name,
+                        Description = customRegionGroupModel.Description,
+                        Id = customRegionGroupModel.Id,
                         CustomRegionEntries = new List<CustomRegionEntryModel>()
                     };
                 }
-                if (name != "" && name != null)
+                if (!string.IsNullOrEmpty(customRegionGroupModel.Name))
                 {
-                    customRegion.Name = name;
+                    customRegion.Name = customRegionGroupModel.Name;
                 }
-                if (description != "" && description != null)
+                if (!string.IsNullOrEmpty(customRegionGroupModel.Description))
                 {
-                    customRegion.Description = description;
+                    customRegion.Description = customRegionGroupModel.Description;
                 }
                 dbSession.SaveOrUpdate(customRegion);
                 dbSession.Flush();
