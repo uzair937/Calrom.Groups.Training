@@ -108,22 +108,6 @@ namespace CustomRegionEditor.Controllers
             return null;
         }
 
-        //[HttpPost]
-        //public ActionResult AddRegion(string entry, string type, string regionId)
-        //{
-        //    regionId = Guid.NewGuid().ToString();
-
-        //    var updatedCustomRegionGroupModel = this.CustomRegionGroupRepository.AddByType(entry, type, regionId);
-
-        //    var editViewModel = new EditViewModel()
-        //    {
-        //        CustomRegionGroupViewModel = ViewModelConverter.GetView(updatedCustomRegionGroupModel),
-        //        IsEditing = true,
-        //    };
-
-        //    return PartialView("_EditRegion", editViewModel);
-        //}1
-
         [HttpPost]
         public ActionResult AddRegion(AddRegionViewModel addRegionViewModel)
         {
@@ -133,52 +117,11 @@ namespace CustomRegionEditor.Controllers
             {
                 CustomRegionGroupViewModel = ViewModelConverter.GetView(updatedCustomRegionGroupModel),
                 IsEditing = true,
+                ExistingRegion = true
             };
 
             return PartialView("_EditRegion", editViewModel);
         }
-
-        //[HttpPost]
-        //public ActionResult SaveChanges(string name, string description, string regionId)
-        //{
-        //    if (string.IsNullOrEmpty(regionId))
-        //    {
-        //        regionId = this.CustomRegionGroupRepository.AddNewRegion(name, description).Id.ToString();
-        //    }
-        //    else
-        //    {
-        //        this.CustomRegionGroupRepository.ChangeDetails(name, description, regionId);
-        //    }
-
-        //    var foundRegion = this.CustomRegionGroupRepository.FindById(regionId);
-        //    if (foundRegion.CustomRegionEntries != null)
-        //    {
-        //        foundRegion.CustomRegionEntries = foundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId)
-        //                                                                                    .ThenBy(a => a.City?.CityName)
-        //                                                                                    .ThenBy(a => a.State?.StateName)
-        //                                                                                    .ThenBy(a => a.Country?.CountryName)
-        //                                                                                    .ThenBy(a => a.Region?.RegionName).ToList();
-        //    }
-        //    else
-        //    {
-        //        foundRegion = new CustomRegionGroupModel()
-        //        {
-        //            Name = name,
-        //            CustomRegionEntries = new List<CustomRegionEntryModel>()
-        //        };
-        //    }
-        //    var contentViewModel = new ContentViewModel
-        //    {
-        //        EditViewModel = new EditViewModel()
-        //        {
-        //            IsEditing = true,
-        //            ExistingRegion = true,
-        //            CustomRegionGroupViewModel = ViewModelConverter.GetView(foundRegion)
-        //        },
-        //    };
-        //    this.CustomRegionGroupRepository.UpdateList(foundRegion.CustomRegionEntries, regionId);
-        //    return PartialView("_Content", contentViewModel);
-        //}
 
         [HttpPost]
         public ActionResult SaveChanges(CustomRegionGroupModel customRegionGroupModel)

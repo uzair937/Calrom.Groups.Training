@@ -462,6 +462,8 @@ namespace CustomRegionEditor.Database.Repositories
         public void UpdateList(IList<CustomRegionEntryModel> list, string regionId)
         {
             this.CustomRegionGroupTempRepo.Update(list, regionId);
+            var entity = this.CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id.ToString() == regionId);
+            AddOrUpdate(entity);
         }
     }
 }

@@ -190,6 +190,18 @@ function addEntry(e) {
     }
 } //picks largest entry type, calls onSearch on finish to refresh list
 
+function AddRegionViewModel(value, type, regionId) {
+    this.Entry = value;
+    this.Type = type;
+    this.RegionId = regionId;
+}
+
+function RegionViewModel(name, description, regionId) {
+    this.Name = name;
+    this.Description = description;
+    this.RegionId = regionId;
+}
+
 function addRegionEntry(url, value, type, regionId) {
     var newClass = new AddRegionViewModel(value, type, regionId);
 
@@ -200,7 +212,7 @@ function addRegionEntry(url, value, type, regionId) {
 
         success: function (data) {
             if (data) {
-                $(".edit-info-container").html(data);      //replaces all content/ search and edit
+                $(".container").html(data);      //replaces all content/ search and edit
                 addEditListeners();
             }
         }
@@ -225,18 +237,6 @@ function saveChanges2(e) {
         }
     });
 }   //saves new name and description for region
-
-function AddRegionViewModel(value, type, regionId) {
-    this.Entry = value;
-    this.Type = type;
-    this.RegionId = regionId;
-}
-
-function RegionViewModel(name, description, regionId) {
-    this.Name = name;
-    this.Description = description;
-    this.RegionId = regionId;
-}
 
 function saveChanges(e) {
     debugger;
