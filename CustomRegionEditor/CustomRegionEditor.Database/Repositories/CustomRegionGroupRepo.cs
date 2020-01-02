@@ -190,8 +190,19 @@ namespace CustomRegionEditor.Database.Repositories
         {
             var customRegionGroupModel = new CustomRegionGroupModel();
 
-            customRegionGroupModel =
-                EagerLoader.LoadEntities(CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(id)));
+            if (this.CustomRegionGroupTempRepo.List().Count == 0)
+            {
+                using (var dbSession = SessionManager.OpenSession())
+                {
+                    customRegionGroupModel = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id));
+                }
+            }
+            else
+            {
+                customRegionGroupModel =
+                               EagerLoader.LoadEntities(CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(id)));
+            }
+
 
 
             return customRegionGroupModel;

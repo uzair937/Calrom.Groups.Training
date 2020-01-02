@@ -213,11 +213,11 @@ namespace CustomRegionEditor.Controllers
                 }
             };
 
-            var foundRegion = this.CustomRegionGroupRepository.FindById(addRegionViewModel.RegionId);
-            //if (foundRegion == null)
-            //{
-            //    foundRegion = this.CustomRegionGroupRepository.FindById(addRegionViewModel.RegionId);
-            //}
+            var foundRegion = this.CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(addRegionViewModel.RegionId));
+            if (foundRegion == null)
+            {
+                foundRegion = this.CustomRegionGroupRepository.FindById(addRegionViewModel.RegionId);
+            }
             foundRegion.CustomRegionEntries = foundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId)
                 .ThenBy(a => a.City?.CityName)
                 .ThenBy(a => a.State?.StateName)
