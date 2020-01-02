@@ -73,6 +73,13 @@ namespace CustomRegionEditor.Web.Converters
             return newView;
         }
 
+        public CustomRegionGroupModel GetView(CustomRegionGroupViewModel customRegionGroupViewModel)
+        {
+            var newView = AutoMapperConfiguration.GetInstance<CustomRegionGroupModel>(customRegionGroupViewModel);
+            
+            return newView;
+        }
+
         public List<CustomRegionGroupViewModel> GetView(List<CustomRegionGroupModel> customRegionGroupViewModels)
         {
             var newList = new List<CustomRegionGroupViewModel>();

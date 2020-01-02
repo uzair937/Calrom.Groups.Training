@@ -17,8 +17,8 @@
                             <th scope="col">Save Changes</th>
                         </tr>
                     </thead>
-                    @if (!Model.ExistingRegion)
-                    {
+                    @*@if (!Model.ExistingRegion)
+                    {*@
                         <tbody>
                             <tr>
                                 <td>@Html.TextBoxFor(m => m.CustomRegionGroupViewModel.Name, new { placeholder = "Set Name", @class = "model-name form-control", value = Model.CustomRegionGroupViewModel.Name })</td>
@@ -31,8 +31,8 @@
                                 <td><input type="button" value="Save" class="save-changes-button btn btn-dark" /></td>
                             </tr>
                         </tbody>
-                    }
-                    else if (Model.ExistingRegion)
+                    @*}*@
+                    @*else if (Model.ExistingRegion)
                     {
                         <tbody>
                             <tr>
@@ -46,7 +46,7 @@
                                 <td><input type="button" value="Save" class="save-changes-button btn btn-dark" /></td>
                             </tr>
                         </tbody>
-                    }
+                    }*@
                 </table>
             </div>
 

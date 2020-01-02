@@ -29,7 +29,7 @@ namespace CustomRegionEditor.Database.Repositories
 
         public void DestroySession()
         {
-            throw new NotImplementedException();
+            _customRegionGroupModels.Clear();
         }
 
         public IList<CustomRegionGroupModel> List()

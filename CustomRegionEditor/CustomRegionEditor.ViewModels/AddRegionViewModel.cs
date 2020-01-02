@@ -10,6 +10,6 @@ namespace CustomRegionEditor.ViewModels
     {
         public string Entry { get; set; }
         public string Type { get; set; }
-        public Guid RegionId { get; set; }
+        public string RegionId { get; set; }
     }
 }

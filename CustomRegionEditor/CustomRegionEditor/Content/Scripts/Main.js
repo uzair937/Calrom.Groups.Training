@@ -114,7 +114,7 @@ function refreshEdit(e) {
         $.ajax({
             type: "POST",
             url: url,
-            data: JSON.stringify(newClass),
+            data: newClass,
             success: function (data, status, xhr) {
                 if (data) {
                     $(".content-container").html(data);      //replaces all content/ search and edit
@@ -200,10 +200,10 @@ function AddRegionViewModel(value, type, regionId) {
     this.RegionId = regionId;
 }
 
-function RegionViewModel(name, description, regionId) {
+function CustomRegionModel(name, description, regionId) {
+    this.Id = regionId;
     this.Name = name;
     this.Description = description;
-    this.RegionId = regionId;
 }
 
 function addRegionEntry(url, value, type, regionId) {
@@ -212,7 +212,7 @@ function addRegionEntry(url, value, type, regionId) {
     $.ajax({
         type: "POST",
         url: url,
-        data: JSON.stringify(newClass),
+        data: newClass,
 
         success: function (data) {
             if (data) {
@@ -243,18 +243,17 @@ function saveChanges2(e) {
 }   //saves new name and description for region
 
 function saveChanges(e) {
-    debugger;
     e.preventDefault();
     e.stopPropagation();
     var newName = $(".model-name").val();
     var newDescription = $(".model-description").val();
     var regionId = $(".model-id").attr("modelId");
     var url = $(".info-table-header").attr("data-savechangesurl");
-    var newClass = new RegionViewModel(newName, newDescription, regionId);
+    var newClass = new CustomRegionModel(newName, newDescription, regionId);
     $.ajax({
         type: "POST",
         url: url,
-        data: JSON.stringify(newClass),
+        data: newClass,
         success: function (data, status, xhr) {
             if (data) {
                 $(".content-container").html(data);      //replaces all content/ search and edit

@@ -189,11 +189,10 @@ namespace CustomRegionEditor.Database.Repositories
         public CustomRegionGroupModel FindById(string id)
         {
             var customRegionGroupModel = new CustomRegionGroupModel();
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                customRegionGroupModel =
-                    EagerLoader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id)));
-            }
+
+            customRegionGroupModel =
+                EagerLoader.LoadEntities(CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(id)));
+
 
             return customRegionGroupModel;
         }
@@ -231,8 +230,7 @@ namespace CustomRegionEditor.Database.Repositories
             switch (type) //changed from if elses to a switch cus cleaner
             {
                 case "airport":
-                    customRegionEntryModel.Airport =
-                        this.AirportRepo.FindByName(entry); //needs to add a reference to the object for each
+                    customRegionEntryModel.Airport = this.AirportRepo.FindByName(entry); //needs to add a reference to the object for each
                     if (customRegionEntryModel.Airport != null) validEntry = true;
                     break;
                 case "city":
@@ -396,30 +394,26 @@ namespace CustomRegionEditor.Database.Repositories
 
         public void ChangeDetails(CustomRegionGroupModel customRegionGroupModel)
         {
-            using (var dbSession = SessionManager.OpenSession())
+            var customRegion = this.CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == customRegionGroupModel.Id);
+            if (customRegion == null)
             {
-                var customRegion = dbSession.Get<CustomRegionGroupModel>(customRegionGroupModel.Id);
-                if (customRegion == null)
+                customRegion = new CustomRegionGroupModel()
                 {
-                    customRegion = new CustomRegionGroupModel()
-                    {
-                        Name = customRegionGroupModel.Name,
-                        Description = customRegionGroupModel.Description,
-                        Id = customRegionGroupModel.Id,
-                        CustomRegionEntries = new List<CustomRegionEntryModel>()
-                    };
-                }
-                if (!string.IsNullOrEmpty(customRegionGroupModel.Name))
-                {
-                    customRegion.Name = customRegionGroupModel.Name;
-                }
-                if (!string.IsNullOrEmpty(customRegionGroupModel.Description))
-                {
-                    customRegion.Description = customRegionGroupModel.Description;
-                }
-                dbSession.SaveOrUpdate(customRegion);
-                dbSession.Flush();
+                    Name = customRegionGroupModel.Name,
+                    Description = customRegionGroupModel.Description,
+                    Id = customRegionGroupModel.Id,
+                    CustomRegionEntries = new List<CustomRegionEntryModel>()
+                };
             }
+            if (!string.IsNullOrEmpty(customRegionGroupModel.Name))
+            {
+                customRegion.Name = customRegionGroupModel.Name;
+            }
+            if (!string.IsNullOrEmpty(customRegionGroupModel.Description))
+            {
+                customRegion.Description = customRegionGroupModel.Description;
+            }
+
             //AddOrUpdate(customRegion);
         } //updates region group details
 
@@ -456,7 +450,6 @@ namespace CustomRegionEditor.Database.Repositories
         {
             this.CustomRegionGroupTempRepo.Update(list, regionId);
             var entity = this.CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id.ToString() == regionId);
-            AddOrUpdate(entity);
         }
     }
 }

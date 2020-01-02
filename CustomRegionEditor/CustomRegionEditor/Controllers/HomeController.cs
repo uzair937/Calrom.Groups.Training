@@ -15,7 +15,7 @@ namespace CustomRegionEditor.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(ICustomRegionGroupRepository customRegionGroupRepository, ICustomRegionEntryRepository customRegionEntryRepository, IViewModelConverter ViewModelConverter, ISubRegionRepo<CityModel> cityRepo, ISubRegionRepo<StateModel> stateRepo, ISubRegionRepo<CountryModel> countryRepo, ISubRegionRepo<RegionModel> regionRepo)
+        public HomeController(ICustomRegionGroupRepository customRegionGroupRepository, ICustomRegionEntryRepository customRegionEntryRepository, IViewModelConverter ViewModelConverter, ISubRegionRepo<CityModel> cityRepo, ISubRegionRepo<StateModel> stateRepo, ISubRegionRepo<CountryModel> countryRepo, ISubRegionRepo<RegionModel> regionRepo, ICustomRegionGroupTempRepo customRegionGroupTempRepo)
         {
             this.StateRepo = stateRepo;
             this.CityRepo = cityRepo;
@@ -24,6 +24,7 @@ namespace CustomRegionEditor.Controllers
             this.CustomRegionGroupRepository = customRegionGroupRepository;
             this.ViewModelConverter = ViewModelConverter;
             this.CustomRegionEntryRepository = customRegionEntryRepository;
+            this.CustomRegionGroupTempRepo = customRegionGroupTempRepo;
             SetupAutoCompleteList();
         }
 
@@ -50,6 +51,7 @@ namespace CustomRegionEditor.Controllers
 
         public ICustomRegionGroupRepository CustomRegionGroupRepository { get; private set; }
         public ICustomRegionEntryRepository CustomRegionEntryRepository { get; private set; }
+        public ICustomRegionGroupTempRepo CustomRegionGroupTempRepo { get; private set; }
 
         [HttpPost]
         public ActionResult Search(string searchTerm, string filter)
@@ -111,7 +113,7 @@ namespace CustomRegionEditor.Controllers
         [HttpPost]
         public ActionResult AddRegion(AddRegionViewModel addRegionViewModel)
         {
-            var updatedCustomRegionGroupModel = this.CustomRegionGroupRepository.AddByType(addRegionViewModel.Entry, addRegionViewModel.Type, addRegionViewModel.RegionId.ToString());
+            var updatedCustomRegionGroupModel = this.CustomRegionGroupRepository.AddByType(addRegionViewModel.Entry, addRegionViewModel.Type, addRegionViewModel.RegionId);
 
             var editViewModel = new EditViewModel()
             {
@@ -135,7 +137,7 @@ namespace CustomRegionEditor.Controllers
                 this.CustomRegionGroupRepository.ChangeDetails(customRegionGroupModel);
             }
 
-            var foundRegion = this.CustomRegionGroupRepository.FindById(customRegionGroupModel.Id.ToString());
+            var foundRegion = this.CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == customRegionGroupModel.Id);
             if (foundRegion.CustomRegionEntries != null)
             {
                 foundRegion.CustomRegionEntries = foundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId)
@@ -163,6 +165,11 @@ namespace CustomRegionEditor.Controllers
                 },
             };
             this.CustomRegionGroupRepository.UpdateList(foundRegion.CustomRegionEntries, customRegionGroupModel.Id.ToString());
+            var endRegion = this.CustomRegionGroupTempRepo.List()
+                .FirstOrDefault(b => b.Id == customRegionGroupModel.Id);
+            endRegion.Id = Guid.Empty;
+            this.CustomRegionGroupRepository.AddOrUpdate(endRegion);
+            this.CustomRegionGroupTempRepo.DestroySession();
             return PartialView("_Content", contentViewModel);
         }
 
@@ -184,11 +191,19 @@ namespace CustomRegionEditor.Controllers
                     CustomRegionGroupViewModel = customRegionGroupViewModel
                 },
             };
+            var customRegion = new CustomRegionGroupModel
+            {
+                Id = Guid.Parse(customRegionGroupViewModel.ID),
+                Name = customRegionGroupViewModel.Name,
+                Description = customRegionGroupViewModel.Description,
+                CustomRegionEntries = new List<CustomRegionEntryModel>()
+            };
+            this.CustomRegionGroupTempRepo.Add(customRegion);
             return PartialView("_Content", contentViewModel);
         }
 
         [HttpPost]
-        public ActionResult EditRegionGroup(string regionId)
+        public ActionResult EditRegionGroup(AddRegionViewModel addRegionViewModel)
         {
             var contentViewModel = new ContentViewModel
             {
@@ -197,18 +212,18 @@ namespace CustomRegionEditor.Controllers
                     IsSearching = true,
                 }
             };
-            if (string.IsNullOrEmpty(regionId))
-            {
-                return PartialView("_Content", contentViewModel);
-            }
 
-            var foundRegion = this.CustomRegionGroupRepository.FindById(regionId);
+            var foundRegion = this.CustomRegionGroupRepository.FindById(addRegionViewModel.RegionId);
+            //if (foundRegion == null)
+            //{
+            //    foundRegion = this.CustomRegionGroupRepository.FindById(addRegionViewModel.RegionId);
+            //}
             foundRegion.CustomRegionEntries = foundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.AirportId)
                 .ThenBy(a => a.City?.CityName)
                 .ThenBy(a => a.State?.StateName)
                 .ThenBy(a => a.Country?.CountryName)
                 .ThenBy(a => a.Region?.RegionName).ToList();
-            this.CustomRegionGroupRepository.UpdateList(foundRegion.CustomRegionEntries, regionId);
+            this.CustomRegionGroupRepository.UpdateList(foundRegion.CustomRegionEntries, addRegionViewModel.RegionId);
             contentViewModel = new ContentViewModel
             {
                 EditViewModel = new EditViewModel()
