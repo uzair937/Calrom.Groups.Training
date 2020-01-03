@@ -9,6 +9,6 @@ namespace CustomRegionEditor.Database.Interfaces
         List<CustomRegionGroupModel> GetSearchResults(string searchTerm, string filter);
         void AddByType(string entry, string type, string regionId);
         void ChangeDetails(string name, string description, string regionId);
-        CustomRegionGroupModel AddNewRegion(string name, string description);
+        CustomRegionGroupModel AddNewRegion(CustomRegionGroupModel customRegionGroupModel);
     }
 }

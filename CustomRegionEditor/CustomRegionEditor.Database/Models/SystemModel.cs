@@ -8,7 +8,7 @@ namespace CustomRegionEditor.Database.Models
 {
     public class SystemModel
     {
-        public virtual string SystemId { get; set; }
+        public virtual string Id { get; set; }
         public virtual string InternalSystemName { get; set; }
         public virtual string ExternalSystemName { get; set; }
         public virtual string SystemDescription { get; set; }

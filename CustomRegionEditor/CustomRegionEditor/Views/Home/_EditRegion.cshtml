@@ -5,7 +5,6 @@
     <div class="edit-container flex-column">
         @if (Model.IsEditing)
         {
-            <div class="alert-container"></div>
             <div class="model-id" modelId="@Model.CustomRegionGroupViewModel.ID" />
             <table class="info-table-header table" data-savechangesurl="@Url.Action("SaveChanges", "Home")">
                 <thead class="thead-dark">
@@ -25,53 +24,50 @@
                     </tr>
                 </tbody>
             </table>
-            if (Model.ExistingRegion)
-            {
-                <div class="edit-info-container">
-                    <table class="table-header table" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")">
+            <div class="edit-info-container">
+                <table class="table-header table" data-deleteurl="@Url.Action("DeleteRegion", "Home")" data-editurl="@Url.Action("EditRegionGroup", "Home")" data-deleteentryurl="@Url.Action("DeleteEntry", "Home")" data-addurl="@Url.Action("AddRegion", "Home")">
 
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Region</th>
-                                <th scope="col">Country</th>
-                                <th scope="col">State</th>
-                                <th scope="col">City</th>
-                                <th scope="col">Airport</th>
-                                <th scope="col">Remove</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var entry in Model.CustomRegionGroupViewModel.CustomRegions)
-                            {
-
-                                <tr class="single-region-entry" entryId="@entry.ID">
-                                    <td>@entry.Region.Name</td>
-                                    <td>@entry.Country.Name</td>
-                                    <td>@entry.State.Name</td>
-                                    <td>@entry.City.Name</td>
-                                    <td>@entry.Airport.Name</td>
-                                    <td>
-                                        <input type="button" value="Delete" class="delete-button btn btn-dark" />
-                                    </td>
-                                </tr>
-
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <table>
-                    <tfoot>
-                        <tr class="add-region-row" data-autourl="@Url.Action("AutoComplete", "Home")">
-                            <td><input type="text" placeholder="Region" class="region-text-box new-entry-input form-control" name="region-box" autotype="region" /><div class="region-autocomplete"></div></td>
-                            <td><input type="text" placeholder="Country" class="country-text-box new-entry-input form-control" name="country-box" autotype="country" /><div class="country-autocomplete"></div></td>
-                            <td><input type="text" placeholder="State" class="state-text-box new-entry-input form-control" name="state-box" autotype="state" /><div class="state-autocomplete"></div></td>
-                            <td><input type="text" placeholder="City" class="city-text-box new-entry-input form-control" name="city-box" autotype="city" /><div class="city-autocomplete"></div></td>
-                            <td><input type="text" placeholder="Airport" class="airport-text-box new-entry-input form-control" name="airport-box" autotype="airport" /><div class="airport-autocomplete"></div></td>
-                            <td><input type="button" value="Add" class="add-button btn btn-dark" /></td>
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Region</th>
+                            <th scope="col">Country</th>
+                            <th scope="col">State</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Airport</th>
+                            <th scope="col">Remove</th>
                         </tr>
-                    </tfoot>
+                    </thead>
+                    <tbody>
+                        @foreach (var entry in Model.CustomRegionGroupViewModel.CustomRegions)
+                        {
+
+                            <tr class="single-region-entry" entryId="@entry.ID" entryValue="@entry.Value" entryName="@entry.Name">
+                                <td>@entry.Region.Name</td>
+                                <td>@entry.Country.Name</td>
+                                <td>@entry.State.Name</td>
+                                <td>@entry.City.Name</td>
+                                <td>@entry.Airport.Name</td>
+                                <td>
+                                    <input type="button" value="Delete" class="delete-button btn btn-dark" />
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
                 </table>
-            }
+            </div>
+            <table>
+                <tfoot>
+                    <tr class="add-region-row" data-autourl="@Url.Action("AutoComplete", "Home")">
+                        <td><input type="text" placeholder="Region" class="region-text-box new-entry-input form-control" name="region-box" autotype="region" /><div class="region-autocomplete"></div></td>
+                        <td><input type="text" placeholder="Country" class="country-text-box new-entry-input form-control" name="country-box" autotype="country" /><div class="country-autocomplete"></div></td>
+                        <td><input type="text" placeholder="State" class="state-text-box new-entry-input form-control" name="state-box" autotype="state" /><div class="state-autocomplete"></div></td>
+                        <td><input type="text" placeholder="City" class="city-text-box new-entry-input form-control" name="city-box" autotype="city" /><div class="city-autocomplete"></div></td>
+                        <td><input type="text" placeholder="Airport" class="airport-text-box new-entry-input form-control" name="airport-box" autotype="airport" /><div class="airport-autocomplete"></div></td>
+                        <td><input type="button" value="Add" class="add-button btn btn-dark" /></td>
+                    </tr>
+                </tfoot>
+            </table>
         }
     </div>
 </div>

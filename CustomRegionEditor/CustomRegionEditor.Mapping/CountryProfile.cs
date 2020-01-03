@@ -15,8 +15,8 @@ namespace CustomRegionEditor.EntityMapper
         public CountryProfile()
         {
             CreateMap<CountryModel, CountryViewModel>()
-                .ForMember(c => c.ID, m => m.MapFrom(s => s.CountryId))
-                .ForMember(c => c.Name, m => m.MapFrom(s => s.CountryName));
+                .ForMember(c => c.ID, m => m.MapFrom(s => s.Id))
+                .ForMember(c => c.Name, m => m.MapFrom(s => s.Name));
         }
     }
 }

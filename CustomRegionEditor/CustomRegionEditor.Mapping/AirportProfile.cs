@@ -15,8 +15,8 @@ namespace CustomRegionEditor.EntityMapper
         public AirportProfile()
         {
             CreateMap<AirportModel, AirportViewModel>()
-                .ForMember(c => c.ID, m => m.MapFrom(s => s.AirportId))
-                .ForMember(c => c.Name, m => m.MapFrom(s => s.AirportName));
+                .ForMember(c => c.ID, m => m.MapFrom(s => s.Id))
+                .ForMember(c => c.Name, m => m.MapFrom(s => s.Name));
         }
     }
 }

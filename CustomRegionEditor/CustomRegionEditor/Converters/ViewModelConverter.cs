@@ -23,6 +23,8 @@ namespace CustomRegionEditor.Web.Converters
                 newView.State = new StateViewModel { Name = string.Empty };
                 newView.City = new CityViewModel { Name = string.Empty };
                 newView.Airport = new AirportViewModel { Name = string.Empty };
+                newView.Value = customRegionEntryModel.Region.Id;
+                newView.Name = customRegionEntryModel.Region.Name;
             }
             else if (customRegionEntryModel.Country != null)
             {
@@ -31,6 +33,8 @@ namespace CustomRegionEditor.Web.Converters
                 newView.State = new StateViewModel { Name = string.Empty };
                 newView.City = new CityViewModel { Name = string.Empty };
                 newView.Airport = new AirportViewModel { Name = string.Empty };
+                newView.Value = customRegionEntryModel.Country.Id;
+                newView.Name = customRegionEntryModel.Country.Name;
             }
             else if (customRegionEntryModel.State != null)
             {
@@ -39,6 +43,8 @@ namespace CustomRegionEditor.Web.Converters
                 newView.Region = new RegionViewModel { Name = string.Empty };
                 newView.City = new CityViewModel { Name = string.Empty };
                 newView.Airport = new AirportViewModel { Name = string.Empty };
+                newView.Value = customRegionEntryModel.State.Id;
+                newView.Name = customRegionEntryModel.State.Name;
             }
             else if (customRegionEntryModel.City != null)
             {
@@ -47,6 +53,8 @@ namespace CustomRegionEditor.Web.Converters
                 newView.State = new StateViewModel { Name = string.Empty };
                 newView.Region = new RegionViewModel { Name = string.Empty };
                 newView.Airport = new AirportViewModel { Name = string.Empty };
+                newView.Value = customRegionEntryModel.City.Id;
+                newView.Name = customRegionEntryModel.City.Name;
             }
             else if (customRegionEntryModel.Airport != null)
             {
@@ -55,6 +63,8 @@ namespace CustomRegionEditor.Web.Converters
                 newView.State = new StateViewModel { Name = string.Empty };
                 newView.City = new CityViewModel { Name = string.Empty };
                 newView.Region = new RegionViewModel { Name = string.Empty };
+                newView.Value = customRegionEntryModel.Airport.Id;
+                newView.Name = customRegionEntryModel.Airport.Name;
             }
             return newView;
         }

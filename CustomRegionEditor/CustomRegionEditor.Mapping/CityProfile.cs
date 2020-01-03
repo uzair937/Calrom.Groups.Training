@@ -15,8 +15,8 @@ namespace CustomRegionEditor.EntityMapper
         public CityProfile()
         {
             CreateMap<CityModel, CityViewModel>()
-                .ForMember(c => c.ID, m => m.MapFrom(s => s.CityId))
-                .ForMember(c => c.Name, m => m.MapFrom(s => s.CityName));
+                .ForMember(c => c.ID, m => m.MapFrom(s => s.Id))
+                .ForMember(c => c.Name, m => m.MapFrom(s => s.Name));
         }
     }
 }

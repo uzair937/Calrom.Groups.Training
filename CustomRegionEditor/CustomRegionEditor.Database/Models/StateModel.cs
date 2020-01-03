@@ -8,9 +8,9 @@ namespace CustomRegionEditor.Database.Models
 {
     public class StateModel
     {
-        public virtual string StateId { get; set; }
+        public virtual string Id { get; set; }
         public virtual CountryModel Country { get; set; }
-        public virtual string StateName { get; set; }
+        public virtual string Name { get; set; }
         public virtual int DisplayOrder { get; set; }
         public virtual int RowVersion { get; set; }
         public virtual Guid LtoId { get; set; }

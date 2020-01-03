@@ -2,8 +2,9 @@
 @model ContentViewModel
 
 
-<div class="content-model-container">
-    @Html.Partial("_EditRegion", Model.EditViewModel)
-    @Html.Partial("_SearchRegion", Model.SearchViewModel)
-    @Html.Partial("_SubRegionView", Model.SubRegionViewModel)
-</div>
+    <div class="content-model-container flex-column">
+        <div class="alert-container"></div>
+        @Html.Partial("_EditRegion", Model.EditViewModel)
+        @Html.Partial("_SearchRegion", Model.SearchViewModel)
+        @Html.Partial("_SubRegionView", Model.SubRegionViewModel)
+    </div>

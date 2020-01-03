@@ -25,10 +25,10 @@ namespace CustomRegionEditor.Database.Repositories
             var cityModel = new CityModel();
             using (var dbSession = SessionManager.OpenSession())
             {
-                cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.CityName == (entry));
+                cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.Name == (entry));
                 if (cityModel == null)
                 {
-                    cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.CityId == (entry));
+                    cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.Id == (entry));
                 }
                 return LazyLoader.LoadEntities(cityModel);
             }
@@ -41,7 +41,7 @@ namespace CustomRegionEditor.Database.Repositories
             if (city == null) return CustomRegionEntries;
             using (var dbSession = SessionManager.OpenSession())
             {
-                var airports = dbSession.Query<AirportModel>().Where(c => c.City.CityId == city.CityId).ToList();
+                var airports = dbSession.Query<AirportModel>().Where(c => c.City.Id == city.Id).ToList();
 
                 foreach (var airport in airports)
                 {

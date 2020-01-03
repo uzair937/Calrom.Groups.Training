@@ -28,8 +28,8 @@ namespace CustomRegionEditor.Database.Repositories
             var stateModel = new StateModel();
             using (var dbSession = SessionManager.OpenSession())
             {
-                stateModel = dbSession.Query<StateModel>().FirstOrDefault(a => a.StateName == (entry));
-                if (stateModel == null) stateModel = dbSession.Query<StateModel>().FirstOrDefault(a => a.StateId == (entry));
+                stateModel = dbSession.Query<StateModel>().FirstOrDefault(a => a.Name == (entry));
+                if (stateModel == null) stateModel = dbSession.Query<StateModel>().FirstOrDefault(a => a.Id == (entry));
                 return LazyLoader.LoadEntities(stateModel);
             }
 
@@ -41,7 +41,7 @@ namespace CustomRegionEditor.Database.Repositories
             if (state == null) return CustomRegionEntries;
             using (var dbSession = SessionManager.OpenSession())
             {
-                var cities = dbSession.Query<CityModel>().Where(c => c.State.StateId == state.StateId).ToList();
+                var cities = dbSession.Query<CityModel>().Where(c => c.State.Id == state.Id).ToList();
 
                 foreach (var city in cities)
                 {

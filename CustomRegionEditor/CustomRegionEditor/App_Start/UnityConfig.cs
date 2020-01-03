@@ -8,6 +8,7 @@ using CustomRegionEditor.Web.Converters;
 using CustomRegionEditor.Web.Interfaces;
 using System.Web.Mvc;
 using Unity;
+using Unity.Injection;
 using Unity.Lifetime;
 using Unity.Mvc5;
 
@@ -15,6 +16,8 @@ namespace CustomRegionEditor.Web
 {
     public static class UnityConfig
     {
+        public static InjectionMember[] PerRequestLifetimeManager { get; private set; }
+
         public static void RegisterComponents()
         {
 			var container = new UnityContainer();
@@ -34,6 +37,8 @@ namespace CustomRegionEditor.Web
             
             container.RegisterType<ISessionManager, NHibernateSessionManager>();
 
+            container.RegisterSingleton<ISessionRegionGroupRepository, SessionRegionGroupRepo>(PerRequestLifetimeManager);
+
             container.RegisterSingleton<ISessionFactoryManager, NHibernateSessionFactoryManager>();
 
             container.RegisterSingleton<ISubRegionRepo<RegionModel>, RegionRepo>();
@@ -45,7 +50,7 @@ namespace CustomRegionEditor.Web
             container.RegisterSingleton<ISubRegionRepo<CityModel>,  CityRepo>();
 
             container.RegisterSingleton<ISubRegionRepo<AirportModel>, AirportRepo>();
-            
+
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

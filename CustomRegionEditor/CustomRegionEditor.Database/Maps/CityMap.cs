@@ -13,8 +13,8 @@ namespace CustomRegionEditor.Database.Maps
         public CityMap()
         {
             Table("dbo.REF_CTY_city");
-            Id(i => i.CityId).Column("cty_id");
-            Map(i => i.CityName).Column("city_name");
+            Id(i => i.Id).Column("cty_id");
+            Map(i => i.Name).Column("city_name");
             References(i => i.Country).Column("cnt_id").Cascade.All();
             Map(i => i.RowVersion).Column("row_version");
             References(i => i.State).Column("sta_id").Cascade.All();

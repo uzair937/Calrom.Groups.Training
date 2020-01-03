@@ -28,10 +28,10 @@ namespace CustomRegionEditor.Database.Repositories
             var countryModel = new CountryModel();
             using (var dbSession = SessionManager.OpenSession())
             {
-                countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.CountryName == (entry));
+                countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.Name == (entry));
                 if (countryModel == null)
                 {
-                    countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.CountryId == (entry));
+                    countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.Id == (entry));
                 }
                 
                 return LazyLoader.LoadEntities(countryModel);
@@ -46,7 +46,7 @@ namespace CustomRegionEditor.Database.Repositories
             if (country == null) return CustomRegionEntries;
             using (var dbSession = SessionManager.OpenSession())
             {
-                var cities = dbSession.Query<CityModel>().Where(c => c.Country.CountryId == country.CountryId).ToList();
+                var cities = dbSession.Query<CityModel>().Where(c => c.Country.Id == country.Id).ToList();
 
                 if (cities.Count > 0)
                 {
@@ -60,7 +60,7 @@ namespace CustomRegionEditor.Database.Repositories
                     }
                 }
 
-                var states = dbSession.Query<StateModel>().Where(s => s.Country.CountryId == country.CountryId).ToList();
+                var states = dbSession.Query<StateModel>().Where(s => s.Country.Id == country.Id).ToList();
 
                 if (states.Count > 0)
                 {

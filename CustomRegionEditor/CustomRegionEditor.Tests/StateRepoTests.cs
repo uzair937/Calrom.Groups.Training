@@ -19,7 +19,7 @@ namespace CustomRegionEditor.Test.Repositories
         public void Given_AnExistingStateName_Then_FindStateByName_Should_ReturnExistingState() {
             // Arrange
             const string stateName = "Africalifornia";
-            var stateModel = new StateModel { StateName = stateName };
+            var stateModel = new StateModel { Name = stateName };
             var stateModels = new List<StateModel> { stateModel };
 
             var mockCityRepo = new Mock<ISubRegionRepo<CityModel>>();
@@ -40,7 +40,7 @@ namespace CustomRegionEditor.Test.Repositories
 
             // Assert
             Assert.IsNotNull(stateFound, "We should have received an state, but instead received null.");
-            Assert.AreEqual(stateName, stateFound.StateName, "The found state name should match");
+            Assert.AreEqual(stateName, stateFound.Name, "The found state name should match");
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession Once");
             mockSession.Verify(m => m.Query<StateModel>(), Times.Once, "Should have queried the states once");
             mockEagerLoader.Verify(m => m.LoadEntities(stateModel), Times.Once, "Should have called load entities with the provided state");
@@ -51,7 +51,7 @@ namespace CustomRegionEditor.Test.Repositories
         {
             // Arrange
             const string stateName = "Africalifornia";
-            var stateModel = new StateModel { StateName = stateName };
+            var stateModel = new StateModel { Name = stateName };
             var stateModels = new List<StateModel> { stateModel };
 
             var mockCityRepo = new Mock<ISubRegionRepo<CityModel>>();
@@ -85,13 +85,13 @@ namespace CustomRegionEditor.Test.Repositories
             const string cityName = "Toto";
             const string airportName = "Rains";
 
-            var stateModel = new StateModel { StateName = stateName, StateId = "AFR" };
+            var stateModel = new StateModel { Name = stateName, Id = "AFR" };
             var stateModels = new List<StateModel> { stateModel };
             
-            var cityModel = new CityModel { CityName = cityName, State = stateModel };
+            var cityModel = new CityModel { Name = cityName, State = stateModel };
             var cityModels = new List<CityModel> { cityModel };
             
-            var airportModel = new AirportModel { AirportName = airportName };
+            var airportModel = new AirportModel { Name = airportName };
 
             var entryModel = new CustomRegionEntryModel() { Airport = airportModel };
             var entryModels = new List<CustomRegionEntryModel>() { entryModel };
@@ -120,7 +120,7 @@ namespace CustomRegionEditor.Test.Repositories
             };
             // Assert
             Assert.IsNotNull(entriesFound, "We should have received a country and city.");
-            Assert.AreEqual(entriesFound[1].Airport.AirportName, idealResult[1].Airport.AirportName);
+            Assert.AreEqual(entriesFound[1].Airport.Name, idealResult[1].Airport.Name);
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession once.");
             mockSession.Verify(m => m.Query<CityModel>(), Times.Once, "Should have queried the countries once.");
             mockEagerLoader.Verify(m => m.LoadEntities(stateModel), Times.Never, "Should return the state model.");
@@ -134,16 +134,16 @@ namespace CustomRegionEditor.Test.Repositories
             const string cityName = "Toto";
             const string airportName = "Rains";
 
-            var fakeState = new StateModel { StateName = "Dr Pepper", StateId = "PEP" };
+            var fakeState = new StateModel { Name = "Dr Pepper", Id = "PEP" };
 
 
-            var stateModel = new StateModel { StateName = stateName, StateId = "AFR" };
+            var stateModel = new StateModel { Name = stateName, Id = "AFR" };
             var stateModels = new List<StateModel> { stateModel };
 
-            var cityModel = new CityModel { CityName = cityName, State = stateModel };
+            var cityModel = new CityModel { Name = cityName, State = stateModel };
             var cityModels = new List<CityModel> { cityModel };
 
-            var airportModel = new AirportModel { AirportName = airportName };
+            var airportModel = new AirportModel { Name = airportName };
 
             var entryModel = new CustomRegionEntryModel() { Airport = airportModel };
             var entryModels = new List<CustomRegionEntryModel>() { entryModel };

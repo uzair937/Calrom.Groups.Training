@@ -13,8 +13,8 @@ namespace CustomRegionEditor.Database.Maps
         public CountryMap()
         {
             Table("dbo.REF_CNT_country");
-            Id(i => i.CountryId).Column("cnt_id");
-            Map(i => i.CountryName).Column("country_name");
+            Id(i => i.Id).Column("cnt_id");
+            Map(i => i.Name).Column("country_name");
             Map(i => i.IsoCode).Column("iso_code");
             Map(i => i.IsoNumber).Column("iso_number");
             References(i => i.Region).Column("reg_id").Cascade.All();

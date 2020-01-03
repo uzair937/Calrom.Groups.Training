@@ -19,7 +19,7 @@ namespace CustomRegionEditor.Test.Repositories
         public void Given_AnExistingAirportName_Then_FindAirportByName_Should_ReturnExistingAirport() {
             // Arrange
             const string airportName = "Lahore";
-            var airportModel = new AirportModel { AirportName = airportName };
+            var airportModel = new AirportModel { Name = airportName };
             var airportModels = new List<AirportModel> { airportModel };
             
             var mockSession = new Mock<ISession>();
@@ -39,7 +39,7 @@ namespace CustomRegionEditor.Test.Repositories
 
             // Assert
             Assert.IsNotNull(airportFound, "We should have received an airport, but instead received null.");
-            Assert.AreEqual(airportName, airportFound.AirportName, "The found airport name should match");
+            Assert.AreEqual(airportName, airportFound.Name, "The found airport name should match");
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession Once");
             mockSession.Verify(m => m.Query<AirportModel>(), Times.Once, "Should have queried the airports twice");
             mockEagerLoader.Verify(m => m.LoadEntities(airportModel), Times.Once, "Should have called load entities with the provided airport");
@@ -50,7 +50,7 @@ namespace CustomRegionEditor.Test.Repositories
         {
             // Arrange
             const string airportName = "William Booth";
-            var airportModel = new AirportModel { AirportName = airportName };
+            var airportModel = new AirportModel { Name = airportName };
             var airportModels = new List<AirportModel> { airportModel };
 
             var mockSession = new Mock<ISession>();
@@ -79,7 +79,7 @@ namespace CustomRegionEditor.Test.Repositories
         {
             // Arrange
             const string airportName = "William Booth";
-            var airportModel = new AirportModel { AirportName = airportName };
+            var airportModel = new AirportModel { Name = airportName };
 
             var mockSessionManager = new Mock<ISessionManager>();
             var mockEagerLoader = new Mock<IEagerLoader>(MockBehavior.Strict);

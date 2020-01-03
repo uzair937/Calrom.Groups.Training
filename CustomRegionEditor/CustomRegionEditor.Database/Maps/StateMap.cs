@@ -13,9 +13,9 @@ namespace CustomRegionEditor.Database.Maps
         public StateMap()
         {
             Table("dbo.REF_STA_state");
-            Id(i => i.StateId).Column("sta_id");
+            Id(i => i.Id).Column("sta_id");
             References(i => i.Country).Column("cnt_id").Cascade.All();
-            Map(i => i.StateName).Column("state_name");
+            Map(i => i.Name).Column("state_name");
             Map(i => i.DisplayOrder).Column("display_order");
             Map(i => i.RowVersion).Column("row_version");
             Map(i => i.LtoId).Column("lto_id");

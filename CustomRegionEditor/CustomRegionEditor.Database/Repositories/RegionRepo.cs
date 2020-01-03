@@ -28,8 +28,8 @@ namespace CustomRegionEditor.Database.Repositories
             var regionModel = new RegionModel();
             using (var dbSession = SessionManager.OpenSession())
             {
-                regionModel = dbSession.Query<RegionModel>().FirstOrDefault(a => a.RegionName == (entry));
-                if (regionModel == null) regionModel = dbSession.Query<RegionModel>().FirstOrDefault(a => a.RegionId == (entry));
+                regionModel = dbSession.Query<RegionModel>().FirstOrDefault(a => a.Name == (entry));
+                if (regionModel == null) regionModel = dbSession.Query<RegionModel>().FirstOrDefault(a => a.Id == (entry));
                 return LazyLoader.LoadEntities(regionModel);
             }
         } //searches for a matching region
@@ -40,7 +40,7 @@ namespace CustomRegionEditor.Database.Repositories
             if (region == null) return CustomRegionEntries;
             using (var dbSession = SessionManager.OpenSession())
             {
-                var countries = dbSession.Query<CountryModel>().Where(c => c.Region.RegionId == region.RegionId).ToList();
+                var countries = dbSession.Query<CountryModel>().Where(c => c.Region.Id == region.Id).ToList();
 
                 if (countries.Count > 0)
                 {

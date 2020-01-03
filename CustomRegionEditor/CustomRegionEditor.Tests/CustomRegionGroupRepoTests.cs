@@ -21,7 +21,7 @@ namespace CustomRegionEditor.Test.Repositories
             // Arrange
             const string stateName = "Texas";
             const string filter = "state";
-            var stateModel = new StateModel { StateName = stateName };
+            var stateModel = new StateModel { Name = stateName };
             var customRegionEntryModel = new CustomRegionEntryModel()
             {
                 State = stateModel
@@ -49,7 +49,7 @@ namespace CustomRegionEditor.Test.Repositories
             var mockCountryRepo = new Mock<ISubRegionRepo<CountryModel>>();
             var mockRegionRepo = new Mock<ISubRegionRepo<RegionModel>>();
             var mockStateRepo = new Mock<ISubRegionRepo<StateModel>>();
-            mockStateRepo.Setup(m => m.FindByName(stateModel.StateName));
+            mockStateRepo.Setup(m => m.FindByName(stateModel.Name));
 
             var customRegionGroupRepo = new CustomRegionGroupRepo(mockEagerLoader.Object, mockSessionManager.Object,
                 mockEntryRepository.Object, mockAirportRepo.Object, mockCityRepo.Object, mockStateRepo.Object,
@@ -59,7 +59,7 @@ namespace CustomRegionEditor.Test.Repositories
 
             // Assert
             Assert.IsNotNull(resultsFound, "Results should have been received. Instead null was received.");
-            Assert.AreEqual(stateName, resultsFound[0].CustomRegionEntries[0].State.StateName, "The found city name should match");
+            Assert.AreEqual(stateName, resultsFound[0].CustomRegionEntries[0].State.Name, "The found city name should match");
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession Once");
             mockSession.Verify(m => m.Query<CustomRegionGroupModel>(), Times.Exactly(2), "Should have queried the models twice");
             mockEagerLoader.Verify(m => m.LoadEntities(models), Times.Once, "Should have called load entities with the provided city");
@@ -72,7 +72,7 @@ namespace CustomRegionEditor.Test.Repositories
             // Arrange
             const string stateName = "Blank";
             const string filter = "state";
-            var stateModel = new StateModel { StateName = stateName };
+            var stateModel = new StateModel { Name = stateName };
             var customRegionEntryModel = new CustomRegionEntryModel()
             {
                 State = stateModel

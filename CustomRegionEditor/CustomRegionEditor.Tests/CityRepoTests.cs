@@ -19,7 +19,7 @@ namespace CustomRegionEditor.Test.Repositories
         public void Given_AnExistingCityName_Then_FindCityByName_Should_ReturnExistingCity() {
             // Arrange
             const string cityName = "Manchester";
-            var cityModel = new CityModel { CityName = cityName };
+            var cityModel = new CityModel { Name = cityName };
             var cityModels = new List<CityModel> { cityModel };
             
             var mockSession = new Mock<ISession>();
@@ -39,7 +39,7 @@ namespace CustomRegionEditor.Test.Repositories
 
             // Assert
             Assert.IsNotNull(cityFound, "A city should have been received. Instead null was received.");
-            Assert.AreEqual(cityName, cityFound.CityName, "The found city name should match");
+            Assert.AreEqual(cityName, cityFound.Name, "The found city name should match");
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession Once");
             mockSession.Verify(m => m.Query<CityModel>(), Times.Once, "Should have queried the cities once");
             mockEagerLoader.Verify(m => m.LoadEntities(cityModel), Times.Once, "Should have called load entities with the provided city");
@@ -50,7 +50,7 @@ namespace CustomRegionEditor.Test.Repositories
         {
             // Arrange
             const string cityName = "London";
-            var cityModel = new CityModel { CityName = cityName };
+            var cityModel = new CityModel { Name = cityName };
             var cityModels = new List<CityModel> { cityModel };
 
             var mockSession = new Mock<ISession>();

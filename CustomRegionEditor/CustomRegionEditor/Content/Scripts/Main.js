@@ -105,6 +105,11 @@ function SaveForm(name, description, id) {
     self.Description = description;
 }
 
+function DeleteForm(id) {
+    var self = this;
+    self.EntryId = id;
+}
+
 function AutoCompleteForm(type, text) {
     var self = this;
     self.Type = type;
@@ -113,7 +118,7 @@ function AutoCompleteForm(type, text) {
 
 function onEdit(e) {
     var url = $(".table-header").attr("data-editurl");
-    var regionId = $(this).parent().parent().attr("searchid");
+    var regionId = $(this).parent().parent().attr("regionId");
 
     var idForm = new IdForm(regionId);
     if (regionId) {
@@ -160,7 +165,8 @@ function onDelete(e) {
 function onConfirmDelete(e) {
     e.stopPropagation();
     var url = $(".table-header").attr("data-deleteurl");
-    var regionId = $(this).parent().parent().attr("searchid");
+    var regionId = $(this).parent().parent().attr("regionId");
+    var regionName = $(this).parent().parent().attr("regionName");
     var lastSearch = document.getElementsByClassName("search-text-box")[0].value;
     if (lastSearch === undefined || lastSearch === "" ) {
         lastSearch = "-all";
@@ -207,7 +213,7 @@ function onConfirmDelete(e) {
                     $(".content-container").html(data);
                     addSearchListeners();
                 }
-                $(".alert-container").html('<th class="alert alert-warning" role="alert">Region Deleted</th>');
+                $(".alert-container").html('<th class="alert alert-warning" role="alert">Region '+ regionName +' Deleted</th>');
             }
         });
     }
@@ -255,21 +261,23 @@ function clearDelete() {
 function entryConfirmDelete(e) {
     e.stopPropagation();
     var url = $(".table-header").attr("data-deleteentryurl");
-    var entryId = $(this).parent().parent().attr("entryId");
-    var idForm = new IdForm(entryId);
+    var entry = $(this).parent().parent().attr("entryValue");
+    var name = $(this).parent().parent().attr("entryName");
+    name = name.charAt(0).toUpperCase() + name.toLowerCase().substring(1, name.length);
+    var deleteForm = new DeleteForm(entry);
 
-    if (idForm) {
+    if (deleteForm) {
 
         $.ajax({
             type: "POST",
             url: url,
-            data: JSON.stringify(idForm),
+            data: JSON.stringify(deleteForm),
             contentType: "application/json",
             success: function (data) {
                 if (data) {
                     $(".content-container").html(data);      //replaces all content/ search and edit
                     addEditListeners();
-                    $(".alert-container").html('<th class="alert alert-warning" role="alert">Entry Deleted</th>');
+                    $(".alert-container").html('<th class="alert alert-warning" role="alert">Entry ' + name +' Deleted</th>');
                 }
             }
         });
@@ -312,6 +320,7 @@ function addEntry(e) {
     if (value !== "" && value !== undefined) {
         var regionForm = new NewRegionEntry(value, type, regionId);
 
+        value = value.charAt(0).toUpperCase() + value.toLowerCase().substring(1, value.length);
         $.ajax({
             type: "POST",
             url: url,

@@ -5,7 +5,6 @@
 <div class="search-results-container flex-column">
     @if (Model.IsSearching)
     {
-        <div class="alert-container"></div>
         <table class="table">
             @if (Model.ValidResults)
             {
@@ -20,7 +19,7 @@
                 foreach (var result in Model.SearchResults)
                 {
                     <tbody>
-                        <tr class="search-result" searchId="@result.ID">
+                        <tr class="search-result" regionId="@result.ID" regionName="@result.Name">
                             <td>@result.Name</td>
                             <td>@result.CustomRegions.Count</td>
                             <td><input type="button" value="Edit" class="edit-button btn btn-dark" /></td>

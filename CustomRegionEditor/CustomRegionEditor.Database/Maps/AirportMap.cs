@@ -13,8 +13,8 @@ namespace CustomRegionEditor.Database.Maps
         public AirportMap()
         {
             Table("dbo.REF_APT_airport");
-            Id(i => i.AirportId).Column("apt_id");
-            Map(i => i.AirportName).Column("airport_name");
+            Id(i => i.Id).Column("apt_id");
+            Map(i => i.Name).Column("airport_name");
             References(i => i.City).Column("cty_id").Cascade.All();
             Map(i => i.IsMainAirport).Column("is_main_airport");
             Map(i => i.IsGatewayAirport).Column("is_gateway_airport");

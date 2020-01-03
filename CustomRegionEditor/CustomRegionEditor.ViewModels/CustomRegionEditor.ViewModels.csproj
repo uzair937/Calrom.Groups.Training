@@ -47,6 +47,7 @@
     <Compile Include="CityViewModel.cs" />
     <Compile Include="CustomRegionGroupViewModel.cs" />
     <Compile Include="CustomRegionEntryViewModel.cs" />
+    <Compile Include="DeleteViewModel.cs" />
     <Compile Include="IdViewModel.cs" />
     <Compile Include="AutoCompleteFormViewModel .cs" />
     <Compile Include="SaveFormViewModel.cs" />

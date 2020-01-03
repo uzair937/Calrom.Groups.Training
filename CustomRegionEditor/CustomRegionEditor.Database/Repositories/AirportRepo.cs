@@ -25,10 +25,10 @@ namespace CustomRegionEditor.Database.Repositories
             var airportModel = new AirportModel();
             using (var dbSession = SessionManager.OpenSession())
             {
-                airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.AirportName == (entry));
+                airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.Name == (entry));
                 if (airportModel == null)
                 {
-                    airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.AirportId == (entry));
+                    airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.Id == (entry));
                 }
 
                 return EagerLoader.LoadEntities(airportModel);

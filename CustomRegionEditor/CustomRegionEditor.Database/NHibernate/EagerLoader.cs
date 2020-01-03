@@ -78,8 +78,8 @@ namespace CustomRegionEditor.Database.NHibernate
             if (oldModel == null) return null;
             var newModel = new AirportModel
             {
-                AirportId = oldModel.AirportId,
-                AirportName = oldModel.AirportName,
+                Id = oldModel.Id,
+                Name = oldModel.Name,
                 City = LoadEntities(oldModel.City),
                 RowVersion = oldModel.RowVersion,
                 IsMainAirport = oldModel.IsMainAirport,
@@ -96,8 +96,8 @@ namespace CustomRegionEditor.Database.NHibernate
             
             if (oldModel == null) return null;
             var newModel = new CityModel {
-                CityId = oldModel.CityId,
-                CityName = oldModel.CityName,
+                Id = oldModel.Id,
+                Name = oldModel.Name,
                 Country = LoadEntities(oldModel.Country),
                 RowVersion = oldModel.RowVersion,
                 State = LoadEntities(oldModel.State),
@@ -113,8 +113,8 @@ namespace CustomRegionEditor.Database.NHibernate
             if (oldModel == null) return null;
             var newModel = new StateModel
             {
-                StateId = oldModel.StateId,
-                StateName = oldModel.StateName,
+                Id = oldModel.Id,
+                Name = oldModel.Name,
                 Country = LoadEntities(oldModel.Country),
                 RowVersion = oldModel.RowVersion,
                 DisplayOrder = oldModel.DisplayOrder,
@@ -128,8 +128,8 @@ namespace CustomRegionEditor.Database.NHibernate
             if (oldModel == null) return null;
             var newModel = new CountryModel
             {
-                CountryId = oldModel.CountryId,
-                CountryName = oldModel.CountryName,
+                Id = oldModel.Id,
+                Name = oldModel.Name,
                 Region = LoadEntities(oldModel.Region),
                 IsoCode = oldModel.IsoCode,
                 IsoNumber = oldModel.IsoNumber,
@@ -147,8 +147,8 @@ namespace CustomRegionEditor.Database.NHibernate
             if (oldModel == null) return null;
             var newModel = new RegionModel
             {
-                RegionId = oldModel.RegionId,
-                RegionName = oldModel.RegionName,
+                Id = oldModel.Id,
+                Name = oldModel.Name,
                 RowVersion = oldModel.RowVersion,
                 LtoId = oldModel.LtoId,
                 Countries = oldModel.Countries
@@ -161,7 +161,7 @@ namespace CustomRegionEditor.Database.NHibernate
             if (oldModel == null) return null;
             var newModel = new SystemModel
             {
-                SystemId = oldModel.SystemId,
+                Id = oldModel.Id,
                 InternalSystemName = oldModel.InternalSystemName,
                 ExternalSystemName = oldModel.ExternalSystemName,
                 SystemDescription = oldModel.SystemDescription,
