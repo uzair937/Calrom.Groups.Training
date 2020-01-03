@@ -33,7 +33,7 @@ namespace CustomRegionEditor.Database.Models
             var nhConfig = Fluently.Configure().Database(MsSqlConfiguration.MsSql2012.ConnectionString(dbConnection)).
                 Mappings(m => m.FluentMappings.AddFromAssemblyOf<CustomRegionEntryModel>()).
                 ExposeConfiguration(cfg => new SchemaExport(cfg).
-                Create(true, false)).Cache(c => c.ProviderClass<SysCacheProvider>().UseSecondLevelCache());
+                Create(true, false));//.Cache(c => c.ProviderClass<SysCacheProvider>().UseSecondLevelCache());
 
             sessionFactory = nhConfig.BuildSessionFactory();
             return sessionFactory;
