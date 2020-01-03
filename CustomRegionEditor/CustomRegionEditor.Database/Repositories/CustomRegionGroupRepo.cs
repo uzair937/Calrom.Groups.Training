@@ -194,23 +194,23 @@ namespace CustomRegionEditor.Database.Repositories
             var model = new CustomRegionGroupModel();
 
             using (var dbSession = SessionManager.OpenSession())
-            {
-                list = dbSession.QueryOver<CustomRegionGroupModel>(() => customRegionGroupModelAlias)
-                    .Inner.JoinAlias(() => customRegionGroupModelAlias.CustomRegionEntries, () => customRegionEntryAlias)
-                    .Where(() => customRegionGroupModelAlias.Id == Guid.Parse(id))
-                    .Future<CustomRegionGroupModel>().ToList();
+            {   //STILL BROKEN
+                //list = dbSession.QueryOver<CustomRegionGroupModel>(() => customRegionGroupModelAlias)
+                //    .Inner.JoinAlias(() => customRegionGroupModelAlias.CustomRegionEntries, () => customRegionEntryAlias)
+                //    .Where(() => customRegionGroupModelAlias.Id == Guid.Parse(id))
+                //    .Future<CustomRegionGroupModel>().ToList();
 
-                model = list.FirstOrDefault(a => a.Id == Guid.Parse(id));
-                //Get<CustomRegionGroupModel>(Guid.Parse(id));
-                //if (!CustomRegionGroupTempRepo.List().Contains(customRegionGroupModelAlias))
-                //{
-                //    this.CustomRegionGroupTempRepo.Add(customRegionGroupModelAlias);
-                //    EagerLoader.LoadEntities(CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(id)));
-                //}
-                //else
-                //{
-                //    customRegionGroupModel = EagerLoader.LoadEntities(CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(id)));
-                //}
+                //model = list.FirstOrDefault(a => a.Id == Guid.Parse(id));
+                model = dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id));
+                if (!CustomRegionGroupTempRepo.List().Contains(model))
+                {
+                    this.CustomRegionGroupTempRepo.Add(model);
+                    model = EagerLoader.LoadEntities(CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(id)));
+                }
+                else
+                {
+                    model = EagerLoader.LoadEntities(CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(id)));
+                }
             }
 
             //fix
@@ -350,7 +350,6 @@ namespace CustomRegionEditor.Database.Repositories
                     RemoveSubregions(customRegionGroupModel, customRegionEntryModel.Region);
                     break;
             }
-
         }
 
         private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, CityModel cityModel)
