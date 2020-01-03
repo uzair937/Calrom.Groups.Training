@@ -345,15 +345,15 @@ namespace CustomRegionEditor.Database.Repositories
 
         private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, CityModel cityModel)
         {
-            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.CityName == cityModel.CityName).ToList());
+            //CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.CityName == cityModel.CityName).ToList());
             var list = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.CityName != cityModel.CityName).ToList();
             this.CustomRegionGroupTempRepo.Update(list, customRegionGroupModel.Id.ToString());
         }
 
         private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, StateModel stateModel)
         {
-            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.State?.StateName == stateModel.StateName).ToList());
-            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.City?.State?.StateName == stateModel.StateName).ToList());
+            //CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.State?.StateName == stateModel.StateName).ToList());
+            //CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.City?.State?.StateName == stateModel.StateName).ToList());
 
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.State?.StateName != stateModel.StateName).ToList();
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.City?.State?.StateName != stateModel.StateName).ToList();
@@ -363,10 +363,10 @@ namespace CustomRegionEditor.Database.Repositories
 
         private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, CountryModel countryModel)
         {
-            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.State?.Country?.CountryName == countryModel.CountryName).ToList());
-            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.Country?.CountryName == countryModel.CountryName).ToList());
-            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.City?.Country?.CountryName == countryModel.CountryName).ToList());
-            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.State?.Country?.CountryName == countryModel.CountryName).ToList());
+            //CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.State?.Country?.CountryName == countryModel.CountryName).ToList());
+            //CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.Country?.CountryName == countryModel.CountryName).ToList());
+            //CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.City?.Country?.CountryName == countryModel.CountryName).ToList());
+            //CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.State?.Country?.CountryName == countryModel.CountryName).ToList());
 
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.State?.Country?.CountryName != countryModel.CountryName).ToList();
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.Country?.CountryName != countryModel.CountryName).ToList();
@@ -378,11 +378,11 @@ namespace CustomRegionEditor.Database.Repositories
 
         private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, RegionModel regionModel)
         {
-            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.State?.Country?.Region?.RegionName == regionModel.RegionName).ToList());
-            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.Country?.Region?.RegionName == regionModel.RegionName).ToList());
-            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.City?.Country?.Region?.RegionName == regionModel.RegionName).ToList());
-            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.State?.Country?.Region?.RegionName == regionModel.RegionName).ToList());
-            CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Country?.Region?.RegionName == regionModel.RegionName).ToList());
+            //CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.State?.Country?.Region?.RegionName == regionModel.RegionName).ToList());
+            //CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.Country?.Region?.RegionName == regionModel.RegionName).ToList());
+            //CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.City?.Country?.Region?.RegionName == regionModel.RegionName).ToList());
+            //CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.State?.Country?.Region?.RegionName == regionModel.RegionName).ToList());
+            //CustomRegionEntryRepository.Delete(customRegionGroupModel.CustomRegionEntries.Where(a => a?.Country?.Region?.RegionName == regionModel.RegionName).ToList());
 
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.State?.Country?.Region?.RegionName != regionModel.RegionName).ToList();
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.Country?.Region?.RegionName != regionModel.RegionName).ToList();
@@ -429,8 +429,6 @@ namespace CustomRegionEditor.Database.Repositories
             {
                 customRegion.Description = description;
             }
-
-            //AddOrUpdate(customRegion);
         } //updates region group details
 
         public List<string> GetNames(string type)

@@ -165,8 +165,7 @@ namespace CustomRegionEditor.Controllers
                 },
             };
             this.CustomRegionGroupRepository.UpdateList(foundRegion.CustomRegionEntries, customRegionGroupViewModel.ID);
-            var endRegion = this.CustomRegionGroupTempRepo.List()
-                .FirstOrDefault(b => b.Id == Guid.Parse(customRegionGroupViewModel.ID));
+            var endRegion = this.CustomRegionGroupTempRepo.List().FirstOrDefault(b => b.Id == Guid.Parse(customRegionGroupViewModel.ID));
             endRegion.Id = Guid.Empty;
             this.CustomRegionGroupRepository.AddOrUpdate(endRegion);
             this.CustomRegionGroupTempRepo.DestroySession();
