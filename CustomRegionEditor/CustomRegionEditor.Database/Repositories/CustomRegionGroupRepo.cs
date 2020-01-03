@@ -39,7 +39,6 @@ namespace CustomRegionEditor.Database.Repositories
 
         private List<CustomRegionGroupModel> _customRegionGroupList;
 
-
         public void AddOrUpdate(CustomRegionGroupModel entity)
         {
             using (var dbSession = SessionManager.OpenSession())
@@ -74,107 +73,103 @@ namespace CustomRegionEditor.Database.Repositories
         {
             using (var dbSession = SessionManager.OpenSession())
             {
-                CustomRegionGroupModel customRegionGroupModelAlias = null;
-                CustomRegionEntryModel customRegionEntryModelAlias = null;
                 var startsWith = new List<CustomRegionGroupModel>();
                 var contains = new List<CustomRegionGroupModel>();
                 if (searchTerm.Equals("-All", StringComparison.OrdinalIgnoreCase))
                 {
-                    return dbSession.QueryOver<CustomRegionGroupModel>(() => customRegionGroupModelAlias)
-                    .Inner.JoinAlias(() => customRegionGroupModelAlias.CustomRegionEntries, () => customRegionEntryModelAlias)
-                    .Future<CustomRegionGroupModel>().ToList();
+                    return EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
                 }
 
                 if (searchTerm.Equals("-Small", StringComparison.OrdinalIgnoreCase))
                 {
-                    return dbSession.Query<CustomRegionGroupModel>()
-                        .Where(a => a.CustomRegionEntries.Count < 25).ToList();
+                    return EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                        .Where(a => a.CustomRegionEntries.Count < 25).ToList());
                 }
 
                 if (searchTerm.Equals("-Large", StringComparison.OrdinalIgnoreCase))
                 {
-                    return dbSession.Query<CustomRegionGroupModel>()
-                        .Where(a => a.CustomRegionEntries.Count >= 25).ToList();
+                    return EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                        .Where(a => a.CustomRegionEntries.Count >= 25).ToList());
                 }
 
                 if (searchTerm.Equals("-Rand", StringComparison.OrdinalIgnoreCase))
                 {
-                    var returnModels = dbSession.Query<CustomRegionGroupModel>().ToList();
+                    var returnModels = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().ToList());
                     var rand = new Random();
                     return new List<CustomRegionGroupModel> { returnModels.ElementAt(rand.Next(returnModels.Count)) };
                 }
 
-                //switch (filter)
-                //{
-                //    default:
-                //        startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
-                //            .Where(s => s.Name.StartsWith(searchTerm)).ToList());
+                switch (filter)
+                {
+                    default:
+                        startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>()
+                            .Where(s => s.Name.StartsWith(searchTerm)).ToList());
 
-                //        contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                //            !s.Name.StartsWith(searchTerm)
-                //            && (s.Name.Contains(searchTerm)
-                //                || s.Description.Contains(searchTerm))).ToList());
-                //        break;
-                //    case ("airport"):
-                //        startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                //                s.CustomRegionEntries.Select(a => a.Airport.Name)
-                //                    .Any(w => w.StartsWith(searchTerm)))
-                //            .ToList());
+                        contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                            !s.Name.StartsWith(searchTerm)
+                            && (s.Name.Contains(searchTerm)
+                                || s.Description.Contains(searchTerm))).ToList());
+                        break;
+                    case ("airport"):
+                        startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                s.CustomRegionEntries.Select(a => a.Airport.Name)
+                                    .Any(w => w.StartsWith(searchTerm)))
+                            .ToList());
 
-                //        contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                //                !s.CustomRegionEntries.Select(a => a.Airport.Name)
-                //                    .Any(w => w.StartsWith(searchTerm))
-                //                && s.CustomRegionEntries.Select(a => a.Airport.Name)
-                //                    .Any(w => w.Contains(searchTerm)))
-                //            .ToList());
-                //        break;
-                //    case ("city"):
-                //        startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                //                s.CustomRegionEntries.Select(a => a.City.Name).Any(w => w.StartsWith(searchTerm)))
-                //            .ToList());
+                        contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                !s.CustomRegionEntries.Select(a => a.Airport.Name)
+                                    .Any(w => w.StartsWith(searchTerm))
+                                && s.CustomRegionEntries.Select(a => a.Airport.Name)
+                                    .Any(w => w.Contains(searchTerm)))
+                            .ToList());
+                        break;
+                    case ("city"):
+                        startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                s.CustomRegionEntries.Select(a => a.City.Name).Any(w => w.StartsWith(searchTerm)))
+                            .ToList());
 
-                //        contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                //                !s.CustomRegionEntries.Select(a => a.City.Name).Any(w => w.StartsWith(searchTerm))
-                //                && s.CustomRegionEntries.Select(a => a.City.Name).Any(w => w.Contains(searchTerm)))
-                //            .ToList());
-                //        break;
-                //    case ("state"):
-                //        startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                //                s.CustomRegionEntries.Select(a => a.State.Name).Any(w => w.StartsWith(searchTerm)))
-                //            .ToList());
+                        contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                !s.CustomRegionEntries.Select(a => a.City.Name).Any(w => w.StartsWith(searchTerm))
+                                && s.CustomRegionEntries.Select(a => a.City.Name).Any(w => w.Contains(searchTerm)))
+                            .ToList());
+                        break;
+                    case ("state"):
+                        startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                s.CustomRegionEntries.Select(a => a.State.Name).Any(w => w.StartsWith(searchTerm)))
+                            .ToList());
 
-                //        contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                //                !s.CustomRegionEntries.Select(a => a.State.Name).Any(w => w.StartsWith(searchTerm))
-                //                && s.CustomRegionEntries.Select(a => a.State.Name).Any(w => w.Contains(searchTerm)))
-                //            .ToList());
-                //        break;
-                //    case ("country"):
-                //        startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                //                s.CustomRegionEntries.Select(a => a.Country.Name)
-                //                    .Any(w => w.StartsWith(searchTerm)))
-                //            .ToList());
+                        contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                !s.CustomRegionEntries.Select(a => a.State.Name).Any(w => w.StartsWith(searchTerm))
+                                && s.CustomRegionEntries.Select(a => a.State.Name).Any(w => w.Contains(searchTerm)))
+                            .ToList());
+                        break;
+                    case ("country"):
+                        startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                s.CustomRegionEntries.Select(a => a.Country.Name)
+                                    .Any(w => w.StartsWith(searchTerm)))
+                            .ToList());
 
-                //        contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                //                !s.CustomRegionEntries.Select(a => a.Country.Name)
-                //                    .Any(w => w.StartsWith(searchTerm))
-                //                && s.CustomRegionEntries.Select(a => a.Country.Name)
-                //                    .Any(w => w.Contains(searchTerm)))
-                //            .ToList());
-                //        break;
-                //    case ("region"):
-                //        startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                //                s.CustomRegionEntries.Select(a => a.Region.Name).Any(w => w.StartsWith(searchTerm)))
-                //            .ToList());
+                        contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                !s.CustomRegionEntries.Select(a => a.Country.Name)
+                                    .Any(w => w.StartsWith(searchTerm))
+                                && s.CustomRegionEntries.Select(a => a.Country.Name)
+                                    .Any(w => w.Contains(searchTerm)))
+                            .ToList());
+                        break;
+                    case ("region"):
+                        startsWith = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                s.CustomRegionEntries.Select(a => a.Region.Name).Any(w => w.StartsWith(searchTerm)))
+                            .ToList());
 
-                //        contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
-                //                !s.CustomRegionEntries.Select(a => a.Region.Name).Any(w => w.StartsWith(searchTerm))
-                //                && s.CustomRegionEntries.Select(a => a.Region.Name)
-                //                    .Any(w => w.Contains(searchTerm)))
-                //            .ToList());
-                //        break;
-                //}
-                //var returnCustomRegionGroupList = startsWith.Concat(contains).ToList();
-                return null;
+                        contains = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroupModel>().Where(s =>
+                                !s.CustomRegionEntries.Select(a => a.Region.Name).Any(w => w.StartsWith(searchTerm))
+                                && s.CustomRegionEntries.Select(a => a.Region.Name)
+                                    .Any(w => w.Contains(searchTerm)))
+                            .ToList());
+                        break;
+                }
+                var returnCustomRegionGroupList = startsWith.Concat(contains).ToList();
+                return returnCustomRegionGroupList;
             }
         } //looks for any matches containing the search term, orders them by relevance 
 
@@ -183,16 +178,7 @@ namespace CustomRegionEditor.Database.Repositories
             var customRegionGroupModel = new CustomRegionGroupModel();
             using (var dbSession = SessionManager.OpenSession())
             {
-                CustomRegionGroupModel customRegionGroupModelAlias = null;
-                CustomRegionEntryModel customRegionEntryModelAlias = null;
-                var result = dbSession.QueryOver<CustomRegionGroupModel>(() => customRegionGroupModelAlias)
-                    .Inner.JoinAlias(() => customRegionGroupModelAlias.CustomRegionEntries, () => customRegionEntryModelAlias)
-                    .Where(() => customRegionGroupModelAlias.Id == Guid.Parse(id))
-                    .Future<CustomRegionGroupModel>().ToList();
-
-
-
-                customRegionGroupModel = result.FirstOrDefault();//EagerLoader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id)));
+                customRegionGroupModel = EagerLoader.LoadEntities(dbSession.Get<CustomRegionGroupModel>(Guid.Parse(id)));
             }
             return customRegionGroupModel;
         }
@@ -405,8 +391,7 @@ namespace CustomRegionEditor.Database.Repositories
                 switch (type)
                 {
                     case "airport":
-                        var airports = dbSession.Query<AirportModel>().ToList();
-                        names = airports.Select(a => a.Name.ToUpper()).ToList();
+                        names = dbSession.Query<AirportModel>().Select(a => a.Name.ToUpper()).ToList();
                         return names;
                     case "city":
                         names = dbSession.Query<CityModel>().Select(a => a.Name.ToUpper()).ToList();
