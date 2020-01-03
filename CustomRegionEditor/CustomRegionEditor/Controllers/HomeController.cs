@@ -212,7 +212,7 @@ namespace CustomRegionEditor.Controllers
                     IsSearching = true,
                 }
             };
-            // LAZY LOADING ERROR IS HERE
+
             var foundRegion = this.CustomRegionGroupTempRepo.List().FirstOrDefault(a => a.Id == Guid.Parse(addRegionViewModel.RegionId));
             if (foundRegion == null)
             {

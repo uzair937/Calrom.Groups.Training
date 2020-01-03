@@ -11,6 +11,7 @@ namespace CustomRegionEditor.Database.Interfaces
     {
         void Add(CustomRegionGroupModel model);
         void Delete(CustomRegionGroupModel model);
+        void DeleteSubregion(CustomRegionEntryModel model);
         void DestroySession();
         IList<CustomRegionGroupModel> List();
         void Update(IList<CustomRegionEntryModel> list, string regionId);

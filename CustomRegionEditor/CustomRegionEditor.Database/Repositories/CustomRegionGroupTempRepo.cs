@@ -26,6 +26,17 @@ namespace CustomRegionEditor.Database.Repositories
         {
             _customRegionGroupModels.Remove(model);
         }
+        
+        public void DeleteSubregion(CustomRegionEntryModel model)
+        {
+            foreach (var sub in _customRegionGroupModels)
+            {
+                if (sub.CustomRegionEntries.Contains(model))
+                {
+                    sub.CustomRegionEntries.Remove(model);
+                }
+            }
+        }
 
         public void DestroySession()
         {
