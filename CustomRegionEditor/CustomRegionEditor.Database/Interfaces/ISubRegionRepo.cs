@@ -11,6 +11,6 @@ namespace CustomRegionEditor.Database.Interfaces
     {
         T FindByName(string entry);
 
-        List<CustomRegionEntryModel> GetSubRegions(T model);
+        List<CustomRegionEntry> GetSubRegions(T model);
     }
 }

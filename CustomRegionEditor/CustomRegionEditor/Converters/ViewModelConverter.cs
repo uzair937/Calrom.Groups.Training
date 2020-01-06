@@ -1,5 +1,4 @@
-﻿using CustomRegionEditor.Database;
-using CustomRegionEditor.Database.Models;
+﻿using CustomRegionEditor.Models;
 using CustomRegionEditor.EntityMapper;
 using CustomRegionEditor.ViewModels;
 using CustomRegionEditor.Web.Interfaces;

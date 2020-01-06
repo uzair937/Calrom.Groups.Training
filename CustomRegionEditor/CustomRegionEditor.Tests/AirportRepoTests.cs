@@ -19,11 +19,11 @@ namespace CustomRegionEditor.Test.Repositories
         public void Given_AnExistingAirportName_Then_FindAirportByName_Should_ReturnExistingAirport() {
             // Arrange
             const string airportName = "Lahore";
-            var airportModel = new AirportModel { Name = airportName };
-            var airportModels = new List<AirportModel> { airportModel };
+            var airportModel = new Airport { Name = airportName };
+            var airportModels = new List<Airport> { airportModel };
             
             var mockSession = new Mock<ISession>();
-            mockSession.Setup(m => m.Query<AirportModel>()).Returns(airportModels.AsQueryable());
+            mockSession.Setup(m => m.Query<Airport>()).Returns(airportModels.AsQueryable());
 
             var mockSessionManager = new Mock<ISessionManager>();
             mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
@@ -41,7 +41,7 @@ namespace CustomRegionEditor.Test.Repositories
             Assert.IsNotNull(airportFound, "We should have received an airport, but instead received null.");
             Assert.AreEqual(airportName, airportFound.Name, "The found airport name should match");
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession Once");
-            mockSession.Verify(m => m.Query<AirportModel>(), Times.Once, "Should have queried the airports twice");
+            mockSession.Verify(m => m.Query<Airport>(), Times.Once, "Should have queried the airports twice");
             mockEagerLoader.Verify(m => m.LoadEntities(airportModel), Times.Once, "Should have called load entities with the provided airport");
         }
 
@@ -50,17 +50,17 @@ namespace CustomRegionEditor.Test.Repositories
         {
             // Arrange
             const string airportName = "William Booth";
-            var airportModel = new AirportModel { Name = airportName };
-            var airportModels = new List<AirportModel> { airportModel };
+            var airportModel = new Airport { Name = airportName };
+            var airportModels = new List<Airport> { airportModel };
 
             var mockSession = new Mock<ISession>();
-            mockSession.Setup(m => m.Query<AirportModel>()).Returns(airportModels.AsQueryable());
+            mockSession.Setup(m => m.Query<Airport>()).Returns(airportModels.AsQueryable());
 
             var mockSessionManager = new Mock<ISessionManager>();
             mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
 
             var mockEagerLoader = new Mock<IEagerLoader>(MockBehavior.Strict);
-            mockEagerLoader.Setup(m => m.LoadEntities((AirportModel)null)).Returns((AirportModel)null);
+            mockEagerLoader.Setup(m => m.LoadEntities((Airport)null)).Returns((Airport)null);
 
             var airportRepo = new AirportRepo(mockEagerLoader.Object, mockSessionManager.Object);
 
@@ -70,8 +70,8 @@ namespace CustomRegionEditor.Test.Repositories
             // Assert
             Assert.IsNull(airportFound, "We should not have found an airport.");
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession Once");
-            mockSession.Verify(m => m.Query<AirportModel>(), Times.Exactly(2), "Should have queried the airports twice");
-            mockEagerLoader.Verify(m => m.LoadEntities((AirportModel)null), Times.Once, "Should have called load entities with null");
+            mockSession.Verify(m => m.Query<Airport>(), Times.Exactly(2), "Should have queried the airports twice");
+            mockEagerLoader.Verify(m => m.LoadEntities((Airport)null), Times.Once, "Should have called load entities with null");
         }
         
         [Test]
@@ -79,7 +79,7 @@ namespace CustomRegionEditor.Test.Repositories
         {
             // Arrange
             const string airportName = "William Booth";
-            var airportModel = new AirportModel { Name = airportName };
+            var airportModel = new Airport { Name = airportName };
 
             var mockSessionManager = new Mock<ISessionManager>();
             var mockEagerLoader = new Mock<IEagerLoader>(MockBehavior.Strict);

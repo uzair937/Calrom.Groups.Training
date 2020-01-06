@@ -1,9 +1,7 @@
-using CustomRegionEditor.Database;
-using CustomRegionEditor.Database.Interfaces;
-using CustomRegionEditor.Database.Models;
-using CustomRegionEditor.Database.NHibernate;
-using CustomRegionEditor.Database.Repositories;
-using CustomRegionEditor.Web.App_Start.UnityExtensions;
+using CustomRegionEditor.Controllers;
+using CustomRegionEditor.Handler;
+using CustomRegionEditor.Handler.Converters;
+using CustomRegionEditor.Handler.Interfaces;
 using CustomRegionEditor.Web.Converters;
 using CustomRegionEditor.Web.Interfaces;
 using System.Web.Mvc;
@@ -16,40 +14,29 @@ namespace CustomRegionEditor.Web
 {
     public static class UnityConfig
     {
-        public static InjectionMember[] PerRequestLifetimeManager { get; private set; }
 
         public static void RegisterComponents()
         {
 			var container = new UnityContainer();
 
-            // register all your components with the container here
-            // it is NOT necessary to register your controllers
-
-            // e.g. container.RegisterType<ITestService, TestService>();
-
-            container.RegisterType<IEagerLoader, EagerLoader>();
-
-            container.RegisterType<ICustomRegionGroupRepository, CustomRegionGroupRepo>();
-
-            container.RegisterType<ICustomRegionEntryRepository, CustomRegionEntryRepo>();
             
             container.RegisterType<IViewModelConverter, ViewModelConverter>();
-            
-            container.RegisterType<ISessionManager, NHibernateSessionManager>();
 
-            container.RegisterSingleton<ISessionRegionGroupRepository, SessionRegionGroupRepo>(PerRequestLifetimeManager);
+            container.RegisterType<IModelConverter, ModelConverter>();
 
-            container.RegisterSingleton<ISessionFactoryManager, NHibernateSessionFactoryManager>();
+            container.RegisterType<IEntryHandler, CustomEntry>();
 
-            container.RegisterSingleton<ISubRegionRepo<RegionModel>, RegionRepo>();
+            container.RegisterType<IRegionHandler, CustomRegion>();
 
-            container.RegisterSingleton<ISubRegionRepo<CountryModel>, CountryRepo>();
-            
-            container.RegisterSingleton<ISubRegionRepo<StateModel>, StateRepo>();
+            container.RegisterType<ISearchEntry, SearchEntry>();
 
-            container.RegisterSingleton<ISubRegionRepo<CityModel>,  CityRepo>();
+            container.RegisterType<ISearchRegion, SearchRegion>();
 
-            container.RegisterSingleton<ISubRegionRepo<AirportModel>, AirportRepo>();
+            container.RegisterSingleton<ISessionRegionGroupRepository, SessionRegionGroupRepo>();
+
+            container = Handler.UnityDatabaseConfig.RegisterComponents(container);
+
+            //container.RegisterType<HomeController>(new InjectionConstructor());
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

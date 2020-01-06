@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace CustomRegionEditor.Database.Interfaces
 {
-    public interface ICustomRegionEntryRepository : IRepository<CustomRegionEntryModel>
+    public interface ICustomRegionEntryRepository : IRepository<CustomRegionEntry>
     {
-        void Delete(List<CustomRegionEntryModel> entity);
+        void Delete(List<CustomRegionEntry> entity);
     }
 }

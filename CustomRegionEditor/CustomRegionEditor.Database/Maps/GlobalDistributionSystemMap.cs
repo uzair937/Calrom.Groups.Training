@@ -8,7 +8,7 @@ using FluentNHibernate.Mapping;
 
 namespace CustomRegionEditor.Database.Maps
 {
-    public class GlobalDistributionSystemMap : ClassMap<GlobalDistributionSystemModel>
+    public class GlobalDistributionSystemMap : ClassMap<GlobalDistributionSystem>
     {
         public GlobalDistributionSystemMap()
         {

@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Database.Repositories
 {
-    public class CountryRepo : ISubRegionRepo<CountryModel>
+    public class CountryRepo : ISubRegionRepo<Country>
     {
         private ISessionManager SessionManager { get; }
         private IEagerLoader LazyLoader { get; }
-        private ISubRegionRepo<CityModel> CityRepo { get; }
-        private ISubRegionRepo<StateModel> StateRepo { get; }
+        private ISubRegionRepo<City> CityRepo { get; }
+        private ISubRegionRepo<State> StateRepo { get; }
 
-        public CountryRepo(IEagerLoader lazyLoader, ISessionManager sessionManager, ISubRegionRepo<CityModel> cityRepo, ISubRegionRepo<StateModel> stateRepo)
+        public CountryRepo(IEagerLoader lazyLoader, ISessionManager sessionManager, ISubRegionRepo<City> cityRepo, ISubRegionRepo<State> stateRepo)
         {
             this.CityRepo = cityRepo;
             this.StateRepo = stateRepo;
@@ -23,15 +23,15 @@ namespace CustomRegionEditor.Database.Repositories
             this.SessionManager = sessionManager;
         }
 
-        public CountryModel FindByName(string entry)
+        public Country FindByName(string entry)
         {
-            var countryModel = new CountryModel();
+            var countryModel = new Country();
             using (var dbSession = SessionManager.OpenSession())
             {
-                countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.Name == (entry));
+                countryModel = dbSession.Query<Country>().FirstOrDefault(a => a.Name == (entry));
                 if (countryModel == null)
                 {
-                    countryModel = dbSession.Query<CountryModel>().FirstOrDefault(a => a.Id == (entry));
+                    countryModel = dbSession.Query<Country>().FirstOrDefault(a => a.Id == (entry));
                 }
                 
                 return LazyLoader.LoadEntities(countryModel);
@@ -40,19 +40,19 @@ namespace CustomRegionEditor.Database.Repositories
         } //searches for a matching country
 
 
-        public List<CustomRegionEntryModel> GetSubRegions(CountryModel country)
+        public List<CustomRegionEntry> GetSubRegions(Country country)
         {
-            var CustomRegionEntries = new List<CustomRegionEntryModel>();
+            var CustomRegionEntries = new List<CustomRegionEntry>();
             if (country == null) return CustomRegionEntries;
             using (var dbSession = SessionManager.OpenSession())
             {
-                var cities = dbSession.Query<CityModel>().Where(c => c.Country.Id == country.Id).ToList();
+                var cities = dbSession.Query<City>().Where(c => c.Country.Id == country.Id).ToList();
 
                 if (cities.Count > 0)
                 {
                     foreach (var city in cities)
                     {
-                        CustomRegionEntries.Add(new CustomRegionEntryModel()
+                        CustomRegionEntries.Add(new CustomRegionEntry()
                         {
                             City = city
                         });
@@ -60,13 +60,13 @@ namespace CustomRegionEditor.Database.Repositories
                     }
                 }
 
-                var states = dbSession.Query<StateModel>().Where(s => s.Country.Id == country.Id).ToList();
+                var states = dbSession.Query<State>().Where(s => s.Country.Id == country.Id).ToList();
 
                 if (states.Count > 0)
                 {
                     foreach (var state in states)
                     {
-                        CustomRegionEntries.Add(new CustomRegionEntryModel()
+                        CustomRegionEntries.Add(new CustomRegionEntry()
                         {
                             State = state
                         });

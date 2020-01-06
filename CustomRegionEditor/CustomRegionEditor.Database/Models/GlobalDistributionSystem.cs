@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Database.Models
 {
-    public class GlobalDistributionSystemModel
+    public class GlobalDistributionSystem
     {
         public virtual Guid Id { get; set; }
         public virtual string InternalGdsName { get; set; }

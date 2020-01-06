@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace CustomRegionEditor.Database.Interfaces
 {
-    public interface ICustomRegionGroupRepository : IRepository<CustomRegionGroupModel>
+    public interface ICustomRegionGroupRepository : IRepository<CustomRegionGroup>
     {
         List<string> GetNames(string type);
-        List<CustomRegionGroupModel> GetSearchResults(string searchTerm, string filter);
-        CustomRegionGroupModel AddNewRegion(CustomRegionGroupModel customRegionGroupModel);
     }
 }

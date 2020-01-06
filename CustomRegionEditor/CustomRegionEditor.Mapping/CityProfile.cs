@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CustomRegionEditor.Database.Models;
+using CustomRegionEditor.Models;
 using CustomRegionEditor.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,9 @@ namespace CustomRegionEditor.EntityMapper
         public override string ProfileName => base.ProfileName;
         public CityProfile()
         {
-            CreateMap<CityModel, CityViewModel>()
-                .ForMember(c => c.ID, m => m.MapFrom(s => s.Id))
-                .ForMember(c => c.Name, m => m.MapFrom(s => s.Name));
+            CreateMap<CityModel, CityViewModel>();
+
+            CreateMap<City, CityModel>();
         }
     }
 }

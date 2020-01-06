@@ -31,7 +31,7 @@ namespace CustomRegionEditor.Database.Models
             string dbConnection = @"Data Source = (LocalDB)\MSSQLLocalDB; Initial Catalog = CalromGroupsDev; Integrated Security = True";
 
             var nhConfig = Fluently.Configure().Database(MsSqlConfiguration.MsSql2012.ConnectionString(dbConnection)).
-                Mappings(m => m.FluentMappings.AddFromAssemblyOf<CustomRegionEntryModel>()).
+                Mappings(m => m.FluentMappings.AddFromAssemblyOf<CustomRegionEntry>()).
                 ExposeConfiguration(cfg => new SchemaExport(cfg).
                 Create(true, false)).Cache(c => c.ProviderClass<SysCacheProvider>().UseSecondLevelCache());
 

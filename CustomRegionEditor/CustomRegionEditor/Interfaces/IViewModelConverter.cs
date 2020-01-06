@@ -1,12 +1,6 @@
-﻿using CustomRegionEditor.Database;
-using CustomRegionEditor.Database.Models;
-using CustomRegionEditor.EntityMapper;
+﻿using CustomRegionEditor.Models;
 using CustomRegionEditor.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Web.Interfaces
 {

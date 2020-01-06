@@ -1,44 +1,40 @@
-﻿using CustomRegionEditor.Database.Models;
-using CustomRegionEditor.Database.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentNHibernate.Utils;
-using CustomRegionEditor.Database.NHibernate;
 using CustomRegionEditor.Database.Interfaces;
+using CustomRegionEditor.Database.Models;
+using CustomRegionEditor.Handler.Interfaces;
+using CustomRegionEditor.Models;
 
-namespace CustomRegionEditor.Database.Repositories
+namespace CustomRegionEditor.Handler
 {
     public class SessionRegionGroupRepo : ISessionRegionGroupRepository
     {
-        public SessionRegionGroupRepo(ISessionManager sessionManager, ICustomRegionGroupRepository customRegionGroupRepository, ICustomRegionEntryRepository customRegionEntryRepository, ISubRegionRepo<AirportModel> airportRepo, ISubRegionRepo<CityModel> cityRepo, ISubRegionRepo<StateModel> stateRepo, ISubRegionRepo<CountryModel> countryRepo, ISubRegionRepo<RegionModel> regionRepo)
+        public SessionRegionGroupRepo (IModelConverter modelConverter, IEntryHandler entryHandler, ICustomRegionGroupRepository customRegionGroupRepository, ISubRegionRepo<Airport> airportRepo, ISubRegionRepo<City> cityRepo, ISubRegionRepo<State> stateRepo, ISubRegionRepo<Country> countryRepo, ISubRegionRepo<Region> regionRepo)
         {
             this.AirportRepo = airportRepo;
             this.StateRepo = stateRepo;
             this.CityRepo = cityRepo;
             this.CountryRepo = countryRepo;
             this.RegionRepo = regionRepo;
-            this.SessionManager = sessionManager;
+            this.EntryHandler = entryHandler;
+            this.ModelConverter = modelConverter;
             this.CustomRegionGroupRepository = customRegionGroupRepository;
-            this.CustomRegionEntryRepository = customRegionEntryRepository;
             _customRegionGroupModel = new CustomRegionGroupModel
             {
                 CustomRegionEntries = new List<CustomRegionEntryModel>()
             };
         }
 
-        private ISessionManager SessionManager { get; }
-        private ISubRegionRepo<AirportModel> AirportRepo { get; }
-        private ISubRegionRepo<CityModel> CityRepo { get; }
-        private ISubRegionRepo<StateModel> StateRepo { get; }
-        private ISubRegionRepo<CountryModel> CountryRepo { get; }
-        private ISubRegionRepo<RegionModel> RegionRepo { get; }
+        private ISubRegionRepo<Airport> AirportRepo { get; }
+        private ISubRegionRepo<City> CityRepo { get; }
+        private ISubRegionRepo<State> StateRepo { get; }
+        private ISubRegionRepo<Country> CountryRepo { get; }
+        private ISubRegionRepo<Region> RegionRepo { get; }
+        private IEntryHandler EntryHandler { get; }
+        private IModelConverter ModelConverter { get; }
 
         private ICustomRegionGroupRepository CustomRegionGroupRepository { get; }
-        private ICustomRegionEntryRepository CustomRegionEntryRepository { get; }
 
         private CustomRegionGroupModel _customRegionGroupModel;
 
@@ -145,57 +141,58 @@ namespace CustomRegionEditor.Database.Repositories
         {
             var validEntry = false;
             var customRegionGroupModel = _customRegionGroupModel;
-            var customRegionEntryModel = new CustomRegionEntryModel
-            {
-                RowVersion = 1
-            };
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                customRegionEntryModel.CustomRegionGroup = customRegionGroupModel;
-                switch (type) //changed from if elses to a switch cus cleaner
-                {
-                    case "airport":
-                        customRegionEntryModel.Airport = this.AirportRepo.FindByName(entry); //needs to add a reference to the object for each
-                        if (customRegionEntryModel.Airport != null) validEntry = true;
-                        break;
-                    case "city":
-                        customRegionEntryModel.City = this.CityRepo.FindByName(entry);
-                        if (customRegionEntryModel.City != null) validEntry = true;
-                        break;
-                    case "state":
-                        customRegionEntryModel.State = this.StateRepo.FindByName(entry);
-                        if (customRegionEntryModel.State != null) validEntry = true;
-                        break;
-                    case "country":
-                        customRegionEntryModel.Country = this.CountryRepo.FindByName(entry);
-                        if (customRegionEntryModel.Country != null) validEntry = true;
-                        break;
-                    case "region":
-                        customRegionEntryModel.Region = this.RegionRepo.FindByName(entry);
-                        if (customRegionEntryModel.Region != null) validEntry = true;
-                        break;
-                    default:
-                        break; //replace switch with a new view model and send all data across (three params too much)
-                }
+            var customRegionEntryModel = new CustomRegionEntryModel();
 
-                if (validEntry)
+            customRegionEntryModel.CustomRegionGroup = customRegionGroupModel;
+            switch (type) //changed from if elses to a switch cus cleaner
+            {
+                case "airport":
+                    var foundAirport = this.AirportRepo.FindByName(entry);
+                    customRegionEntryModel.Airport = this.ModelConverter.GetModel(foundAirport); //needs to add a reference to the object for each
+                    if (customRegionEntryModel.Airport != null) validEntry = true;
+                    break;
+                case "city":
+                    var foundCity = this.CityRepo.FindByName(entry);
+                    customRegionEntryModel.City = this.ModelConverter.GetModel(foundCity);
+                    if (customRegionEntryModel.City != null) validEntry = true;
+                    break;
+                case "state":
+                    var foundState = this.StateRepo.FindByName(entry);
+                    customRegionEntryModel.State = this.ModelConverter.GetModel(foundState);
+                    if (customRegionEntryModel.State != null) validEntry = true;
+                    break;
+                case "country":
+                    var foundCountry = this.CountryRepo.FindByName(entry);
+                    customRegionEntryModel.Country = this.ModelConverter.GetModel(foundCountry);
+                    if (customRegionEntryModel.Country != null) validEntry = true;
+                    break;
+                case "region":
+                    var foundRegion = this.RegionRepo.FindByName(entry);
+                    customRegionEntryModel.Region = this.ModelConverter.GetModel(foundRegion);
+                    if (customRegionEntryModel.Region != null) validEntry = true;
+                    break;
+                default:
+                    break; //replace switch with a new view model and send all data across (three params too much)
+            }
+
+            if (validEntry)
+            {
+                if (customRegionGroupModel.CustomRegionEntries == null)
                 {
-                    if (customRegionGroupModel.CustomRegionEntries == null)
-                    {
-                        customRegionGroupModel.CustomRegionEntries = new List<CustomRegionEntryModel>
+                    customRegionGroupModel.CustomRegionEntries = new List<CustomRegionEntryModel>
                         {
                             customRegionEntryModel
                         };
-                    }
-                    else
-                    {
-                        RemoveSubregions(ref customRegionGroupModel, customRegionEntryModel, type);
-                        CheckForParents(ref customRegionGroupModel, type, customRegionEntryModel);
-                    }
-                    _customRegionGroupModel = customRegionGroupModel;
                 }
-            }
-        } //adds a new entry to a group
+                else
+                {
+                    RemoveSubregions(ref customRegionGroupModel, customRegionEntryModel, type);
+                    CheckForParents(ref customRegionGroupModel, type, customRegionEntryModel);
+                }
+                _customRegionGroupModel = customRegionGroupModel;
+
+            } //adds a new entry to a group
+        }
 
         public CustomRegionGroupModel SaveToDatabase(CustomRegionGroupModel customRegionGroupModel)
         {
@@ -222,12 +219,14 @@ namespace CustomRegionEditor.Database.Repositories
                         var entryId = entry.Id;
                         if (!(entryId == null || entryId == Guid.Empty))
                         {
-                            this.CustomRegionEntryRepository.DeleteById(entryId.ToString());
+                            EntryHandler.DeleteById(entryId.ToString());
                         }
                     }
                 }
             }
-            _customRegionGroupModel = CustomRegionGroupRepository.AddNewRegion(customRegionGroupModel);
+            var dbModel = this.ModelConverter.GetDbModel(customRegionGroupModel);
+            var addReturn = CustomRegionGroupRepository.AddOrUpdate(dbModel);
+            _customRegionGroupModel = this.ModelConverter.GetModel(addReturn);
             return _customRegionGroupModel;
         }
 

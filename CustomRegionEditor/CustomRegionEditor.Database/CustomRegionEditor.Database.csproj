@@ -67,7 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\ICustomRegionEntryRepository.cs" />
-    <Compile Include="Interfaces\ISessionRegionGroupRepository.cs" />
     <Compile Include="Interfaces\ICustomRegionGroupRepository.cs" />
     <Compile Include="Interfaces\ISessionFactoryManager.cs" />
     <Compile Include="Interfaces\ISubRegionRepo.cs" />
@@ -83,20 +82,19 @@
     <Compile Include="Maps\CityMap.cs" />
     <Compile Include="Maps\CustomRegionGroupMap.cs" />
     <Compile Include="Maps\CustomRegionEntryMap.cs" />
-    <Compile Include="Models\AirportCityMappingModel.cs" />
-    <Compile Include="Models\AirportModel.cs" />
-    <Compile Include="Models\CountryModel.cs" />
-    <Compile Include="Models\CustomRegionEntryModel.cs" />
-    <Compile Include="Models\CustomRegionGroupModel.cs" />
-    <Compile Include="Models\CityModel.cs" />
-    <Compile Include="Models\GlobalDistributionSystemModel.cs" />
-    <Compile Include="Models\StateModel.cs" />
-    <Compile Include="Models\RegionModel.cs" />
-    <Compile Include="Models\SystemModel.cs" />
+    <Compile Include="Models\AirportCityMapping.cs" />
+    <Compile Include="Models\Airport.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\CustomRegionEntry.cs" />
+    <Compile Include="Models\CustomRegionGroup.cs" />
+    <Compile Include="Models\City.cs" />
+    <Compile Include="Models\GlobalDistributionSystem.cs" />
+    <Compile Include="Models\State.cs" />
+    <Compile Include="Models\Region.cs" />
+    <Compile Include="Models\System.cs" />
     <Compile Include="Interfaces\ISessionManager.cs" />
     <Compile Include="NHibernate\NHibernateSessionFactoryManager.cs" />
     <Compile Include="NHibernate\NHibernateSessionManager.cs" />
-    <Compile Include="Repositories\SessionRegionGroupRepo.cs" />
     <Compile Include="Repositories\RegionRepo.cs" />
     <Compile Include="Repositories\CountryRepo.cs" />
     <Compile Include="Repositories\StateRepo.cs" />

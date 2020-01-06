@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Database.Models
 {
-    public class SystemModel
+    public class System
     {
         public virtual string Id { get; set; }
         public virtual string InternalSystemName { get; set; }

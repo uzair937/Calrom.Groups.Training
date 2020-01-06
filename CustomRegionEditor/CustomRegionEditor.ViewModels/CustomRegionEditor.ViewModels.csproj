@@ -59,7 +59,6 @@
     <Compile Include="CountryViewModel.cs" />
     <Compile Include="SearchViewModel.cs" />
     <Compile Include="EditViewModel.cs" />
-    <Compile Include="SidebarViewModel.cs" />
     <Compile Include="RegionViewModel.cs" />
     <Compile Include="StateViewModel.cs" />
   </ItemGroup>

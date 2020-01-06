@@ -19,13 +19,13 @@ namespace CustomRegionEditor.Test.Repositories
         public void Given_AnExistingStateName_Then_FindStateByName_Should_ReturnExistingState() {
             // Arrange
             const string stateName = "Africalifornia";
-            var stateModel = new StateModel { Name = stateName };
-            var stateModels = new List<StateModel> { stateModel };
+            var stateModel = new State { Name = stateName };
+            var stateModels = new List<State> { stateModel };
 
-            var mockCityRepo = new Mock<ISubRegionRepo<CityModel>>();
+            var mockCityRepo = new Mock<ISubRegionRepo<City>>();
 
             var mockSession = new Mock<ISession>();
-            mockSession.Setup(m => m.Query<StateModel>()).Returns(stateModels.AsQueryable());
+            mockSession.Setup(m => m.Query<State>()).Returns(stateModels.AsQueryable());
 
             var mockSessionManager = new Mock<ISessionManager>();
             mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
@@ -42,7 +42,7 @@ namespace CustomRegionEditor.Test.Repositories
             Assert.IsNotNull(stateFound, "We should have received an state, but instead received null.");
             Assert.AreEqual(stateName, stateFound.Name, "The found state name should match");
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession Once");
-            mockSession.Verify(m => m.Query<StateModel>(), Times.Once, "Should have queried the states once");
+            mockSession.Verify(m => m.Query<State>(), Times.Once, "Should have queried the states once");
             mockEagerLoader.Verify(m => m.LoadEntities(stateModel), Times.Once, "Should have called load entities with the provided state");
         }
 
@@ -51,13 +51,13 @@ namespace CustomRegionEditor.Test.Repositories
         {
             // Arrange
             const string stateName = "Africalifornia";
-            var stateModel = new StateModel { Name = stateName };
-            var stateModels = new List<StateModel> { stateModel };
+            var stateModel = new State { Name = stateName };
+            var stateModels = new List<State> { stateModel };
 
-            var mockCityRepo = new Mock<ISubRegionRepo<CityModel>>();
+            var mockCityRepo = new Mock<ISubRegionRepo<City>>();
 
             var mockSession = new Mock<ISession>();
-            mockSession.Setup(m => m.Query<StateModel>()).Returns(stateModels.AsQueryable());
+            mockSession.Setup(m => m.Query<State>()).Returns(stateModels.AsQueryable());
 
             var mockSessionManager = new Mock<ISessionManager>();
             mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
@@ -73,7 +73,7 @@ namespace CustomRegionEditor.Test.Repositories
             // Assert
             Assert.IsNull(stateFound, "We should have received an null.");
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession Once");
-            mockSession.Verify(m => m.Query<StateModel>(), Times.Exactly(2), "Should have queried the states twice");
+            mockSession.Verify(m => m.Query<State>(), Times.Exactly(2), "Should have queried the states twice");
             mockEagerLoader.Verify(m => m.LoadEntities(stateModel), Times.Never, "Should return null");
         }
         
@@ -85,22 +85,22 @@ namespace CustomRegionEditor.Test.Repositories
             const string cityName = "Toto";
             const string airportName = "Rains";
 
-            var stateModel = new StateModel { Name = stateName, Id = "AFR" };
-            var stateModels = new List<StateModel> { stateModel };
+            var stateModel = new State { Name = stateName, Id = "AFR" };
+            var stateModels = new List<State> { stateModel };
             
-            var cityModel = new CityModel { Name = cityName, State = stateModel };
-            var cityModels = new List<CityModel> { cityModel };
+            var cityModel = new City { Name = cityName, State = stateModel };
+            var cityModels = new List<City> { cityModel };
             
-            var airportModel = new AirportModel { Name = airportName };
+            var airportModel = new Airport { Name = airportName };
 
-            var entryModel = new CustomRegionEntryModel() { Airport = airportModel };
-            var entryModels = new List<CustomRegionEntryModel>() { entryModel };
+            var entryModel = new CustomRegionEntry() { Airport = airportModel };
+            var entryModels = new List<CustomRegionEntry>() { entryModel };
 
-            var mockCountryRepo = new Mock<ISubRegionRepo<CityModel>>();
+            var mockCountryRepo = new Mock<ISubRegionRepo<City>>();
             mockCountryRepo.Setup(m => m.GetSubRegions(cityModel)).Returns(entryModels);
 
             var mockSession = new Mock<ISession>();
-            mockSession.Setup(m => m.Query<CityModel>()).Returns(cityModels.AsQueryable());
+            mockSession.Setup(m => m.Query<City>()).Returns(cityModels.AsQueryable());
             
             var mockSessionManager = new Mock<ISessionManager>();
             mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
@@ -113,16 +113,16 @@ namespace CustomRegionEditor.Test.Repositories
             // Act
             var entriesFound = stateRepo.GetSubRegions(stateModel);
 
-            var idealResult = new List<CustomRegionEntryModel>()
+            var idealResult = new List<CustomRegionEntry>()
             {
-                new CustomRegionEntryModel() { City = cityModel},
-                new CustomRegionEntryModel() { Airport = airportModel},
+                new CustomRegionEntry() { City = cityModel},
+                new CustomRegionEntry() { Airport = airportModel},
             };
             // Assert
             Assert.IsNotNull(entriesFound, "We should have received a country and city.");
             Assert.AreEqual(entriesFound[1].Airport.Name, idealResult[1].Airport.Name);
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession once.");
-            mockSession.Verify(m => m.Query<CityModel>(), Times.Once, "Should have queried the countries once.");
+            mockSession.Verify(m => m.Query<City>(), Times.Once, "Should have queried the countries once.");
             mockEagerLoader.Verify(m => m.LoadEntities(stateModel), Times.Never, "Should return the state model.");
         }
 
@@ -134,25 +134,25 @@ namespace CustomRegionEditor.Test.Repositories
             const string cityName = "Toto";
             const string airportName = "Rains";
 
-            var fakeState = new StateModel { Name = "Dr Pepper", Id = "PEP" };
+            var fakeState = new State { Name = "Dr Pepper", Id = "PEP" };
 
 
-            var stateModel = new StateModel { Name = stateName, Id = "AFR" };
-            var stateModels = new List<StateModel> { stateModel };
+            var stateModel = new State { Name = stateName, Id = "AFR" };
+            var stateModels = new List<State> { stateModel };
 
-            var cityModel = new CityModel { Name = cityName, State = stateModel };
-            var cityModels = new List<CityModel> { cityModel };
+            var cityModel = new City { Name = cityName, State = stateModel };
+            var cityModels = new List<City> { cityModel };
 
-            var airportModel = new AirportModel { Name = airportName };
+            var airportModel = new Airport { Name = airportName };
 
-            var entryModel = new CustomRegionEntryModel() { Airport = airportModel };
-            var entryModels = new List<CustomRegionEntryModel>() { entryModel };
+            var entryModel = new CustomRegionEntry() { Airport = airportModel };
+            var entryModels = new List<CustomRegionEntry>() { entryModel };
 
-            var mockCountryRepo = new Mock<ISubRegionRepo<CityModel>>();
+            var mockCountryRepo = new Mock<ISubRegionRepo<City>>();
             mockCountryRepo.Setup(m => m.GetSubRegions(cityModel)).Returns(entryModels);
 
             var mockSession = new Mock<ISession>();
-            mockSession.Setup(m => m.Query<CityModel>()).Returns(cityModels.AsQueryable());
+            mockSession.Setup(m => m.Query<City>()).Returns(cityModels.AsQueryable());
 
             var mockSessionManager = new Mock<ISessionManager>();
             mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
@@ -168,9 +168,9 @@ namespace CustomRegionEditor.Test.Repositories
 
             // Assert
             Assert.IsNotNull(entriesFound, "We should have received an empty list.");
-            Assert.AreEqual(entriesFound, new List<CustomRegionEntryModel>());
+            Assert.AreEqual(entriesFound, new List<CustomRegionEntry>());
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession once");
-            mockSession.Verify(m => m.Query<CityModel>(), Times.Once, "Should have queried the countries once");
+            mockSession.Verify(m => m.Query<City>(), Times.Once, "Should have queried the countries once");
             mockEagerLoader.Verify(m => m.LoadEntities(stateModel), Times.Never, "Should return null");
         }
     }

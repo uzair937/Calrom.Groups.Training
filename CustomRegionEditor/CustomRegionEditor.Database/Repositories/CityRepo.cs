@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Database.Repositories
 {
-    public class CityRepo : ISubRegionRepo<CityModel>
+    public class CityRepo : ISubRegionRepo<City>
     {
         private ISessionManager SessionManager { get; }
 
@@ -20,32 +20,32 @@ namespace CustomRegionEditor.Database.Repositories
             this.SessionManager = sessionManager;
         }
 
-        public CityModel FindByName(string entry)
+        public City FindByName(string entry)
         {
-            var cityModel = new CityModel();
+            var cityModel = new City();
             using (var dbSession = SessionManager.OpenSession())
             {
-                cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.Name == (entry));
+                cityModel = dbSession.Query<City>().FirstOrDefault(a => a.Name == (entry));
                 if (cityModel == null)
                 {
-                    cityModel = dbSession.Query<CityModel>().FirstOrDefault(a => a.Id == (entry));
+                    cityModel = dbSession.Query<City>().FirstOrDefault(a => a.Id == (entry));
                 }
                 return LazyLoader.LoadEntities(cityModel);
             }
 
         } //searches for a matching city
 
-        public List<CustomRegionEntryModel> GetSubRegions(CityModel city)
+        public List<CustomRegionEntry> GetSubRegions(City city)
         {
-            var CustomRegionEntries = new List<CustomRegionEntryModel>();
+            var CustomRegionEntries = new List<CustomRegionEntry>();
             if (city == null) return CustomRegionEntries;
             using (var dbSession = SessionManager.OpenSession())
             {
-                var airports = dbSession.Query<AirportModel>().Where(c => c.City.Id == city.Id).ToList();
+                var airports = dbSession.Query<Airport>().Where(c => c.City.Id == city.Id).ToList();
 
                 foreach (var airport in airports)
                 {
-                    CustomRegionEntries.Add(new CustomRegionEntryModel()
+                    CustomRegionEntries.Add(new CustomRegionEntry()
                     {
                         Airport = airport
                     });

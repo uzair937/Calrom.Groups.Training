@@ -19,11 +19,11 @@ namespace CustomRegionEditor.Test.Repositories
         public void Given_AnExistingCityName_Then_FindCityByName_Should_ReturnExistingCity() {
             // Arrange
             const string cityName = "Manchester";
-            var cityModel = new CityModel { Name = cityName };
-            var cityModels = new List<CityModel> { cityModel };
+            var cityModel = new City { Name = cityName };
+            var cityModels = new List<City> { cityModel };
             
             var mockSession = new Mock<ISession>();
-            mockSession.Setup(m => m.Query<CityModel>()).Returns(cityModels.AsQueryable());
+            mockSession.Setup(m => m.Query<City>()).Returns(cityModels.AsQueryable());
 
             var mockSessionManager = new Mock<ISessionManager>();
             mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
@@ -41,7 +41,7 @@ namespace CustomRegionEditor.Test.Repositories
             Assert.IsNotNull(cityFound, "A city should have been received. Instead null was received.");
             Assert.AreEqual(cityName, cityFound.Name, "The found city name should match");
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession Once");
-            mockSession.Verify(m => m.Query<CityModel>(), Times.Once, "Should have queried the cities once");
+            mockSession.Verify(m => m.Query<City>(), Times.Once, "Should have queried the cities once");
             mockEagerLoader.Verify(m => m.LoadEntities(cityModel), Times.Once, "Should have called load entities with the provided city");
         }
 
@@ -50,18 +50,18 @@ namespace CustomRegionEditor.Test.Repositories
         {
             // Arrange
             const string cityName = "London";
-            var cityModel = new CityModel { Name = cityName };
-            var cityModels = new List<CityModel> { cityModel };
+            var cityModel = new City { Name = cityName };
+            var cityModels = new List<City> { cityModel };
 
             var mockSession = new Mock<ISession>();
-            mockSession.Setup(m => m.Query<CityModel>()).Returns(cityModels.AsQueryable());
+            mockSession.Setup(m => m.Query<City>()).Returns(cityModels.AsQueryable());
 
             var mockSessionManager = new Mock<ISessionManager>();
             mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
 
 
             var mockEagerLoader = new Mock<IEagerLoader>(MockBehavior.Strict);
-            mockEagerLoader.Setup(m => m.LoadEntities((CityModel)null)).Returns((CityModel)null);
+            mockEagerLoader.Setup(m => m.LoadEntities((City)null)).Returns((City)null);
 
             var cityRepo = new CityRepo(mockEagerLoader.Object, mockSessionManager.Object);
 
@@ -71,8 +71,8 @@ namespace CustomRegionEditor.Test.Repositories
             // Assert
             Assert.IsNull(cityFound, "A city should have been received. Instead null was received.");
             mockSessionManager.Verify(m => m.OpenSession(), Times.Once, "We should only call OpenSession Once");
-            mockSession.Verify(m => m.Query<CityModel>(), Times.Exactly(2), "Should have queried the cities twice");
-            mockEagerLoader.Verify(m => m.LoadEntities((CityModel)null), Times.Once, "Should have called load entities with the provided city");
+            mockSession.Verify(m => m.Query<City>(), Times.Exactly(2), "Should have queried the cities twice");
+            mockEagerLoader.Verify(m => m.LoadEntities((City)null), Times.Once, "Should have called load entities with the provided city");
         }
     }
 }

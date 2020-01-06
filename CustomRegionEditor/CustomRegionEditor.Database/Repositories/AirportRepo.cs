@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Database.Repositories
 {
-    public class AirportRepo : ISubRegionRepo<AirportModel>
+    public class AirportRepo : ISubRegionRepo<Airport>
     {
         private ISessionManager SessionManager { get; }
 
@@ -20,22 +20,22 @@ namespace CustomRegionEditor.Database.Repositories
             this.SessionManager = sessionManager;
         }
 
-        public AirportModel FindByName(string entry)
+        public Airport FindByName(string entry)
         {
-            var airportModel = new AirportModel();
+            var airportModel = new Airport();
             using (var dbSession = SessionManager.OpenSession())
             {
-                airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.Name == (entry));
+                airportModel = dbSession.Query<Airport>().FirstOrDefault(a => a.Name == (entry));
                 if (airportModel == null)
                 {
-                    airportModel = dbSession.Query<AirportModel>().FirstOrDefault(a => a.Id == (entry));
+                    airportModel = dbSession.Query<Airport>().FirstOrDefault(a => a.Id == (entry));
                 }
 
                 return EagerLoader.LoadEntities(airportModel);
             }
         }
 
-        public List<CustomRegionEntryModel> GetSubRegions(AirportModel model)
+        public List<CustomRegionEntry> GetSubRegions(Airport model)
         {
             throw new NotImplementedException();
         }

@@ -113,11 +113,11 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Unity.Abstractions, Version=5.11.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.11.2\lib\net47\Unity.Abstractions.dll</HintPath>
+    <Reference Include="Unity.Abstractions, Version=5.11.3.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.3\lib\net47\Unity.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Container, Version=5.11.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.5.11.2\lib\net47\Unity.Container.dll</HintPath>
+    <Reference Include="Unity.Container, Version=5.11.5.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.5.11.3\lib\net47\Unity.Container.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mvc5, Version=1.4.0.0, Culture=neutral, PublicKeyToken=43da31bc42a85347, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.Mvc5.1.4.0\lib\net45\Unity.Mvc5.dll</HintPath>
@@ -137,7 +137,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
-    <Compile Include="App_Start\UnityExtensions\DisposableTransientLifetimeManager.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Converters\ViewModelConverter.cs" />
     <Compile Include="Global.asax.cs">
@@ -345,6 +344,10 @@
       <Project>{8265bbbc-b01a-419a-b1b0-f0edf652bf94}</Project>
       <Name>CustomRegionEditor.Database</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CustomRegionEditor.Handler\CustomRegionEditor.Handler.csproj">
+      <Project>{1366f7dd-47c1-4572-a48c-b53467ae97e9}</Project>
+      <Name>CustomRegionEditor.Handler</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CustomRegionEditor.Logging\CustomRegionEditor.Logging.csproj">
       <Project>{49b99272-9f2a-440d-b469-754a96e60f00}</Project>
       <Name>CustomRegionEditor.Logging</Name>
@@ -352,6 +355,10 @@
     <ProjectReference Include="..\CustomRegionEditor.Mapping\CustomRegionEditor.EntityMapper.csproj">
       <Project>{45e78950-3fa1-40e9-835f-2b6bf962ab7f}</Project>
       <Name>CustomRegionEditor.EntityMapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomRegionEditor.Models\CustomRegionEditor.Models.csproj">
+      <Project>{b7d25ac9-35a5-47fd-a64d-5d0b27618aa7}</Project>
+      <Name>CustomRegionEditor.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\CustomRegionEditor.ViewModels\CustomRegionEditor.ViewModels.csproj">
       <Project>{62a780e8-32ab-41e0-a8cd-7da5e6238154}</Project>

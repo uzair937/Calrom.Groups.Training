@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CustomRegionEditor.Database.Models;
+using CustomRegionEditor.Models;
 using CustomRegionEditor.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,20 @@ namespace CustomRegionEditor.EntityMapper
         public CustomRegionEntryProfile()
         {
             CreateMap<CustomRegionEntryModel, CustomRegionEntryViewModel>()
-                .ForMember(c => c.Id, m => m.MapFrom(s => s.Id))
                 .ForMember(c => c.Region, m => m.Ignore())
                 .ForMember(c => c.Country, m => m.Ignore())
                 .ForMember(c => c.State, m => m.Ignore())
                 .ForMember(c => c.City, m => m.Ignore())
                 .ForMember(c => c.Airport, m => m.Ignore());
+
+            CreateMap<CustomRegionEntry, CustomRegionEntryModel>()
+                .ForMember(c => c.Region, m => m.Ignore())
+                .ForMember(c => c.Country, m => m.Ignore())
+                .ForMember(c => c.State, m => m.Ignore())
+                .ForMember(c => c.City, m => m.Ignore())
+                .ForMember(c => c.Airport, m => m.Ignore());
+
+            CreateMap<CustomRegionEntryModel, CustomRegionEntry>();
         }
     }
 }

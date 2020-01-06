@@ -28,7 +28,7 @@ namespace CustomRegionEditor.Test.Repositories
 
             var customRegionEntryRepo = new CustomRegionEntryRepo(mockEagerLoader.Object, mockSessionManager.Object);
 
-            var customRegionEntryModel = new CustomRegionEntryModel();
+            var customRegionEntryModel = new CustomRegionEntry();
 
             //Act
             customRegionEntryRepo.AddOrUpdate(customRegionEntryModel);
@@ -49,13 +49,13 @@ namespace CustomRegionEditor.Test.Repositories
             var mockEntryRepository = new Mock<ICustomRegionEntryRepository>();
 
             var id = new Guid();
-            var customRegionEntryModel = new CustomRegionEntryModel()
+            var customRegionEntryModel = new CustomRegionEntry()
             {
                 Id = id
             };
             var mockSession = new Mock<ISession>();
             mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
-            mockSession.Setup(m => m.Get<CustomRegionEntryModel>(id)).Returns(customRegionEntryModel);
+            mockSession.Setup(m => m.Get<CustomRegionEntry>(id)).Returns(customRegionEntryModel);
 
             var customRegionEntryRepo = new CustomRegionEntryRepo(mockEagerLoader.Object, mockSessionManager.Object);
 
@@ -78,17 +78,17 @@ namespace CustomRegionEditor.Test.Repositories
             var mockEntryRepository = new Mock<ICustomRegionEntryRepository>();
 
             var id = new Guid();
-            var customRegionEntryModel = new CustomRegionEntryModel()
+            var customRegionEntryModel = new CustomRegionEntry()
             {
                 Id = id
             };
             var mockSession = new Mock<ISession>();
             mockSessionManager.Setup(m => m.OpenSession()).Returns(mockSession.Object);
-            mockSession.Setup(m => m.Get<CustomRegionEntryModel>(id)).Returns(customRegionEntryModel);
+            mockSession.Setup(m => m.Get<CustomRegionEntry>(id)).Returns(customRegionEntryModel);
             mockEntryRepository.Setup(m => m.Delete(customRegionEntryModel));
 
             var customRegionEntryRepo = new CustomRegionEntryRepo(mockEagerLoader.Object, mockSessionManager.Object);
-            var customRegionEntryList = new List<CustomRegionEntryModel>() {customRegionEntryModel};
+            var customRegionEntryList = new List<CustomRegionEntry>() {customRegionEntryModel};
 
             //Act
             customRegionEntryRepo.Delete(customRegionEntryList);

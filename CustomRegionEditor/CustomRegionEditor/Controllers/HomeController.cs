@@ -1,9 +1,8 @@
-﻿using CustomRegionEditor.Database;
+﻿using CustomRegionEditor.Database.Repositories;
 using CustomRegionEditor.Database.Interfaces;
-using CustomRegionEditor.Database.Models;
-using CustomRegionEditor.EntityMapper;
+using CustomRegionEditor.Handler.Interfaces;
+using CustomRegionEditor.Models;
 using CustomRegionEditor.ViewModels;
-using CustomRegionEditor.Web.Converters;
 using CustomRegionEditor.Web.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -14,23 +13,25 @@ namespace CustomRegionEditor.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController(ISessionRegionGroupRepository sessionRegionGroupRepository, ICustomRegionGroupRepository customRegionGroupRepository, ICustomRegionEntryRepository customRegionEntryRepository, IViewModelConverter ViewModelConverter, ISubRegionRepo<CityModel> cityRepo, ISubRegionRepo<StateModel> stateRepo, ISubRegionRepo<CountryModel> countryRepo, ISubRegionRepo<RegionModel> regionRepo)
+        public HomeController(ISessionRegionGroupRepository sessionRegionGroupRepository, IViewModelConverter viewModelConverter, IRegionHandler regionHandler, ISearchRegion searchRegion, ISearchEntry searchEntry)
         {
-            this.StateRepo = stateRepo;
-            this.CityRepo = cityRepo;
-            this.CountryRepo = countryRepo;
-            this.RegionRepo = regionRepo;
-            this.CustomRegionGroupRepository = customRegionGroupRepository;
             this.SessionRegionGroupRepository = sessionRegionGroupRepository;
-            this.ViewModelConverter = ViewModelConverter;
-            this.CustomRegionEntryRepository = customRegionEntryRepository;
+            this.ViewModelConverter = viewModelConverter;
+            this.RegionHandler = regionHandler;
+            this.SearchRegion = searchRegion;
+            this.SearchEntry = searchEntry;
             SetupAutoCompleteList();
         }
 
-        private ISubRegionRepo<CityModel> CityRepo { get; }
-        private ISubRegionRepo<StateModel> StateRepo { get; }
-        private ISubRegionRepo<CountryModel> CountryRepo { get; }
-        private ISubRegionRepo<RegionModel> RegionRepo { get; }
+        private void SetupAutoCompleteList()
+        {
+            var regionLists = this.RegionHandler.GetRegionList();
+            Airports = regionLists[0];
+            Cities = regionLists[1];
+            States = regionLists[2];
+            Countries = regionLists[3];
+            Regions = regionLists[4];
+        }
 
         private List<string> Airports = null;
         private List<string> Cities = null;
@@ -39,18 +40,10 @@ namespace CustomRegionEditor.Controllers
         private List<string> Regions = null;
         private readonly IViewModelConverter ViewModelConverter = null;
 
-        private void SetupAutoCompleteList()
-        {
-            Airports = this.CustomRegionGroupRepository.GetNames("airport").Distinct().ToList();
-            Cities = this.CustomRegionGroupRepository.GetNames("city").Distinct().ToList();
-            States = this.CustomRegionGroupRepository.GetNames("state").Distinct().ToList();
-            Countries = this.CustomRegionGroupRepository.GetNames("country").Distinct().ToList();
-            Regions = this.CustomRegionGroupRepository.GetNames("region").Distinct().ToList();
-        }
-
-        public ICustomRegionGroupRepository CustomRegionGroupRepository { get; private set; }
         public ISessionRegionGroupRepository SessionRegionGroupRepository { get; private set; }
-        public ICustomRegionEntryRepository CustomRegionEntryRepository { get; private set; }
+        public IRegionHandler RegionHandler { get; private set; }
+        public ISearchRegion SearchRegion { get; private set; }
+        public ISearchEntry SearchEntry { get; private set; }
 
         [HttpPost]
         public ActionResult Search(SearchBoxViewModel searchForm)
@@ -63,7 +56,8 @@ namespace CustomRegionEditor.Controllers
             var contentViewModel = new ContentViewModel();
             if (filter.Contains("Filter"))
             {
-                var SubSearchResults = ViewModelConverter.GetView(GetSubRegions(searchTerm, filter));
+                var regionList = this.RegionHandler.GetSubRegions(searchTerm, filter);
+                var SubSearchResults = this.ViewModelConverter.GetView(regionList);
                 contentViewModel = new ContentViewModel
                 {
                     SubRegionViewModel = new SubRegionViewModel()
@@ -77,7 +71,7 @@ namespace CustomRegionEditor.Controllers
             }
             else
             {
-                SearchResults = this.CustomRegionGroupRepository.GetSearchResults(searchTerm, filter);
+                SearchResults = this.SearchRegion.GetSearchResults(searchTerm, filter);
                 contentViewModel = new ContentViewModel
                 {
                     SearchViewModel = new SearchViewModel()
@@ -100,7 +94,7 @@ namespace CustomRegionEditor.Controllers
         [HttpPost]
         public ActionResult DeleteRegionGroup(IdViewModel idForm)
         {
-            this.CustomRegionGroupRepository.DeleteById(idForm.Id);
+            this.RegionHandler.DeleteById(idForm.Id);
             return Search(idForm.LastSearch);
         }
 
@@ -205,10 +199,10 @@ namespace CustomRegionEditor.Controllers
             };
             var parseId = new Guid();
             Guid.TryParse(idForm.Id, out parseId);
-            var FoundRegion = this.CustomRegionGroupRepository.FindById(idForm.Id);
+            var FoundRegion = this.SearchRegion.FindById(idForm.Id);
             if (FoundRegion?.Id == Guid.Empty)
             {
-                var FoundEntry = this.CustomRegionEntryRepository.FindById(idForm.Id);
+                var FoundEntry = this.SearchEntry.FindById(idForm.Id);
                 FoundRegion = FoundEntry.CustomRegionGroup;
                 if (FoundRegion?.Id == Guid.Empty)
                 {
@@ -287,40 +281,6 @@ namespace CustomRegionEditor.Controllers
                 }
             }
             return PartialView("_AutoComplete", autoCompleteViewModel);
-        }
-
-        public CustomRegionGroupModel GetSubRegions(string searchTerm, string filter)
-        {
-            var customRegionGroupModel = new CustomRegionGroupModel()
-            {
-                CustomRegionEntries = new List<CustomRegionEntryModel>()
-            };
-            switch (filter)
-            {
-                case "regionFilter":
-                    var region = RegionRepo.FindByName(searchTerm);
-                    customRegionGroupModel.CustomRegionEntries = RegionRepo.GetSubRegions(region);
-                    break;
-
-                case "countryFilter":
-                    var country = CountryRepo.FindByName(searchTerm);
-                    customRegionGroupModel.CustomRegionEntries = CountryRepo.GetSubRegions(country);
-                    break;
-
-                case "stateFilter":
-                    var state = StateRepo.FindByName(searchTerm);
-                    customRegionGroupModel.CustomRegionEntries = StateRepo.GetSubRegions(state);
-                    break;
-
-                case "cityFilter":
-                    var city = CityRepo.FindByName(searchTerm);
-                    customRegionGroupModel.CustomRegionEntries = CityRepo.GetSubRegions(city);
-                    break;
-
-                default:
-                    break;
-            }
-            return customRegionGroupModel;
         }
 
         public List<string> GetCountries(string term)

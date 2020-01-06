@@ -9,24 +9,24 @@ namespace CustomRegionEditor.Database.Interfaces
 {
     public interface IEagerLoader
     {
-        CustomRegionEntryModel LoadEntities(CustomRegionEntryModel oldModel);
+        CustomRegionEntry LoadEntities(CustomRegionEntry oldModel);
 
-        List<CustomRegionEntryModel> LoadEntities(List<CustomRegionEntryModel> oldModel);   
+        List<CustomRegionEntry> LoadEntities(List<CustomRegionEntry> oldModel);   
         
-        CustomRegionGroupModel LoadEntities(CustomRegionGroupModel oldModel);
+        CustomRegionGroup LoadEntities(CustomRegionGroup oldModel);
 
-        List<CustomRegionGroupModel> LoadEntities(List<CustomRegionGroupModel> oldModel);
+        List<CustomRegionGroup> LoadEntities(List<CustomRegionGroup> oldModel);
 
-        AirportModel LoadEntities(AirportModel oldModel);
+        Airport LoadEntities(Airport oldModel);
 
-        CityModel LoadEntities(CityModel oldModel);
+        City LoadEntities(City oldModel);
 
-        StateModel LoadEntities(StateModel oldModel);
+        State LoadEntities(State oldModel);
 
-        CountryModel LoadEntities(CountryModel oldModel);
+        Country LoadEntities(Country oldModel);
 
-        RegionModel LoadEntities(RegionModel oldModel);
+        Region LoadEntities(Region oldModel);
 
-        SystemModel LoadEntities(SystemModel oldModel);
+        Models.System LoadEntities(Models.System oldModel);
     }
 }

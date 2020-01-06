@@ -8,7 +8,7 @@ using FluentNHibernate.Mapping;
 
 namespace CustomRegionEditor.Database.Maps
 {
-    public class AirportMap : ClassMap<AirportModel>
+    public class AirportMap : ClassMap<Airport>
     {
         public AirportMap()
         {

@@ -1,7 +1,6 @@
-﻿using CustomRegionEditor.Database.Models;
-using System.Collections.Generic;
+﻿using CustomRegionEditor.Models;
 
-namespace CustomRegionEditor.Database.Interfaces
+namespace CustomRegionEditor.Handler.Interfaces
 {
     public interface ISessionRegionGroupRepository
     {

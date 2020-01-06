@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Database.Models
 {
-    public class AirportCityMappingModel
+    public class AirportCityMapping
     {
         public virtual Guid AcmId { get; set; }
-        public virtual AirportModel Airport { get; set; }
-        public virtual CityModel MappedCity { get; set; }
+        public virtual Airport Airport { get; set; }
+        public virtual City MappedCity { get; set; }
         public virtual DateTime LiveToDate { get; set; }
         public virtual int RowVersion { get; set; }
     }
