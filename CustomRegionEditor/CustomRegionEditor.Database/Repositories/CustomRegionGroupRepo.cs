@@ -14,28 +14,15 @@ namespace CustomRegionEditor.Database.Repositories
 {
     public class CustomRegionGroupRepo : ICustomRegionGroupRepository
     {
-        public CustomRegionGroupRepo(IEagerLoader eagerLoader, ISessionManager sessionManager, ICustomRegionEntryRepository customRegionEntryRepository, ISubRegionRepo<AirportModel> airportRepo, ISubRegionRepo<CityModel> cityRepo, ISubRegionRepo<StateModel> stateRepo, ISubRegionRepo<CountryModel> countryRepo, ISubRegionRepo<RegionModel> regionRepo)
+        public CustomRegionGroupRepo(IEagerLoader eagerLoader, ISessionManager sessionManager)
         {
-            this.AirportRepo = airportRepo;
-            this.StateRepo = stateRepo;
-            this.CityRepo = cityRepo;
-            this.CountryRepo = countryRepo;
-            this.RegionRepo = regionRepo;
             this.EagerLoader = eagerLoader;
             this.SessionManager = sessionManager;
-            this.CustomRegionEntryRepository = customRegionEntryRepository;
             _customRegionGroupList = new List<CustomRegionGroupModel>();
         }
 
         private ISessionManager SessionManager { get; }
         private IEagerLoader EagerLoader { get; }
-        private ISubRegionRepo<AirportModel> AirportRepo { get; }
-        private ISubRegionRepo<CityModel> CityRepo { get; }
-        private ISubRegionRepo<StateModel> StateRepo { get; }
-        private ISubRegionRepo<CountryModel> CountryRepo { get; }
-        private ISubRegionRepo<RegionModel> RegionRepo { get; }
-
-        private ICustomRegionEntryRepository CustomRegionEntryRepository { get; }
 
         private List<CustomRegionGroupModel> _customRegionGroupList;
 
