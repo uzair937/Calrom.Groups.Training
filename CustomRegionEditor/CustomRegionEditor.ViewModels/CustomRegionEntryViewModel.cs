@@ -4,7 +4,7 @@ namespace CustomRegionEditor.ViewModels
 {
     public class CustomRegionEntryViewModel
     {
-        public string ID { get; set; }
+        public string Id { get; set; }
         public RegionViewModel Region { get; set; }
         public CountryViewModel Country { get; set; }
         public StateViewModel State { get; set; }

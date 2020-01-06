@@ -5,7 +5,7 @@
     <div class="edit-container flex-column">
         @if (Model.IsEditing)
         {
-            <div class="model-id" modelId="@Model.CustomRegionGroupViewModel.ID" />
+            <div class="model-id" modelId="@Model.CustomRegionGroupViewModel.Id" />
             <table class="info-table-header table" data-savechangesurl="@Url.Action("SaveChanges", "Home")">
                 <thead class="thead-dark">
                     <tr>
@@ -41,7 +41,7 @@
                         @foreach (var entry in Model.CustomRegionGroupViewModel.CustomRegions)
                         {
 
-                            <tr class="single-region-entry" entryId="@entry.ID" entryValue="@entry.Value" entryName="@entry.Name">
+                            <tr class="single-region-entry" entryId="@entry.Id" entryValue="@entry.Value" entryName="@entry.Name">
                                 <td>@entry.Region.Name</td>
                                 <td>@entry.Country.Name</td>
                                 <td>@entry.State.Name</td>
