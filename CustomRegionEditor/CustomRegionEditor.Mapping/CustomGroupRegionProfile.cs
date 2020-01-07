@@ -15,12 +15,9 @@ namespace CustomRegionEditor.EntityMapper
         public override string ProfileName => base.ProfileName;
         public CustomRegionGroupProfile()
         {
-            CreateMap<CustomRegionGroupModel, CustomRegionGroupViewModel>()
-                .ForMember(c => c.CustomRegions, m => m.Ignore());
+            CreateMap<CustomRegionGroupModel, CustomRegionGroupViewModel>();
 
-            CreateMap<CustomRegionGroup, CustomRegionGroupModel>()
-                .ForMember(c => c.CustomRegionEntries, m => m.Ignore());
-
+            CreateMap<CustomRegionGroup, CustomRegionGroupModel>();
 
             CreateMap<CustomRegionGroupModel, CustomRegionGroup>();
         }

@@ -7,6 +7,8 @@ namespace CustomRegionEditor.ViewModels
 {
     public class ContentViewModel
     {
+        public List<string> dbChanges { get; set; }
+
         public SearchViewModel SearchViewModel { get; set; }
 
         public EditViewModel EditViewModel { get; set; }

@@ -2,9 +2,33 @@
 @model ContentViewModel
 
 
-    <div class="content-model-container flex-column">
+<div class="content-model-container flex-column">
+    @if (Model.dbChanges?[0] == null)
+    {
         <div class="alert-container"></div>
-        @Html.Partial("_EditRegion", Model.EditViewModel)
-        @Html.Partial("_SearchRegion", Model.SearchViewModel)
-        @Html.Partial("_SubRegionView", Model.SubRegionViewModel)
-    </div>
+    }
+    else
+    {
+        <div class="db-alert-container">
+            <div class="alert alert-warning" role="alert">Failed to add @Model.dbChanges[0]</div>
+        </div>
+    }
+    @if (Model.dbChanges?[1] != null)
+    {
+        if (Model.dbChanges?[1] != "0")
+        {
+            <div class="db-alert-container">
+                <div class="alert alert-warning" role="alert">@Model.dbChanges[1] sub region(s) removed</div>
+            </div>
+        }
+    }
+    @if (Model.dbChanges?[2] != null)
+    {
+        <div class="db-alert-container">
+            <div class="alert alert-warning" role="alert">Failed to remove @Model.dbChanges[2]</div>
+        </div>
+    }
+    @Html.Partial("_EditRegion", Model.EditViewModel)
+    @Html.Partial("_SearchRegion", Model.SearchViewModel)
+    @Html.Partial("_SubRegionView", Model.SubRegionViewModel)
+</div>

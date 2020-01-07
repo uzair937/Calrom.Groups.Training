@@ -38,7 +38,7 @@ namespace CustomRegionEditor.Handler
 
         private CustomRegionGroupModel _customRegionGroupModel;
 
-        private void CheckForParents(ref CustomRegionGroupModel customRegionGroupModel, string type, CustomRegionEntryModel customRegionEntryModel)
+        private string CheckForParents(ref CustomRegionGroupModel customRegionGroupModel, string type, CustomRegionEntryModel customRegionEntryModel)
         {
             if (type == "airport" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.Airport?.Name == customRegionEntryModel?.Airport?.Name) == null)
             {
@@ -51,6 +51,11 @@ namespace CustomRegionEditor.Handler
                 {
                     customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
                 }
+                else
+                {
+                    return customRegionEntryModel.Airport.Name;
+                }
+                return null;
             }
             if (type == "city" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.City?.Name == customRegionEntryModel?.City?.Name) == null)
             {
@@ -62,6 +67,11 @@ namespace CustomRegionEditor.Handler
                 {
                     customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
                 }
+                else
+                {
+                    return customRegionEntryModel.City.Name;
+                }
+                return null;
             }
             if (type == "state" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.State?.Name == customRegionEntryModel?.State?.Name) == null)
             {
@@ -70,6 +80,11 @@ namespace CustomRegionEditor.Handler
                 {
                     customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
                 }
+                else
+                {
+                    return customRegionEntryModel.State.Name;
+                }
+                return null;
             }
             if (type == "country" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.Country?.Name == customRegionEntryModel?.Country?.Name) == null)
             {
@@ -77,15 +92,22 @@ namespace CustomRegionEditor.Handler
                 {
                     customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
                 }
+                else
+                {
+                    return customRegionEntryModel.Country.Name;
+                }
+                return null;
             }
             if (type == "region" && customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a?.Region?.Name == customRegionEntryModel?.Region?.Name) == null)
             {
                 customRegionGroupModel.CustomRegionEntries.Add(customRegionEntryModel);
             }
+            return null;
         }
 
-        private void RemoveSubregions(ref CustomRegionGroupModel customRegionGroupModel, CustomRegionEntryModel customRegionEntryModel, string type)
+        private int RemoveSubregions(ref CustomRegionGroupModel customRegionGroupModel, CustomRegionEntryModel customRegionEntryModel, string type)
         {
+            var entryNumber = customRegionGroupModel.CustomRegionEntries.Count;
             if (customRegionGroupModel.CustomRegionEntries != null)
             {
                 switch (type)
@@ -106,7 +128,9 @@ namespace CustomRegionEditor.Handler
                         break;
                 }
             }
-
+            var finalNumber = customRegionGroupModel.CustomRegionEntries.Count;
+            var removedRegions = entryNumber - finalNumber;
+            return removedRegions;
         }
 
         private void RemoveSubregions(ref CustomRegionGroupModel customRegionGroupModel, CityModel cityModel)
@@ -137,13 +161,14 @@ namespace CustomRegionEditor.Handler
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Country?.Region?.Name != regionModel.Name).ToList();
         }
 
-        public void AddByType(string entry, string type)
+        public List<string> AddByType(string entry, string type)
         {
             var validEntry = false;
             var customRegionGroupModel = _customRegionGroupModel;
             var customRegionEntryModel = new CustomRegionEntryModel();
 
             customRegionEntryModel.CustomRegionGroup = customRegionGroupModel;
+
             switch (type) //changed from if elses to a switch cus cleaner
             {
                 case "airport":
@@ -174,9 +199,12 @@ namespace CustomRegionEditor.Handler
                 default:
                     break; //replace switch with a new view model and send all data across (three params too much)
             }
-
+            var dbChanges = new List<string>();
             if (validEntry)
             {
+                string failedAdd;
+                int removedChildren;
+                
                 if (customRegionGroupModel.CustomRegionEntries == null)
                 {
                     customRegionGroupModel.CustomRegionEntries = new List<CustomRegionEntryModel>
@@ -186,12 +214,17 @@ namespace CustomRegionEditor.Handler
                 }
                 else
                 {
-                    RemoveSubregions(ref customRegionGroupModel, customRegionEntryModel, type);
-                    CheckForParents(ref customRegionGroupModel, type, customRegionEntryModel);
+                    removedChildren = RemoveSubregions(ref customRegionGroupModel, customRegionEntryModel, type);
+                    failedAdd = CheckForParents(ref customRegionGroupModel, type, customRegionEntryModel);
+                    dbChanges.Add(failedAdd); 
+                    dbChanges.Add(removedChildren.ToString());
+                    
                 }
                 _customRegionGroupModel = customRegionGroupModel;
-
+                return dbChanges;
             } //adds a new entry to a group
+            dbChanges.Add(null);
+            return dbChanges;
         }
 
         public CustomRegionGroupModel SaveToDatabase(CustomRegionGroupModel customRegionGroupModel)

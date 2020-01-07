@@ -96,14 +96,13 @@ td {
     height: 100%;
     width: 100%;
     display: flex;
-    padding-top: 5%;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
 .layout-body-content {
-    height: 100%;
+
 }
 
 .sidebar-container {
@@ -111,7 +110,7 @@ td {
     padding: 5px;
     justify-content: center;
     width: 25%;
-    height: 50em;
+    height: 55em;
     border-radius: 25px;
     margin-right: 2em;
     background-color: whitesmoke;
@@ -131,9 +130,9 @@ td {
 .content-container {
     padding: 5px;
     padding: 2em;
-    height: 50em;
+    height: 55em;
     overflow-y: auto;
-    width: 60em;
+    width: 70em;
     background-color: whitesmoke;
     border: 5px solid black;
     border-radius: 25px;
@@ -145,6 +144,11 @@ td {
 
 .alert-container {
     margin-bottom: 1em;
+}
+
+.db-alert-container {
+    margin-bottom: 1em;
+    font-weight: bold;
 }
 
 .search-result,

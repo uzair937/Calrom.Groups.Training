@@ -15,9 +15,13 @@ namespace CustomRegionEditor.EntityMapper
         public override string ProfileName => base.ProfileName;
         public CountryProfile()
         {
+            CreateMap<CountryModel, Country>();
+
             CreateMap<CountryModel, CountryViewModel>();
 
-            CreateMap<Country, CountryModel>();
+            CreateMap<Country, CountryModel>()
+                .ForMember(c => c.Cities, m => m.Ignore())
+                .ForMember(c => c.States, m => m.Ignore());
         }
     }
 }

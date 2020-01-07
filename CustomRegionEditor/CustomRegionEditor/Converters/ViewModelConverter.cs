@@ -15,7 +15,7 @@ namespace CustomRegionEditor.Web.Converters
         public CustomRegionEntryViewModel GetView(CustomRegionEntryModel customRegionEntryModel)
         {
             var newView = AutoMapperConfiguration.GetInstance<CustomRegionEntryViewModel>(customRegionEntryModel);
-            if (customRegionEntryModel.Region != null)
+            if (customRegionEntryModel.Region?.Id != null)
             {
                 newView.Region = AutoMapperConfiguration.GetInstance<RegionViewModel>(customRegionEntryModel.Region);
                 newView.Country = new CountryViewModel { Name = string.Empty };
@@ -25,7 +25,7 @@ namespace CustomRegionEditor.Web.Converters
                 newView.Value = customRegionEntryModel.Region.Id;
                 newView.Name = customRegionEntryModel.Region.Name;
             }
-            else if (customRegionEntryModel.Country != null)
+            else if (customRegionEntryModel.Country?.Id != null)
             {
                 newView.Country = AutoMapperConfiguration.GetInstance<CountryViewModel>(customRegionEntryModel.Country);
                 newView.Region = new RegionViewModel { Name = string.Empty };
@@ -35,7 +35,7 @@ namespace CustomRegionEditor.Web.Converters
                 newView.Value = customRegionEntryModel.Country.Id;
                 newView.Name = customRegionEntryModel.Country.Name;
             }
-            else if (customRegionEntryModel.State != null)
+            else if (customRegionEntryModel.State?.Id != null)
             {
                 newView.State = AutoMapperConfiguration.GetInstance<StateViewModel>(customRegionEntryModel.State);
                 newView.Country = new CountryViewModel { Name = string.Empty };
@@ -45,7 +45,7 @@ namespace CustomRegionEditor.Web.Converters
                 newView.Value = customRegionEntryModel.State.Id;
                 newView.Name = customRegionEntryModel.State.Name;
             }
-            else if (customRegionEntryModel.City != null)
+            else if (customRegionEntryModel.City?.Id != null)
             {
                 newView.City = AutoMapperConfiguration.GetInstance<CityViewModel>(customRegionEntryModel.City);
                 newView.Country = new CountryViewModel { Name = string.Empty };
@@ -55,7 +55,7 @@ namespace CustomRegionEditor.Web.Converters
                 newView.Value = customRegionEntryModel.City.Id;
                 newView.Name = customRegionEntryModel.City.Name;
             }
-            else if (customRegionEntryModel.Airport != null)
+            else if (customRegionEntryModel.Airport?.Id != null)
             {
                 newView.Airport = AutoMapperConfiguration.GetInstance<AirportViewModel>(customRegionEntryModel.Airport);
                 newView.Country = new CountryViewModel { Name = string.Empty };

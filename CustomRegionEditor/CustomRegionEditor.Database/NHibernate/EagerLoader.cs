@@ -20,28 +20,43 @@ namespace CustomRegionEditor.Database.NHibernate
                 RowVersion = oldModel.RowVersion,
                 CustomRegionGroup = oldModel.CustomRegionGroup
             };
-            
-            newModel.Airport = LoadEntities(oldModel.Airport);
 
-            newModel.Country = LoadEntities(oldModel.Country);
-            newModel.Country.Cities = LoadEntities(oldModel.Country.Cities);
-            newModel.Country.States = LoadEntities(oldModel.Country.States);
+            if (oldModel.Airport != null)
+            {
+                newModel.Airport = LoadEntities(oldModel.Airport);
+            }
 
-            newModel.Region = LoadEntities(oldModel.Region);
-            newModel.Region.Countries = LoadEntities(oldModel.Region.Countries);
+            if (oldModel.Country != null)
+            {
+                newModel.Country = LoadEntities(oldModel.Country);
+                //newModel.Country.Cities = LoadEntities(oldModel.Country.Cities);
+                //newModel.Country.States = LoadEntities(oldModel.Country.States);
+            }
 
-            newModel.State = LoadEntities(oldModel.State);
-            newModel.State.Cities = LoadEntities(oldModel.State.Cities);
+            if (oldModel.Region != null)
+            {
+                newModel.Region = LoadEntities(oldModel.Region);
+                //newModel.Region.Countries = LoadEntities(oldModel.Region.Countries);
+            }
 
-            newModel.City = LoadEntities(oldModel.City);
-            newModel.City.Airports = LoadEntities(oldModel.City.Airports);
+            if (oldModel.State != null)
+            {
+                newModel.State = LoadEntities(oldModel.State);
+                //newModel.State.Cities = LoadEntities(oldModel.State.Cities);
+            }
+
+            if (oldModel.City != null)
+            {
+                newModel.City = LoadEntities(oldModel.City);
+                //newModel.City.Airports = LoadEntities(oldModel.City.Airports);
+            }
 
             return newModel;
         }
         public List<CustomRegionEntry> LoadEntities(List<CustomRegionEntry> oldModel)            //FIX LAZY LOADING ERROR
         {
             var newModel = new List<CustomRegionEntry>();
-            if (oldModel == null) return newModel;
+            if (oldModel == null) return null;
             foreach (var entry in oldModel)
             {
                 newModel.Add(LoadEntities(entry));
@@ -51,7 +66,7 @@ namespace CustomRegionEditor.Database.NHibernate
         public CustomRegionGroup LoadEntities(CustomRegionGroup oldModel)            //FIX LAZY LOADING ERROR
         {
             var newModel = new CustomRegionGroup();
-            if (oldModel == null) return newModel;
+            if (oldModel == null) return null;
             newModel = new CustomRegionGroup { 
                 Id = oldModel.Id,
                 CustomRegionEntries = new List<CustomRegionEntry>(),
@@ -75,7 +90,7 @@ namespace CustomRegionEditor.Database.NHibernate
         public List<CustomRegionGroup> LoadEntities(List<CustomRegionGroup> oldModel)            //FIX LAZY LOADING ERROR
         {
             var newModel = new List<CustomRegionGroup>();
-            if (oldModel == null) return newModel;
+            if (oldModel == null) return null;
             foreach (var group in oldModel)
             {
                 newModel.Add(LoadEntities(group));
@@ -85,8 +100,8 @@ namespace CustomRegionEditor.Database.NHibernate
 
         public IList<Airport> LoadEntities(IList<Airport> airports)
         {
-            if (airports == null) return null;
             var newList = new List<Airport>();
+            if (airports == null) return null;
             foreach (var airport in airports)
             {
                 newList.Add(LoadEntities(airport));
@@ -96,8 +111,9 @@ namespace CustomRegionEditor.Database.NHibernate
 
         public Airport LoadEntities(Airport oldModel)            //FIX LAZY LOADING ERROR
         {
+            var newModel = new Airport();
             if (oldModel == null) return null;
-            var newModel = new Airport
+            newModel = new Airport
             {
                 Id = oldModel.Id,
                 Name = oldModel.Name,
@@ -115,8 +131,9 @@ namespace CustomRegionEditor.Database.NHibernate
 
         public IList<City> LoadEntities(IList<City> cities)
         {
-            if (cities == null) return null;
             var newList = new List<City>();
+            if (cities == null) return null;
+            
             foreach (var city in cities)
             {
                 newList.Add(LoadEntities(city));
@@ -126,9 +143,9 @@ namespace CustomRegionEditor.Database.NHibernate
 
         public City LoadEntities(City oldModel)            //FIX LAZY LOADING ERROR
         {
-            
+            var newModel = new City();
             if (oldModel == null) return null;
-            var newModel = new City {
+            newModel = new City {
                 Id = oldModel.Id,
                 Name = oldModel.Name,
                 Country = LoadEntities(oldModel.Country),
@@ -144,8 +161,9 @@ namespace CustomRegionEditor.Database.NHibernate
 
         public IList<State> LoadEntities(IList<State> states)
         {
-            if (states == null) return null;
             var newList = new List<State>();
+            if (states == null) return null;
+            
             foreach (var state in states)
             {
                 newList.Add(LoadEntities(state));
@@ -155,8 +173,9 @@ namespace CustomRegionEditor.Database.NHibernate
 
         public State LoadEntities(State oldModel)            //FIX LAZY LOADING ERROR
         {
+            var newModel = new State();
             if (oldModel == null) return null;
-            var newModel = new State
+            newModel = new State
             {
                 Id = oldModel.Id,
                 Name = oldModel.Name,
@@ -171,8 +190,9 @@ namespace CustomRegionEditor.Database.NHibernate
 
         public IList<Country> LoadEntities(IList<Country> countries)
         {
-            if (countries == null) return null;
             var newList = new List<Country>();
+            if (countries == null) return null;
+            
             foreach (var country in countries)
             {
                 newList.Add(LoadEntities(country));
@@ -182,8 +202,9 @@ namespace CustomRegionEditor.Database.NHibernate
 
         public Country LoadEntities(Country oldModel)            //FIX LAZY LOADING ERROR
         {
+            var newModel = new Country();
             if (oldModel == null) return null;
-            var newModel = new Country
+            newModel = new Country
             {
                 Id = oldModel.Id,
                 Name = oldModel.Name,
@@ -201,8 +222,9 @@ namespace CustomRegionEditor.Database.NHibernate
 
         public IList<Region> LoadEntities(IList<Region> regions)
         {
-            if (regions == null) return null;
             var newList = new List<Region>();
+            if (regions == null) return null;
+            
             foreach (var region in regions)
             {
                 newList.Add(LoadEntities(region));
@@ -212,8 +234,9 @@ namespace CustomRegionEditor.Database.NHibernate
 
         public Region LoadEntities(Region oldModel)            //FIX LAZY LOADING ERROR
         {
+            var newModel = new Region();
             if (oldModel == null) return null;
-            var newModel = new Region
+            newModel = new Region
             {
                 Id = oldModel.Id,
                 Name = oldModel.Name,
@@ -226,8 +249,9 @@ namespace CustomRegionEditor.Database.NHibernate
         
         public Models.System LoadEntities(Models.System oldModel)            //FIX LAZY LOADING ERROR
         {
+            var newModel = new Models.System();
             if (oldModel == null) return null;
-            var newModel = new Models.System
+            newModel = new Models.System
             {
                 Id = oldModel.Id,
                 InternalSystemName = oldModel.InternalSystemName,
