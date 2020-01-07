@@ -101,7 +101,9 @@ namespace CustomRegionEditor.Handler.Converters
             {
                 foreach (var cre in customRegionGroupModel.CustomRegionEntries)
                 {
-                    newModel.CustomRegionEntries.Add(GetDbModel(cre));
+                    var newEntry = GetDbModel(cre);
+                    newEntry.CustomRegionGroup = newModel;
+                    newModel.CustomRegionEntries.Add(newEntry);
                 }
             }
             return newModel;

@@ -63,14 +63,9 @@ namespace CustomRegionEditor.Database.Repositories
             using (var dbSession = SessionManager.OpenSession())
             {
                 dbSession.SaveOrUpdate(customRegionGroupModel);
-                try
-                {
-                    dbSession.Flush();
-                }
-                catch
-                {
-                    Debug.WriteLine("Failed to Flush");
-                }
+
+                dbSession.Flush();
+
                 var savedGroup = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroup>().FirstOrDefault(a => a.Name == customRegionGroupModel.Name && a.Description == customRegionGroupModel.Description));
                 return savedGroup;
             }

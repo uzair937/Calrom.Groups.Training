@@ -135,19 +135,18 @@ namespace CustomRegionEditor.Controllers
             var regionId = saveForm.Id;
             var parseId = new Guid();
             Guid.TryParse(regionId, out parseId);
-            var FoundRegion = new CustomRegionGroupModel();
+            var foundRegion = new CustomRegionGroupModel();
             if (!(string.IsNullOrEmpty(name) || name == "Enter a valid name"))
             {
-                FoundRegion = this.SessionRegionGroupRepository.GetSessionRegion();
+                foundRegion = this.SessionRegionGroupRepository.GetSessionRegion();
                 if (parseId != Guid.Empty)
                 {
-                    FoundRegion.Id = parseId;
+                    foundRegion.Id = parseId;
                 }
-                FoundRegion.Name = name;
-                FoundRegion.Description = description;
-                this.SessionRegionGroupRepository.SaveToDatabase(FoundRegion);
-                FoundRegion = this.SessionRegionGroupRepository.GetSessionRegion();
-                FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.Id)
+                foundRegion.Name = name;
+                foundRegion.Description = description;
+                foundRegion = this.SessionRegionGroupRepository.SaveToDatabase(foundRegion);
+                foundRegion.CustomRegionEntries = foundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.Id)
                                                                                 .ThenBy(a => a.City?.Name)
                                                                                 .ThenBy(a => a.State?.Name)
                                                                                 .ThenBy(a => a.Country?.Name)
@@ -155,8 +154,8 @@ namespace CustomRegionEditor.Controllers
             }
             else
             {
-                FoundRegion = this.SessionRegionGroupRepository.GetSessionRegion();
-                FoundRegion.Name = "Enter a valid name";
+                foundRegion = this.SessionRegionGroupRepository.GetSessionRegion();
+                foundRegion.Name = "Enter a valid name";
             }
             var contentViewModel = new ContentViewModel
             {
@@ -164,7 +163,7 @@ namespace CustomRegionEditor.Controllers
                 {
                     IsEditing = true,
                     ExistingRegion = true,
-                    CustomRegionGroupViewModel = ViewModelConverter.GetView(FoundRegion)
+                    CustomRegionGroupViewModel = ViewModelConverter.GetView(foundRegion)
                 },
             };
             return PartialView("_Content", contentViewModel);
