@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using FluentNHibernate.Utils;
 using CustomRegionEditor.Database.NHibernate;
 using CustomRegionEditor.Database.Interfaces;
+using System.Diagnostics;
 
 namespace CustomRegionEditor.Database.Repositories
 {
@@ -62,8 +63,16 @@ namespace CustomRegionEditor.Database.Repositories
             using (var dbSession = SessionManager.OpenSession())
             {
                 dbSession.SaveOrUpdate(customRegionGroupModel);
-                dbSession.Flush();
-                return EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroup>().FirstOrDefault(a => a.Name == customRegionGroupModel.Name && a.Description == customRegionGroupModel.Description));
+                try
+                {
+                    dbSession.Flush();
+                }
+                catch
+                {
+                    Debug.WriteLine("Failed to Flush");
+                }
+                var savedGroup = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroup>().FirstOrDefault(a => a.Name == customRegionGroupModel.Name && a.Description == customRegionGroupModel.Description));
+                return savedGroup;
             }
         }
 

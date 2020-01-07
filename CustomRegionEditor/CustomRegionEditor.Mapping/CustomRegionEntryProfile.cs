@@ -29,7 +29,12 @@ namespace CustomRegionEditor.EntityMapper
                 .ForMember(c => c.City, m => m.Ignore())
                 .ForMember(c => c.Airport, m => m.Ignore());
 
-            CreateMap<CustomRegionEntryModel, CustomRegionEntry>();
+            CreateMap<CustomRegionEntryModel, CustomRegionEntry>()
+                .ForMember(c => c.Region, m => m.Ignore())
+                .ForMember(c => c.Country, m => m.Ignore())
+                .ForMember(c => c.State, m => m.Ignore())
+                .ForMember(c => c.City, m => m.Ignore())
+                .ForMember(c => c.Airport, m => m.Ignore());
         }
     }
 }

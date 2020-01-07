@@ -145,7 +145,8 @@ namespace CustomRegionEditor.Controllers
                 }
                 FoundRegion.Name = name;
                 FoundRegion.Description = description;
-                FoundRegion = this.SessionRegionGroupRepository.SaveToDatabase(FoundRegion);
+                this.SessionRegionGroupRepository.SaveToDatabase(FoundRegion);
+                FoundRegion = this.SessionRegionGroupRepository.GetSessionRegion();
                 FoundRegion.CustomRegionEntries = FoundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.Id)
                                                                                 .ThenBy(a => a.City?.Name)
                                                                                 .ThenBy(a => a.State?.Name)
@@ -240,7 +241,6 @@ namespace CustomRegionEditor.Controllers
                                                                             .ThenBy(a => a.Region?.Name).ToList();
             var contentViewModel = new ContentViewModel
             {
-
                 dbChanges = dbChanges,
                 EditViewModel = new EditViewModel()
                 {

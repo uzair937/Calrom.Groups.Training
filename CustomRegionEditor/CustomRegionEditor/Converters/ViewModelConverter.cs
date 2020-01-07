@@ -65,6 +65,16 @@ namespace CustomRegionEditor.Web.Converters
                 newView.Value = customRegionEntryModel.Airport.Id;
                 newView.Name = customRegionEntryModel.Airport.Name;
             }
+            else
+            {
+                newView.Airport = new AirportViewModel { Name = string.Empty };
+                newView.Country = new CountryViewModel { Name = string.Empty };
+                newView.State = new StateViewModel { Name = string.Empty };
+                newView.City = new CityViewModel { Name = string.Empty };
+                newView.Region = new RegionViewModel { Name = string.Empty };
+                newView.Value = "Error";
+                newView.Name = "Error";
+            }
             return newView;
         }
 

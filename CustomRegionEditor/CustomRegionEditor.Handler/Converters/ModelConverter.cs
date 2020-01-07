@@ -1,5 +1,6 @@
 ﻿using CustomRegionEditor.Database.Models;
 using CustomRegionEditor.EntityMapper;
+using CustomRegionEditor.Database.Interfaces;
 using CustomRegionEditor.Handler.Interfaces;
 using CustomRegionEditor.Models;
 using System.Collections.Generic;
@@ -8,6 +9,20 @@ namespace CustomRegionEditor.Handler.Converters
 {
     public class ModelConverter : IModelConverter
     {
+        public ModelConverter(ISubRegionRepo<Airport> airportRepo, ISubRegionRepo<City> cityRepo, ISubRegionRepo<State> stateRepo, ISubRegionRepo<Country> countryRepo, ISubRegionRepo<Region> regionRepo)
+        {
+            this.AirportRepo = airportRepo;
+            this.StateRepo = stateRepo;
+            this.CityRepo = cityRepo;
+            this.CountryRepo = countryRepo;
+            this.RegionRepo = regionRepo;
+        }
+
+        private ISubRegionRepo<Airport> AirportRepo { get; }
+        private ISubRegionRepo<City> CityRepo { get; }
+        private ISubRegionRepo<State> StateRepo { get; }
+        private ISubRegionRepo<Country> CountryRepo { get; }
+        private ISubRegionRepo<Region> RegionRepo { get; }
         public CustomRegionEntryModel GetModel(CustomRegionEntry customRegionEntry)
         {
             var newModel = AutoMapperConfiguration.GetInstance<CustomRegionEntryModel>(customRegionEntry);
@@ -95,6 +110,26 @@ namespace CustomRegionEditor.Handler.Converters
         public CustomRegionEntry GetDbModel(CustomRegionEntryModel customRegionEntryModel)
         {
             var newModel = AutoMapperConfiguration.GetInstance<CustomRegionEntry>(customRegionEntryModel);
+            if (customRegionEntryModel.Region?.Id != null)
+            {
+                newModel.Region = this.RegionRepo.FindByName(customRegionEntryModel.Region.Name);
+            }
+            else if (customRegionEntryModel.Country?.Id != null)
+            {
+                newModel.Country = this.CountryRepo.FindByName(customRegionEntryModel.Country.Name);
+            }
+            else if (customRegionEntryModel.State?.Id != null)
+            {
+                newModel.State = this.StateRepo.FindByName(customRegionEntryModel.State.Name);
+            }
+            else if (customRegionEntryModel.City?.Id != null)
+            {
+                newModel.City = this.CityRepo.FindByName(customRegionEntryModel.City.Name);
+            }
+            else if (customRegionEntryModel.Airport?.Id != null)
+            {
+                newModel.Airport = this.AirportRepo.FindByName(customRegionEntryModel.Airport.Name);
+            }
             return newModel;
         }
 
