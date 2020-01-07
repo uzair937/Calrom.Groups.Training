@@ -50,8 +50,8 @@
     <Compile Include="DeleteViewModel.cs" />
     <Compile Include="IdViewModel.cs" />
     <Compile Include="AutoCompleteFormViewModel .cs" />
+    <Compile Include="EntryFormViewModels.cs" />
     <Compile Include="SaveFormViewModel.cs" />
-    <Compile Include="RegionFormViewModel.cs" />
     <Compile Include="SearchBoxViewModel.cs" />
     <Compile Include="SubRegionViewModel.cs" />
     <Compile Include="LayoutViewModel.cs" />

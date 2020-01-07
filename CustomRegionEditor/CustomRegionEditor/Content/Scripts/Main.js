@@ -83,11 +83,13 @@ function SearchModel(filter, searchText) {
     self.Text = searchText;
 }
 
-function NewRegionEntry(value, type, regionId) {
+function NewRegionEntry(value, type, regionId, name, description) {
     var self = this;
     self.Id = regionId;
     self.Entry = value;
     self.Type = type;
+    self.Name = name;
+    self.Description = description;
 }
 
 function IdForm(id, search) {
@@ -105,9 +107,11 @@ function SaveForm(name, description, id) {
     self.Description = description;
 }
 
-function DeleteForm(id) {
+function DeleteForm(id, name, description) {
     var self = this;
     self.EntryId = id;
+    self.Name = name;
+    self.Description = description;
 }
 
 function AutoCompleteForm(type, text) {
@@ -264,7 +268,10 @@ function entryConfirmDelete(e) {
     var entry = $(this).parent().parent().attr("entryValue");
     var name = $(this).parent().parent().attr("entryName");
     name = name.charAt(0).toUpperCase() + name.toLowerCase().substring(1, name.length);
-    var deleteForm = new DeleteForm(entry);
+
+    var regionName = window.document.getElementsByClassName("model-name")[0].value;
+    var description = window.document.getElementsByClassName("model-description")[0].value;
+    var deleteForm = new DeleteForm(entry, regionName, description);
 
     if (deleteForm) {
 
@@ -288,6 +295,7 @@ function addEntry(e) {
     var container = $(".airport-text-box");
     var url = $(".table-header").attr("data-addurl");
     var regionId = $(".model-id").attr("modelId");
+
     var value = "";
     var type = "";
     if (container.val() !== "" && container.val() !== undefined) {
@@ -318,7 +326,9 @@ function addEntry(e) {
         value = "GBR";
     }
     if (value !== "" && value !== undefined) {
-        var regionForm = new NewRegionEntry(value, type, regionId);
+        var name = window.document.getElementsByClassName("model-name")[0].value;
+        var description = window.document.getElementsByClassName("model-description")[0].value;
+        var regionForm = new NewRegionEntry(value, type, regionId, name, description);
 
         value = value.charAt(0).toUpperCase() + value.toLowerCase().substring(1, value.length);
         $.ajax({

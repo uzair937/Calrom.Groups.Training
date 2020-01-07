@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.ViewModels
 {
-    public class RegionFormViewModel
+    public class SaveFormViewModel
     {
-        public string Type { get; set; }
-        public string Entry { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public string Id { get; set; }
     }
 }

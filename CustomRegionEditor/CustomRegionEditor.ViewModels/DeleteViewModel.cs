@@ -9,5 +9,7 @@ namespace CustomRegionEditor.ViewModels
     public class DeleteViewModel
     {
         public string EntryId { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
     }
 }

@@ -18,10 +18,22 @@ namespace CustomRegionEditor.Handler
         private ICustomRegionGroupRepository CustomRegionGroupRepository { get; }
         private IModelConverter ModelConverter { get; }
 
+        public bool CheckValidName(string name)
+        {
+            var validName = true;
+            var regionList = this.CustomRegionGroupRepository.List();
+            if (regionList.Select(a => a.Name).Contains(name))
+            {
+                validName = false;
+            }
+            return validName;
+        }
+
         public CustomRegionGroupModel FindById(string id)
         {
             var foundRegion = this.CustomRegionGroupRepository.FindById(id);
-            return this.ModelConverter.GetModel(foundRegion);
+            var modelRegion = this.ModelConverter.GetModel(foundRegion);
+            return modelRegion;
         }
 
         public List<CustomRegionGroupModel> GetSearchResults(string searchTerm, string filter)

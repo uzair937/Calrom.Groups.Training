@@ -8,5 +8,7 @@ namespace CustomRegionEditor.Handler.Interfaces
         List<CustomRegionGroupModel> GetSearchResults(string searchTerm, string filter);
 
         CustomRegionGroupModel FindById(string id);
+
+        bool CheckValidName(string name);
     }
 }

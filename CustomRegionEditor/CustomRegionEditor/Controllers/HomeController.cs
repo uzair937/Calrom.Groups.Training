@@ -102,9 +102,11 @@ namespace CustomRegionEditor.Controllers
         public ActionResult DeleteEntry(DeleteViewModel deleteForm)
         {
             var id = deleteForm.EntryId;
+            var name = deleteForm.Name;
+            var description = deleteForm.Description;
             var currentRegion = this.SessionRegionGroupRepository.GetSessionRegion();
             var dbChanges = new List<string> { null, null, null };
-
+            this.SessionRegionGroupRepository.SetDetails(name, description);
             var foundEntry = currentRegion.CustomRegionEntries.FirstOrDefault(a => a.Airport?.Id == id
                                                                              || a.City?.Id == id
                                                                              || a.State?.Id == id
@@ -118,10 +120,13 @@ namespace CustomRegionEditor.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddRegionEntry(RegionFormViewModel regionForm)
+        public ActionResult AddRegionEntry(EntryFormViewModel regionForm)
         {
             var entry = regionForm.Entry;
             var type = regionForm.Type;
+            var name = regionForm.Name;
+            var description = regionForm.Description;
+            this.SessionRegionGroupRepository.SetDetails(name, description);
             var dbChanges = this.SessionRegionGroupRepository.AddByType(entry, type);
             dbChanges.Add(null);
             return UpdateRegionGroup(dbChanges);
@@ -136,7 +141,8 @@ namespace CustomRegionEditor.Controllers
             var parseId = new Guid();
             Guid.TryParse(regionId, out parseId);
             var foundRegion = new CustomRegionGroupModel();
-            if (!(string.IsNullOrEmpty(name) || name == "Enter a valid name"))
+            var validName = this.SessionRegionGroupRepository.ValidName(name);
+            if (validName)
             {
                 foundRegion = this.SessionRegionGroupRepository.GetSessionRegion();
                 if (parseId != Guid.Empty)

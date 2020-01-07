@@ -10,8 +10,9 @@ namespace CustomRegionEditor.Handler
 {
     public class SessionRegionGroupRepo : ISessionRegionGroupRepository
     {
-        public SessionRegionGroupRepo (IModelConverter modelConverter, IEntryHandler entryHandler, ICustomRegionGroupRepository customRegionGroupRepository, ISubRegionRepo<Airport> airportRepo, ISubRegionRepo<City> cityRepo, ISubRegionRepo<State> stateRepo, ISubRegionRepo<Country> countryRepo, ISubRegionRepo<Region> regionRepo)
+        public SessionRegionGroupRepo (ISearchRegion searchRegion, IModelConverter modelConverter, IEntryHandler entryHandler, ICustomRegionGroupRepository customRegionGroupRepository, ISubRegionRepo<Airport> airportRepo, ISubRegionRepo<City> cityRepo, ISubRegionRepo<State> stateRepo, ISubRegionRepo<Country> countryRepo, ISubRegionRepo<Region> regionRepo)
         {
+            this.SearchRegion = searchRegion;
             this.AirportRepo = airportRepo;
             this.StateRepo = stateRepo;
             this.CityRepo = cityRepo;
@@ -32,6 +33,7 @@ namespace CustomRegionEditor.Handler
         private ISubRegionRepo<Country> CountryRepo { get; }
         private ISubRegionRepo<Region> RegionRepo { get; }
         private IEntryHandler EntryHandler { get; }
+        private ISearchRegion SearchRegion { get; }
         private IModelConverter ModelConverter { get; }
 
         private ICustomRegionGroupRepository CustomRegionGroupRepository { get; }
@@ -279,6 +281,37 @@ namespace CustomRegionEditor.Handler
         public void SetSessionRegion(CustomRegionGroupModel customRegionGroupModel)
         {
             _customRegionGroupModel = customRegionGroupModel;
+        }
+
+        public void SetDetails(string name, string description)
+        {
+            if (ValidName(name))
+            {
+                _customRegionGroupModel.Name = name;
+                _customRegionGroupModel.Description = description;
+            }
+            else
+            {
+                _customRegionGroupModel.Name = "Enter a valid name";
+            }
+        }
+
+        public bool ValidName(string name)
+        {
+            bool valid;
+            if ((string.IsNullOrEmpty(name)))
+            {
+                valid = false;
+            }
+            else if (name == "Enter a valid name")
+            {
+                valid = false;
+            }
+            else
+            {
+                valid = this.SearchRegion.CheckValidName(name);
+            }
+            return valid;
         }
     }
 }

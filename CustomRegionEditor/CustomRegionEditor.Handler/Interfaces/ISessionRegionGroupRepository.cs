@@ -8,6 +8,8 @@ namespace CustomRegionEditor.Handler.Interfaces
         List<string> AddByType(string entry, string type);
         CustomRegionGroupModel GetSessionRegion();
         void SetSessionRegion(CustomRegionGroupModel customRegionGroupModel);
+        void SetDetails(string name, string description);
+        bool ValidName(string name);
         CustomRegionGroupModel SaveToDatabase(CustomRegionGroupModel customRegionGroupModel);
         void ClearSession();
     }
