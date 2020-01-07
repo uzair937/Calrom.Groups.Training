@@ -283,16 +283,18 @@ namespace CustomRegionEditor.Handler
             _customRegionGroupModel = customRegionGroupModel;
         }
 
-        public void SetDetails(string name, string description)
+        public bool SetDetails(string name, string description)
         {
             if (ValidName(name))
             {
                 _customRegionGroupModel.Name = name;
                 _customRegionGroupModel.Description = description;
+                return true;
             }
             else
             {
                 _customRegionGroupModel.Name = "Enter a valid name";
+                return false;
             }
         }
 
