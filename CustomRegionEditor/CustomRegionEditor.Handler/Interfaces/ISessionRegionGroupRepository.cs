@@ -5,7 +5,7 @@ namespace CustomRegionEditor.Handler.Interfaces
 {
     public interface ISessionRegionGroupRepository
     {
-        List<string> AddByType(string entry, string type);
+        ErrorModel AddByType(string entry, string type);
         CustomRegionGroupModel GetSessionRegion();
         void SetSessionRegion(CustomRegionGroupModel customRegionGroupModel);
         bool SetDetails(string name, string description);

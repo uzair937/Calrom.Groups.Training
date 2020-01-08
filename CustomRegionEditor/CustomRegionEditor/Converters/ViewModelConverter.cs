@@ -101,5 +101,12 @@ namespace CustomRegionEditor.Web.Converters
             }
             return newList;
         }
+        
+        public ErrorViewModel GetView(ErrorModel errorModel)
+        {
+            var newView = AutoMapperConfiguration.GetInstance<ErrorViewModel>(errorModel);
+            return newView;
+        }
+        
     }
 }

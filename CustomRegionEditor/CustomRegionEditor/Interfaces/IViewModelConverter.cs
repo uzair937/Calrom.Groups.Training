@@ -11,5 +11,7 @@ namespace CustomRegionEditor.Web.Interfaces
         CustomRegionGroupViewModel GetView(CustomRegionGroupModel customRegionGroupViewModel);
 
         List<CustomRegionGroupViewModel> GetView(List<CustomRegionGroupModel> customRegionGroupViewModels);
+
+        ErrorViewModel GetView(ErrorModel customRegionGroupViewModels);
     }
 }

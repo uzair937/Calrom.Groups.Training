@@ -48,6 +48,7 @@
     <Compile Include="CustomRegionGroupViewModel.cs" />
     <Compile Include="CustomRegionEntryViewModel.cs" />
     <Compile Include="DeleteViewModel.cs" />
+    <Compile Include="ErrorViewModel.cs" />
     <Compile Include="IdViewModel.cs" />
     <Compile Include="AutoCompleteFormViewModel .cs" />
     <Compile Include="EntryFormViewModels.cs" />
@@ -62,6 +63,11 @@
     <Compile Include="RegionViewModel.cs" />
     <Compile Include="StateViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\CustomRegionEditor.Models\CustomRegionEditor.Models.csproj">
+      <Project>{b7d25ac9-35a5-47fd-a64d-5d0b27618aa7}</Project>
+      <Name>CustomRegionEditor.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

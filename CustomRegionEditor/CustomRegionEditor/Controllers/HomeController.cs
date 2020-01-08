@@ -105,18 +105,22 @@ namespace CustomRegionEditor.Controllers
             var name = deleteForm.Name;
             var description = deleteForm.Description;
             var currentRegion = this.SessionRegionGroupRepository.GetSessionRegion();
-            var dbChanges = new List<string> { null, null, null };
+            var errorViewModel = new ErrorViewModel();
             this.SessionRegionGroupRepository.SetDetails(name, description);
             var foundEntry = currentRegion.CustomRegionEntries.FirstOrDefault(a => a.Airport?.Id == id
                                                                              || a.City?.Id == id
                                                                              || a.State?.Id == id
                                                                              || a.Country?.Id == id
                                                                              || a.Region?.Id == id);
-            if (foundEntry == null) dbChanges[2] = id;
+            if (foundEntry == null)
+            {
+                errorViewModel.FailedToDelete = id;
+                errorViewModel.DeleteFailed = true;
+            }
 
             currentRegion.CustomRegionEntries.Remove(foundEntry);
 
-            return UpdateRegionGroup(dbChanges);
+            return UpdateRegionGroup(errorViewModel);
         }
 
         [HttpPost]
@@ -127,9 +131,10 @@ namespace CustomRegionEditor.Controllers
             var name = regionForm.Name;
             var description = regionForm.Description;
             this.SessionRegionGroupRepository.SetDetails(name, description);
-            var dbChanges = this.SessionRegionGroupRepository.AddByType(entry, type);
-            dbChanges.Add(null);
-            return UpdateRegionGroup(dbChanges);
+            var errorModel = this.SessionRegionGroupRepository.AddByType(entry, type);
+            var errorViewModel = this.ViewModelConverter.GetView(errorModel);
+
+            return UpdateRegionGroup(errorViewModel);
         }
 
         [HttpPost]
@@ -236,7 +241,7 @@ namespace CustomRegionEditor.Controllers
             return PartialView("_Content", contentViewModel);
         }
 
-        public ActionResult UpdateRegionGroup(List<string> dbChanges)
+        public ActionResult UpdateRegionGroup(ErrorViewModel errorViewModel)
         {
             var foundRegion = this.SessionRegionGroupRepository.GetSessionRegion();
             foundRegion.CustomRegionEntries = foundRegion.CustomRegionEntries.OrderBy(a => a.Airport?.Id)
@@ -246,7 +251,7 @@ namespace CustomRegionEditor.Controllers
                                                                             .ThenBy(a => a.Region?.Name).ToList();
             var contentViewModel = new ContentViewModel
             {
-                dbChanges = dbChanges,
+                DbChanges = errorViewModel,
                 EditViewModel = new EditViewModel()
                 {
                     IsEditing = true,

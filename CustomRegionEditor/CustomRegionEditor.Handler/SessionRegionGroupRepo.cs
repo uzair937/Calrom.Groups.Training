@@ -163,7 +163,7 @@ namespace CustomRegionEditor.Handler
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Country?.Region?.Name != regionModel.Name).ToList();
         }
 
-        public List<string> AddByType(string entry, string type)
+        public ErrorModel AddByType(string entry, string type)
         {
             var validEntry = false;
             var customRegionGroupModel = _customRegionGroupModel;
@@ -201,7 +201,7 @@ namespace CustomRegionEditor.Handler
                 default:
                     break; //replace switch with a new view model and send all data across (three params too much)
             }
-            var dbChanges = new List<string>();
+            var dbChanges = new ErrorModel();
             if (validEntry)
             {
                 string failedAdd;
@@ -218,14 +218,27 @@ namespace CustomRegionEditor.Handler
                 {
                     removedChildren = RemoveSubregions(ref customRegionGroupModel, customRegionEntryModel, type);
                     failedAdd = CheckForParents(ref customRegionGroupModel, type, customRegionEntryModel);
-                    dbChanges.Add(failedAdd); 
-                    dbChanges.Add(removedChildren.ToString());
-                    
+
+                    if (failedAdd != null)
+                    {
+                        dbChanges.FailedToAdd = failedAdd;
+                        dbChanges.AddFailed = true;
+                    }
+
+                    if (removedChildren == 1)
+                    {
+                        dbChanges.RemovedChildren = removedChildren.ToString();
+                        dbChanges.SingleRegionRemoved = true;
+                    }
+                    else if (removedChildren > 1)
+                    {
+                        dbChanges.RemovedChildren = removedChildren.ToString();
+                        dbChanges.RegionsRemoved = true;
+                    }
                 }
                 _customRegionGroupModel = customRegionGroupModel;
                 return dbChanges;
             } //adds a new entry to a group
-            dbChanges.Add(null);
             return dbChanges;
         }
 

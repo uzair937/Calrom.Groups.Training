@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErrorProfile.cs" />
     <Compile Include="StateProfile.cs" />
     <Compile Include="RegionProfile.cs" />
     <Compile Include="CountryProfile.cs" />

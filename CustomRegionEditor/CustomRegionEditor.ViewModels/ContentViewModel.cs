@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using CustomRegionEditor.Models;
 
 namespace CustomRegionEditor.ViewModels
 {
     public class ContentViewModel
     {
-        public List<string> dbChanges { get; set; }
+        public ErrorViewModel DbChanges { get; set; }
 
         public SearchViewModel SearchViewModel { get; set; }
 
@@ -17,6 +18,7 @@ namespace CustomRegionEditor.ViewModels
 
         public ContentViewModel()
         {
+            DbChanges = new ErrorViewModel();
             SearchViewModel = new SearchViewModel();
             EditViewModel = new EditViewModel();
             SubRegionViewModel = new SubRegionViewModel();
