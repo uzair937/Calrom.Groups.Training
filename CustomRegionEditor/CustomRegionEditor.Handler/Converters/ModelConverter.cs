@@ -165,40 +165,40 @@ namespace CustomRegionEditor.Handler.Converters
             return newList;
         }
 
-        public List<CountryModel> GetModel(List<Country> regions)
+        public List<CountryModel> GetModel(List<Country> countries)
         {
             var newList = new List<CountryModel>();
-            foreach (var model in regions)
+            foreach (var model in countries)
             {
                 newList.Add(GetModel(model));
             }
             return newList;
         }
 
-        public List<StateModel> GetModel(List<State> regions)
+        public List<StateModel> GetModel(List<State> states)
         {
             var newList = new List<StateModel>();
-            foreach (var model in regions)
+            foreach (var model in states)
             {
                 newList.Add(GetModel(model));
             }
             return newList;
         }
 
-        public List<CityModel> GetModel(List<City> regions)
+        public List<CityModel> GetModel(List<City> cities)
         {
             var newList = new List<CityModel>();
-            foreach (var model in regions)
+            foreach (var model in cities)
             {
                 newList.Add(GetModel(model));
             }
             return newList;
         }
 
-        public List<AirportModel> GetModel(List<Airport> regions)
+        public List<AirportModel> GetModel(List<Airport> airports)
         {
             var newList = new List<AirportModel>();
-            foreach (var model in regions)
+            foreach (var model in airports)
             {
                 newList.Add(GetModel(model));
             }
