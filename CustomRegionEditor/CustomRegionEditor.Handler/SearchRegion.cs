@@ -67,27 +67,18 @@ namespace CustomRegionEditor.Handler
                         !s.Name.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)
                         && (s.Name.Contains(searchTerm)
                             || s.Description.Contains(searchTerm))
-                            || s.CustomRegionEntries.Select(a => a.Country.Name)
-                               .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))
-                               || s.CustomRegionEntries.Select(a => a.State.Name)
-                               .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))
-                               || s.CustomRegionEntries.Select(a => a.City.Name)
-                               .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))
-                               || s.CustomRegionEntries.Select(a => a.Airport.Name)
-                               .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))
-                               ).ToList();
+                            || s.CustomRegionEntries.Select(a => a.Name)
+                               .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))).ToList();
 
-                    //ids = regionList.Where(s =>
-                    //!s.Name.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)
-                    //    || s.CustomRegionEntries.Select(b => b.Country.Id)
-                    //    .Any(w => w.Contains(searchTerm))
-                    //    || s.CustomRegionEntries.Select(b => b.State.Id)
-                    //    .Any(w => w.Contains(searchTerm))
-                    //    || s.CustomRegionEntries.Select(b => b.City.Id)
-                    //    .Any(w => w.Contains(searchTerm))
-                    //    || s.CustomRegionEntries.Select(b => b.Airport.Id)
-                    //    .Any(w => w.Contains(searchTerm))
-                    //).ToList();
+                    
+                    searchTerm = searchTerm.ToUpper();
+
+                    ids = regionList.Where(s => s.CustomRegionEntries.Select(b => b.Value)
+                        .Any(w => w == searchTerm)).ToList();
+
+                    ids = ids.Where(w => !contains.Select(a => a.CustomRegionEntries).Contains(w.CustomRegionEntries)
+                    && !startsWith.Select(a => a.CustomRegionEntries).Contains(w.CustomRegionEntries)).ToList();
+
                     break;
                 case ("airport"):
                     startsWith = regionList.Where(s =>
@@ -158,7 +149,7 @@ namespace CustomRegionEditor.Handler
             var returnCustomRegionGroupList = startsWith.Concat(contains).ToList();
             if (ids.Count > 0)
             {
-                returnCustomRegionGroupList.Concat(ids);
+                returnCustomRegionGroupList = returnCustomRegionGroupList.Concat(ids).ToList();
             }
             return returnCustomRegionGroupList;
 
