@@ -36,14 +36,15 @@ namespace CustomRegionEditor.Handler
             return modelRegion;
         }
 
-        public List<CustomRegionGroupModel> GetSearchResults(string searchTerm, string filter)
+        public List<CustomRegionGroupModel> GetSearchResults(string searchTerm)
         {
             var dbList = this.CustomRegionGroupRepository.List();
             var regionList = this.ModelConverter.GetModel(dbList);
             var startsWith = new List<CustomRegionGroupModel>();
             var contains = new List<CustomRegionGroupModel>();
             var ids = new List<CustomRegionGroupModel>();
-            if (searchTerm.Equals("-All", StringComparison.OrdinalIgnoreCase))
+            if (searchTerm.Equals("-All", StringComparison.OrdinalIgnoreCase)
+                || searchTerm.Equals("none", StringComparison.OrdinalIgnoreCase))
             {
                 return regionList;
             }
@@ -58,94 +59,25 @@ namespace CustomRegionEditor.Handler
                 return regionList.Where(a => a.CustomRegionEntries.Count >= 25).ToList();
             }
 
-            switch (filter)
-            {
-                default:
-                    startsWith = regionList.Where(s => s.Name.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
 
-                    contains = regionList.Where(s =>
-                        !s.Name.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)
-                        && (s.Name.Contains(searchTerm)
-                            || s.Description.Contains(searchTerm))
-                            || s.CustomRegionEntries.Select(a => a.Name)
-                               .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))).ToList();
+            startsWith = regionList.Where(s => s.Name.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
 
-                    
-                    searchTerm = searchTerm.ToUpper();
+            contains = regionList.Where(s =>
+                !s.Name.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)
+                && (s.Name.Contains(searchTerm)
+                    || (!string.IsNullOrEmpty(s.Description) && s.Description.Contains(searchTerm)))
+                    || s.CustomRegionEntries.Select(a => a.Name)
+                       .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))).ToList();
 
-                    ids = regionList.Where(s => s.CustomRegionEntries.Select(b => b.Value)
-                        .Any(w => w == searchTerm)).ToList();
 
-                    ids = ids.Where(w => !contains.Select(a => a.CustomRegionEntries).Contains(w.CustomRegionEntries)
-                    && !startsWith.Select(a => a.CustomRegionEntries).Contains(w.CustomRegionEntries)).ToList();
+            searchTerm = searchTerm.ToUpper();
 
-                    break;
-                case ("airport"):
-                    startsWith = regionList.Where(s =>
-                            s.CustomRegionEntries.Select(a => a.Airport.Name)
-                                .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)))
-                        .ToList();
+            ids = regionList.Where(s => s.CustomRegionEntries.Select(b => b.Value)
+                .Any(w => w == searchTerm)).ToList();
 
-                    contains = regionList.Where(s =>
-                            !s.CustomRegionEntries.Select(a => a.Airport.Name)
-                                .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))
-                            && s.CustomRegionEntries.Select(a => a.Airport.Name)
-                                .Any(w => w.Contains(searchTerm)))
-                        .ToList();
-                    break;
-                case ("city"):
-                    startsWith = regionList.Where(s =>
-                            s.CustomRegionEntries.Select(a => a.City.Name)
-                            .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)))
-                        .ToList();
+            ids = ids.Where(w => !contains.Select(a => a.CustomRegionEntries).Contains(w.CustomRegionEntries)
+            && !startsWith.Select(a => a.CustomRegionEntries).Contains(w.CustomRegionEntries)).ToList();
 
-                    contains = regionList.Where(s =>
-                            !s.CustomRegionEntries.Select(a => a.City.Name)
-                            .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))
-                            && s.CustomRegionEntries.Select(a => a.City.Name)
-                            .Any(w => w.Contains(searchTerm)))
-                        .ToList();
-                    break;
-                case ("state"):
-                    startsWith = regionList.Where(s =>
-                            s.CustomRegionEntries.Select(a => a.State.Name)
-                            .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)))
-                        .ToList();
-
-                    contains = regionList.Where(s =>
-                            !s.CustomRegionEntries.Select(a => a.State.Name)
-                            .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))
-                            && s.CustomRegionEntries.Select(a => a.State.Name)
-                            .Any(w => w.Contains(searchTerm)))
-                        .ToList();
-                    break;
-                case ("country"):
-                    startsWith = regionList.Where(s =>
-                            s.CustomRegionEntries.Select(a => a.Country.Name)
-                                .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)))
-                        .ToList();
-
-                    contains = regionList.Where(s =>
-                            !s.CustomRegionEntries.Select(a => a.Country.Name)
-                                .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))
-                            && s.CustomRegionEntries.Select(a => a.Country.Name)
-                                .Any(w => w.Contains(searchTerm)))
-                        .ToList();
-                    break;
-                case ("region"):
-                    startsWith = regionList.Where(s =>
-                            s.CustomRegionEntries.Select(a => a.Region.Name)
-                            .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)))
-                        .ToList();
-
-                    contains = regionList.Where(s =>
-                            !s.CustomRegionEntries.Select(a => a.Region.Name)
-                            .Any(w => w.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase))
-                            && s.CustomRegionEntries.Select(a => a.Region.Name)
-                                .Any(w => w.Contains(searchTerm)))
-                        .ToList();
-                    break;
-            }
             var returnCustomRegionGroupList = startsWith.Concat(contains).ToList();
             if (ids.Count > 0)
             {
@@ -155,5 +87,13 @@ namespace CustomRegionEditor.Handler
 
         } //looks for any matches containing the search term, orders them by relevance 
 
+        public List<string> SearchCustomRegions(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return null;
+
+            var regionListNames = GetSearchResults(text).Select(a => a.Name).ToList();
+
+            return regionListNames;
+        }
     }
 }

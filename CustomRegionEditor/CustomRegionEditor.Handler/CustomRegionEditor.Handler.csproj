@@ -76,18 +76,21 @@
   <ItemGroup>
     <Compile Include="App_Start\UnityDatabaseConfig.cs" />
     <Compile Include="Converters\ModelConverter.cs" />
+    <Compile Include="Factories\DefaultManagerFactory.cs" />
+    <Compile Include="Factories\IManagerFactory.cs" />
     <Compile Include="Interfaces\IEntryHandler.cs" />
     <Compile Include="Interfaces\ISearchEntry.cs" />
     <Compile Include="Interfaces\ISearchRegion.cs" />
     <Compile Include="Interfaces\IRegionHandler.cs" />
-    <Compile Include="Interfaces\ISessionRegionGroupRepository.cs" />
+    <Compile Include="Interfaces\ICustomRegionManager.cs" />
     <Compile Include="Interfaces\IModelConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CustomEntry.cs" />
     <Compile Include="CustomRegion.cs" />
     <Compile Include="SearchEntry.cs" />
     <Compile Include="SearchRegion.cs" />
-    <Compile Include="SessionRegionGroupRepo.cs" />
+    <Compile Include="Managers\CustomRegionManager.cs" />
+    <Compile Include="Validators\CustomRegionEntrySupersetValidator.cs" />
+    <Compile Include="Validators\CustomRegionValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CustomRegionEditor.Database\CustomRegionEditor.Database.csproj">

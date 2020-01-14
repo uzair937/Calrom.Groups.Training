@@ -5,10 +5,12 @@ namespace CustomRegionEditor.Handler.Interfaces
 {
     public interface ISearchRegion
     {
-        List<CustomRegionGroupModel> GetSearchResults(string searchTerm, string filter);
+        List<CustomRegionGroupModel> GetSearchResults(string searchTerm);
 
         CustomRegionGroupModel FindById(string id);
 
         bool CheckValidName(string name);
+
+        List<string> SearchCustomRegions(string text);
     }
 }

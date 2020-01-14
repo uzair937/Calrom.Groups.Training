@@ -66,6 +66,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\DefaultRepositoryFactory.cs" />
+    <Compile Include="Factories\IRepositoryFactory.cs" />
     <Compile Include="Interfaces\ICustomRegionEntryRepository.cs" />
     <Compile Include="Interfaces\ICustomRegionGroupRepository.cs" />
     <Compile Include="Interfaces\ISessionFactoryManager.cs" />

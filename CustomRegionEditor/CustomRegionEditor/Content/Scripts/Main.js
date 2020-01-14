@@ -29,35 +29,8 @@ function loadAll(e) {
 function onSearch(e) {
     var url = $(".search-container").attr("data-searchurl");
     var searchTerm = document.getElementsByClassName("search-text-box")[0].value;
-    var filter = "none";
-    if ($(".search-filters-container").val() === "contains-airport") {
-        filter = "airport";
-    }
-    else if ($(".search-filters-container").val() === "contains-city") {
-        filter = "city";
-    }
-    else if ($(".search-filters-container").val() === "contains-state") {
-        filter = "state";
-    }
-    else if ($(".search-filters-container").val() === "contains-country") {
-        filter = "country";
-    }
-    else if ($(".search-filters-container").val() === "contains-region") {
-        filter = "region";
-    }
-    else if ($(".search-filters-container").val() === "for-region") {
-        filter = "regionFilter";
-    }
-    else if ($(".search-filters-container").val() === "for-country") {
-        filter = "countryFilter";
-    }
-    else if ($(".search-filters-container").val() === "for-state") {
-        filter = "stateFilter";
-    }
-    else if ($(".search-filters-container").val() === "for-city") {
-        filter = "cityFilter";
-    }
-    var searchForm = new SearchModel(filter, searchTerm);
+
+    var searchForm = new SearchModel(searchTerm);
     if (searchTerm !== "") {
         $.ajax({
             type: "POST",
@@ -77,9 +50,8 @@ function onSearch(e) {
     }
 } //searches for region group name matches
 
-function SearchModel(filter, searchText) {
+function SearchModel(searchText) {
     var self = this;
-    self.Filter = filter;
     self.Text = searchText;
 }
 
@@ -114,11 +86,12 @@ function DeleteForm(id, name, description) {
     self.Description = description;
 }
 
-function AutoCompleteForm(type, text) {
+function AutoCompleteForm(text, type) {
     var self = this;
     self.Type = type;
     self.Text = text;
 }
+
 
 function onEdit(e) {
     var url = $(".table-header").attr("data-editurl");
@@ -379,6 +352,7 @@ function addMainListeners() {
     }
     if (searchBox !== undefined && searchBox !== null) {
         searchBox.addEventListener("keyup", onSearchKey);
+        searchBox.addEventListener("input", onSearchChange);
     }
     if (addRegionButton !== undefined && addRegionButton !== null) {
         addRegionButton.addEventListener("click", onRegionAdd);
@@ -463,7 +437,7 @@ function onTextChange() {
     var type = $(this).attr("autotype");
     var text = $(this).val();
     var currentNode = this;
-    var autoCompleteForm = new AutoCompleteForm(type, text);
+    var autoCompleteForm = new AutoCompleteForm(text, type);
 
     if (type) {
         $.ajax({
@@ -503,4 +477,36 @@ function removeAutoTab() {
     for (var x = 0; x < autoTab.length; x++) {
         autoTab[x].innerHTML = "";
     }
+}
+
+function onSearchChange() {
+    var url = $(".search-container").attr("data-autosearchurl");
+    var text = $(this).val();
+    var currentNode = this;
+    var autoCompleteForm = new AutoCompleteForm(text);
+
+    if (text) {
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify(autoCompleteForm),
+            contentType: "application/json",
+            success: function (data) {
+                if (data) {
+                    $(currentNode).next().html(data);
+                    addSearchCompleteListeners();
+                }
+            }
+        });
+    }
+} //sets up autocomplete
+
+function addSearchCompleteListeners() {
+    var autoText = window.document.getElementsByClassName("single-suggestion");
+    for (var x = 0; x < autoText.length; x++) {
+        if (autoText[x] !== undefined && autoText[x] !== null) {
+            autoText[x].addEventListener("click", onTextSelect);
+        }
+    }
+    document.addEventListener("click", removeAutoTab);
 }

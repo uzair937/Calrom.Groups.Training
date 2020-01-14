@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Models
 {
-    public class CityModel
+    public class CityModel : ILocationModel
     {
         public string Id { get; set; }
         public string Name { get; set; }
         public CountryModel Country { get; set; }
         public StateModel State { get; set; }
         public IList<AirportModel> Airports { get; set; }
+
+        public string Type => "city";
     }
 }

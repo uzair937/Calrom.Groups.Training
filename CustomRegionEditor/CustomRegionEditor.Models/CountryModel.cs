@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CustomRegionEditor.Models
 {
-    public class CountryModel
+    public class CountryModel : ILocationModel
     {
         public string Id { get; set; }
         public string Name { get; set; }
@@ -14,5 +14,7 @@ namespace CustomRegionEditor.Models
 
         public IList<CityModel> Cities { get; set; }
         public IList<StateModel> States { get; set; }
+
+        public string Type => "country";
     }
 }

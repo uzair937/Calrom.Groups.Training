@@ -17,10 +17,7 @@ namespace CustomRegionEditor.EntityMapper
         /// </summary>
         public static void Configure()
         {
-            foreach (var item in GetProfiles())
-            {
-                mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfiles(GetProfiles()));
-            }
+            mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfiles(GetProfiles()));
         }
 
         public static T GetInstance<T>(object entity) where T : class

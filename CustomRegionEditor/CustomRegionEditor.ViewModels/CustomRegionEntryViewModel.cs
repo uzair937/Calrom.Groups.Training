@@ -12,5 +12,14 @@ namespace CustomRegionEditor.ViewModels
         public AirportViewModel Airport { get; set; }
         public string Value { get; set; }
         public string Name { get; set; }
+
+        public CustomRegionEntryViewModel()
+        {
+            this.Region = new RegionViewModel();
+            this.Country = new CountryViewModel();
+            this.State = new StateViewModel();
+            this.Airport = new AirportViewModel();
+            this.City = new CityViewModel();
+        }
     }
 }

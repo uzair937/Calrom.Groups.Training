@@ -1,9 +1,12 @@
 using CustomRegionEditor.Controllers;
 using CustomRegionEditor.Handler;
 using CustomRegionEditor.Handler.Converters;
+using CustomRegionEditor.Handler.Factories;
 using CustomRegionEditor.Handler.Interfaces;
 using CustomRegionEditor.Web.Converters;
 using CustomRegionEditor.Web.Interfaces;
+using CustomRegionEditor.Web.Storage;
+using System.Web;
 using System.Web.Mvc;
 using Unity;
 using Unity.Injection;
@@ -24,18 +27,18 @@ namespace CustomRegionEditor.Web
 
             container.RegisterType<IModelConverter, ModelConverter>();
 
-            container.RegisterType<IEntryHandler, CustomEntry>();
-
             container.RegisterType<IRegionHandler, CustomRegion>();
 
             container.RegisterType<ISearchEntry, SearchEntry>();
 
             container.RegisterType<ISearchRegion, SearchRegion>();
 
-            container.RegisterSingleton<ISessionRegionGroupRepository, SessionRegionGroupRepo>();
+            container.RegisterType<IManagerFactory, DefaultManagerFactory>();
+
+            container.RegisterFactory<ISessionStore>(c => new WebSessionStore(HttpContext.Current.Session));
 
             container = Handler.UnityDatabaseConfig.RegisterComponents(container);
-
+            
             //container.RegisterType<HomeController>(new InjectionConstructor());
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));

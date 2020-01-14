@@ -1,14 +1,11 @@
-using CustomRegionEditor.Database;
+using CustomRegionEditor.Database.Factories;
 using CustomRegionEditor.Database.Interfaces;
 using CustomRegionEditor.Database.Models;
 using CustomRegionEditor.Database.NHibernate;
 using CustomRegionEditor.Database.Repositories;
 using CustomRegionEditor.Handler.Converters;
 using CustomRegionEditor.Handler.Interfaces;
-using CustomRegionEditor.Models;
 using Unity;
-using Unity.Injection;
-using Unity.Mvc5;
 
 namespace CustomRegionEditor.Handler
 {
@@ -30,7 +27,9 @@ namespace CustomRegionEditor.Handler
             container.RegisterType<ICustomRegionEntryRepository, CustomRegionEntryRepo>();
             
             container.RegisterType<IModelConverter, ModelConverter>();
-            
+
+            container.RegisterType<IRepositoryFactory, DefaultRepositoryFactory>();
+
             container.RegisterType<ISessionManager, NHibernateSessionManager>();
 
             container.RegisterSingleton<ISessionFactoryManager, NHibernateSessionFactoryManager>();

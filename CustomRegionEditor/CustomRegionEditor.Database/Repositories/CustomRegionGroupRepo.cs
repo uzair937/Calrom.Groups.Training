@@ -53,6 +53,7 @@ namespace CustomRegionEditor.Database.Repositories
             using (var dbSession = SessionManager.OpenSession())
             {
                 var dbModel = dbSession.Get<CustomRegionGroup>(Guid.Parse(id));
+
                 customRegionGroupModel = EagerLoader.LoadEntities(dbModel);
             }
             return customRegionGroupModel;

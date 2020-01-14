@@ -28,6 +28,7 @@ namespace CustomRegionEditor.Database.Repositories
             var countryModel = new Country();
             using (var dbSession = SessionManager.OpenSession())
             {
+
                 countryModel = dbSession.Query<Country>().FirstOrDefault(a => a.Name == (entry));
                 if (countryModel == null)
                 {
