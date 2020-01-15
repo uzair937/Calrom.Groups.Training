@@ -25,6 +25,7 @@ namespace CustomRegionEditor.Web.Storage
 
         public void Clear()
         {
+            this.httpSessionState["data"] = new CustomRegionGroupViewModel();
         }
     }
 }

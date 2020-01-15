@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace CustomRegionEditor.ViewModels
+﻿namespace CustomRegionEditor.ViewModels
 {
     public class StateViewModel
     {
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
+        public string Display { get; set; }
     }
 }

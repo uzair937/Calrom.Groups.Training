@@ -1,40 +1,29 @@
-﻿using CustomRegionEditor.Database.Models;
-using CustomRegionEditor.Database.Repositories;
+﻿using CustomRegionEditor.Database.Interfaces;
+using CustomRegionEditor.Database.Models;
+using NHibernate;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentNHibernate.Utils;
-using CustomRegionEditor.Database.NHibernate;
-using CustomRegionEditor.Database.Interfaces;
 
 namespace CustomRegionEditor.Database.Repositories
 {
-    public class CustomRegionEntryRepo : ICustomRegionEntryRepository
+    internal class CustomRegionEntryRepo : ICustomRegionEntryRepository
     {
-        public CustomRegionEntryRepo(IEagerLoader eagerLoader, ISessionManager iNHibernateHelper)
+        internal CustomRegionEntryRepo(ISession session)
         {
-            this.IEagerLoader = eagerLoader;
-            this.INHibernateHelper = iNHibernateHelper;
+            this.Session = session;
             _customRegionEntryList = new List<CustomRegionEntry>();
         }
 
-        public ISessionManager INHibernateHelper { get; }
-
-        public IEagerLoader IEagerLoader { get; }
+        private ISession Session { get; }
 
         private List<CustomRegionEntry> _customRegionEntryList;
 
         public CustomRegionEntry AddOrUpdate(CustomRegionEntry entity)
         {
-            using (var dbSession = INHibernateHelper.OpenSession())
-            {
-                dbSession.SaveOrUpdate(entity);
-                dbSession.Flush();
-                return entity;
-            }
+            Session.SaveOrUpdate(entity);
+            Session.Flush();
+            return entity;
         }
 
         public void Delete(List<CustomRegionEntry> entities)
@@ -49,41 +38,30 @@ namespace CustomRegionEditor.Database.Repositories
         {
             if (entity == null) return;
 
-            using (var dbSession = INHibernateHelper.OpenSession())
-            {
-                entity = dbSession.Get<CustomRegionEntry>(entity.Id);
-                dbSession.Delete(entity);
-                dbSession.Flush();
-            }
+            entity = Session.Get<CustomRegionEntry>(entity.Id);
+            Session.Delete(entity);
+            Session.Flush();
         }
 
         public List<CustomRegionEntry> List()
         {
-            using (var dbSession = INHibernateHelper.OpenSession())
-            {
-                _customRegionEntryList = dbSession.Query<CustomRegionEntry>().ToList();
-            }
+            _customRegionEntryList = Session.Query<CustomRegionEntry>().ToList();
 
             return _customRegionEntryList;
         }
 
         public void DeleteById(string id)
         {
-            var customRegionEntryModel = new CustomRegionEntry();
-            using (var dbSession = INHibernateHelper.OpenSession())
-            {
-                customRegionEntryModel = dbSession.Get<CustomRegionEntry>(Guid.Parse(id));
-            }
+            var customRegionEntryModel = Session.Get<CustomRegionEntry>(Guid.Parse(id));
+
             Delete(customRegionEntryModel);
         }
 
         public CustomRegionEntry FindById(string entryId)
         {
-            using (var dbSession = INHibernateHelper.OpenSession())
-            {
-                var customRegionEntryModel = dbSession.Get<CustomRegionEntry>(Guid.Parse(entryId));
-                return IEagerLoader.LoadEntities(customRegionEntryModel);
-            }
+            var customRegionEntryModel = Session.Get<CustomRegionEntry>(Guid.Parse(entryId));
+
+            return customRegionEntryModel;
         }
     }
 }

@@ -11,7 +11,10 @@ namespace CustomRegionEditor.Handler.Validators
     {
         public bool IsValid(CustomRegionGroupModel customRegion)
         {
-            return new CustomRegionEntrySupersetValidator().IsValid(customRegion);
+            var superRegions = new CustomRegionEntrySupersetValidator().IsValid(customRegion);
+            var validEntries = new CustomRegionEntrySupersetValidator().IsValid(customRegion);
+
+            return (superRegions && validEntries);
         }
     }
 }

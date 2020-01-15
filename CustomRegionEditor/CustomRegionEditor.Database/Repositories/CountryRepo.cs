@@ -1,81 +1,77 @@
 ﻿using CustomRegionEditor.Database.Interfaces;
 using CustomRegionEditor.Database.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NHibernate;
 
 namespace CustomRegionEditor.Database.Repositories
 {
-    public class CountryRepo : ISubRegionRepo<Country>
+    internal class CountryRepo : ISubRegionRepo<Country>
     {
-        private ISessionManager SessionManager { get; }
-        private IEagerLoader LazyLoader { get; }
-        private ISubRegionRepo<City> CityRepo { get; }
-        private ISubRegionRepo<State> StateRepo { get; }
+        private ISession Session { get; }
 
-        public CountryRepo(IEagerLoader lazyLoader, ISessionManager sessionManager, ISubRegionRepo<City> cityRepo, ISubRegionRepo<State> stateRepo)
+        internal CountryRepo(ISession session)
         {
-            this.CityRepo = cityRepo;
-            this.StateRepo = stateRepo;
-            this.LazyLoader = lazyLoader;
-            this.SessionManager = sessionManager;
+            this.Session = session;
         }
 
         public Country FindByName(string entry)
         {
             var countryModel = new Country();
-            using (var dbSession = SessionManager.OpenSession())
-            {
 
-                countryModel = dbSession.Query<Country>().FirstOrDefault(a => a.Name == (entry));
-                if (countryModel == null)
-                {
-                    countryModel = dbSession.Query<Country>().FirstOrDefault(a => a.Id == (entry));
-                }
-                
-                return LazyLoader.LoadEntities(countryModel);
+            countryModel = Session.Query<Country>().FirstOrDefault(a => a.Name == (entry));
+            if (countryModel == null)
+            {
+                countryModel = Session.Query<Country>().FirstOrDefault(a => a.Id == (entry));
             }
 
+            return countryModel;
         } //searches for a matching country
 
 
         public List<CustomRegionEntry> GetSubRegions(Country country)
         {
+            var cityRepo = new CityRepo(Session);
+            var stateRepo = new StateRepo(Session);
             var CustomRegionEntries = new List<CustomRegionEntry>();
             if (country == null) return CustomRegionEntries;
-            using (var dbSession = SessionManager.OpenSession())
+
+            var cities = Session.Query<City>()
+                .Where(c => c.Country.Id == country.Id)
+                .ToList();
+
+            if (cities.Count > 0)
             {
-                var cities = dbSession.Query<City>().Where(c => c.Country.Id == country.Id).ToList();
-
-                if (cities.Count > 0)
+                foreach (var city in cities)
                 {
-                    foreach (var city in cities)
+                    CustomRegionEntries.Add(new CustomRegionEntry()
                     {
-                        CustomRegionEntries.Add(new CustomRegionEntry()
-                        {
-                            City = city
-                        });
-                        CustomRegionEntries = CustomRegionEntries.Concat(CityRepo.GetSubRegions(city)).ToList();
-                    }
-                }
-
-                var states = dbSession.Query<State>().Where(s => s.Country.Id == country.Id).ToList();
-
-                if (states.Count > 0)
-                {
-                    foreach (var state in states)
-                    {
-                        CustomRegionEntries.Add(new CustomRegionEntry()
-                        {
-                            State = state
-                        });
-                        CustomRegionEntries = CustomRegionEntries.Concat(StateRepo.GetSubRegions(state)).ToList();
-                    }
+                        City = city
+                    });
+                    CustomRegionEntries = CustomRegionEntries.Concat(cityRepo.GetSubRegions(city)).ToList();
                 }
             }
+
+            var states = Session.Query<State>().Where(s => s.Country.Id == country.Id).ToList();
+
+            if (states.Count > 0)
+            {
+                foreach (var state in states)
+                {
+                    CustomRegionEntries.Add(new CustomRegionEntry()
+                    {
+                        State = state
+                    });
+                    CustomRegionEntries = CustomRegionEntries.Concat(stateRepo.GetSubRegions(state)).ToList();
+                }
+            }
+
             return CustomRegionEntries;
+        }
+
+        public List<Country> List()
+        {
+            return Session.Query<Country>().ToList();
         }
     }
 }

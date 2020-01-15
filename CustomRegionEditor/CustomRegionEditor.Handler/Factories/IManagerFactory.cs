@@ -1,14 +1,14 @@
 ﻿using CustomRegionEditor.Handler.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NHibernate;
 
 namespace CustomRegionEditor.Handler.Factories
 {
     public interface IManagerFactory
     {
-        ICustomRegionManager CreateCustomRegionManager();
+        ICustomRegionManager CreateCustomRegionManager(ISession session);
+
+        ISearchRegion CreateSearchRegionManager(ISession session);
+
+        ISearchEntry CreateSearchEntryManager(ISession session);
     }
 }

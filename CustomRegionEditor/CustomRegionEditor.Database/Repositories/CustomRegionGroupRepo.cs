@@ -1,104 +1,55 @@
-﻿using CustomRegionEditor.Database.Models;
-using CustomRegionEditor.Database.Repositories;
+﻿using CustomRegionEditor.Database.Interfaces;
+using CustomRegionEditor.Database.Models;
 using System;
+using NHibernate;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentNHibernate.Utils;
-using CustomRegionEditor.Database.NHibernate;
-using CustomRegionEditor.Database.Interfaces;
-using System.Diagnostics;
 
 namespace CustomRegionEditor.Database.Repositories
 {
-    public class CustomRegionGroupRepo : ICustomRegionGroupRepository
+    internal class CustomRegionGroupRepo : ICustomRegionGroupRepository
     {
-        public CustomRegionGroupRepo(IEagerLoader eagerLoader, ISessionManager sessionManager)
+        internal CustomRegionGroupRepo(ISession session)
         {
-            this.EagerLoader = eagerLoader;
-            this.SessionManager = sessionManager;
+            this.Session = session;
             _customRegionGroupList = new List<CustomRegionGroup>();
         }
 
-        private ISessionManager SessionManager { get; }
-        private IEagerLoader EagerLoader { get; }
+        private ISession Session { get; }
 
         private List<CustomRegionGroup> _customRegionGroupList;
         public void Delete(CustomRegionGroup entity)
         {
             if (entity == null) return;
 
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                dbSession.Delete(entity);
-                dbSession.Flush();
-            }
+            this.Session.Delete(entity);
+            this.Session.Flush();
         }
 
         public List<CustomRegionGroup> List()
         {
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                _customRegionGroupList = this.EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroup>().ToList());
-            }
+            _customRegionGroupList = Session.Query<CustomRegionGroup>().ToList();
 
             return _customRegionGroupList;
         }
 
         public CustomRegionGroup FindById(string id)
         {
-            var customRegionGroupModel = new CustomRegionGroup();
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                var dbModel = dbSession.Get<CustomRegionGroup>(Guid.Parse(id));
+            var dbModel = Session.Get<CustomRegionGroup>(Guid.Parse(id));
 
-                customRegionGroupModel = EagerLoader.LoadEntities(dbModel);
-            }
+            var customRegionGroupModel = dbModel;
+
             return customRegionGroupModel;
         }
 
         public CustomRegionGroup AddOrUpdate(CustomRegionGroup customRegionGroupModel)
         {
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                dbSession.SaveOrUpdate(customRegionGroupModel);
+            Session.SaveOrUpdate(customRegionGroupModel);
 
-                dbSession.Flush();
+            Session.Flush();
 
-                var savedGroup = EagerLoader.LoadEntities(dbSession.Query<CustomRegionGroup>().FirstOrDefault(a => a.Name == customRegionGroupModel.Name && a.Description == customRegionGroupModel.Description));
-                return savedGroup;
-            }
-        }
-
-        public List<string> GetNames(string type)
-        {
-            var names = new List<string>();
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                switch (type)
-                {
-                    case "airport":
-                        names = dbSession.Query<Airport>().Select(a => a.Name.ToUpper()).ToList();
-                        return names;
-                    case "city":
-                        names = dbSession.Query<City>().Select(a => a.Name.ToUpper()).ToList();
-                        return names;
-                    case "state":
-                        names = dbSession.Query<State>().Select(a => a.Name.ToUpper()).ToList();
-                        return names;
-                    case "country":
-                        names = dbSession.Query<Country>().Select(a => a.Name.ToUpper()).ToList();
-                        return names;
-                    case "region":
-                        names = dbSession.Query<Region>().Select(a => a.Name.ToUpper()).ToList();
-                        return names;
-                    default:
-                        break;
-                }
-            }
-            return null;
+            var savedGroup = Session.Query<CustomRegionGroup>().FirstOrDefault(a => a.Name == customRegionGroupModel.Name && a.Description == customRegionGroupModel.Description);
+            return savedGroup;
         }
     }
 }

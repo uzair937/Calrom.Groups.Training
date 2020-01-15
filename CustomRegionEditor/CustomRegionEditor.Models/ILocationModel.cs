@@ -8,6 +8,7 @@ namespace CustomRegionEditor.Models
 {
     public interface ILocationModel
     {
+        string Id { get; set; }
         string Type { get; }
     }
 }

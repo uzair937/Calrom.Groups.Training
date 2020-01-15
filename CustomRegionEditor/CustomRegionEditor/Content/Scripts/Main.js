@@ -493,7 +493,7 @@ function onSearchChange() {
             contentType: "application/json",
             success: function (data) {
                 if (data) {
-                    $(currentNode).next().html(data);
+                    $(".search-autocomplete").html(data);
                     addSearchCompleteListeners();
                 }
             }
@@ -505,8 +505,14 @@ function addSearchCompleteListeners() {
     var autoText = window.document.getElementsByClassName("single-suggestion");
     for (var x = 0; x < autoText.length; x++) {
         if (autoText[x] !== undefined && autoText[x] !== null) {
-            autoText[x].addEventListener("click", onTextSelect);
+            autoText[x].addEventListener("click", onSearchSelect);
         }
     }
     document.addEventListener("click", removeAutoTab);
+}
+
+function onSearchSelect() {
+    var textBox = $(".search-text-box");
+    textBox.val(this.firstChild.innerHTML);
+    removeAutoTab();
 }

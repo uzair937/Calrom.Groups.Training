@@ -108,5 +108,84 @@ namespace CustomRegionEditor.Web.Converters
             return newView;
         }
         
+        public List<AirportViewModel> GetView(List<AirportModel> oldModels)
+        {
+            if (oldModels == null) return null;
+            var newModels = new List<AirportViewModel>();
+            foreach (var model in oldModels)
+            {
+                var newModel = new AirportViewModel
+                {
+                    Id = model.Id,
+                    Name = model.Name,
+                };
+                newModels.Add(newModel);
+            }
+            return newModels;
+        }
+
+        public List<CityViewModel> GetView(List<CityModel> oldModels)
+        {
+            if (oldModels == null) return null;
+            var newModels = new List<CityViewModel>();
+            foreach (var model in oldModels)
+            {
+                var newModel = new CityViewModel
+                {
+                    Id = model.Id,
+                    Name = model.Name,
+                };
+                newModels.Add(newModel);
+            }
+            return newModels;
+        }
+
+        public List<StateViewModel> GetView(List<StateModel> oldModels)
+        {
+            if (oldModels == null) return null;
+            var newModels = new List<StateViewModel>();
+            foreach (var model in oldModels)
+            {
+                var newModel = new StateViewModel
+                {
+                    Id = model.Id,
+                    Name = model.Name,
+                };
+                newModels.Add(newModel);
+            }
+            return newModels;
+        }
+
+        public List<CountryViewModel> GetView(List<CountryModel> oldModels)
+        {
+            if (oldModels == null) return null;
+            var newModels = new List<CountryViewModel>();
+            foreach (var model in oldModels)
+            {
+                var newModel = new CountryViewModel
+                {
+                    Id = model.Id,
+                    Name = model.Name,
+                };
+                newModels.Add(newModel);
+            }
+            return newModels;
+        }
+
+        public List<RegionViewModel> GetView(List<RegionModel> oldModels)
+        {
+            if (oldModels == null) return null;
+            var newModels = new List<RegionViewModel>();
+            foreach (var model in oldModels)
+            {
+                var newModel = new RegionViewModel
+                {
+                    Id = model.Id,
+                    Name = model.Name,
+                };
+                newModels.Add(newModel);
+            }
+            return newModels;
+        }
     }
 }

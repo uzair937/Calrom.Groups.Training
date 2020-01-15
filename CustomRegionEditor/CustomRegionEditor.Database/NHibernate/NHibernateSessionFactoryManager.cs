@@ -1,12 +1,12 @@
-﻿using FluentNHibernate.Cfg;
+﻿using CustomRegionEditor.Database.Interfaces;
+using CustomRegionEditor.Database.Models;
+using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
-using NHibernate.Tool.hbm2ddl;
 using NHibernate.Caches.SysCache2;
-using CustomRegionEditor.Database.Interfaces;
-using System;
+using NHibernate.Tool.hbm2ddl;
 
-namespace CustomRegionEditor.Database.Models
+namespace CustomRegionEditor.Database.NHibernate
 {
     public class NHibernateSessionFactoryManager : ISessionFactoryManager
     {

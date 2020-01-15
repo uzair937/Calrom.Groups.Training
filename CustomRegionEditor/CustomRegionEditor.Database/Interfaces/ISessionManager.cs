@@ -7,7 +7,7 @@ using System;
 
 namespace CustomRegionEditor.Database.Interfaces
 {
-    public interface ISessionManager : IDisposable
+    public interface ISessionManager
     {
         ISession OpenSession();
     }

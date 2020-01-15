@@ -28,5 +28,6 @@ namespace CustomRegionEditor.Database.Interfaces
         Region LoadEntities(Region oldModel);
 
         Models.System LoadEntities(Models.System oldModel);
+        List<CustomRegionGroup> LoadEntities(object p);
     }
 }

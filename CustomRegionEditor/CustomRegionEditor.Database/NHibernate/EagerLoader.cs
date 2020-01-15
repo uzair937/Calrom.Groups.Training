@@ -263,5 +263,10 @@ namespace CustomRegionEditor.Database.NHibernate
             };
             return newModel;
         }
+
+        public List<CustomRegionGroup> LoadEntities(object p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

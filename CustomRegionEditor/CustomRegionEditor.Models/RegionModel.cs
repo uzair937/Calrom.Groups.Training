@@ -10,7 +10,6 @@ namespace CustomRegionEditor.Models
     {
         public string Id { get; set; }
         public string Name { get; set; }
-
         public IList<CountryModel> Countries { get; set; }
 
         public string Type => "region";

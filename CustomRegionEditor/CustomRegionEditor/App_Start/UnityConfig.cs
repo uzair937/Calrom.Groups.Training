@@ -25,21 +25,15 @@ namespace CustomRegionEditor.Web
             
             container.RegisterType<IViewModelConverter, ViewModelConverter>();
 
-            container.RegisterType<IModelConverter, ModelConverter>();
-
-            container.RegisterType<IRegionHandler, CustomRegion>();
-
-            container.RegisterType<ISearchEntry, SearchEntry>();
-
-            container.RegisterType<ISearchRegion, SearchRegion>();
+            container.RegisterType<IConverterFactory, ConverterFactory>();
 
             container.RegisterType<IManagerFactory, DefaultManagerFactory>();
 
             container.RegisterFactory<ISessionStore>(c => new WebSessionStore(HttpContext.Current.Session));
 
+            container = Database.Setup.UnityDatabaseConfig.RegisterAll(container);
+
             container = Handler.UnityDatabaseConfig.RegisterComponents(container);
-            
-            //container.RegisterType<HomeController>(new InjectionConstructor());
 
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }

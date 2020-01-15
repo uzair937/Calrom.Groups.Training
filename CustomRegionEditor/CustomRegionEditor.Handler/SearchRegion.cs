@@ -78,20 +78,32 @@ namespace CustomRegionEditor.Handler
             ids = ids.Where(w => !contains.Select(a => a.CustomRegionEntries).Contains(w.CustomRegionEntries)
             && !startsWith.Select(a => a.CustomRegionEntries).Contains(w.CustomRegionEntries)).ToList();
 
+            //var subResults = SearchSubRegions(searchTerm);
+
             var returnCustomRegionGroupList = startsWith.Concat(contains).ToList();
-            if (ids.Count > 0)
-            {
-                returnCustomRegionGroupList = returnCustomRegionGroupList.Concat(ids).ToList();
-            }
+            returnCustomRegionGroupList = returnCustomRegionGroupList.Concat(ids).ToList();
+
+            returnCustomRegionGroupList = returnCustomRegionGroupList.GroupBy(a => a.Id).Select(b => b.First()).ToList();
+
             return returnCustomRegionGroupList;
 
         } //looks for any matches containing the search term, orders them by relevance 
+
+        private List<CustomRegionGroupModel> SearchSubRegions(string searchTerm, List<CustomRegionGroupModel> regionList)
+        {
+            var results = regionList.Where(s => s.CustomRegionEntries.Select(b => b.Value)
+                .Any(w => w == searchTerm)).ToList();
+
+            return null;
+            //results = results.Where(w => !contains.Select(a => a.CustomRegionEntries).Contains(w.CustomRegionEntries)
+            //&& !startsWith.Select(a => a.CustomRegionEntries).Contains(w.CustomRegionEntries)).ToList();
+        }
 
         public List<string> SearchCustomRegions(string text)
         {
             if (string.IsNullOrEmpty(text)) return null;
 
-            var regionListNames = GetSearchResults(text).Select(a => a.Name).ToList();
+            var regionListNames = GetSearchResults(text).Where(a => a.Name.StartsWith(text, StringComparison.OrdinalIgnoreCase)).Select(b => b.Name).ToList();
 
             return regionListNames;
         }

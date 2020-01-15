@@ -13,5 +13,15 @@ namespace CustomRegionEditor.Web.Interfaces
         List<CustomRegionGroupViewModel> GetView(List<CustomRegionGroupModel> customRegionGroupViewModels);
 
         ErrorViewModel GetView(ErrorModel customRegionGroupViewModels);
+
+        List<AirportViewModel> GetView(List<AirportModel> oldModels);
+
+        List<CityViewModel> GetView(List<CityModel> oldModels);
+
+        List<StateViewModel> GetView(List<StateModel> oldModels);
+
+        List<CountryViewModel> GetView(List<CountryModel> oldModels);
+
+        List<RegionViewModel> GetView(List<RegionModel> oldModels);
     }
 }

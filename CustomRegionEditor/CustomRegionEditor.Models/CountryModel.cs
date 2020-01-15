@@ -11,7 +11,6 @@ namespace CustomRegionEditor.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public RegionModel Region { get; set; }
-
         public IList<CityModel> Cities { get; set; }
         public IList<StateModel> States { get; set; }
 

@@ -3,58 +3,54 @@ using CustomRegionEditor.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NHibernate;
 
 namespace CustomRegionEditor.Database.Repositories
 {
-    public class RegionRepo : ISubRegionRepo<Region>
+    internal class RegionRepo : ISubRegionRepo<Region>
     {
-        private ISessionManager SessionManager { get; }
+        private ISession Session { get; }
 
-        private IEagerLoader LazyLoader { get; }
-
-        private ISubRegionRepo<Country> CountryRepo { get; }
-
-        public RegionRepo(IEagerLoader eagerLoader, ISessionManager sessionManager, ISubRegionRepo<Country> countryRepo)
+        internal RegionRepo(ISession session)
         {
-            this.CountryRepo = countryRepo;
-            this.LazyLoader = eagerLoader;
-            this.SessionManager = sessionManager;
+            this.Session = session;
         }
 
         public Region FindByName(string entry)
         {
             var regionModel = new Region();
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                regionModel = dbSession.Query<Region>().FirstOrDefault(a => a.Name == (entry));
-                if (regionModel == null) regionModel = dbSession.Query<Region>().FirstOrDefault(a => a.Id == (entry));
-                return LazyLoader.LoadEntities(regionModel);
-            }
+
+            regionModel = Session.Query<Region>().FirstOrDefault(a => a.Name == (entry));
+            if (regionModel == null) regionModel = Session.Query<Region>().FirstOrDefault(a => a.Id == (entry));
+            return regionModel;
+
         } //searches for a matching region
 
         public List<CustomRegionEntry> GetSubRegions(Region region)
         {
-            var CustomRegionEntries = new List<CustomRegionEntry>();
-            if (region == null) return CustomRegionEntries;
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                var countries = dbSession.Query<Country>().Where(c => c.Region.Id == region.Id).ToList();
+            var customRegionEntries = new List<CustomRegionEntry>();
+            var countryRepo = new CountryRepo(Session);
+            if (region == null) return customRegionEntries;
 
-                if (countries.Count > 0)
+            var countries = Session.Query<Country>().Where(c => c.Region.Id == region.Id).ToList();
+
+            if (countries.Count > 0)
+            {
+                foreach (var country in countries)
                 {
-                    foreach (var country in countries)
+                    customRegionEntries.Add(new CustomRegionEntry()
                     {
-                        CustomRegionEntries.Add(new CustomRegionEntry()
-                        {
-                            Country = country
-                        });
-                        CustomRegionEntries = CustomRegionEntries.Concat(CountryRepo.GetSubRegions(country)).ToList();
-                    }
+                        Country = country
+                    });
+                    customRegionEntries = customRegionEntries.Concat(countryRepo.GetSubRegions(country)).ToList();
                 }
             }
-            return CustomRegionEntries;
+            return customRegionEntries;
+        }
+
+        public List<Region> List()
+        {
+            return Session.Query<Region>().ToList();
         }
     }
 }

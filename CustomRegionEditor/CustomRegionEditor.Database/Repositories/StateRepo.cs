@@ -1,58 +1,53 @@
 ﻿using CustomRegionEditor.Database.Interfaces;
 using CustomRegionEditor.Database.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NHibernate;
 
 namespace CustomRegionEditor.Database.Repositories
 {
-    public class StateRepo : ISubRegionRepo<State>
+    internal class StateRepo : ISubRegionRepo<State>
     {
-        private ISessionManager SessionManager { get; }
+        private ISession Session { get; }
 
-        private IEagerLoader LazyLoader { get; }
-
-        private ISubRegionRepo<City> CityRepo { get; }
-
-        public StateRepo(IEagerLoader lazyLoader, ISessionManager sessionManager, ISubRegionRepo<City> cityRepo)
+        internal StateRepo(ISession session)
         {
-            this.CityRepo = cityRepo;
-            this.LazyLoader = lazyLoader;
-            this.SessionManager = sessionManager;
+            this.Session = session;
         }
 
         public State FindByName(string entry)
         {
             var stateModel = new State();
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                stateModel = dbSession.Query<State>().FirstOrDefault(a => a.Name == (entry));
-                if (stateModel == null) stateModel = dbSession.Query<State>().FirstOrDefault(a => a.Id == (entry));
-                return LazyLoader.LoadEntities(stateModel);
-            }
+
+            stateModel = Session.Query<State>().FirstOrDefault(a => a.Name == (entry));
+            if (stateModel == null) stateModel = Session.Query<State>().FirstOrDefault(a => a.Id == (entry));
+            return stateModel;
+
 
         } //searches for a matching state
 
         public List<CustomRegionEntry> GetSubRegions(State state)
         {
+            var cityModel = new CityRepo(Session);
             var CustomRegionEntries = new List<CustomRegionEntry>();
             if (state == null) return CustomRegionEntries;
-            using (var dbSession = SessionManager.OpenSession())
-            {
-                var cities = dbSession.Query<City>().Where(c => c.State.Id == state.Id).ToList();
 
-                foreach (var city in cities)
+            var cities = Session.Query<City>().Where(c => c.State.Id == state.Id).ToList();
+
+            foreach (var city in cities)
+            {
+                CustomRegionEntries.Add(new CustomRegionEntry()
                 {
-                    CustomRegionEntries.Add(new CustomRegionEntry()
-                    {
-                        City = city
-                    });
-                    CustomRegionEntries = CustomRegionEntries.Concat(CityRepo.GetSubRegions(city)).ToList();
-                }
+                    City = city
+                });
+                CustomRegionEntries = CustomRegionEntries.Concat(cityModel.GetSubRegions(city)).ToList();
             }
+
             return CustomRegionEntries;
+        }
+        public List<State> List()
+        {
+            return Session.Query<State>().ToList();
         }
     }
 }

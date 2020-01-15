@@ -5,6 +5,6 @@ namespace CustomRegionEditor.Database.Interfaces
 {
     public interface ICustomRegionGroupRepository : IRepository<CustomRegionGroup>
     {
-        List<string> GetNames(string type);
+        
     }
 }

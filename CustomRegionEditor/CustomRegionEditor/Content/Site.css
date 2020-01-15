@@ -216,3 +216,10 @@ td {
 .search-text-box {
     min-width: 200px !important;
 }
+
+.search-autocomplete {
+    position: relative;
+    left: 33px;
+    width: 200px;
+    font-size: 2em;
+}

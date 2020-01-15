@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using CustomRegionEditor.Database.Factories;
-using CustomRegionEditor.Database.Interfaces;
-using CustomRegionEditor.Database.Models;
+using NHibernate;
 using CustomRegionEditor.Handler.Interfaces;
 using CustomRegionEditor.Handler.Validators;
 using CustomRegionEditor.Models;
+using CustomRegionEditor.Database.Interfaces;
 
 namespace CustomRegionEditor.Handler
 {
     public class CustomRegionManager : ICustomRegionManager
     {
-        private readonly IModelConverter modelConverter;
+        private readonly IModelConverter ModelConverter;
         private readonly IRepositoryFactory repositoryFactory;
+        private readonly ISession Session;
 
-        public CustomRegionManager(IModelConverter modelConverter, IRepositoryFactory repositoryFactory)
+        public CustomRegionManager(IModelConverter modelConverter, IRepositoryFactory repositoryFactory, ISession session)
         {
-            this.modelConverter = modelConverter;
+            this.Session = session;
+            this.ModelConverter = modelConverter;
             this.repositoryFactory = repositoryFactory;
         }
 
@@ -28,9 +30,19 @@ namespace CustomRegionEditor.Handler
                 return null;
             }
 
-            var customRegionRepo = repositoryFactory.CreateCustomRegionGroupRepository();
-            var removedChildren = this.RemoveSubregions(customRegionGroupModel);
+            var customRegionRepo = repositoryFactory.CreateCustomRegionGroupRepository(this.Session);
 
+            //var removedChildren = this.RemoveSubregions(customRegionGroupModel);
+
+            DeleteRemovedEntries(customRegionGroupModel, customRegionRepo);
+
+            var dbModel = this.ModelConverter.GetDbModel(customRegionGroupModel);
+            var addReturn = customRegionRepo.AddOrUpdate(dbModel);
+            return this.ModelConverter.GetModel(addReturn);
+        }
+
+        private void DeleteRemovedEntries(CustomRegionGroupModel customRegionGroupModel, ICustomRegionGroupRepository customRegionRepo)
+        {
             var sessionId = customRegionGroupModel.Id;
             if (!(sessionId == null || sessionId == Guid.Empty))
             {
@@ -54,20 +66,16 @@ namespace CustomRegionEditor.Handler
                         var entryId = entry.Id;
                         if (!(entryId == null || entryId == Guid.Empty))
                         {
-                            this.DeleteById(entryId.ToString());
+                            this.DeleteEntryById(entryId.ToString());
                         }
                     }
                 }
             }
-
-            var dbModel = this.modelConverter.GetDbModel(customRegionGroupModel);
-            var addReturn = customRegionRepo.AddOrUpdate(dbModel);
-            return this.modelConverter.GetModel(addReturn);
         }
 
-        public bool DeleteById(string id)
+        private bool DeleteEntryById(string id)
         {
-            var customRegionRepo = repositoryFactory.CreateCustomRegionGroupRepository();
+            var customRegionRepo = repositoryFactory.CreateCustomRegionGroupRepository(this.Session);
             var entryList = customRegionRepo.List();
             var customEntry = entryList.FirstOrDefault(a => a.Id == Guid.Parse(id));
             customRegionRepo.Delete(customEntry);
@@ -138,6 +146,77 @@ namespace CustomRegionEditor.Handler
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.City?.Country?.Region?.Name != regionModel.Name).ToList();
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.State?.Country?.Region?.Name != regionModel.Name).ToList();
             customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Country?.Region?.Name != regionModel.Name).ToList();
+        }
+        public RegionListModel GetRegionList()
+        {
+            var regionRepo = repositoryFactory.CreateRegionRepository(this.Session);
+            var countryRepo = repositoryFactory.CreateCountryRepository(this.Session);
+            var stateRepo = repositoryFactory.CreateStateRepository(this.Session);
+            var cityRepo = repositoryFactory.CreateCityRepository(this.Session);
+            var airportRepo = repositoryFactory.CreateAirportRepository(this.Session);
+            var regionLists = new RegionListModel
+            {
+                Regions = this.ModelConverter.GetModel(regionRepo.List()),
+                Countries = this.ModelConverter.GetModel(countryRepo.List()),
+                States = this.ModelConverter.GetModel(stateRepo.List()),
+                Cities = this.ModelConverter.GetModel(cityRepo.List()),
+                Airports = this.ModelConverter.GetModel(airportRepo.List()),
+            };
+            return regionLists;
+        }
+
+        public CustomRegionGroupModel GetSubRegions(string searchTerm, string filter)
+        {
+            var regionRepo = repositoryFactory.CreateRegionRepository(this.Session);
+            var countryRepo = repositoryFactory.CreateCountryRepository(this.Session);
+            var stateRepo = repositoryFactory.CreateStateRepository(this.Session);
+            var cityRepo = repositoryFactory.CreateCityRepository(this.Session);
+            var customRegionGroupModel = new CustomRegionGroupModel()
+            {
+                CustomRegionEntries = new List<CustomRegionEntryModel>()
+            };
+            switch (filter)
+            {
+                case "regionFilter":
+                    var region = regionRepo.FindByName(searchTerm);
+                    customRegionGroupModel.CustomRegionEntries = this.ModelConverter.GetModel(regionRepo.GetSubRegions(region));
+                    break;
+
+                case "countryFilter":
+                    var country = countryRepo.FindByName(searchTerm);
+                    customRegionGroupModel.CustomRegionEntries = this.ModelConverter.GetModel(countryRepo.GetSubRegions(country));
+                    break;
+
+                case "stateFilter":
+                    var state = stateRepo.FindByName(searchTerm);
+                    customRegionGroupModel.CustomRegionEntries = this.ModelConverter.GetModel(stateRepo.GetSubRegions(state));
+                    break;
+
+                case "cityFilter":
+                    var city = cityRepo.FindByName(searchTerm);
+                    customRegionGroupModel.CustomRegionEntries = this.ModelConverter.GetModel(cityRepo.GetSubRegions(city));
+                    break;
+
+                default:
+                    break;
+            }
+            return customRegionGroupModel;
+        }
+
+        public bool DeleteById(string id)
+        {
+            var customRegionGroupRepository = repositoryFactory.CreateCustomRegionGroupRepository(this.Session);
+            try
+            {
+                var regionList = customRegionGroupRepository.List();
+                var customRegion = regionList.FirstOrDefault(a => a.Id == Guid.Parse(id));
+                customRegionGroupRepository.Delete(customRegion);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
