@@ -380,18 +380,23 @@ namespace CustomRegionEditor.Controllers
                 switch (type)
                 {
                     case "region":
+                        autoCompleteViewModel.Type = type;
                         autoCompleteViewModel.Suggestions = GetRegions(text);
                         break;
                     case "country":
+                        autoCompleteViewModel.Type = type;
                         autoCompleteViewModel.Suggestions = GetCountries(text);
                         break;
                     case "state":
+                        autoCompleteViewModel.Type = type;
                         autoCompleteViewModel.Suggestions = GetStates(text);
                         break;
                     case "city":
+                        autoCompleteViewModel.Type = type;
                         autoCompleteViewModel.Suggestions = GetCities(text);
                         break;
                     case "airport":
+                        autoCompleteViewModel.Type = type;
                         autoCompleteViewModel.Suggestions = GetAirports(text);
                         break;
                 }
@@ -414,6 +419,7 @@ namespace CustomRegionEditor.Controllers
                 var searchRegionManager = this.ManagerFactory.CreateSearchRegionManager(session);
 
                 autoCompleteViewModel.Suggestions = searchRegionManager.SearchCustomRegions(text);
+                autoCompleteViewModel.Type = "(Custom Region)";
             }
 
             autoCompleteViewModel.Suggestions = autoCompleteViewModel.Suggestions.Concat(GetRegions(text)).ToList();
@@ -437,7 +443,7 @@ namespace CustomRegionEditor.Controllers
             results = results.Concat(Countries.Where(c => c.Name.StartsWith(term, StringComparison.OrdinalIgnoreCase))).ToList();
             results = results.Distinct().ToList();
 
-            results.ForEach(a => a.Display = a.Id + ", " + a.Name);
+            results.ForEach(a => a.Display = a.Id + ", " + a.Name + ", " + a.Type);
 
             return results.Select(a => a.Display).ToList();
         }
@@ -448,7 +454,7 @@ namespace CustomRegionEditor.Controllers
             results = results.Concat(Regions.Where(c => c.Name.StartsWith(term, StringComparison.OrdinalIgnoreCase))).ToList();
             results = results.Distinct().ToList();
 
-            results.ForEach(a => a.Display = a.Id + ", " + a.Name);
+            results.ForEach(a => a.Display = a.Id + ", " + a.Name + ", " + a.Type);
 
             return results.Select(a => a.Display).ToList();
         }
@@ -459,7 +465,7 @@ namespace CustomRegionEditor.Controllers
             results = results.Concat(States.Where(c => c.Name.StartsWith(term, StringComparison.OrdinalIgnoreCase))).ToList();
             results = results.Distinct().ToList();
 
-            results.ForEach(a => a.Display = a.Id + ", " + a.Name);
+            results.ForEach(a => a.Display = a.Id + ", " + a.Name + ", " + a.Type);
 
             return results.Select(a => a.Display).ToList();
         }
@@ -470,7 +476,7 @@ namespace CustomRegionEditor.Controllers
             results = results.Concat(Cities.Where(c => c.Name.StartsWith(term, StringComparison.OrdinalIgnoreCase))).ToList();
             results = results.Distinct().ToList();
 
-            results.ForEach(a => a.Display = a.Id + ", " + a.Name);
+            results.ForEach(a => a.Display = a.Id + ", " + a.Name + ", " + a.Type);
 
             return results.Select(a => a.Display).ToList();
         }
@@ -481,7 +487,7 @@ namespace CustomRegionEditor.Controllers
             results = results.Concat(Airports.Where(c => c.Name.StartsWith(term, StringComparison.OrdinalIgnoreCase))).ToList();
             results = results.Distinct().ToList();
 
-            results.ForEach(a => a.Display = a.Id + ", " + a.Name);
+            results.ForEach(a => a.Display = a.Id + ", " + a.Name + ", " + a.Type);
 
             return results.Select(a => a.Display).ToList();
         }

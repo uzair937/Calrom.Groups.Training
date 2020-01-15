@@ -118,6 +118,7 @@ namespace CustomRegionEditor.Web.Converters
                 {
                     Id = model.Id,
                     Name = model.Name,
+                    Type = "(Airport)"
                 };
                 newModels.Add(newModel);
             }
@@ -134,6 +135,7 @@ namespace CustomRegionEditor.Web.Converters
                 {
                     Id = model.Id,
                     Name = model.Name,
+                    Type = "(City)"
                 };
                 newModels.Add(newModel);
             }
@@ -150,6 +152,7 @@ namespace CustomRegionEditor.Web.Converters
                 {
                     Id = model.Id,
                     Name = model.Name,
+                    Type = "(State)"
                 };
                 newModels.Add(newModel);
             }
@@ -166,6 +169,7 @@ namespace CustomRegionEditor.Web.Converters
                 {
                     Id = model.Id,
                     Name = model.Name,
+                    Type = "(Country)"
                 };
                 newModels.Add(newModel);
             }
@@ -182,6 +186,7 @@ namespace CustomRegionEditor.Web.Converters
                 {
                     Id = model.Id,
                     Name = model.Name,
+                    Type = "(Region)"
                 };
                 newModels.Add(newModel);
             }

@@ -10,6 +10,8 @@ namespace CustomRegionEditor.ViewModels
     {
         public List<string> Suggestions { get; set; }
 
+        public string Type { get; set; }
+
         public AutoCompleteViewModel()
         {
             Suggestions = new List<string>();
