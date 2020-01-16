@@ -57,20 +57,18 @@ namespace CustomRegionEditor.Controllers
         {
             this.SessionStore.Clear();
             var searchTerm = searchForm.text;
-
+            var searchId = searchForm.text;
             if (searchTerm.Contains(","))
             {
-                var index = searchTerm.IndexOf(",");
-                searchTerm = searchTerm.Substring(0, index);
+                searchId = searchId.Substring(0, searchId.IndexOf(","));
             }
-
 
             var contentViewModel = new ContentViewModel
             {
                 SearchViewModel = new SearchViewModel()
                 {
                     IsSearching = true,
-                    InvalidSearchTerm = searchTerm
+                    InvalidSearchTerm = searchId
                 }
             };
             using (var session = this.SessionManager.OpenSession())
@@ -80,9 +78,9 @@ namespace CustomRegionEditor.Controllers
 
 
                 this.SessionStore.Clear();
-               
+
                 bool validSearch = false;
-                var searchResults = searchRegionManager.GetSearchResults(searchTerm);
+                var searchResults = searchRegionManager.GetSearchResults(searchId);
 
 
 
@@ -167,7 +165,8 @@ namespace CustomRegionEditor.Controllers
                     {
                         Region = new RegionViewModel
                         {
-                            Name = entry
+                            Name = entry,
+                            Type = "Region"
                         }
                     });
                     break;
@@ -176,7 +175,8 @@ namespace CustomRegionEditor.Controllers
                     {
                         Country = new CountryViewModel
                         {
-                            Name = entry
+                            Name = entry,
+                            Type = "Country"
                         }
                     });
                     break;
@@ -185,7 +185,8 @@ namespace CustomRegionEditor.Controllers
                     {
                         State = new StateViewModel
                         {
-                            Name = entry
+                            Name = entry,
+                            Type = "State"
                         }
                     });
                     break;
@@ -194,7 +195,8 @@ namespace CustomRegionEditor.Controllers
                     {
                         City = new CityViewModel
                         {
-                            Name = entry
+                            Name = entry,
+                            Type = "City"
                         }
                     });
                     break;
@@ -203,7 +205,9 @@ namespace CustomRegionEditor.Controllers
                     {
                         Airport = new AirportViewModel
                         {
-                            Name = entry
+                            Name = entry,
+                            Type = "Airport"
+
                         }
                     });
                     break;
