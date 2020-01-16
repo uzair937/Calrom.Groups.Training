@@ -38,6 +38,21 @@ namespace CustomRegionEditor.Handler
 
         public List<CustomRegionGroupModel> GetSearchResults(string searchTerm)
         {
+            var searchId = searchTerm;
+            var searchType = searchTerm;
+
+            if (searchTerm.Contains(","))
+            {
+                var index = searchTerm.IndexOf(",");
+                searchId = searchTerm.Substring(0, index);
+            }
+            if (searchTerm.Contains("(") || searchTerm.Contains(")"))
+            {
+                var index = searchTerm.IndexOf("(")+1;
+                var endIndex = searchTerm.IndexOf(")");
+                searchType = searchTerm.Substring(index, (endIndex - index));
+            }
+
             var dbList = this.CustomRegionGroupRepository.List();
             var regionList = this.ModelConverter.GetModel(dbList);
             var startsWith = new List<CustomRegionGroupModel>();
@@ -58,9 +73,28 @@ namespace CustomRegionEditor.Handler
             {
                 return regionList.Where(a => a.CustomRegionEntries.Count >= 25).ToList();
             }
+            if (searchType.Equals("Region"))
+            {
+                return regionList.Where(a => a.CustomRegionEntries.Select(b => b.Region.Id).Any(w => w == searchId)).ToList();
+            }
+            else if (searchType.Equals("Country"))
+            {
+                return regionList.Where(a => a.CustomRegionEntries.Select(b => b.Country.Id).Any(w => w == searchId)).ToList();
+            }
+            else if (searchType.Equals("State"))
+            {
+                return regionList.Where(a => a.CustomRegionEntries.Select(b => b.State.Id).Any(w => w == searchId)).ToList();
+            }
+            else if (searchType.Equals("City"))
+            {
+                return regionList.Where(a => a.CustomRegionEntries.Select(b => b.City.Id).Any(w => w == searchId)).ToList();
+            }
+            else if (searchType.Equals("Airport"))
+            {
+                return regionList.Where(a => a.CustomRegionEntries.Select(b => b.Airport.Id).Any(w => w == searchId)).ToList();
+            }
 
-
-            startsWith = regionList.Where(s => s.Name.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+            startsWith = regionList.Where(s => s.Name.StartsWith(searchType, StringComparison.OrdinalIgnoreCase) || s.Name.StartsWith(searchId, StringComparison.OrdinalIgnoreCase)).ToList();
 
             contains = regionList.Where(s =>
                 !s.Name.StartsWith(searchTerm, StringComparison.OrdinalIgnoreCase)
