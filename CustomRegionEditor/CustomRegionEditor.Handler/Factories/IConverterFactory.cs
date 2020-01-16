@@ -5,6 +5,6 @@ namespace CustomRegionEditor.Handler.Factories
 {
     public interface IConverterFactory
     {
-        IModelConverter CreateModelConverterManager(ISession session);
+        IModelConverter CreateModelConverter(ISession session);
     }
 }

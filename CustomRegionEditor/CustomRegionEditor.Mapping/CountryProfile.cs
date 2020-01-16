@@ -19,6 +19,8 @@ namespace CustomRegionEditor.EntityMapper
 
             CreateMap<CountryModel, CountryViewModel>();
 
+            CreateMap<CountryViewModel, CountryModel>();
+
             CreateMap<Country, CountryModel>()
                 .ForMember(c => c.Cities, m => m.Ignore())
                 .ForMember(c => c.States, m => m.Ignore());

@@ -3,13 +3,17 @@ using CustomRegionEditor.Database.Models;
 using CustomRegionEditor.EntityMapper;
 using CustomRegionEditor.Handler.Interfaces;
 using CustomRegionEditor.Models;
+using log4net;
 using NHibernate;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace CustomRegionEditor.Handler.Converters
 {
     public class ModelConverter : IModelConverter
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(ModelConverter));
+
         public ModelConverter(IRepositoryFactory repoFactory, ISession session)
         { 
             this.RepositoryFactory = repoFactory;
@@ -160,11 +164,22 @@ namespace CustomRegionEditor.Handler.Converters
 
         public List<RegionModel> GetModel(List<Region> regions)
         {
+            var stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+
+            Logger.Debug("Started GetModel Region");
+
             var newList = new List<RegionModel>();
             foreach (var model in regions)
             {
                 newList.Add(GetModel(model));
             }
+
+            stopwatch.Stop();
+
+            Logger.DebugFormat("Finished GetModel Region. Time elapsed: {0}ms", stopwatch.Elapsed.TotalMilliseconds);
+
             return newList;
         }
 

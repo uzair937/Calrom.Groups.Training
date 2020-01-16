@@ -19,6 +19,8 @@ namespace CustomRegionEditor.EntityMapper
 
             CreateMap<AirportModel, AirportViewModel>();
 
+            CreateMap<AirportViewModel, AirportModel>();
+
             CreateMap<AirportModel, Airport>();
         }
     }

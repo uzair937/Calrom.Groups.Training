@@ -7,38 +7,46 @@ using CustomRegionEditor.Handler.Interfaces;
 using CustomRegionEditor.Handler.Validators;
 using CustomRegionEditor.Models;
 using CustomRegionEditor.Database.Interfaces;
+using CustomRegionEditor.Handler.Factories;
+using System.Diagnostics;
+using log4net;
 
 namespace CustomRegionEditor.Handler
 {
     public class CustomRegionManager : ICustomRegionManager
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(CustomRegionManager));
         private readonly IModelConverter ModelConverter;
-        private readonly IRepositoryFactory repositoryFactory;
+        private readonly IRepositoryFactory RepositoryFactory;
+        private readonly IValidatorFactory ValidatorFactory;
         private readonly ISession Session;
 
-        public CustomRegionManager(IModelConverter modelConverter, IRepositoryFactory repositoryFactory, ISession session)
+        public CustomRegionManager(IModelConverter modelConverter, IRepositoryFactory repositoryFactory, IValidatorFactory validatorFactory, ISession session)
         {
             this.Session = session;
             this.ModelConverter = modelConverter;
-            this.repositoryFactory = repositoryFactory;
+            this.RepositoryFactory = repositoryFactory;
+            this.ValidatorFactory = validatorFactory;
+
         }
 
-        public CustomRegionGroupModel Add(CustomRegionGroupModel customRegionGroupModel)
+        public ValidationModel Add(CustomRegionGroupModel customRegionGroupModel)
         {
-            if (!new CustomRegionValidator().IsValid(customRegionGroupModel))
-            {
-                return null;
-            }
+            var validator = this.ValidatorFactory.CreateCustomRegionValidator(this.Session);
+            var customRegionRepo = RepositoryFactory.CreateCustomRegionGroupRepository(this.Session);
 
-            var customRegionRepo = repositoryFactory.CreateCustomRegionGroupRepository(this.Session);
+            var validationModel = validator.IsValid(customRegionGroupModel);
 
-            //var removedChildren = this.RemoveSubregions(customRegionGroupModel);
+            customRegionGroupModel = validationModel.CustomRegionGroupModel;
 
             DeleteRemovedEntries(customRegionGroupModel, customRegionRepo);
 
             var dbModel = this.ModelConverter.GetDbModel(customRegionGroupModel);
             var addReturn = customRegionRepo.AddOrUpdate(dbModel);
-            return this.ModelConverter.GetModel(addReturn);
+
+            validationModel.CustomRegionGroupModel = this.ModelConverter.GetModel(addReturn);
+
+            return validationModel;
         }
 
         private void DeleteRemovedEntries(CustomRegionGroupModel customRegionGroupModel, ICustomRegionGroupRepository customRegionRepo)
@@ -75,7 +83,7 @@ namespace CustomRegionEditor.Handler
 
         private bool DeleteEntryById(string id)
         {
-            var customRegionRepo = repositoryFactory.CreateCustomRegionGroupRepository(this.Session);
+            var customRegionRepo = RepositoryFactory.CreateCustomRegionGroupRepository(this.Session);
             var entryList = customRegionRepo.List();
             var customEntry = entryList.FirstOrDefault(a => a.Id == Guid.Parse(id));
             customRegionRepo.Delete(customEntry);
@@ -83,129 +91,45 @@ namespace CustomRegionEditor.Handler
             return true;
         }
 
-        private int RemoveSubregions(CustomRegionGroupModel customRegionGroupModel)
-        {
-            var customRegionEntryModels = new List<CustomRegionEntryModel>(customRegionGroupModel.CustomRegionEntries);
-            int removedRegions = 0;
-
-            foreach (var customRegionEntryModel in customRegionEntryModels)
-            {
-                var entryNumber = customRegionGroupModel.CustomRegionEntries.Count;
-                if (customRegionGroupModel.CustomRegionEntries != null)
-                {
-                    var type = customRegionEntryModel.GetLocationType();
-                    switch (type)
-                    {
-                        case "airport":
-                            break;
-                        case "city":
-                            RemoveSubregions(customRegionGroupModel, customRegionEntryModel.City);
-                            break;
-                        case "state":
-                            RemoveSubregions(customRegionGroupModel, customRegionEntryModel.State);
-                            break;
-                        case "country":
-                            RemoveSubregions(customRegionGroupModel, customRegionEntryModel.Country);
-                            break;
-                        case "region":
-                            RemoveSubregions(customRegionGroupModel, customRegionEntryModel.Region);
-                            break;
-                    }
-                }
-
-                var finalNumber = customRegionGroupModel.CustomRegionEntries.Count;
-                removedRegions += entryNumber - finalNumber;
-            }
-
-            return removedRegions;
-        }
-
-        private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, CityModel cityModel)
-        {
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.Name != cityModel.Name).ToList();
-        }
-
-        private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, StateModel stateModel)
-        {
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.State?.Name != stateModel.Name).ToList();
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.City?.State?.Name != stateModel.Name).ToList();
-        }
-
-        private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, CountryModel countryModel)
-        {
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.State?.Country?.Name != countryModel.Name).ToList();
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.Country?.Name != countryModel.Name).ToList();
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.City?.Country?.Name != countryModel.Name).ToList();
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.State?.Country?.Name != countryModel.Name).ToList();
-        }
-
-        private void RemoveSubregions(CustomRegionGroupModel customRegionGroupModel, RegionModel regionModel)
-        {
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.State?.Country?.Region?.Name != regionModel.Name).ToList();
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Airport?.City?.Country?.Region?.Name != regionModel.Name).ToList();
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.City?.Country?.Region?.Name != regionModel.Name).ToList();
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.State?.Country?.Region?.Name != regionModel.Name).ToList();
-            customRegionGroupModel.CustomRegionEntries = customRegionGroupModel.CustomRegionEntries.Where(a => a?.Country?.Region?.Name != regionModel.Name).ToList();
-        }
         public RegionListModel GetRegionList()
         {
-            var regionRepo = repositoryFactory.CreateRegionRepository(this.Session);
-            var countryRepo = repositoryFactory.CreateCountryRepository(this.Session);
-            var stateRepo = repositoryFactory.CreateStateRepository(this.Session);
-            var cityRepo = repositoryFactory.CreateCityRepository(this.Session);
-            var airportRepo = repositoryFactory.CreateAirportRepository(this.Session);
+            var stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+
+            Logger.Debug("Started GetRegionList");
+
+            var regionRepo = RepositoryFactory.CreateRegionRepository(this.Session);
+            var countryRepo = RepositoryFactory.CreateCountryRepository(this.Session);
+            var stateRepo = RepositoryFactory.CreateStateRepository(this.Session);
+            var cityRepo = RepositoryFactory.CreateCityRepository(this.Session);
+            var airportRepo = RepositoryFactory.CreateAirportRepository(this.Session);
+
+            var regions = regionRepo.List();
+            var countries = countryRepo.List();
+            var states = stateRepo.List();
+            var cities = cityRepo.List();
+            var airports = airportRepo.List();
+
             var regionLists = new RegionListModel
             {
-                Regions = this.ModelConverter.GetModel(regionRepo.List()),
-                Countries = this.ModelConverter.GetModel(countryRepo.List()),
-                States = this.ModelConverter.GetModel(stateRepo.List()),
-                Cities = this.ModelConverter.GetModel(cityRepo.List()),
-                Airports = this.ModelConverter.GetModel(airportRepo.List()),
+                Regions = this.ModelConverter.GetModel(regions),
+                Countries = this.ModelConverter.GetModel(countries),
+                States = this.ModelConverter.GetModel(states),
+                Cities = this.ModelConverter.GetModel(cities),
+                Airports = this.ModelConverter.GetModel(airports),
             };
+
+            stopwatch.Stop();
+
+            Logger.DebugFormat("Finished GetRegionList. Time elapsed: {0}ms", stopwatch.Elapsed.TotalMilliseconds);
+
             return regionLists;
-        }
-
-        public CustomRegionGroupModel GetSubRegions(string searchTerm, string filter)
-        {
-            var regionRepo = repositoryFactory.CreateRegionRepository(this.Session);
-            var countryRepo = repositoryFactory.CreateCountryRepository(this.Session);
-            var stateRepo = repositoryFactory.CreateStateRepository(this.Session);
-            var cityRepo = repositoryFactory.CreateCityRepository(this.Session);
-            var customRegionGroupModel = new CustomRegionGroupModel()
-            {
-                CustomRegionEntries = new List<CustomRegionEntryModel>()
-            };
-            switch (filter)
-            {
-                case "regionFilter":
-                    var region = regionRepo.FindByName(searchTerm);
-                    customRegionGroupModel.CustomRegionEntries = this.ModelConverter.GetModel(regionRepo.GetSubRegions(region));
-                    break;
-
-                case "countryFilter":
-                    var country = countryRepo.FindByName(searchTerm);
-                    customRegionGroupModel.CustomRegionEntries = this.ModelConverter.GetModel(countryRepo.GetSubRegions(country));
-                    break;
-
-                case "stateFilter":
-                    var state = stateRepo.FindByName(searchTerm);
-                    customRegionGroupModel.CustomRegionEntries = this.ModelConverter.GetModel(stateRepo.GetSubRegions(state));
-                    break;
-
-                case "cityFilter":
-                    var city = cityRepo.FindByName(searchTerm);
-                    customRegionGroupModel.CustomRegionEntries = this.ModelConverter.GetModel(cityRepo.GetSubRegions(city));
-                    break;
-
-                default:
-                    break;
-            }
-            return customRegionGroupModel;
         }
 
         public bool DeleteById(string id)
         {
-            var customRegionGroupRepository = repositoryFactory.CreateCustomRegionGroupRepository(this.Session);
+            var customRegionGroupRepository = RepositoryFactory.CreateCustomRegionGroupRepository(this.Session);
             try
             {
                 var regionList = customRegionGroupRepository.List();

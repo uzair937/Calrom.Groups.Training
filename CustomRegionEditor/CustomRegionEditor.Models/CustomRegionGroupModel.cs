@@ -13,9 +13,5 @@ namespace CustomRegionEditor.Models
         public string Description { get; set; }
         public IList<CustomRegionEntryModel> CustomRegionEntries { get; set; }
 
-        public void RemoveEntry(CustomRegionEntryModel customRegionEntryModel)
-        {
-            CustomRegionEntries.Remove(customRegionEntryModel);
-        }
     }
 }

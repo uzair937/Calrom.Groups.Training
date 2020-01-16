@@ -18,7 +18,8 @@ namespace CustomRegionEditor.EntityMapper
             CreateMap<CityModel, City>();
 
             CreateMap<CityModel, CityViewModel>();
-                
+
+            CreateMap<CityViewModel, CityModel>();
 
             CreateMap<City, CityModel>()
                 .ForMember(c => c.Airports, m => m.Ignore());

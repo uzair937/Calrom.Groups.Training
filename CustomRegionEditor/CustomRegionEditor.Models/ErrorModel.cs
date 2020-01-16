@@ -8,23 +8,13 @@ namespace CustomRegionEditor.Models
 {
     public class ErrorModel
     {
-        public string FailedToAdd { get; set; }
-        public string RemovedChildren { get; set; }
-        public string FailedToDelete { get; set; }
-        public bool AddFailed { get; set; }
-        public bool RegionsRemoved { get; set; }
-        public bool SingleRegionRemoved { get; set; }
-        public bool DeleteFailed { get; set; }
+        public string Message { get; set; }
+        public bool Warning { get; set; }
 
         public ErrorModel()
         {
-            FailedToAdd = string.Empty;
-            RemovedChildren = string.Empty;
-            FailedToDelete = string.Empty;
-            AddFailed = false;
-            RegionsRemoved = false;
-            SingleRegionRemoved = false;
-            DeleteFailed = false;
+            Message = string.Empty;
+            Warning = false;
         }
     }
 }

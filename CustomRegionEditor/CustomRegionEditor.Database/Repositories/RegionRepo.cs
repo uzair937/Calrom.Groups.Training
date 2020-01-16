@@ -1,14 +1,17 @@
 ﻿using CustomRegionEditor.Database.Interfaces;
 using CustomRegionEditor.Database.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using log4net;
 using NHibernate;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace CustomRegionEditor.Database.Repositories
 {
     internal class RegionRepo : ISubRegionRepo<Region>
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(RegionRepo));
+
         private ISession Session { get; }
 
         internal RegionRepo(ISession session)
@@ -50,7 +53,19 @@ namespace CustomRegionEditor.Database.Repositories
 
         public List<Region> List()
         {
-            return Session.Query<Region>().ToList();
+            var stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+
+            Logger.Debug("Started List");
+            
+            var query = Session.Query<Region>().ToList();
+
+            stopwatch.Stop();
+
+            Logger.DebugFormat("Finished List. Time elapsed: {0}ms", stopwatch.Elapsed.TotalMilliseconds);
+
+            return query;
         }
     }
 }

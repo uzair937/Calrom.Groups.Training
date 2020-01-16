@@ -7,24 +7,26 @@ namespace CustomRegionEditor.Handler.Factories
     public class DefaultManagerFactory : IManagerFactory
     {
         private readonly IConverterFactory ConverterFactory;
-        private readonly IRepositoryFactory repositoryFactory;
+        private readonly IRepositoryFactory RepositoryFactory;
+        private readonly IValidatorFactory ValidatorFactory;
 
-        public DefaultManagerFactory(IConverterFactory converterFactory, IRepositoryFactory repositoryFactory)
+        public DefaultManagerFactory(IConverterFactory converterFactory, IRepositoryFactory repositoryFactory, IValidatorFactory validatorFactory)
         {
             this.ConverterFactory = converterFactory;
-            this.repositoryFactory = repositoryFactory;
+            this.RepositoryFactory = repositoryFactory;
+            this.ValidatorFactory = validatorFactory;
         }
 
         public ICustomRegionManager CreateCustomRegionManager(ISession session)
         {
-            var modelConverter = this.ConverterFactory.CreateModelConverterManager(session);
-            return new CustomRegionManager(modelConverter, this.repositoryFactory, session);
+            var modelConverter = this.ConverterFactory.CreateModelConverter(session);
+            return new CustomRegionManager(modelConverter, this.RepositoryFactory, this.ValidatorFactory, session);
         }
 
         public ISearchEntry CreateSearchEntryManager(ISession session)
         {
             var repofactory = new DefaultRepositoryFactory();
-            var modelConverter = this.ConverterFactory.CreateModelConverterManager(session);
+            var modelConverter = this.ConverterFactory.CreateModelConverter(session);
             var entryRepository = repofactory.CreateCustomRegionEntryRepository(session);
             return new SearchEntry(entryRepository, modelConverter);
         }
@@ -32,7 +34,7 @@ namespace CustomRegionEditor.Handler.Factories
         public ISearchRegion CreateSearchRegionManager(ISession session)
         {
             var repofactory = new DefaultRepositoryFactory();
-            var modelConverter = this.ConverterFactory.CreateModelConverterManager(session);
+            var modelConverter = this.ConverterFactory.CreateModelConverter(session);
             var groupRepository = repofactory.CreateCustomRegionGroupRepository(session);
             return new SearchRegion(groupRepository, modelConverter);
         }

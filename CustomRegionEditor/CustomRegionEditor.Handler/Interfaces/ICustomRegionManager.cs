@@ -5,11 +5,9 @@ namespace CustomRegionEditor.Handler.Interfaces
 {
     public interface ICustomRegionManager
     {
-        CustomRegionGroupModel Add(CustomRegionGroupModel customRegionGroupModel);
+        ValidationModel Add(CustomRegionGroupModel customRegionGroupModel);
 
         bool DeleteById(string id);
-
-        CustomRegionGroupModel GetSubRegions(string searchTerm, string filter);
 
         RegionListModel GetRegionList();
     }

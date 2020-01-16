@@ -22,6 +22,8 @@ namespace CustomRegionEditor.EntityMapper
                 .ForMember(c => c.City, m => m.Ignore())
                 .ForMember(c => c.Airport, m => m.Ignore());
 
+            CreateMap<CustomRegionEntryViewModel, CustomRegionEntryModel>();
+
             CreateMap<CustomRegionEntry, CustomRegionEntryModel>()
                 .ForMember(c => c.Region, m => m.Ignore())
                 .ForMember(c => c.Country, m => m.Ignore())

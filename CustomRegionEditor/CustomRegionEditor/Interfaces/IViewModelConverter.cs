@@ -8,11 +8,15 @@ namespace CustomRegionEditor.Web.Interfaces
     {
         CustomRegionEntryViewModel GetView(CustomRegionEntryModel customRegionEntryModel);
 
-        CustomRegionGroupViewModel GetView(CustomRegionGroupModel customRegionGroupViewModel);
+        CustomRegionGroupViewModel GetView(CustomRegionGroupModel customRegionGroupModel);
 
-        List<CustomRegionGroupViewModel> GetView(List<CustomRegionGroupModel> customRegionGroupViewModels);
+        CustomRegionGroupModel GetModel(CustomRegionGroupViewModel customRegionGroupViewModel);
 
-        ErrorViewModel GetView(ErrorModel customRegionGroupViewModels);
+        CustomRegionEntryModel GetModel(CustomRegionEntryViewModel customRegionGroupViewModel);
+
+        List<CustomRegionGroupViewModel> GetView(List<CustomRegionGroupModel> customRegionGroupModels);
+
+        ErrorViewModel GetView(ErrorModel customRegionGroupModels);
 
         List<AirportViewModel> GetView(List<AirportModel> oldModels);
 
@@ -23,5 +27,7 @@ namespace CustomRegionEditor.Web.Interfaces
         List<CountryViewModel> GetView(List<CountryModel> oldModels);
 
         List<RegionViewModel> GetView(List<RegionModel> oldModels);
+
+        List<ErrorViewModel> GetView(List<ErrorModel> oldModels);
     }
 }

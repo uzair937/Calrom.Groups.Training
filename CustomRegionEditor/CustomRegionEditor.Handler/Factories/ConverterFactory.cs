@@ -14,7 +14,7 @@ namespace CustomRegionEditor.Handler.Factories
             this.repositoryFactory = repositoryFactory;
         }
 
-        public IModelConverter CreateModelConverterManager(ISession session)
+        public IModelConverter CreateModelConverter(ISession session)
         {
             return new ModelConverter(this.repositoryFactory, session);
         }

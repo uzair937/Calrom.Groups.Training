@@ -3,32 +3,11 @@
 
 
     <div class="content-model-container flex-column">
-        @if (!Model.DbChanges.AddFailed)
-        {
-            <div class="alert-container"></div>
-        }
-        else
+        <div class="alert-container"></div>
+        @foreach (var error in Model.ErrorModels)
         {
             <div class="db-alert-container">
-                <div class="alert alert-warning" role="alert">Failed to add @Model.DbChanges.FailedToAdd</div>
-            </div>
-        }
-        @if (Model.DbChanges.SingleRegionRemoved)
-        {
-            <div class="db-alert-container">
-                <div class="alert alert-warning" role="alert">@Model.DbChanges.RemovedChildren sub region removed</div>
-            </div>
-        }
-        else if (Model.DbChanges.RegionsRemoved)
-        {
-            <div class="db-alert-container">
-                <div class="alert alert-warning" role="alert">@Model.DbChanges.RemovedChildren sub regions removed</div>
-            </div>
-        }
-        @if (Model.DbChanges.DeleteFailed)
-        {
-            <div class="db-alert-container">
-                <div class="alert alert-warning" role="alert">Failed to remove @Model.DbChanges.FailedToDelete</div>
+                <div class="alert alert-warning" role="alert">@error.Message</div>
             </div>
         }
         @Html.Partial("_EditRegion", Model.EditViewModel)

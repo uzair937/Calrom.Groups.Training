@@ -20,7 +20,7 @@ namespace CustomRegionEditor
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AutoMapperConfig.Initialise();
-            //log4net.Config.XmlConfigurator.Configure(); //untab for debug window logging (very slow)
+            log4net.Config.XmlConfigurator.Configure(); //untab for debug window logging (very slow)
         }
     }
 }

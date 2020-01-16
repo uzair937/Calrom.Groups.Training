@@ -8,7 +8,7 @@ namespace CustomRegionEditor.ViewModels
 {
     public class ContentViewModel
     {
-        public ErrorViewModel DbChanges { get; set; }
+        public List<ErrorViewModel> ErrorModels { get; set; }
 
         public SearchViewModel SearchViewModel { get; set; }
 
@@ -18,7 +18,7 @@ namespace CustomRegionEditor.ViewModels
 
         public ContentViewModel()
         {
-            DbChanges = new ErrorViewModel();
+            ErrorModels = new List<ErrorViewModel>();
             SearchViewModel = new SearchViewModel();
             EditViewModel = new EditViewModel();
             SubRegionViewModel = new SubRegionViewModel();

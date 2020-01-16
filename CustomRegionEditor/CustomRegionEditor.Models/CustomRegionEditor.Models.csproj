@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AirportModel.cs" />
+    <Compile Include="ValidEntryModel.cs" />
+    <Compile Include="ValidationModel.cs" />
     <Compile Include="ILocationModel.cs" />
     <Compile Include="CityModel.cs" />
     <Compile Include="CountryModel.cs" />

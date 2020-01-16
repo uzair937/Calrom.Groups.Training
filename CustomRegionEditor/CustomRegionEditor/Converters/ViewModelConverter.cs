@@ -12,6 +12,23 @@ namespace CustomRegionEditor.Web.Converters
 {
     public class ViewModelConverter : IViewModelConverter
     {
+        public CustomRegionGroupModel GetModel(CustomRegionGroupViewModel customRegionGroupViewModel)
+        {
+            var newModel = AutoMapperConfiguration.GetInstance<CustomRegionGroupModel>(customRegionGroupViewModel);
+            newModel.CustomRegionEntries = new List<CustomRegionEntryModel>();
+            foreach (var entry in customRegionGroupViewModel.CustomRegions)
+            {
+                newModel.CustomRegionEntries.Add(GetModel(entry));
+            }
+            return newModel;
+        }
+
+        public CustomRegionEntryModel GetModel(CustomRegionEntryViewModel customRegionEntryViewModel)
+        {
+            var newModel = AutoMapperConfiguration.GetInstance<CustomRegionEntryModel>(customRegionEntryViewModel);
+            return newModel;
+        }
+
         public CustomRegionEntryViewModel GetView(CustomRegionEntryModel customRegionEntryModel)
         {
             var newView = AutoMapperConfiguration.GetInstance<CustomRegionEntryViewModel>(customRegionEntryModel);
@@ -78,13 +95,13 @@ namespace CustomRegionEditor.Web.Converters
             return newView;
         }
 
-        public CustomRegionGroupViewModel GetView(CustomRegionGroupModel customRegionGroupViewModel)
+        public CustomRegionGroupViewModel GetView(CustomRegionGroupModel customRegionGroupModel)
         {
-            var newView = AutoMapperConfiguration.GetInstance<CustomRegionGroupViewModel>(customRegionGroupViewModel);
+            var newView = AutoMapperConfiguration.GetInstance<CustomRegionGroupViewModel>(customRegionGroupModel);
             newView.CustomRegions = new List<CustomRegionEntryViewModel>();
-            if (customRegionGroupViewModel.CustomRegionEntries != null)
+            if (customRegionGroupModel.CustomRegionEntries != null)
             {
-                foreach (var cre in customRegionGroupViewModel.CustomRegionEntries)
+                foreach (var cre in customRegionGroupModel.CustomRegionEntries)
                 {
                     newView.CustomRegions.Add(GetView(cre));
                 }
@@ -92,10 +109,10 @@ namespace CustomRegionEditor.Web.Converters
             return newView;
         }
 
-        public List<CustomRegionGroupViewModel> GetView(List<CustomRegionGroupModel> customRegionGroupViewModels)
+        public List<CustomRegionGroupViewModel> GetView(List<CustomRegionGroupModel> customRegionGroupModels)
         {
             var newList = new List<CustomRegionGroupViewModel>();
-            foreach (var model in customRegionGroupViewModels)
+            foreach (var model in customRegionGroupModels)
             {
                 newList.Add(GetView(model));
             }
@@ -186,6 +203,16 @@ namespace CustomRegionEditor.Web.Converters
                 newModels.Add(newModel);
             }
             return newModels;
+        }
+
+        public List<ErrorViewModel> GetView(List<ErrorModel> oldModels)
+        {
+            var newViews = new List<ErrorViewModel>();
+            foreach (var model in oldModels)
+            {
+                newViews.Add(GetView(model));
+            }
+            return newViews;
         }
     }
 }
