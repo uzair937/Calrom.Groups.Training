@@ -40,27 +40,30 @@
                     <tbody>
                         @foreach (var entry in Model.CustomRegionGroupViewModel.CustomRegions)
                         {
-                            <tr class="single-region-entry" entryId="@entry.Id" entryValue="@entry.LocationId" entryName="@entry.LocationName">
-                                @if (entry.HighlightModel.Match)
-                                {
-                                    <td class="alert alert-success">@entry.Region.Name</td>
-                                    <td class="alert alert-success">@entry.Country.Name</td>
-                                    <td class="alert alert-success">@entry.State.Name</td>
-                                    <td class="alert alert-success">@entry.City.Name</td>
-                                    <td class="alert alert-success">@entry.Airport.Name</td>
-                                }
-                                else
-                                {
-                                    <td>@entry.Region.Name</td>
-                                    <td>@entry.Country.Name</td>
-                                    <td>@entry.State.Name</td>
-                                    <td>@entry.City.Name</td>
-                                    <td>@entry.Airport.Name</td>
-                                }
+                        <tr class="single-region-entry" entryId="@entry.Id" entryValue="@entry.LocationId" entryName="@entry.LocationName">
+                            @if (entry.HighlightModel.Match)
+                            {
+                                <td class="border-0 alert alert-dark">@entry.Region.Name</td>
+                                <td class="border-0 alert alert-dark">@entry.Country.Name</td>
+                                <td class="border-0 alert alert-dark">@entry.State.Name</td>
+                                <td class="border-0 alert alert-dark">@entry.City.Name</td>
+                                <td class="border-0 alert alert-dark">@entry.Airport.Name</td>
+                                <td class="border-0 alert alert-dark">
+                                    <input type="button" value="Delete" class="delete-button btn btn-dark" />
+                                </td>
+                            }
+                            else
+                            {
+                                <td>@entry.Region.Name</td>
+                                <td>@entry.Country.Name</td>
+                                <td>@entry.State.Name</td>
+                                <td>@entry.City.Name</td>
+                                <td>@entry.Airport.Name</td>
                                 <td>
                                     <input type="button" value="Delete" class="delete-button btn btn-dark" />
                                 </td>
-                            </tr>
+                            }
+                        </tr>
 
                         }
                     </tbody>
