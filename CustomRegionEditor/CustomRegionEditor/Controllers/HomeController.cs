@@ -147,6 +147,7 @@ namespace CustomRegionEditor.Controllers
             using (var session = this.SessionManager.OpenSession())
             {
                 var entryValidator = this.ValidatorFactory.CreateCustomRegionValidator(session);
+                var errorModels = new List<ErrorViewModel>();
 
                 var currentViewModel = this.SessionStore.Get();
                 currentViewModel.Name = regionForm.Name;
@@ -158,6 +159,11 @@ namespace CustomRegionEditor.Controllers
                 }
 
                 var entryViewModel = this.CreateEntryViewModel(regionForm.Type, regionForm.Entry);
+                if (entryViewModel == null)
+                {
+                    var errorModel = entryValidator.IsNull(regionForm.Entry);
+                    errorModels.Add(this.ViewModelConverter.GetView(errorModel));
+                }
                 currentViewModel.CustomRegions.Add(entryViewModel);
 
                 var customRegionGroupModel = this.ViewModelConverter.GetModel(currentViewModel);
@@ -175,7 +181,7 @@ namespace CustomRegionEditor.Controllers
 
                 this.SessionStore.Save(currentViewModel);
 
-                return UpdateRegionGroup(new List<ErrorViewModel>());
+                return UpdateRegionGroup(errorModels);
             }
         }
 
@@ -202,18 +208,23 @@ namespace CustomRegionEditor.Controllers
             {
                 case "airport":
                     var airport = this.Airports.FirstOrDefault(s => s.Id == entry || s.Name == entry);
+                    if (airport == null) return null;
                     return new CustomRegionEntryViewModel { Airport = airport, LocationId = airport.Id, LocationName = airport.Name };
                 case "state":
                     var state = this.States.FirstOrDefault(s => s.Id == entry || s.Name == entry);
+                    if (state == null) return null;
                     return new CustomRegionEntryViewModel { State = state, LocationId = state.Id, LocationName = state.Name };
                 case "city":
                     var city = this.Cities.FirstOrDefault(s => s.Id == entry || s.Name == entry);
+                    if (city == null) return null;
                     return new CustomRegionEntryViewModel { City = city, LocationId = city.Id, LocationName = city.Name };
                 case "country":
                     var country = this.Countries.FirstOrDefault(s => s.Id == entry || s.Name == entry);
+                    if (country == null) return null; 
                     return new CustomRegionEntryViewModel { Country = country, LocationId = country.Id, LocationName = country.Name };
                 case "region":
                     var region = this.Regions.FirstOrDefault(s => s.Id == entry || s.Name == entry);
+                    if (region == null) return null;
                     return new CustomRegionEntryViewModel { Region = region, LocationId = region.Id, LocationName = region.Name };
                 default:
                     return null;

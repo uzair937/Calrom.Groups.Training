@@ -31,5 +31,16 @@ namespace CustomRegionEditor.Handler.Validators
 
             return basicValidationResult.Merge(supersetValidationResult);
         }
+        
+        public ErrorModel IsNull(string entry)
+        {
+            var errorModel = new ErrorModel
+            {
+                Message = "Entry " + entry + " could not be found.",
+                Warning = true
+            };
+
+            return errorModel;
+        }
     }
 }
