@@ -19,10 +19,10 @@ namespace CustomRegionEditor.Database.Repositories
         public Airport Find(string entry)
         {
             var airportModel = new Airport();
-            airportModel = Session.Query<Airport>().FirstOrDefault(a => a.Name == (entry));
+            airportModel = Session.Query<Airport>().FirstOrDefault(a => a.Id == (entry));
             if (airportModel == null)
             {
-                airportModel = Session.Query<Airport>().FirstOrDefault(a => a.Id == (entry));
+                airportModel = Session.Query<Airport>().FirstOrDefault(a => a.Name == (entry));
             }
 
             return airportModel;

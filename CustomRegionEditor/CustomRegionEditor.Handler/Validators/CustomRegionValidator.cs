@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CustomRegionEditor.Database.Factories;
 
 namespace CustomRegionEditor.Handler.Validators
 {
@@ -13,10 +14,12 @@ namespace CustomRegionEditor.Handler.Validators
     {
         private readonly ISession Session;
         private readonly IValidatorFactory ValidatorFactory;
+        private readonly IRepositoryFactory RepositoryFactory;
 
-        public CustomRegionValidator(ISession session, IValidatorFactory validatorFactory)
+        public CustomRegionValidator(ISession session, IValidatorFactory validatorFactory, IRepositoryFactory repositoryFactory)
         {
             this.Session = session;
+            this.RepositoryFactory = repositoryFactory;
             this.ValidatorFactory = validatorFactory;
         }
 
@@ -31,16 +34,29 @@ namespace CustomRegionEditor.Handler.Validators
 
             return basicValidationResult.Merge(supersetValidationResult);
         }
-        
-        public ErrorModel IsNull(string entry)
-        {
-            var errorModel = new ErrorModel
-            {
-                Message = "Entry " + entry + " could not be found.",
-                Warning = true
-            };
 
-            return errorModel;
+        public ErrorModel ValidateName(string name, string id)
+        {
+            var errorModel = new ErrorModel();
+            var customRegionRepo = this.RepositoryFactory.CreateCustomRegionGroupRepository(this.Session);
+            if(string.IsNullOrEmpty(name))
+            {
+                errorModel.Message = "Enter a name";
+                errorModel.Warning = true;
+                return errorModel;
+            }
+
+            var regionList = customRegionRepo.List();
+            var matchedName = regionList.FirstOrDefault(a => a.Name == name);
+
+            if (matchedName != null && matchedName.Id.ToString() != id)
+            {
+                errorModel.Message = "Name already exists";
+                errorModel.Warning = true;
+                return errorModel;
+            }
+            return null;
         }
+       
     }
 }

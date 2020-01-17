@@ -146,8 +146,10 @@ namespace CustomRegionEditor.Controllers
         {
             using (var session = this.SessionManager.OpenSession())
             {
-                var entryValidator = this.ValidatorFactory.CreateCustomRegionValidator(session);
-                var errorModels = new List<ErrorViewModel>();
+                var entryValidator = this.ValidatorFactory.CreateCustomRegionEntryValidator(session);
+                var groupValidator = this.ValidatorFactory.CreateCustomRegionValidator(session);
+                var customRegionManager = this.ManagerFactory.CreateCustomRegionManager(session);
+                var errorViewModels = new List<ErrorViewModel>();
 
                 var currentViewModel = this.SessionStore.Get();
                 currentViewModel.Name = regionForm.Name;
@@ -162,26 +164,32 @@ namespace CustomRegionEditor.Controllers
                 if (entryViewModel == null)
                 {
                     var errorModel = entryValidator.IsNull(regionForm.Entry);
-                    errorModels.Add(this.ViewModelConverter.GetView(errorModel));
+                    errorViewModels.Add(this.ViewModelConverter.GetView(errorModel));
                 }
+
                 currentViewModel.CustomRegions.Add(entryViewModel);
-
                 var customRegionGroupModel = this.ViewModelConverter.GetModel(currentViewModel);
+                var customRegionEntryModel = this.ViewModelConverter.GetModel(entryViewModel);
+                var managerResult = customRegionManager.RemoveRegions(customRegionGroupModel, customRegionEntryModel);
 
-                var validationResult = entryValidator.IsValid(customRegionGroupModel);
+                currentViewModel = this.ViewModelConverter.GetView(managerResult.Object);
+
+                errorViewModels.AddRange(this.ViewModelConverter.GetView(managerResult.ValidationResult.Errors));
+
+                var validationResult = groupValidator.IsValid(customRegionGroupModel);
 
                 if (validationResult.Errors.Any())
                 {
-                    var errorViewModel = this.ViewModelConverter.GetView(validationResult.Errors);
-                    if (errorViewModel != null)
+                    errorViewModels.AddRange(this.ViewModelConverter.GetView(validationResult.Errors));
+                    if (errorViewModels != null)
                     {
-                        return UpdateRegionGroup(errorViewModel);
+                        return UpdateRegionGroup(errorViewModels);
                     }
                 }
 
                 this.SessionStore.Save(currentViewModel);
 
-                return UpdateRegionGroup(errorModels);
+                return UpdateRegionGroup(errorViewModels);
             }
         }
 
@@ -249,19 +257,22 @@ namespace CustomRegionEditor.Controllers
                 if (ModelState.IsValid)
                 {
                     var customRegionManager = this.ManagerFactory.CreateCustomRegionManager(session);
+                    var customRegionvalidator = this.ValidatorFactory.CreateCustomRegionValidator(session);
                     var name = saveForm.Name;
                     var description = saveForm.Description;
                     var regionId = saveForm.Id;
 
                     var storedRegion = this.SessionStore.Get();
-                    //var validName = this.SessionRegionGroupRepository.ValidName(name);
-                    var validName = true;
+                    storedRegion.Name = name;
+                    storedRegion.Description = description;
+                    var errorModel = customRegionvalidator.ValidateName(name, regionId);
+
+                    var validName = (errorModel == null);
 
                     if (validName)
                     {
                         storedRegion.Id = regionId;
-                        storedRegion.Name = name;
-                        storedRegion.Description = description;
+
 
                         var customRegionModel = this.ViewModelConverter.GetModel(storedRegion);
 
@@ -270,7 +281,7 @@ namespace CustomRegionEditor.Controllers
 
                         if (managerResult.Object != null)
                         {
-                            storedRegion = ViewModelConverter.GetView(managerResult.Object);
+                            storedRegion = this.ViewModelConverter.GetView(managerResult.Object);
                         }
                         else
                         {
@@ -279,11 +290,12 @@ namespace CustomRegionEditor.Controllers
                     }
                     else
                     {
-                        storedRegion.Name = "Enter a valid name";
+                        contentViewModel.ErrorModels.Add(this.ViewModelConverter.GetView(errorModel));
                     }
 
                     contentViewModel.EditViewModel.CustomRegionGroupViewModel = storedRegion;
-                    contentViewModel.ErrorModels = ViewModelConverter.GetView(validationModel.Errors);
+
+                    contentViewModel.ErrorModels.AddRange(ViewModelConverter.GetView(validationModel.Errors));
                 }
                 return PartialView("_Content", contentViewModel);
             }

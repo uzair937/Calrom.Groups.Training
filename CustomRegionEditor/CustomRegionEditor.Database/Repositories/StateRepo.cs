@@ -19,8 +19,8 @@ namespace CustomRegionEditor.Database.Repositories
         {
             var stateModel = new State();
 
-            stateModel = Session.Query<State>().FirstOrDefault(a => a.Name == (entry));
-            if (stateModel == null) stateModel = Session.Query<State>().FirstOrDefault(a => a.Id == (entry));
+            stateModel = Session.Query<State>().FirstOrDefault(a => a.Id == (entry));
+            if (stateModel == null) stateModel = Session.Query<State>().FirstOrDefault(a => a.Name == (entry));
             return stateModel;
 
 

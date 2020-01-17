@@ -10,5 +10,7 @@ namespace CustomRegionEditor.Handler.Interfaces
         bool DeleteById(string id);
 
         RegionListModel GetRegionList();
+
+        ManagerResult<CustomRegionGroupModel> RemoveRegions(CustomRegionGroupModel customRegionGroupModel, CustomRegionEntryModel customRegionEntryModel);
     }
 }

@@ -19,10 +19,10 @@ namespace CustomRegionEditor.Database.Repositories
         {
             var countryModel = new Country();
 
-            countryModel = Session.Query<Country>().FirstOrDefault(a => a.Name == (entry));
+            countryModel = Session.Query<Country>().FirstOrDefault(a => a.Id == (entry));
             if (countryModel == null)
             {
-                countryModel = Session.Query<Country>().FirstOrDefault(a => a.Id == (entry));
+                countryModel = Session.Query<Country>().FirstOrDefault(a => a.Name == (entry));
             }
 
             return countryModel;

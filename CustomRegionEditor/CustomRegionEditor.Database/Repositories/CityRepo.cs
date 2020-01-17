@@ -19,10 +19,10 @@ namespace CustomRegionEditor.Database.Repositories
         {
             var cityModel = new City();
 
-            cityModel = Session.Query<City>().FirstOrDefault(a => a.Name == (entry));
+            cityModel = Session.Query<City>().FirstOrDefault(a => a.Id == (entry));
             if (cityModel == null)
             {
-                cityModel = Session.Query<City>().FirstOrDefault(a => a.Id == (entry));
+                cityModel = Session.Query<City>().FirstOrDefault(a => a.Name == (entry));
             }
             return cityModel;
 

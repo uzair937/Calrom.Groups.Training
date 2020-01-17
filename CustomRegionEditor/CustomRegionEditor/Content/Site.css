@@ -8,6 +8,11 @@ body {
     background-position: center center;
 }
 
+.add-button {
+    margin-right: 2.8em;
+    width: 72px;
+}
+
 .autocomplete-container {
     position: absolute;
     background-color: white;

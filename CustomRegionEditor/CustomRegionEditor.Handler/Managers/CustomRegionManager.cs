@@ -10,6 +10,7 @@ using CustomRegionEditor.Database.Interfaces;
 using CustomRegionEditor.Handler.Factories;
 using System.Diagnostics;
 using log4net;
+using CustomRegionEditor.Database.Models;
 
 namespace CustomRegionEditor.Handler
 {
@@ -138,6 +139,328 @@ namespace CustomRegionEditor.Handler
             {
                 return false;
             }
+        }
+
+        public ManagerResult<CustomRegionGroupModel> RemoveRegions(CustomRegionGroupModel customRegionGroupModel, CustomRegionEntryModel customRegionEntryModel)
+        {
+            var returnSubResult = RemoveSubRegions(customRegionGroupModel, customRegionEntryModel);
+            var returnSuperResult = RemoveSuperRegions(returnSubResult.Object, customRegionEntryModel);
+
+            returnSubResult.ValidationResult.Merge(returnSuperResult.ValidationResult);
+
+            return returnSubResult;
+        }
+
+        private ManagerResult<CustomRegionGroupModel> RemoveSuperRegions(CustomRegionGroupModel customRegionGroupModel, CustomRegionEntryModel customRegionEntryModel)
+        {
+            var regionRepo = this.RepositoryFactory.CreateRegionRepository(Session);
+            var countryRepo = this.RepositoryFactory.CreateCountryRepository(Session);
+            var stateRepo = this.RepositoryFactory.CreateStateRepository(Session);
+            var cityRepo = this.RepositoryFactory.CreateCityRepository(Session);
+            var airportRepo = this.RepositoryFactory.CreateAirportRepository(Session);
+
+            var parentEntry = new CustomRegionEntryModel();
+            var removeEntry = new CustomRegionEntryModel();
+            parentEntry = null;
+
+            var entry = customRegionEntryModel;
+
+            var entryType = entry.GetLocationType();
+            var searchId = entry.LocationId;
+
+            if (entryType.Equals("country"))  //COUNTRY
+            {
+                var foundRegion = new Country();
+
+                foundRegion = countryRepo.Find(searchId);
+                var parentRegion = foundRegion.Region;
+
+                var findParent = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationId == parentRegion.Id && a.LocationName == parentRegion.Name);
+
+                if (findParent != null)
+                {
+                    parentEntry = findParent;
+                    removeEntry = entry;
+                }
+            }
+            else if (entryType.Equals("state")) //STATE
+            {
+                var foundRegion = new State();
+
+                foundRegion = stateRepo.Find(searchId);
+                var parentCountry = foundRegion.Country;
+                var parentRegion = parentCountry.Region;
+
+                var findParentRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationId == parentRegion.Id && a.LocationName == parentRegion.Name);
+                var findParentCountry = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationId == parentCountry.Id && a.LocationName == parentCountry.Name);
+
+                if (findParentRegion != null)
+                {
+                    parentEntry = findParentRegion;
+                    removeEntry = entry;
+                }
+                if (findParentCountry != null)
+                {
+                    parentEntry = findParentCountry;
+                    removeEntry = entry;
+                }
+
+            }
+            else if (entryType.Equals("city")) //CITY
+            {
+                var foundRegion = new City();
+
+                foundRegion = cityRepo.Find(searchId);
+                var parentState = foundRegion.State;
+                var parentCountry = foundRegion.Country;
+                var parentRegion = parentCountry.Region;
+
+                var findParentRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationId == parentRegion.Id && a.LocationName == parentRegion.Name);
+                var findParentCountry = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationId == parentCountry.Id && a.LocationName == parentCountry.Name);
+
+                if (parentState != null)
+                {
+                    var findParentState = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationId == parentState.Id && a.LocationName == parentState.Name);
+                    if (findParentState != null)
+                    {
+                        parentEntry = findParentState;
+                        removeEntry = entry;
+                    }
+                }
+                if (findParentRegion != null)
+                {
+                    parentEntry = findParentRegion;
+                    removeEntry = entry;
+                }
+                if (findParentCountry != null)
+                {
+                    parentEntry = findParentCountry;
+                    removeEntry = entry;
+                }
+            }
+            else if (entryType.Equals("airport")) //AIRPORT
+            {
+                var foundRegion = new Airport();
+
+                foundRegion = airportRepo.Find(searchId);
+                var parentCity = foundRegion.City;
+                var parentState = parentCity.State;
+                var parentCountry = parentCity.Country;
+                var parentRegion = parentCountry.Region;
+
+                var findParentRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationId == parentRegion.Id && a.LocationName == parentRegion.Name);
+                var findParentCountry = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationId == parentCountry.Id && a.LocationName == parentCountry.Name);
+                var findParentCity = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationId == parentCity.Id && a.LocationName == parentCity.Name);
+
+                if (parentState != null)
+                {
+                    var findParentState = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationId == parentState.Id && a.LocationName == parentState.Name);
+                    if (findParentState != null)
+                    {
+                        parentEntry = findParentState;
+                        removeEntry = entry;
+                    }
+                }
+                if (findParentRegion != null)
+                {
+                    parentEntry = findParentRegion;
+                    removeEntry = entry;
+                }
+                if (findParentCountry != null)
+                {
+                    parentEntry = findParentCountry;
+                    removeEntry = entry;
+                }
+                if (findParentCity != null)
+                {
+                    parentEntry = findParentCity;
+                    removeEntry = entry;
+                }
+            }
+
+            var validationModel = new ValidationModel();
+            if (parentEntry != null)
+            {
+                var errorModel = new ErrorModel();
+                errorModel.Message = "This region is a part of " + parentEntry.LocationName;
+                errorModel.Warning = true;
+                validationModel.Errors.Add(errorModel);
+                customRegionGroupModel.CustomRegionEntries.Remove(removeEntry);
+            }
+
+            return new ManagerResult<CustomRegionGroupModel>(validationModel, customRegionGroupModel);
+        }
+
+        private ManagerResult<CustomRegionGroupModel> RemoveSubRegions(CustomRegionGroupModel customRegionGroupModel, CustomRegionEntryModel customRegionEntryModel)
+        {
+            var validationModel = new ValidationModel();
+            var removedEntries = new List<CustomRegionEntryModel>();
+            var duplicate = false;
+
+            var regionRepo = this.RepositoryFactory.CreateRegionRepository(Session);
+            var countryRepo = this.RepositoryFactory.CreateCountryRepository(Session);
+            var stateRepo = this.RepositoryFactory.CreateStateRepository(Session);
+            var cityRepo = this.RepositoryFactory.CreateCityRepository(Session);
+            var airportRepo = this.RepositoryFactory.CreateAirportRepository(Session);
+
+            var entry = customRegionEntryModel;
+
+            var entryType = entry.GetLocationType();
+            var searchId = entry.LocationId;
+
+            if (entryType.Equals("region")) //REGION
+            {
+                var foundRegion = new Region();
+
+                foundRegion = regionRepo.Find(searchId);
+                var duplicateRegion = customRegionGroupModel.CustomRegionEntries.Where(a => a.LocationName == foundRegion.Name && a.LocationId == foundRegion.Id).ToList();
+                if (duplicateRegion.Count > 1) duplicate = true;
+
+                var subCountries = foundRegion.Countries;
+
+                var subCities = new List<City>();
+                var subStates = new List<State>();
+                subCountries.ToList().ForEach(a => subCities.AddRange(a.Cities));
+                subCountries.ToList().ForEach(a => subStates.AddRange(a.States));
+
+                var subAirports = new List<Airport>();
+                subCities.ToList().ForEach(a => subAirports.AddRange(a.Airports));
+
+                foreach (var location in subCountries)
+                {
+                    var matchRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationName == location.Name && a.LocationId == location.Id);
+                    if (matchRegion != null) removedEntries.Add(matchRegion);
+                }
+
+                foreach (var location in subCities)
+                {
+                    var matchRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationName == location.Name && a.LocationId == location.Id);
+                    if (matchRegion != null) removedEntries.Add(matchRegion);
+                }
+
+                foreach (var location in subStates)
+                {
+                    var matchRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationName == location.Name && a.LocationId == location.Id);
+                    if (matchRegion != null) removedEntries.Add(matchRegion);
+                }
+
+                foreach (var location in subAirports)
+                {
+                    var matchRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationName == location.Name && a.LocationId == location.Id);
+                    if (matchRegion != null) removedEntries.Add(matchRegion);
+                }
+            }
+            else if (entryType.Equals("country"))  //COUNTRY
+            {
+                var foundRegion = new Country();
+
+                foundRegion = countryRepo.Find(searchId);
+                var duplicateRegion = customRegionGroupModel.CustomRegionEntries.Where(a => a.LocationName == foundRegion.Name && a.LocationId == foundRegion.Id).ToList();
+                if (duplicateRegion.Count > 1) duplicate = true;
+
+                var subCities = foundRegion.Cities;
+                var subStates = foundRegion.States;
+
+                var subAirports = new List<Airport>();
+                subCities.ToList().ForEach(a => subAirports.AddRange(a.Airports));
+
+                foreach (var location in subCities)
+                {
+                    var matchRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationName == location.Name && a.LocationId == location.Id);
+                    if (matchRegion != null) removedEntries.Add(matchRegion);
+                }
+
+                foreach (var location in subStates)
+                {
+                    var matchRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationName == location.Name && a.LocationId == location.Id);
+                    if (matchRegion != null) removedEntries.Add(matchRegion);
+                }
+
+                foreach (var location in subAirports)
+                {
+                    var matchRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationName == location.Name && a.LocationId == location.Id);
+                    if (matchRegion != null) removedEntries.Add(matchRegion);
+                }
+            }
+            else if (entryType.Equals("state")) //STATE
+            {
+                var foundRegion = new State();
+
+                foundRegion = stateRepo.Find(searchId);
+                var duplicateRegion = customRegionGroupModel.CustomRegionEntries.Where(a => a.LocationName == foundRegion.Name && a.LocationId == foundRegion.Id).ToList();
+                if (duplicateRegion.Count > 1) duplicate = true;
+
+                var subCities = foundRegion.Cities;
+
+                var subAirports = new List<Airport>();
+                subCities.ToList().ForEach(a => subAirports.AddRange(a.Airports));
+
+                foreach (var location in subCities)
+                {
+                    var matchRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationName == location.Name && a.LocationId == location.Id);
+                    if (matchRegion != null) removedEntries.Add(matchRegion);
+                }
+
+                foreach (var location in subAirports)
+                {
+                    var matchRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationName == location.Name && a.LocationId == location.Id);
+                    if (matchRegion != null) removedEntries.Add(matchRegion);
+                }
+            }
+            else if (entryType.Equals("city")) //CITY
+            {
+                var foundRegion = new City();
+
+                foundRegion = cityRepo.Find(searchId);
+                var duplicateRegion = customRegionGroupModel.CustomRegionEntries.Where(a => a.LocationName == foundRegion.Name && a.LocationId == foundRegion.Id).ToList();
+                if (duplicateRegion.Count > 1) duplicate = true;
+
+                var subAirports = foundRegion.Airports;
+
+                foreach (var location in subAirports)
+                {
+                    var matchRegion = customRegionGroupModel.CustomRegionEntries.FirstOrDefault(a => a.LocationName == location.Name && a.LocationId == location.Id);
+                    if (matchRegion != null) removedEntries.Add(matchRegion);
+                }
+            }
+            else if (entryType.Equals("airport")) //AIRPORT
+            {
+                var foundRegion = new Airport();
+
+                foundRegion = airportRepo.Find(searchId);
+                var duplicateRegion = customRegionGroupModel.CustomRegionEntries.Where(a => a.LocationName == foundRegion.Name && a.LocationId == foundRegion.Id).ToList();
+                if (duplicateRegion.Count > 1) duplicate = true;
+            }
+
+            if (duplicate)
+            {
+                var errorModel = new ErrorModel();
+                errorModel.Message = "This region has already been added";
+                errorModel.Warning = true;
+                validationModel.Errors.Add(errorModel);
+            }
+
+
+            if (removedEntries.Count == 1)
+            {
+                var errorModel = new ErrorModel();
+                errorModel.Message = removedEntries.Count + " contained subregion has been removed";
+                errorModel.Warning = true;
+                validationModel.Errors.Add(errorModel);
+            }
+            else if (removedEntries.Count > 1)
+            {
+                var errorModel = new ErrorModel();
+                errorModel.Message = removedEntries.Count + " contained subregions have been removed";
+                errorModel.Warning = true;
+                validationModel.Errors.Add(errorModel);
+            }
+
+            foreach (var subregions in removedEntries)
+            {
+                customRegionGroupModel.CustomRegionEntries.Remove(subregions);
+            }
+            return new ManagerResult<CustomRegionGroupModel>(validationModel, customRegionGroupModel);
         }
     }
 }

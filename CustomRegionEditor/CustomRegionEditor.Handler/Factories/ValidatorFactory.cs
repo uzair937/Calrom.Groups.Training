@@ -1,6 +1,4 @@
 ﻿using CustomRegionEditor.Database.Factories;
-using CustomRegionEditor.Handler.Converters;
-using CustomRegionEditor.Handler.Interfaces;
 using CustomRegionEditor.Handler.Validators;
 using NHibernate;
 
@@ -30,7 +28,7 @@ namespace CustomRegionEditor.Handler.Factories
 
         public CustomRegionValidator CreateCustomRegionValidator(ISession session)
         {
-            return new CustomRegionValidator(session, this);
+            return new CustomRegionValidator(session, this, this.RepositoryFactory);
         }
     }
 }

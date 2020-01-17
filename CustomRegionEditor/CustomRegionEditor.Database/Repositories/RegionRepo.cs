@@ -23,8 +23,8 @@ namespace CustomRegionEditor.Database.Repositories
         {
             var regionModel = new Region();
 
-            regionModel = Session.Query<Region>().FirstOrDefault(a => a.Name == (entry));
-            if (regionModel == null) regionModel = Session.Query<Region>().FirstOrDefault(a => a.Id == (entry));
+            regionModel = Session.Query<Region>().FirstOrDefault(a => a.Id == (entry));
+            if (regionModel == null) regionModel = Session.Query<Region>().FirstOrDefault(a => a.Name == (entry));
             return regionModel;
 
         } //searches for a matching region
