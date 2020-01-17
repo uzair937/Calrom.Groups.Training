@@ -41,7 +41,7 @@
                         @foreach (var entry in Model.CustomRegionGroupViewModel.CustomRegions)
                         {
 
-                            <tr class="single-region-entry" entryId="@entry.Id" entryValue="@entry.Value" entryName="@entry.Name">
+                            <tr class="single-region-entry" entryId="@entry.Id" entryValue="@entry.LocationId" entryName="@entry.LocationName">
                                 <td>@entry.Region.Name</td>
                                 <td>@entry.Country.Name</td>
                                 <td>@entry.State.Name</td>

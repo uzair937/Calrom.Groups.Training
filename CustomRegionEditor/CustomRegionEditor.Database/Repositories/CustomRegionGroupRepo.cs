@@ -33,9 +33,9 @@ namespace CustomRegionEditor.Database.Repositories
             return _customRegionGroupList;
         }
 
-        public CustomRegionGroup FindById(string id)
+        public CustomRegionGroup FindById(Guid id)
         {
-            var dbModel = Session.Get<CustomRegionGroup>(Guid.Parse(id));
+            var dbModel = Session.Get<CustomRegionGroup>(id);
 
             var customRegionGroupModel = dbModel;
 

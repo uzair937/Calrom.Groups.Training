@@ -5,6 +5,7 @@ using CustomRegionEditor.Handler.Interfaces;
 using CustomRegionEditor.Models;
 using log4net;
 using NHibernate;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -34,8 +35,8 @@ namespace CustomRegionEditor.Handler.Converters
                 newModel.State = new StateModel { Name = string.Empty };
                 newModel.City = new CityModel { Name = string.Empty };
                 newModel.Airport = new AirportModel { Name = string.Empty };
-                newModel.Value = customRegionEntry.Region.Id;
-                newModel.Name = customRegionEntry.Region.Name;
+                newModel.LocationId = customRegionEntry.Region.Id;
+                newModel.LocationName = customRegionEntry.Region.Name;
             }
             else if (customRegionEntry.Country != null)
             {
@@ -44,8 +45,8 @@ namespace CustomRegionEditor.Handler.Converters
                 newModel.State = new StateModel { Name = string.Empty };
                 newModel.City = new CityModel { Name = string.Empty };
                 newModel.Airport = new AirportModel { Name = string.Empty };
-                newModel.Value = customRegionEntry.Country.Id;
-                newModel.Name = customRegionEntry.Country.Name;
+                newModel.LocationId = customRegionEntry.Country.Id;
+                newModel.LocationName = customRegionEntry.Country.Name;
             }
             else if (customRegionEntry.State != null)
             {
@@ -54,8 +55,8 @@ namespace CustomRegionEditor.Handler.Converters
                 newModel.Region = new RegionModel { Name = string.Empty };
                 newModel.City = new CityModel { Name = string.Empty };
                 newModel.Airport = new AirportModel { Name = string.Empty };
-                newModel.Value = customRegionEntry.State.Id;
-                newModel.Name = customRegionEntry.State.Name;
+                newModel.LocationId = customRegionEntry.State.Id;
+                newModel.LocationName = customRegionEntry.State.Name;
             }
             else if (customRegionEntry.City != null)
             {
@@ -64,8 +65,8 @@ namespace CustomRegionEditor.Handler.Converters
                 newModel.State = new StateModel { Name = string.Empty };
                 newModel.Region = new RegionModel { Name = string.Empty };
                 newModel.Airport = new AirportModel { Name = string.Empty };
-                newModel.Value = customRegionEntry.City.Id;
-                newModel.Name = customRegionEntry.City.Name;
+                newModel.LocationId = customRegionEntry.City.Id;
+                newModel.LocationName = customRegionEntry.City.Name;
             }
             else if (customRegionEntry.Airport != null)
             {
@@ -74,8 +75,8 @@ namespace CustomRegionEditor.Handler.Converters
                 newModel.State = new StateModel { Name = string.Empty };
                 newModel.City = new CityModel { Name = string.Empty };
                 newModel.Region = new RegionModel { Name = string.Empty };
-                newModel.Value = customRegionEntry.Airport.Id;
-                newModel.Name = customRegionEntry.Airport.Name;
+                newModel.LocationId = customRegionEntry.Airport.Id;
+                newModel.LocationName = customRegionEntry.Airport.Name;
             }
             return newModel;
         }
@@ -96,8 +97,21 @@ namespace CustomRegionEditor.Handler.Converters
         
         public CustomRegionGroup GetDbModel(CustomRegionGroupModel customRegionGroupModel)
         {
-            var newModel = AutoMapperConfiguration.GetInstance<CustomRegionGroup>(customRegionGroupModel);
+            var customRegionRepo = this.RepositoryFactory.CreateCustomRegionGroupRepository(this.Session);
+            var newModel = new CustomRegionGroup();
+            if (customRegionGroupModel.Id != Guid.Empty)
+            {
+                newModel = customRegionRepo.FindById(customRegionGroupModel.Id);
+                newModel.Name = customRegionGroupModel.Name;
+                newModel.Description = customRegionGroupModel.Description;
+            }
+            else
+            {
+                newModel = AutoMapperConfiguration.GetInstance<CustomRegionGroup>(customRegionGroupModel);
+            }
+
             newModel.CustomRegionEntries = new List<CustomRegionEntry>();
+            
             if (customRegionGroupModel.CustomRegionEntries != null)
             {
                 foreach (var cre in customRegionGroupModel.CustomRegionEntries)
@@ -112,32 +126,43 @@ namespace CustomRegionEditor.Handler.Converters
 
         public CustomRegionEntry GetDbModel(CustomRegionEntryModel customRegionEntryModel)
         {
+            var customEntryRepo = this.RepositoryFactory.CreateCustomRegionEntryRepository(this.Session);
             var regionRepo = this.RepositoryFactory.CreateRegionRepository(this.Session);
             var countryRepo = this.RepositoryFactory.CreateCountryRepository(this.Session);
             var stateRepo = this.RepositoryFactory.CreateStateRepository(this.Session);
             var cityRepo = this.RepositoryFactory.CreateCityRepository(this.Session);
             var airportRepo = this.RepositoryFactory.CreateAirportRepository(this.Session);
 
-            var newModel = AutoMapperConfiguration.GetInstance<CustomRegionEntry>(customRegionEntryModel);
-            if (customRegionEntryModel.Region?.Id != null)
+            var newModel = new CustomRegionEntry();
+
+            if (customRegionEntryModel.Id != Guid.Empty)
             {
-                newModel.Region = regionRepo.FindByName(customRegionEntryModel.Region.Name);
+                newModel = customEntryRepo.FindById(customRegionEntryModel.Id);
             }
-            else if (customRegionEntryModel.Country?.Id != null)
+            else
             {
-                newModel.Country = countryRepo.FindByName(customRegionEntryModel.Country.Name);
-            }
-            else if (customRegionEntryModel.State?.Id != null)
-            {
-                newModel.State = stateRepo.FindByName(customRegionEntryModel.State.Name);
-            }
-            else if (customRegionEntryModel.City?.Id != null)
-            {
-                newModel.City = cityRepo.FindByName(customRegionEntryModel.City.Name);
-            }
-            else if (customRegionEntryModel.Airport?.Id != null)
-            {
-                newModel.Airport = airportRepo.FindByName(customRegionEntryModel.Airport.Name);
+                newModel = AutoMapperConfiguration.GetInstance<CustomRegionEntry>(customRegionEntryModel);
+
+                if (customRegionEntryModel.Region?.Id != null)
+                {
+                    newModel.Region = regionRepo.Find(customRegionEntryModel.Region.Id);
+                }
+                else if (customRegionEntryModel.Country?.Id != null)
+                {
+                    newModel.Country = countryRepo.Find(customRegionEntryModel.Country.Id);
+                }
+                else if (customRegionEntryModel.State?.Id != null)
+                {
+                    newModel.State = stateRepo.Find(customRegionEntryModel.State.Id);
+                }
+                else if (customRegionEntryModel.City?.Id != null)
+                {
+                    newModel.City = cityRepo.Find(customRegionEntryModel.City.Id);
+                }
+                else if (customRegionEntryModel.Airport?.Id != null)
+                {
+                    newModel.Airport = airportRepo.Find(customRegionEntryModel.Airport.Id);
+                }
             }
             return newModel;
         }

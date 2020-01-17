@@ -35,8 +35,7 @@ namespace CustomRegionEditor.Handler.Factories
         {
             var repofactory = new DefaultRepositoryFactory();
             var modelConverter = this.ConverterFactory.CreateModelConverter(session);
-            var groupRepository = repofactory.CreateCustomRegionGroupRepository(session);
-            return new SearchRegion(groupRepository, modelConverter);
+            return new SearchRegion(session, modelConverter, this.RepositoryFactory);
         }
     }
 }

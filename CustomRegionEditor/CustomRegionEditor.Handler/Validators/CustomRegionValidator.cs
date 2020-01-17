@@ -25,12 +25,11 @@ namespace CustomRegionEditor.Handler.Validators
             var supersetValidator = this.ValidatorFactory.CreateCustomRegionEntrySupersetValidator();
             var entryValidator = this.ValidatorFactory.CreateCustomRegionEntryValidator(this.Session);
 
-            var validationModel = entryValidator.IsValid(customRegion); //Checks and gets Entry info such as Id
+            var basicValidationResult = entryValidator.IsValid(customRegion); //Checks and gets Entry info such as Id
 
-            validationModel = supersetValidator.IsValid(validationModel); //Checks for existing super regions
+            var supersetValidationResult = supersetValidator.IsValid(customRegion); //Checks for existing super regions
 
-
-            return validationModel;
+            return basicValidationResult.Merge(supersetValidationResult);
         }
     }
 }

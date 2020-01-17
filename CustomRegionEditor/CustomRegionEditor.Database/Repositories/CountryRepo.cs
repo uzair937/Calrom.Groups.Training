@@ -15,7 +15,7 @@ namespace CustomRegionEditor.Database.Repositories
             this.Session = session;
         }
 
-        public Country FindByName(string entry)
+        public Country Find(string entry)
         {
             var countryModel = new Country();
 

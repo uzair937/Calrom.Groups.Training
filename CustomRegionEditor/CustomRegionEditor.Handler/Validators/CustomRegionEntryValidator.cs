@@ -24,9 +24,10 @@ namespace CustomRegionEditor.Handler.Validators
         {
             var validationModel = new ValidationModel();
             var validatedEntries = new List<CustomRegionEntryModel>();
-            foreach(var entry in customRegion.CustomRegionEntries)
+
+            foreach (var entry in customRegion.CustomRegionEntries)
             {
-                if (Guid.Empty == entry.Id)
+                if (entry.Id == Guid.Empty)
                 {
                     var validEntryModel = ExistingEntryCheck(entry);
                     if (validEntryModel.ValidEntry)
@@ -43,8 +44,12 @@ namespace CustomRegionEditor.Handler.Validators
                     }
                 }
             }
-            customRegion.CustomRegionEntries = validatedEntries;
-            validationModel.CustomRegionGroupModel = customRegion;
+
+            if (validatedEntries.Count != customRegion.CustomRegionEntries.Count)
+            {
+                validationModel.Errors.Add(new ErrorModel { Message = "Mismatch in custom regions" });
+            }
+
             return validationModel;
         }
 
@@ -56,34 +61,34 @@ namespace CustomRegionEditor.Handler.Validators
             {
                 case "region":
                     var regionRepo = RepositoryFactory.CreateRegionRepository(this.Session);
-                    customRegionEntry.Region = this.ModelConverter.GetModel(regionRepo.FindByName(customRegionEntry.Name));
+                    customRegionEntry.Region = this.ModelConverter.GetModel(regionRepo.Find(customRegionEntry.LocationName));
                     if (customRegionEntry.Region != null) validEntryModel.ValidEntry = true;
                     break;
 
                 case "country":
                     var countryRepo = RepositoryFactory.CreateCountryRepository(this.Session);
-                    customRegionEntry.Country = this.ModelConverter.GetModel(countryRepo.FindByName(customRegionEntry.Name));
-                    if (customRegionEntry.Country == null) validEntryModel.ValidEntry = false;
+                    customRegionEntry.Country = this.ModelConverter.GetModel(countryRepo.Find(customRegionEntry.LocationName));
+                    if (customRegionEntry.Country != null) validEntryModel.ValidEntry = true;
                     break;
 
                 case "state":
                     var stateRepo = RepositoryFactory.CreateStateRepository(this.Session);
-                    customRegionEntry.State = this.ModelConverter.GetModel(stateRepo.FindByName(customRegionEntry.Name));
-                    if (customRegionEntry.State == null) validEntryModel.ValidEntry = false;
+                    customRegionEntry.State = this.ModelConverter.GetModel(stateRepo.Find(customRegionEntry.LocationName));
+                    if (customRegionEntry.State != null) validEntryModel.ValidEntry = true;
                     break;
 
                 case "city":
                     var cityRepo = RepositoryFactory.CreateCityRepository(this.Session);
-                    customRegionEntry.City = this.ModelConverter.GetModel(cityRepo.FindByName(customRegionEntry.Name));
-                    if (customRegionEntry.City == null) validEntryModel.ValidEntry = false;
+                    customRegionEntry.City = this.ModelConverter.GetModel(cityRepo.Find(customRegionEntry.LocationName));
+                    if (customRegionEntry.City != null) validEntryModel.ValidEntry = true;
                     break;
                 case "airport":
                     var airportRepo = RepositoryFactory.CreateAirportRepository(this.Session);
-                    customRegionEntry.Airport = this.ModelConverter.GetModel(airportRepo.FindByName(customRegionEntry.Name));
-                    if (customRegionEntry.Airport == null) validEntryModel.ValidEntry = false;
+                    customRegionEntry.Airport = this.ModelConverter.GetModel(airportRepo.Find(customRegionEntry.LocationName));
+                    if (customRegionEntry.Airport != null) validEntryModel.ValidEntry = true;
                     break;
                 default:
-                    validEntryModel.Error.Message = "Cannot find type of " + customRegionEntry.Name;
+                    validEntryModel.Error.Message = "Cannot find type of " + customRegionEntry.LocationName;
                     validEntryModel.Error.Warning = true;
                     validEntryModel.ValidEntry = false;
                     break;
@@ -108,30 +113,30 @@ namespace CustomRegionEditor.Handler.Validators
             {
                 case "region":
                     var regionRepo = RepositoryFactory.CreateRegionRepository(this.Session);
-                    customRegionEntry.Region = this.ModelConverter.GetModel(regionRepo.FindByName(entry));
+                    customRegionEntry.Region = this.ModelConverter.GetModel(regionRepo.Find(entry));
                     if (customRegionEntry.Region != null) validEntryModel.ValidEntry = true;
                     break;
 
                 case "country":
                     var countryRepo = RepositoryFactory.CreateCountryRepository(this.Session);
-                    customRegionEntry.Country = this.ModelConverter.GetModel(countryRepo.FindByName(entry));
+                    customRegionEntry.Country = this.ModelConverter.GetModel(countryRepo.Find(entry));
                     if (customRegionEntry.Country != null) validEntryModel.ValidEntry = true;
                     break;
 
                 case "state":
                     var stateRepo = RepositoryFactory.CreateStateRepository(this.Session);
-                    customRegionEntry.State = this.ModelConverter.GetModel(stateRepo.FindByName(entry));
+                    customRegionEntry.State = this.ModelConverter.GetModel(stateRepo.Find(entry));
                     if (customRegionEntry.State != null) validEntryModel.ValidEntry = true;
                     break;
 
                 case "city":
                     var cityRepo = RepositoryFactory.CreateCityRepository(this.Session);
-                    customRegionEntry.City = this.ModelConverter.GetModel(cityRepo.FindByName(entry));
+                    customRegionEntry.City = this.ModelConverter.GetModel(cityRepo.Find(entry));
                     if (customRegionEntry.City != null) validEntryModel.ValidEntry = true;
                     break;
                 case "airport":
                     var airportRepo = RepositoryFactory.CreateAirportRepository(this.Session);
-                    customRegionEntry.Airport = this.ModelConverter.GetModel(airportRepo.FindByName(entry));
+                    customRegionEntry.Airport = this.ModelConverter.GetModel(airportRepo.Find(entry));
                     if (customRegionEntry.Airport != null) validEntryModel.ValidEntry = true;
                     break;
                 default:
@@ -157,7 +162,7 @@ namespace CustomRegionEditor.Handler.Validators
             var entryRepo = this.RepositoryFactory.CreateCustomRegionEntryRepository(Session);
             var validEntryModel = new ValidEntryModel();
 
-            var foundEntry = entryRepo.FindById(customRegionEntry.Id.ToString());
+            var foundEntry = entryRepo.FindById(customRegionEntry.Id);
 
             if (foundEntry != null)
             {
@@ -165,7 +170,7 @@ namespace CustomRegionEditor.Handler.Validators
             }
             else
             {
-                validEntryModel.Error.Message = "Cannot find entry " + customRegionEntry.Name;
+                validEntryModel.Error.Message = "Cannot find entry " + customRegionEntry.LocationName;
                 validEntryModel.Error.Warning = true;
                 validEntryModel.ValidEntry = false;
             }

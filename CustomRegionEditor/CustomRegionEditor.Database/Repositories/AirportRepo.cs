@@ -16,7 +16,7 @@ namespace CustomRegionEditor.Database.Repositories
             this.Session = session;
         }
 
-        public Airport FindByName(string entry)
+        public Airport Find(string entry)
         {
             var airportModel = new Airport();
             airportModel = Session.Query<Airport>().FirstOrDefault(a => a.Name == (entry));

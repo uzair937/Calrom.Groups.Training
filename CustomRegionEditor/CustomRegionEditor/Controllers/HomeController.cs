@@ -59,13 +59,6 @@ namespace CustomRegionEditor.Controllers
             this.SessionStore.Clear();
             var searchTerm = searchForm.text;
 
-            if (searchTerm.Contains(","))
-            {
-                var index = searchTerm.IndexOf(",");
-                searchTerm = searchTerm.Substring(0, index);
-            }
-
-
             var contentViewModel = new ContentViewModel
             {
                 SearchViewModel = new SearchViewModel()
@@ -119,11 +112,11 @@ namespace CustomRegionEditor.Controllers
 
             if (string.IsNullOrEmpty(id))
             {
-                currentRegion.CustomRegions = currentRegion.CustomRegions.Where(s => s.Name != name).ToList();
+                currentRegion.CustomRegions = currentRegion.CustomRegions.Where(s => s.LocationName != name).ToList();
             }
             else
             {
-                currentRegion.CustomRegions = currentRegion.CustomRegions.Where(s => s.Id != id).ToList();
+                currentRegion.CustomRegions = currentRegion.CustomRegions.Where(s => s.LocationId != id).ToList();
             }
 
             var errorModels = new List<ErrorViewModel>();
@@ -139,37 +132,77 @@ namespace CustomRegionEditor.Controllers
         {
             using (var session = this.SessionManager.OpenSession())
             {
-                var entryValidator = this.ValidatorFactory.CreateCustomRegionEntryValidator(session);
-                
-                var entry = regionForm.Entry;
-                var type = regionForm.Type;
-                var name = regionForm.Name;
-                var description = regionForm.Description;
-
-                var validationEntryModel = entryValidator.CheckNewEntry(entry, type);
+                var entryValidator = this.ValidatorFactory.CreateCustomRegionValidator(session);
 
                 var currentViewModel = this.SessionStore.Get();
-                currentViewModel.Name = name;
-                currentViewModel.Description = description;
+                currentViewModel.Name = regionForm.Name;
+                currentViewModel.Description = regionForm.Description;
 
                 if (currentViewModel.CustomRegions == null)
                 {
                     currentViewModel.CustomRegions = new List<CustomRegionEntryViewModel>();
                 }
 
-                if (validationEntryModel.ValidEntry)
+                var entryViewModel = this.CreateEntryViewModel(regionForm.Type, regionForm.Entry);
+                currentViewModel.CustomRegions.Add(entryViewModel);
+
+                var customRegionGroupModel = this.ViewModelConverter.GetModel(currentViewModel);
+
+                var validationResult = entryValidator.IsValid(customRegionGroupModel);
+
+                if (validationResult.Errors.Any())
                 {
-                    var validatedEntryView = this.ViewModelConverter.GetView(validationEntryModel.CustomRegionEntryModel);
-                    currentViewModel.CustomRegions.Add(validatedEntryView);
-                    this.SessionStore.Save(currentViewModel);
+                    var errorViewModel = this.ViewModelConverter.GetView(validationResult.Errors);
+                    if (errorViewModel != null)
+                    {
+                        return UpdateRegionGroup(errorViewModel);
+                    }
                 }
 
-                var errorViewModel = this.ViewModelConverter.GetView(validationEntryModel.Error);
-                if (errorViewModel != null)
-                {
-                    return UpdateRegionGroup(new List<ErrorViewModel> { errorViewModel });
-                }
+                this.SessionStore.Save(currentViewModel);
+
                 return UpdateRegionGroup(new List<ErrorViewModel>());
+            }
+        }
+
+        private CustomRegionEntryViewModel CreateEntryViewModel(string type, string entry)
+        {
+            var entryId = entry;
+            if (entryId.Contains(","))
+            {
+                var index = entryId.IndexOf(",");
+                entryId = entryId.Substring(0, index);
+
+                var idEntry = GetEntry(type, entryId);
+                if (idEntry != null)
+                {
+                    return idEntry;
+                }
+            }
+            return GetEntry(type, entry);
+        }
+        
+        private CustomRegionEntryViewModel GetEntry(string type, string entry)
+        {
+            switch (type)
+            {
+                case "airport":
+                    var airport = this.Airports.FirstOrDefault(s => s.Id == entry || s.Name == entry);
+                    return new CustomRegionEntryViewModel { Airport = airport, LocationId = airport.Id, LocationName = airport.Name };
+                case "state":
+                    var state = this.States.FirstOrDefault(s => s.Id == entry || s.Name == entry);
+                    return new CustomRegionEntryViewModel { State = state, LocationId = state.Id, LocationName = state.Name };
+                case "city":
+                    var city = this.Cities.FirstOrDefault(s => s.Id == entry || s.Name == entry);
+                    return new CustomRegionEntryViewModel { City = city, LocationId = city.Id, LocationName = city.Name };
+                case "country":
+                    var country = this.Countries.FirstOrDefault(s => s.Id == entry || s.Name == entry);
+                    return new CustomRegionEntryViewModel { Country = country, LocationId = country.Id, LocationName = country.Name };
+                case "region":
+                    var region = this.Regions.FirstOrDefault(s => s.Id == entry || s.Name == entry);
+                    return new CustomRegionEntryViewModel { Region = region, LocationId = region.Id, LocationName = region.Name };
+                default:
+                    return null;
             }
         }
 
@@ -207,11 +240,12 @@ namespace CustomRegionEditor.Controllers
 
                         var customRegionModel = this.ViewModelConverter.GetModel(storedRegion);
 
-                        validationModel = customRegionManager.Add(customRegionModel);
+                        var managerResult = customRegionManager.Add(customRegionModel);
+                        validationModel.Merge(managerResult.ValidationResult);
 
-                        if (validationModel.CustomRegionGroupModel != null)
+                        if (managerResult.Object != null)
                         {
-                            storedRegion = ViewModelConverter.GetView(validationModel.CustomRegionGroupModel);
+                            storedRegion = ViewModelConverter.GetView(managerResult.Object);
                         }
                         else
                         {
@@ -399,7 +433,7 @@ namespace CustomRegionEditor.Controllers
             results = results.Concat(Countries.Where(c => c.Name.StartsWith(term, StringComparison.OrdinalIgnoreCase))).ToList();
             results = results.Distinct().ToList();
 
-            results.ForEach(a => a.Display = a.Id + ", " + a.Name);
+            results.ForEach(a => a.Display = a.Id + ", " + a.Name + " (" + a.Type + ")");
 
             return results.Select(a => a.Display).ToList();
         }
@@ -410,7 +444,7 @@ namespace CustomRegionEditor.Controllers
             results = results.Concat(Regions.Where(c => c.Name.StartsWith(term, StringComparison.OrdinalIgnoreCase))).ToList();
             results = results.Distinct().ToList();
 
-            results.ForEach(a => a.Display = a.Id + ", " + a.Name);
+            results.ForEach(a => a.Display = a.Id + ", " + a.Name + " (" + a.Type + ")");
 
             return results.Select(a => a.Display).ToList();
         }
@@ -421,7 +455,7 @@ namespace CustomRegionEditor.Controllers
             results = results.Concat(States.Where(c => c.Name.StartsWith(term, StringComparison.OrdinalIgnoreCase))).ToList();
             results = results.Distinct().ToList();
 
-            results.ForEach(a => a.Display = a.Id + ", " + a.Name);
+            results.ForEach(a => a.Display = a.Id + ", " + a.Name + " (" + a.Type + ")");
 
             return results.Select(a => a.Display).ToList();
         }
@@ -432,7 +466,7 @@ namespace CustomRegionEditor.Controllers
             results = results.Concat(Cities.Where(c => c.Name.StartsWith(term, StringComparison.OrdinalIgnoreCase))).ToList();
             results = results.Distinct().ToList();
 
-            results.ForEach(a => a.Display = a.Id + ", " + a.Name);
+            results.ForEach(a => a.Display = a.Id + ", " + a.Name + " (" + a.Type + ")");
 
             return results.Select(a => a.Display).ToList();
         }
@@ -443,7 +477,7 @@ namespace CustomRegionEditor.Controllers
             results = results.Concat(Airports.Where(c => c.Name.StartsWith(term, StringComparison.OrdinalIgnoreCase))).ToList();
             results = results.Distinct().ToList();
 
-            results.ForEach(a => a.Display = a.Id + ", " + a.Name);
+            results.ForEach(a => a.Display = a.Id + ", " + a.Name + " (" + a.Type + ")");
 
             return results.Select(a => a.Display).ToList();
         }

@@ -9,12 +9,17 @@ namespace CustomRegionEditor.Models
     public class ValidationModel
     {
         public List<ErrorModel> Errors { get; set; }
-        
-        public CustomRegionGroupModel CustomRegionGroupModel { get; set; }
 
         public ValidationModel()
         {
             Errors = new List<ErrorModel>();
+        }
+
+        public ValidationModel Merge(ValidationModel validationModel)
+        {
+            this.Errors.AddRange(validationModel.Errors);
+
+            return this;
         }
     }
 }

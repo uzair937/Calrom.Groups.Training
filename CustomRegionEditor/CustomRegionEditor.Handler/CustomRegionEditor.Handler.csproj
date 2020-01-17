@@ -115,6 +115,7 @@
     <Compile Include="Interfaces\ISearchRegion.cs" />
     <Compile Include="Interfaces\ICustomRegionManager.cs" />
     <Compile Include="Interfaces\IModelConverter.cs" />
+    <Compile Include="Managers\ManagerResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchEntry.cs" />
     <Compile Include="SearchRegion.cs" />

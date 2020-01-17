@@ -10,8 +10,8 @@ namespace CustomRegionEditor.ViewModels
         public StateViewModel State { get; set; }
         public CityViewModel City { get; set; }
         public AirportViewModel Airport { get; set; }
-        public string Value { get; set; }
-        public string Name { get; set; }
+        public string LocationId { get; set; }
+        public string LocationName { get; set; }
 
         public CustomRegionEntryViewModel()
         {

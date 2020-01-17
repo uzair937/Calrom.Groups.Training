@@ -3,7 +3,10 @@
 
 
     <div class="content-model-container flex-column">
-        <div class="alert-container"></div>
+        @if (Model.ErrorModels.Count == 0)
+        {
+            <div class="alert-container"></div>
+        }
         @foreach (var error in Model.ErrorModels)
         {
             <div class="db-alert-container">

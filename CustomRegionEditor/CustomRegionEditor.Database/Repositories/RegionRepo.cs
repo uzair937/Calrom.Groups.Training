@@ -19,7 +19,7 @@ namespace CustomRegionEditor.Database.Repositories
             this.Session = session;
         }
 
-        public Region FindByName(string entry)
+        public Region Find(string entry)
         {
             var regionModel = new Region();
 

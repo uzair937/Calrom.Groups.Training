@@ -15,7 +15,7 @@ namespace CustomRegionEditor.Database.Repositories
             this.Session = session;
         }
 
-        public State FindByName(string entry)
+        public State Find(string entry)
         {
             var stateModel = new State();
 

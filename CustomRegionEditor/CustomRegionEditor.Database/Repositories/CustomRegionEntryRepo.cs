@@ -26,12 +26,16 @@ namespace CustomRegionEditor.Database.Repositories
             return entity;
         }
 
-        public void Delete(List<CustomRegionEntry> entities)
+        public void DeleteById(Guid id)
         {
-            foreach (var entity in entities)
-            {
-                Delete(entity);
-            }
+            var entry = FindById(id);
+
+            var associatedGroup = entry.CustomRegionGroup;
+            entry.CustomRegionGroup.CustomRegionEntries.Remove(entry);
+
+            Session.SaveOrUpdate(associatedGroup);
+
+            Delete(entry);
         }
 
         public void Delete(CustomRegionEntry entity)
@@ -50,16 +54,9 @@ namespace CustomRegionEditor.Database.Repositories
             return _customRegionEntryList;
         }
 
-        public void DeleteById(string id)
+        public CustomRegionEntry FindById(Guid entryId)
         {
-            var customRegionEntryModel = Session.Get<CustomRegionEntry>(Guid.Parse(id));
-
-            Delete(customRegionEntryModel);
-        }
-
-        public CustomRegionEntry FindById(string entryId)
-        {
-            var customRegionEntryModel = Session.Get<CustomRegionEntry>(Guid.Parse(entryId));
+            var customRegionEntryModel = Session.Get<CustomRegionEntry>(entryId);
 
             return customRegionEntryModel;
         }

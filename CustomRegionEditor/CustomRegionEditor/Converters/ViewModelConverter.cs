@@ -39,8 +39,8 @@ namespace CustomRegionEditor.Web.Converters
                 newView.State = new StateViewModel { Name = string.Empty };
                 newView.City = new CityViewModel { Name = string.Empty };
                 newView.Airport = new AirportViewModel { Name = string.Empty };
-                newView.Value = customRegionEntryModel.Region.Id;
-                newView.Name = customRegionEntryModel.Region.Name;
+                newView.LocationId = customRegionEntryModel.Region.Id;
+                newView.LocationName = customRegionEntryModel.Region.Name;
             }
             else if (customRegionEntryModel.Country?.Id != null)
             {
@@ -49,8 +49,8 @@ namespace CustomRegionEditor.Web.Converters
                 newView.State = new StateViewModel { Name = string.Empty };
                 newView.City = new CityViewModel { Name = string.Empty };
                 newView.Airport = new AirportViewModel { Name = string.Empty };
-                newView.Value = customRegionEntryModel.Country.Id;
-                newView.Name = customRegionEntryModel.Country.Name;
+                newView.LocationId = customRegionEntryModel.Country.Id;
+                newView.LocationName = customRegionEntryModel.Country.Name;
             }
             else if (customRegionEntryModel.State?.Id != null)
             {
@@ -59,8 +59,8 @@ namespace CustomRegionEditor.Web.Converters
                 newView.Region = new RegionViewModel { Name = string.Empty };
                 newView.City = new CityViewModel { Name = string.Empty };
                 newView.Airport = new AirportViewModel { Name = string.Empty };
-                newView.Value = customRegionEntryModel.State.Id;
-                newView.Name = customRegionEntryModel.State.Name;
+                newView.LocationId = customRegionEntryModel.State.Id;
+                newView.LocationName = customRegionEntryModel.State.Name;
             }
             else if (customRegionEntryModel.City?.Id != null)
             {
@@ -69,8 +69,8 @@ namespace CustomRegionEditor.Web.Converters
                 newView.State = new StateViewModel { Name = string.Empty };
                 newView.Region = new RegionViewModel { Name = string.Empty };
                 newView.Airport = new AirportViewModel { Name = string.Empty };
-                newView.Value = customRegionEntryModel.City.Id;
-                newView.Name = customRegionEntryModel.City.Name;
+                newView.LocationId = customRegionEntryModel.City.Id;
+                newView.LocationName = customRegionEntryModel.City.Name;
             }
             else if (customRegionEntryModel.Airport?.Id != null)
             {
@@ -79,8 +79,8 @@ namespace CustomRegionEditor.Web.Converters
                 newView.State = new StateViewModel { Name = string.Empty };
                 newView.City = new CityViewModel { Name = string.Empty };
                 newView.Region = new RegionViewModel { Name = string.Empty };
-                newView.Value = customRegionEntryModel.Airport.Id;
-                newView.Name = customRegionEntryModel.Airport.Name;
+                newView.LocationId = customRegionEntryModel.Airport.Id;
+                newView.LocationName = customRegionEntryModel.Airport.Name;
             }
             else
             {
@@ -89,8 +89,8 @@ namespace CustomRegionEditor.Web.Converters
                 newView.State = new StateViewModel { Name = string.Empty };
                 newView.City = new CityViewModel { Name = string.Empty };
                 newView.Region = new RegionViewModel { Name = string.Empty };
-                newView.Value = "Error";
-                newView.Name = "Error";
+                newView.LocationId = "Error";
+                newView.LocationName = "Error";
             }
             return newView;
         }
@@ -135,7 +135,7 @@ namespace CustomRegionEditor.Web.Converters
                 {
                     Id = model.Id,
                     Name = model.Name,
-                    Type = "(Airport)"
+                    Type = "Airport"
                 };
                 newModels.Add(newModel);
             }
@@ -152,7 +152,7 @@ namespace CustomRegionEditor.Web.Converters
                 {
                     Id = model.Id,
                     Name = model.Name,
-                    Type = "(City)"
+                    Type = "City"
                 };
                 newModels.Add(newModel);
             }
@@ -169,7 +169,7 @@ namespace CustomRegionEditor.Web.Converters
                 {
                     Id = model.Id,
                     Name = model.Name,
-                    Type = "(State)"
+                    Type = "State"
                 };
                 newModels.Add(newModel);
             }
@@ -186,7 +186,7 @@ namespace CustomRegionEditor.Web.Converters
                 {
                     Id = model.Id,
                     Name = model.Name,
-                    Type = "(Country)"
+                    Type = "Country"
                 };
                 newModels.Add(newModel);
             }
@@ -203,7 +203,7 @@ namespace CustomRegionEditor.Web.Converters
                 {
                     Id = model.Id,
                     Name = model.Name,
-                    Type = "(Region)"
+                    Type = "Region"
                 };
                 newModels.Add(newModel);
             }

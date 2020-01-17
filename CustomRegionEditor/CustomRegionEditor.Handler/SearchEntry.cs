@@ -20,7 +20,8 @@ namespace CustomRegionEditor.Handler
 
         public CustomRegionEntryModel FindById(string id)
         {
-            var foundRegion = this.CustomRegionEntryRepository.FindById(id);
+            var parsedId = Guid.Parse(id);
+            var foundRegion = this.CustomRegionEntryRepository.FindById(parsedId);
             return this.ModelConverter.GetModel(foundRegion);
         }
 

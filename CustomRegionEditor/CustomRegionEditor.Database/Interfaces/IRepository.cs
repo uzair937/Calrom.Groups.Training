@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace CustomRegionEditor.Database.Interfaces
 {
@@ -6,7 +7,7 @@ namespace CustomRegionEditor.Database.Interfaces
     {
         T AddOrUpdate(T entity);
 
-        T FindById(string id);
+        T FindById(Guid id);
 
         void Delete(T entity);
 

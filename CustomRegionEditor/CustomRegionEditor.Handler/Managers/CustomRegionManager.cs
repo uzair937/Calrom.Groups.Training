@@ -30,31 +30,31 @@ namespace CustomRegionEditor.Handler
 
         }
 
-        public ValidationModel Add(CustomRegionGroupModel customRegionGroupModel)
+        public ManagerResult<CustomRegionGroupModel> Add(CustomRegionGroupModel customRegionGroupModel)
         {
             var validator = this.ValidatorFactory.CreateCustomRegionValidator(this.Session);
-            var customRegionRepo = RepositoryFactory.CreateCustomRegionGroupRepository(this.Session);
+            var customRegionRepo = this.RepositoryFactory.CreateCustomRegionGroupRepository(this.Session);
 
             var validationModel = validator.IsValid(customRegionGroupModel);
-
-            customRegionGroupModel = validationModel.CustomRegionGroupModel;
 
             DeleteRemovedEntries(customRegionGroupModel, customRegionRepo);
 
             var dbModel = this.ModelConverter.GetDbModel(customRegionGroupModel);
+
             var addReturn = customRegionRepo.AddOrUpdate(dbModel);
 
-            validationModel.CustomRegionGroupModel = this.ModelConverter.GetModel(addReturn);
+            var result = this.ModelConverter.GetModel(addReturn);
 
-            return validationModel;
+            return new ManagerResult<CustomRegionGroupModel>(validationModel, result);
         }
 
         private void DeleteRemovedEntries(CustomRegionGroupModel customRegionGroupModel, ICustomRegionGroupRepository customRegionRepo)
         {
-            var sessionId = customRegionGroupModel.Id;
-            if (!(sessionId == null || sessionId == Guid.Empty))
+            var sessionGroupModelId = customRegionGroupModel.Id;
+            var idList = new List<Guid>();
+            if (!(sessionGroupModelId == null || sessionGroupModelId == Guid.Empty))
             {
-                var oldModel = customRegionRepo.FindById(sessionId.ToString());
+                var oldModel = customRegionRepo.FindById(sessionGroupModelId);
                 foreach (var entry in oldModel.CustomRegionEntries)
                 {
                     var matchAirport = new CustomRegionEntryModel();
@@ -74,21 +74,18 @@ namespace CustomRegionEditor.Handler
                         var entryId = entry.Id;
                         if (!(entryId == null || entryId == Guid.Empty))
                         {
-                            this.DeleteEntryById(entryId.ToString());
+                            idList.Add(entryId);
                         }
                     }
                 }
+
+                var customRegionEntryRepo = this.RepositoryFactory.CreateCustomRegionEntryRepository(this.Session);
+
+                foreach (var id in idList)
+                {
+                    customRegionEntryRepo.DeleteById(id);
+                }
             }
-        }
-
-        private bool DeleteEntryById(string id)
-        {
-            var customRegionRepo = RepositoryFactory.CreateCustomRegionGroupRepository(this.Session);
-            var entryList = customRegionRepo.List();
-            var customEntry = entryList.FirstOrDefault(a => a.Id == Guid.Parse(id));
-            customRegionRepo.Delete(customEntry);
-
-            return true;
         }
 
         public RegionListModel GetRegionList()

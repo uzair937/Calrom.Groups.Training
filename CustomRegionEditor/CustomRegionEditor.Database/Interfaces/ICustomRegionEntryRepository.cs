@@ -1,10 +1,11 @@
 ﻿using CustomRegionEditor.Database.Models;
+using System;
 using System.Collections.Generic;
 
 namespace CustomRegionEditor.Database.Interfaces
 {
     public interface ICustomRegionEntryRepository : IRepository<CustomRegionEntry>
     {
-        void Delete(List<CustomRegionEntry> entity);
+        void DeleteById(Guid id);
     }
 }

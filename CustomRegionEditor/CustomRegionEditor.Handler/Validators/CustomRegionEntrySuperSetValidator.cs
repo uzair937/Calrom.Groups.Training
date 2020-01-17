@@ -9,9 +9,9 @@ namespace CustomRegionEditor.Handler.Validators
 {
     public class CustomRegionEntrySupersetValidator
     {
-        public ValidationModel IsValid(ValidationModel validationModel)
+        public ValidationModel IsValid(CustomRegionGroupModel customRegionGroupModel)
         {
-            var customRegionGroupModel = validationModel.CustomRegionGroupModel; 
+            var validationModel = new ValidationModel();
 
             if (customRegionGroupModel.CustomRegionEntries == null || customRegionGroupModel.CustomRegionEntries.Count == 0)
             {
@@ -24,8 +24,6 @@ namespace CustomRegionEditor.Handler.Validators
                 return validationModel;
             }
 
-            var validEntries = new List<CustomRegionEntryModel>();
-
             foreach (var customRegionEntryModel in customRegionGroupModel.CustomRegionEntries)
             {
                 var valid = this.IsEntryValid(customRegionGroupModel, customRegionEntryModel);
@@ -34,17 +32,12 @@ namespace CustomRegionEditor.Handler.Validators
                 {
                     var error = new ErrorModel
                     {
-                        Message = "Entry " + customRegionEntryModel.Name + " Is Invalid",
+                        Message = "Entry " + customRegionEntryModel.LocationName + " Is Invalid",
                         Warning = true
                     };
                     validationModel.Errors.Add(error);
                 }
-                else
-                {
-                    validEntries.Add(customRegionEntryModel);
-                }
             }
-            validationModel.CustomRegionGroupModel.CustomRegionEntries = validEntries;
 
             return validationModel;
         }

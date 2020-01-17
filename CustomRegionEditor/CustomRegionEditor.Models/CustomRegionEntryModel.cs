@@ -15,29 +15,29 @@ namespace CustomRegionEditor.Models
         public StateModel State { get; set; }
         public CityModel City { get; set; }
         public AirportModel Airport { get; set; }
-        public string Value { get; set; }
-        public string Name { get; set; }
+        public string LocationId { get; set; }
+        public string LocationName { get; set; }
 
         public string GetLocationType()
         {
             ILocationModel model = null;
-            if (this.Region != null)
+            if (this.Region?.Id != null)
             {
                 model = this.Region;
             }
-            else if (this.Country != null)
+            else if (this.Country?.Id != null)
             {
                 model = this.Country;
             }
-            else if (this.State != null)
+            else if (this.State?.Id != null)
             {
                 model = this.State;
             }
-            else if (this.City != null)
+            else if (this.City?.Id != null)
             {
                 model = this.City;
             }
-            else if (this.Airport != null)
+            else if (this.Airport?.Id != null)
             {
                 model = this.Airport;
             }

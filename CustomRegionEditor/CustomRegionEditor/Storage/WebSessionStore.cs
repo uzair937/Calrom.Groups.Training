@@ -15,7 +15,9 @@ namespace CustomRegionEditor.Web.Storage
 
         public CustomRegionGroupViewModel Get()
         {
-            return this.httpSessionState["data"] as CustomRegionGroupViewModel;
+            var model = this.httpSessionState["data"] as CustomRegionGroupViewModel;
+            var cloned = model.Clone() as CustomRegionGroupViewModel;
+            return cloned;
         }
 
         public void Save(CustomRegionGroupViewModel item)

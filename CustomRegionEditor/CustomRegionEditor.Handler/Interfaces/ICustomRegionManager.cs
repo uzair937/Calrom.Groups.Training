@@ -5,7 +5,7 @@ namespace CustomRegionEditor.Handler.Interfaces
 {
     public interface ICustomRegionManager
     {
-        ValidationModel Add(CustomRegionGroupModel customRegionGroupModel);
+        ManagerResult<CustomRegionGroupModel> Add(CustomRegionGroupModel customRegionGroupModel);
 
         bool DeleteById(string id);
 

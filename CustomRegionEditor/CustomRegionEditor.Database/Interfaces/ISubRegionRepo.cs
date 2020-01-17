@@ -9,7 +9,7 @@ namespace CustomRegionEditor.Database.Interfaces
 {
     public interface ISubRegionRepo<T>
     {
-        T FindByName(string entry);
+        T Find(string entry);
 
         List<CustomRegionEntry> GetSubRegions(T model);
 

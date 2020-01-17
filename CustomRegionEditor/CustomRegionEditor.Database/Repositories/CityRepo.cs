@@ -15,7 +15,7 @@ namespace CustomRegionEditor.Database.Repositories
             this.Session = session;
         }
 
-        public City FindByName(string entry)
+        public City Find(string entry)
         {
             var cityModel = new City();
 
