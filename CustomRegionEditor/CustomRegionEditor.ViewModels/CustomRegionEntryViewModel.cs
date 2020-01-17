@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using CustomRegionEditor.Models;
+using System.Collections.Generic;
 
 namespace CustomRegionEditor.ViewModels
 {
@@ -10,11 +11,13 @@ namespace CustomRegionEditor.ViewModels
         public StateViewModel State { get; set; }
         public CityViewModel City { get; set; }
         public AirportViewModel Airport { get; set; }
+        public HighlightModel HighlightModel { get; set; }
         public string LocationId { get; set; }
         public string LocationName { get; set; }
 
         public CustomRegionEntryViewModel()
         {
+            this.HighlightModel = new HighlightModel();
             this.Region = new RegionViewModel();
             this.Country = new CountryViewModel();
             this.State = new StateViewModel();

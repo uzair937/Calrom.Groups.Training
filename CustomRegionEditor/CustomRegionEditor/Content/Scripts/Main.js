@@ -14,7 +14,7 @@ function addMainListeners() {
     }
     if (searchBox !== undefined && searchBox !== null) {
         searchBox.addEventListener("keyup", onSearchKey);
-        searchBox.addEventListener("input", onSearchChange);
+        searchBox.addEventListener("input", _.debounce(onSearchChange, 200));
     }
     if (addRegionButton !== undefined && addRegionButton !== null) {
         addRegionButton.addEventListener("click", onRegionAdd);
@@ -397,19 +397,19 @@ function addEditListeners() {
     }
 
     if (regionBox !== undefined && regionBox !== null) {
-        regionBox.addEventListener("input", onTextChange);
+        regionBox.addEventListener("input", _.debounce(onTextChange, 200));
     }
     if (countryBox !== undefined && countryBox !== null) {
-        countryBox.addEventListener("input", onTextChange);
+        countryBox.addEventListener("input", _.debounce(onTextChange, 200));
     }
     if (stateBox !== undefined && stateBox !== null) {
-        stateBox.addEventListener("input", onTextChange);
+        stateBox.addEventListener("input", _.debounce(onTextChange, 200));
     }
     if (cityBox !== undefined && cityBox !== null) {
-        cityBox.addEventListener("input", onTextChange);
+        cityBox.addEventListener("input", _.debounce(onTextChange, 200));
     }
     if (airportBox !== undefined && airportBox !== null) {
-        airportBox.addEventListener("input", onTextChange);
+        airportBox.addEventListener("input", _.debounce(onTextChange, 200));
     }
 }   //adds listeners to the add/save/delete buttons in edit view
 

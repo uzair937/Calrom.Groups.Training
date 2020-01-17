@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AirportModel.cs" />
     <Compile Include="LocationIdModel.cs" />
+    <Compile Include="HighlightModel.cs" />
     <Compile Include="SearchModel.cs" />
     <Compile Include="ValidEntryModel.cs" />
     <Compile Include="ValidationModel.cs" />

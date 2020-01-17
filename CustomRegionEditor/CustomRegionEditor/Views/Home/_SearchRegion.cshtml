@@ -20,7 +20,14 @@
                 {
                     <tbody>
                         <tr class="search-result" regionId="@result.Id" regionName="@result.Name">
-                            <td>@result.Name</td>
+                            @if (result.HighlightModel.Match)
+                            {
+                                <td class="alert alert-success">@result.Name</td>
+                            }
+                            else
+                            {
+                                <td>@result.Name</td>
+                            }
                             <td>@result.CustomRegions.Count</td>
                             <td><input type="button" value="Edit" class="edit-button btn btn-dark" /></td>
                             <td><input type="button" value="Delete" class="delete-button btn btn-dark" /></td>

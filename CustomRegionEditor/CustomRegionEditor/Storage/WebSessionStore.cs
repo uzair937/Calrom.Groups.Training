@@ -1,5 +1,6 @@
 ﻿using CustomRegionEditor.ViewModels;
 using CustomRegionEditor.Web.Interfaces;
+using System.Collections.Generic;
 using System.Web.SessionState;
 
 namespace CustomRegionEditor.Web.Storage
@@ -28,6 +29,22 @@ namespace CustomRegionEditor.Web.Storage
         public void Clear()
         {
             this.httpSessionState["data"] = new CustomRegionGroupViewModel();
+        }
+        
+        public void ClearHighlight()
+        {
+            this.httpSessionState["idList"] = new List<string>();
+        }
+
+        public void SetHighlight(List<string> ids)
+        {
+            this.httpSessionState["idList"] = ids;
+        }
+
+        public List<string> GetHighlight()
+        {
+            var model = this.httpSessionState["idList"] as List<string>;
+            return model;
         }
     }
 }

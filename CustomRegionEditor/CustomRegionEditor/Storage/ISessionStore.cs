@@ -1,4 +1,5 @@
 ﻿using CustomRegionEditor.ViewModels;
+using System.Collections.Generic;
 
 namespace CustomRegionEditor.Web.Interfaces
 {
@@ -9,5 +10,11 @@ namespace CustomRegionEditor.Web.Interfaces
         CustomRegionGroupViewModel Get();
 
         void Clear();
+
+        void ClearHighlight();
+
+        void SetHighlight(List<string> ids);
+
+        List<string> GetHighlight();
     }
 }

@@ -12,6 +12,13 @@ namespace CustomRegionEditor.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public IList<CustomRegionEntryModel> CustomRegionEntries { get; set; }
+        public HighlightModel HighlightModel { get; set; }
+        public bool SearchedTerm { get; set; }
+
+        public CustomRegionGroupModel()
+        {
+            this.HighlightModel = new HighlightModel();
+        }
 
     }
 }

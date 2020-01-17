@@ -10,10 +10,11 @@ namespace CustomRegionEditor.Models
     {
         public List<string> SearchId { get; set; }
         public string Type { get; set; }
-
+        public HighlightModel HighlightModel { get; set; }
         public LocationIdModel()
         {
-            SearchId = new List<string>();
+            this.SearchId = new List<string>();
+            this.HighlightModel = new HighlightModel();
         }
     }
 }

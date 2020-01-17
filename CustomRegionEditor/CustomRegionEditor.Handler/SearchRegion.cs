@@ -172,6 +172,7 @@ namespace CustomRegionEditor.Handler
 
                         //Get superRegions
                         regionIdModel.SearchId.Add(foundRegion.Id);
+                        regionIdModel.HighlightModel.Match = true;
 
                         //Get subRegions
                         countryIdModel.SearchId.AddRange(foundRegion.Countries.Select(a => a.Id));
@@ -211,6 +212,8 @@ namespace CustomRegionEditor.Handler
 
                         //Get superRegions
                         countryIdModel.SearchId.Add(foundCountry.Id);
+                        countryIdModel.HighlightModel.Match = true;
+
                         regionIdModel.SearchId.Add(foundCountry.Region.Id);
 
                         //Get subRegions
@@ -241,6 +244,8 @@ namespace CustomRegionEditor.Handler
                         if (foundState == null) break;
                         //Get superRegions
                         stateIdModel.SearchId.Add(foundState.Id);
+                        stateIdModel.HighlightModel.Match = true;
+
                         countryIdModel.SearchId.Add(foundState.Country.Id);
                         regionIdModel.SearchId.Add(foundState.Country.Region.Id);
 
@@ -267,6 +272,8 @@ namespace CustomRegionEditor.Handler
                         if (foundCity == null) break;
                         //Get superRegions
                         cityIdModel.SearchId.Add(foundCity.Id);
+                        cityIdModel.HighlightModel.Match = true;
+
                         countryIdModel.SearchId.Add(foundCity.Country.Id);
                         regionIdModel.SearchId.Add(foundCity.Country.Region.Id);
                         if (foundCity.State != null)
@@ -291,6 +298,8 @@ namespace CustomRegionEditor.Handler
                         if (foundAirports == null) break;
                         //Get superRegions
                         airportIdModel.SearchId.Add(foundAirports.Id);
+                        airportIdModel.HighlightModel.Match = true;
+
                         cityIdModel.SearchId.Add(foundAirports.City.Id);
                         countryIdModel.SearchId.Add(foundAirports.City.Country.Id);
                         regionIdModel.SearchId.Add(foundAirports.City.Country.Region.Id);
@@ -325,6 +334,8 @@ namespace CustomRegionEditor.Handler
 
             returnCustomRegionGroupList = returnCustomRegionGroupList.GroupBy(a => a.Id).Select(b => b.First()).ToList();
 
+            returnCustomRegionGroupList.Where(s => s.Name.Equals(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList().ForEach(a => a.HighlightModel.Match = true);
+
             return returnCustomRegionGroupList;
         }
 
@@ -343,25 +354,62 @@ namespace CustomRegionEditor.Handler
                     if (searchType.Equals("Region"))
                     {
                         foundRegions.AddRange(regionList.Where(a => a.CustomRegionEntries.Select(b => b.Region.Id).Any(w => w == searchId)).ToList());
+                        if (foundRegions.Count > 0 && searchModel.SearchTerm.HighlightModel.Match)
+                        {
+                            foreach (var region in foundRegions)
+                            {
+                                region.CustomRegionEntries.First(a => a.Region.Id == searchId).HighlightModel.Match = true;
+                            }
+                        }
                     }
                     else if (searchType.Equals("Country"))
                     {
                         foundRegions.AddRange(regionList.Where(a => a.CustomRegionEntries.Select(b => b.Country.Id).Any(w => w == searchId)).ToList());
+                        if (foundRegions.Count > 0 && searchModel.SearchTerm.HighlightModel.Match)
+                        {
+                            foreach (var region in foundRegions)
+                            {
+                                region.CustomRegionEntries.First(a => a.Country.Id == searchId).HighlightModel.Match = true;
+                            }
+                        }
                     }
                     else if (searchType.Equals("State"))
                     {
                         foundRegions.AddRange(regionList.Where(a => a.CustomRegionEntries.Select(b => b.State.Id).Any(w => w == searchId)).ToList());
+                        if (foundRegions.Count > 0 && searchModel.SearchTerm.HighlightModel.Match)
+                        {
+                            foreach (var region in foundRegions)
+                            {
+                                region.CustomRegionEntries.First(a => a.State.Id == searchId).HighlightModel.Match = true;
+                            }
+                        }
                     }
                     else if (searchType.Equals("City"))
                     {
                         foundRegions.AddRange(regionList.Where(a => a.CustomRegionEntries.Select(b => b.City.Id).Any(w => w == searchId)).ToList());
+                        if (foundRegions.Count > 0 && searchModel.SearchTerm.HighlightModel.Match)
+                        {
+                            foreach (var region in foundRegions)
+                            {
+                                region.CustomRegionEntries.First(a => a.City.Id == searchId).HighlightModel.Match = true;
+                            }
+                        }
                     }
                     else if (searchType.Equals("Airport"))
                     {
                         foundRegions.AddRange(regionList.Where(a => a.CustomRegionEntries.Select(b => b.Airport.Id).Any(w => w == searchId)).ToList());
+                        if (foundRegions.Count > 0 && searchModel.SearchTerm.HighlightModel.Match)
+                        {
+                            foreach (var region in foundRegions)
+                            {
+                                region.CustomRegionEntries.First(a => a.Airport.Id == searchId).HighlightModel.Match = true;
+                            }
+                        }
                     }
                 }
             }
+
+
 
             return foundRegions;
         }

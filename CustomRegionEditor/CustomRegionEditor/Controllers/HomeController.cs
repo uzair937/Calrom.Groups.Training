@@ -57,6 +57,7 @@ namespace CustomRegionEditor.Controllers
         public ActionResult Search(SearchBoxViewModel searchForm)
         {
             this.SessionStore.Clear();
+            this.SessionStore.ClearHighlight();
             var searchTerm = searchForm.text;
 
             var contentViewModel = new ContentViewModel
@@ -73,8 +74,21 @@ namespace CustomRegionEditor.Controllers
                 var searchRegionManager = this.ManagerFactory.CreateSearchRegionManager(session);
 
                 bool validSearch = false;
+
                 var searchResults = searchRegionManager.GetSearchResults(searchTerm);
 
+                var highlightList = new List<string>();
+                foreach(var group in searchResults)
+                {
+                    foreach (var entry in group.CustomRegionEntries)
+                    {
+                        if (entry.HighlightModel.Match)
+                        {
+                            highlightList.Add(entry.Id.ToString());
+                        }
+                    }
+                }
+                this.SessionStore.SetHighlight(highlightList);
 
                 if (searchResults.Count > 0) validSearch = true;
 
@@ -327,7 +341,11 @@ namespace CustomRegionEditor.Controllers
                                                                                 .ThenBy(a => a.Country?.Name)
                                                                                 .ThenBy(a => a.Region?.Name).ToList();
 
-                var entryView = ViewModelConverter.GetView(foundRegion);
+                var entryView = this.ViewModelConverter.GetView(foundRegion);
+                var highlightList = this.SessionStore.GetHighlight();
+
+                entryView.CustomRegions.Where(a => highlightList.Contains(a.Id)).ToList().ForEach(b => b.HighlightModel.Match = true);
+
                 this.SessionStore.Save(entryView);
 
                 contentViewModel = new ContentViewModel

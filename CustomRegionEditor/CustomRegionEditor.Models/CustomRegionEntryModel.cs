@@ -15,8 +15,14 @@ namespace CustomRegionEditor.Models
         public StateModel State { get; set; }
         public CityModel City { get; set; }
         public AirportModel Airport { get; set; }
+        public HighlightModel HighlightModel { get; set; }
         public string LocationId { get; set; }
         public string LocationName { get; set; }
+
+        public CustomRegionEntryModel()
+        {
+            this.HighlightModel = new HighlightModel();
+        }
 
         public string GetLocationType()
         {
